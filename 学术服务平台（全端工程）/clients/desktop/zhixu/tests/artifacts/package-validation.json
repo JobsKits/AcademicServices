@@ -1,0 +1,25 @@
+{
+  "checked_at": "2026-10-30",
+  "bundle": "dist/2026.10.30 16-29-52/Zhixu.app",
+  "dmg": "dist/2026.10.30 16-29-52/Zhixu.dmg",
+  "dmg_sha256": "ead920d0dc7c6721c32245c0b939e6663b46b4b9673f0024454d0106e55565ef",
+  "native_macho_files_checked": 87,
+  "external_non_system_dependencies": [],
+  "relocated_native_launch": true,
+  "scope": "macOS Apple Silicon local build + independent renamed copied bundle, not another computer or actual AirDrop AppTranslocation",
+  "source_sha256": {
+    "src/entry.py": "ff1318238498dfb4498f6bc141f6b519c779c3cffc0451d0e2364567f89782bf",
+    "src/zhixu/__init__.py": "d38b31fc346c59826bd164db8f2024e2653d0deae281a072aa51e396a6b1c5b0",
+    "src/zhixu/settings.py": "79f76325dd6f1c221e0055b6eabc6082706e38585d7656e8ee34753d624fa7cf",
+    "src/zhixu/app.py": "29c966c9b7d2dd8a77a84a1b659c06b0274b5999761552cb4c222faf559e74a1",
+    "src/zhixu/repository.py": "00701bf3a2e5692fd2f7da7bf2d68aebf2cc3d36f89d37051f47e426c607c5ae",
+    "src/zhixu/assets/LGPL-3.0.txt": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118",
+    "src/zhixu/assets/GPL-3.0.txt": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "src/zhixu/assets/brand.svg": "fb076d1ca7c2f97b0a528b1e0cd30d58c8a0f2927e3ac0814437c4993a93afdc",
+    "src/zhixu/assets/THIRD_PARTY_NOTICES.txt": "f762a6c381abc2550aab698d075d6eced0c40410572ecf6504257eeb7b78cb9b",
+    "scripts/live_smoke.py": "797bf368c14dc9e36f067a11d92c7115562fab8eb5f7d0994c76e8fb45ac7c72",
+    "scripts/verify_package.py": "922134b612d1265b4b932a4e071323de566b432df9aaa78d67e1e41bd9433197",
+    "scripts/manage.py": "01e5983bb8a3d286a6fef4ecad457958d9809fb29f25f2348797117077c58eb1",
+    "scripts/bootstrap.ps1": "77bd0909bdeb0724af5b1a7a614e6ee60c4fb9f9c8c874efae59b239adb6200f"
+  }
+}

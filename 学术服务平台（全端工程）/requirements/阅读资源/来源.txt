@@ -1,0 +1,5 @@
+Mermaid 12.2.0
+来源：https://www.npmjs.com/package/mermaid
+官方文档：https://mermaid.js.org/
+许可：MIT，见同目录 Mermaid-LICENSE.txt
+仅供本地文档流程与ER图渲染，非小程序运行依赖。

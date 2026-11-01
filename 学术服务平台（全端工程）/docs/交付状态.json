@@ -1,0 +1,30 @@
+{
+  "checked_at": "2026-10-30",
+  "version": "0.1.0-mvp",
+  "automated": {
+    "go_groups": 28,
+    "http": 14,
+    "desktop": 47,
+    "flutter": 34,
+    "harmony_contracts": 4,
+    "miniprogram": 14,
+    "deployment": 13
+  },
+  "builds": {
+    "go_cross_targets": 9,
+    "mac_app_dmg": true,
+    "flutter_admin_and_client_web": true,
+    "ios_release_unsigned": true,
+    "android_apk": false,
+    "harmony_hap": false,
+    "windows_exe": false
+  },
+  "limitations": [
+    "固定admin/customer身份，真实微信/客户注册/员工分派未接入",
+    "人工收退款台账；没有真实支付或通知发送",
+    "PG采用JSONB聚合，原29表未逐表映射",
+    "Android NDK30下载Premature EOF，无APK",
+    "鸿蒙在线HTTPS宿主，缺DevEco/HAP与真机验收",
+    "Windows、IntelMac、iPhoneDuo真实设备/签名安装待验"
+  ]
+}

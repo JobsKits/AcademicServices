@@ -1,0 +1,3915 @@
+{
+  "checked_at": "2026-10-30",
+  "copy_verified": true,
+  "files": [
+    {
+      "path": "代码地图.md",
+      "size": 2835,
+      "sha256": "bcf0f687ba53a7db6420e065ccc792124b3d2d74ad02c71fef1d73a8a79241c6"
+    },
+    {
+      "path": "代码地图阅读版.html",
+      "size": 5158,
+      "sha256": "eb3f661bd3d3fc9be16ba0421a8dc9452c8a117e9983524cb8d6ef4444abb60d"
+    },
+    {
+      "path": "使用说明阅读版.html",
+      "size": 11670,
+      "sha256": "f8b164c974807e550596e8eb30517876c7d541ab4ce76dd6d9c714a5d2cde660"
+    },
+    {
+      "path": "使用说明.md",
+      "size": 9192,
+      "sha256": "dd5ffc31819cf6ff6b131e43d612e66a81887ebcee10e2b88b71a44e74f01112"
+    },
+    {
+      "path": "README.md",
+      "size": 10459,
+      "sha256": "2165ea8d4299e23fd283f5b4ef3d8891a724351b8e42dfb6f15ecb37823c1d1c"
+    },
+    {
+      "path": ".gitignore",
+      "size": 361,
+      "sha256": "7767e1654e1710c093d6a2afaa6f3d522d96182a78c8da8e4ebb8a40a06c09b8"
+    },
+    {
+      "path": "开始使用.html",
+      "size": 3352,
+      "sha256": "74a8918aac1f375445f3367b9c2ff5a5fcb280260da794757c2da4baa3a38c17"
+    },
+    {
+      "path": "工程总览阅读版.html",
+      "size": 13378,
+      "sha256": "8baf00312e98f931e419b5651433f7a0f0590a8b969a8f65d772bd6d54fe4c9b"
+    },
+    {
+      "path": "clients/desktop/桌面说明阅读版.html",
+      "size": 13727,
+      "sha256": "1d34a3aa086c18f59924cb9536043d12942f5b53d1a2f688a8252fd892535ff2"
+    },
+    {
+      "path": "clients/desktop/【MacOS】📦生成dmg.command",
+      "size": 3751,
+      "sha256": "7028f418bdb3c61cf143420a31a1f0af76888e57c2fe813cc274df90161ad5e8"
+    },
+    {
+      "path": "clients/desktop/【Windows】启动知序.bat",
+      "size": 236,
+      "sha256": "f2f6a98b42871a256288f205b26c21375374c02573ddd579342e2cc4b04de139"
+    },
+    {
+      "path": "clients/desktop/【Windows】📦生成exe.bat",
+      "size": 249,
+      "sha256": "7689eb589a645bdef05c61d144744243e249b785923e43a4cfa3ad340f8c69c9"
+    },
+    {
+      "path": "clients/desktop/【MacOS】启动知序.command",
+      "size": 3739,
+      "sha256": "ec19c7516f429462e944d54f971e0debd6a1cbb70ab1f35ba24acbc5e611b087"
+    },
+    {
+      "path": "clients/desktop/README.md",
+      "size": 10898,
+      "sha256": "5645dcd706d730535653646719e06417324144867dff2d693ca4f23db7b4f18a"
+    },
+    {
+      "path": "clients/desktop/.gitignore",
+      "size": 100,
+      "sha256": "3a9b99455c42d2e3c0a838f9533520346d2ed9d79a1cd9c7f17ad8b920fb560b"
+    },
+    {
+      "path": "clients/desktop/知序.dmg",
+      "symlink": "dist/2026.10.30 16-29-52/Zhixu.dmg"
+    },
+    {
+      "path": "clients/desktop/zhixu/requirements.txt",
+      "size": 16,
+      "sha256": "6733098038fe3507611258b55aa31b6bb81c00beda3ef50b90e98d8a7fe42099"
+    },
+    {
+      "path": "clients/desktop/zhixu/pyproject.toml",
+      "size": 405,
+      "sha256": "97d4246768f1e08bc46c7bc3c34646301afd8e860e731220999400d9616f3cac"
+    },
+    {
+      "path": "clients/desktop/zhixu/build-requirements.txt",
+      "size": 36,
+      "sha256": "39bcc93a12bc84bde5c8d2e668892a4a74faafac3c7a628dd3755cf19608896a"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/test_repository.py",
+      "size": 14519,
+      "sha256": "cb87e5bc7b8a2faf2201861d5dc74133a52f4b98b2ba62a98310d79d1294bee7"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/test_packaging.py",
+      "size": 3084,
+      "sha256": "0d1f32ce552a248b2d2a4ccc9f7f00906771f58e8efadbc92bb1f0b38e60fff2"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/README.md",
+      "size": 6173,
+      "sha256": "e9dc681736fdfe124fb19884dc3e2961597f8d3b23d06bd834d539f2987c8514"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/test_gui.py",
+      "size": 7073,
+      "sha256": "849d2af12690c7afbab01474b4d97d32f0ce9e7e58614aec7a8178e136ca9088"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/test_bootstrap.py",
+      "size": 2573,
+      "sha256": "92908afa283a63b5f7061ba5124db82df4cfe64f95dc7d2408e5b819ccc35386"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/artifacts/package-validation.json",
+      "size": 1779,
+      "sha256": "31ee7378fb56b64f3a1289cc11676a968a708380769666a15706803073d67ee8"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/artifacts/live-server-final.log",
+      "size": 247,
+      "sha256": "dd5ed2af2fdf119b0542f0420206e6894bd781c1765b91647b063ffbd6e703ec"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/artifacts/round3.log",
+      "size": 3876,
+      "sha256": "4e7be591bc13292dda4191a74455c2d1b9520dc8dd3daf5663218ca3d4872874"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/artifacts/live-backend-final.json",
+      "size": 439,
+      "sha256": "d948cb4ea6ced9f0069b168e74562a7d8c4aec24de41eb33d511060cd6b623d6"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/artifacts/home-light.png",
+      "size": 81702,
+      "sha256": "7b86d3ab03cccf117ef4ecf59d21660619d06cc5e7cf448586ee5c75f24f4469"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/artifacts/frozen-native.png",
+      "size": 209953,
+      "sha256": "aae44ebad04cec88a748d48bde4a8c68569779cdedde3c77552114085b1436cb"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/artifacts/round2-original.log",
+      "size": 4550,
+      "sha256": "2f097f3d8c41bf093a7eccebffb98dcacdfe4081db1b5c15e811d1cc94dd7a54"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/artifacts/home-dark-narrow.png",
+      "size": 60498,
+      "sha256": "2d443d08a0e94822a0d07bd1685134bff5e280b266c713bd280a373c7761c122"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/artifacts/live-backend.json",
+      "size": 439,
+      "sha256": "d948cb4ea6ced9f0069b168e74562a7d8c4aec24de41eb33d511060cd6b623d6"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/artifacts/frozen-relocated-native.png",
+      "size": 224793,
+      "sha256": "a08f895906353483ce90cde289921c6d3e255b33fc04650aedfa6d5d8e913f40"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/artifacts/home.png",
+      "size": 88679,
+      "sha256": "f5d230eb5755e133c2244443342eaa2c3b15c614110e32579f4683820fb1276c"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/artifacts/package-final.log",
+      "size": 466,
+      "sha256": "30208b1c406b92d828517fc0f322957011d3e7f00f269f719f036e134786536c"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/artifacts/native-relocation.log",
+      "size": 292,
+      "sha256": "bd448751a55790799655eeef8599dcc6d1100ba2b5d5c3760109a6837a9c7d52"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/artifacts/round-final-followup.log",
+      "size": 6015,
+      "sha256": "40325bd395297ca0b1b1bb00ecafd8fdba7685b429a1ffdbc8ee12ee7fce08e3"
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/artifacts/final.log",
+      "size": 4292,
+      "sha256": "00db6b302414087545c7bae0a8326903a36ae80b583b4a5f6bd95ddae6cbb302"
+    },
+    {
+      "path": "clients/desktop/zhixu/scripts/live_smoke.py",
+      "size": 7087,
+      "sha256": "797bf368c14dc9e36f067a11d92c7115562fab8eb5f7d0994c76e8fb45ac7c72"
+    },
+    {
+      "path": "clients/desktop/zhixu/scripts/verify_package.py",
+      "size": 4346,
+      "sha256": "922134b612d1265b4b932a4e071323de566b432df9aaa78d67e1e41bd9433197"
+    },
+    {
+      "path": "clients/desktop/zhixu/scripts/manage.py",
+      "size": 10739,
+      "sha256": "01e5983bb8a3d286a6fef4ecad457958d9809fb29f25f2348797117077c58eb1"
+    },
+    {
+      "path": "clients/desktop/zhixu/scripts/bootstrap.ps1",
+      "size": 3942,
+      "sha256": "77bd0909bdeb0724af5b1a7a614e6ee60c4fb9f9c8c874efae59b239adb6200f"
+    },
+    {
+      "path": "clients/desktop/zhixu/src/entry.py",
+      "size": 84,
+      "sha256": "ff1318238498dfb4498f6bc141f6b519c779c3cffc0451d0e2364567f89782bf"
+    },
+    {
+      "path": "clients/desktop/zhixu/src/zhixu/__init__.py",
+      "size": 82,
+      "sha256": "d38b31fc346c59826bd164db8f2024e2653d0deae281a072aa51e396a6b1c5b0"
+    },
+    {
+      "path": "clients/desktop/zhixu/src/zhixu/settings.py",
+      "size": 1816,
+      "sha256": "79f76325dd6f1c221e0055b6eabc6082706e38585d7656e8ee34753d624fa7cf"
+    },
+    {
+      "path": "clients/desktop/zhixu/src/zhixu/app.py",
+      "size": 31906,
+      "sha256": "29c966c9b7d2dd8a77a84a1b659c06b0274b5999761552cb4c222faf559e74a1"
+    },
+    {
+      "path": "clients/desktop/zhixu/src/zhixu/repository.py",
+      "size": 20330,
+      "sha256": "00701bf3a2e5692fd2f7da7bf2d68aebf2cc3d36f89d37051f47e426c607c5ae"
+    },
+    {
+      "path": "clients/desktop/zhixu/src/zhixu/assets/LGPL-3.0.txt",
+      "size": 7652,
+      "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118"
+    },
+    {
+      "path": "clients/desktop/zhixu/src/zhixu/assets/GPL-3.0.txt",
+      "size": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "clients/desktop/zhixu/src/zhixu/assets/brand.svg",
+      "size": 191,
+      "sha256": "fb076d1ca7c2f97b0a528b1e0cd30d58c8a0f2927e3ac0814437c4993a93afdc"
+    },
+    {
+      "path": "clients/desktop/zhixu/src/zhixu/assets/THIRD_PARTY_NOTICES.txt",
+      "size": 1015,
+      "sha256": "f762a6c381abc2550aab698d075d6eced0c40410572ecf6504257eeb7b78cb9b"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/构建依赖快照.txt",
+      "size": 171,
+      "sha256": "c94947fc6b9da067b4b176c7c83939b61f4bf52de3faf07be7d88bd8a6f91c46"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.dmg",
+      "size": 46332252,
+      "sha256": "ead920d0dc7c6721c32245c0b939e6663b46b4b9673f0024454d0106e55565ef"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/Zhixu",
+      "size": 2092272,
+      "sha256": "b2363ff192256f8bf6e04d14017ca3a291fe32611450ea6c3cbfa0cc62a549ed"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libpcre2-16.0.dylib",
+      "size": 535856,
+      "sha256": "4ae422a13a0cf5a4c2a73016df9705492380c6d813802f45cd99c2ed5458f93d"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libbrotlidec.1.dylib",
+      "size": 69744,
+      "sha256": "402b1422a032eeca6981cf562f7b8badd987ae39995d609abb54e25cb29e22e5"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libgraphite2.3.dylib",
+      "size": 124560,
+      "sha256": "eb6ffb5a72c1817f709fd94a5e8ddd2dc47ff0941a5029be1929877ab8181871"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtNetwork",
+      "symlink": "QtNetwork.framework/Versions/A/QtNetwork"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libcrypto.4.dylib",
+      "size": 4910688,
+      "sha256": "bedc5adce1a3d1e355e5e25b44e5e54ab2b616760b58b21170d046934d5cc71b"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libbrotlicommon.1.dylib",
+      "size": 149264,
+      "sha256": "3362d04a11c8cb4fcc1dc5906c6ab24c0b5ae33b4d047ece60d8ab010153fb36"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libmd4c.0.dylib",
+      "size": 86640,
+      "sha256": "5ace7730ac0c56c381b24bd90045d30b49cd93fa302aeffb59924285f86aa889"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libssl.4.dylib",
+      "size": 990384,
+      "sha256": "bb0842c74bb8cc249ec7b252f857f87cc13060c0105db2224ac49fb808fc0dc2"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libpcre2-8.0.dylib",
+      "size": 570784,
+      "sha256": "4c494053ae7324f5dda00472f12c9b3d6303dcf8ac2ca3baf7dcdd7d80f95021"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/Python",
+      "symlink": "Python.framework/Versions/3.15/Python"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtSvg",
+      "symlink": "QtSvg.framework/Versions/A/QtSvg"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libglib-2.0.0.dylib",
+      "size": 1354928,
+      "sha256": "34e91fce68b07b46b2694a0ea35887074b9ee2b9c360f9a3298a2d50ea44feaa"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libpng16.16.dylib",
+      "size": 190272,
+      "sha256": "c662c15e52f71da5914295393a71718043afaa1f50cbfc85cfc863f4f7a9cb83"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libfreetype.6.dylib",
+      "size": 657424,
+      "sha256": "9fcc1c93e3620ed4bf8d30c2cf50954a01579175667d2adb420bd7ceedd880ed"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libpyside6.abi3.6.12.dylib",
+      "size": 379568,
+      "sha256": "e6b27ee7054ed112975e3c88f9565e1ffd198280a4c9a9d16326ee3f3446d54d"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libharfbuzz.0.dylib",
+      "size": 1419376,
+      "sha256": "442049215350f5be8a146b8845b7520539a5daf7b56853bf2543396479b7afc1"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/base_library.zip",
+      "size": 1424882,
+      "sha256": "a61c05aea9a636ef146d1e6cbfb2bd2ac7de5a85fdfe0a6ec54f219dbff00fa4"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtGui",
+      "symlink": "QtGui.framework/Versions/A/QtGui"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libintl.8.dylib",
+      "size": 210816,
+      "sha256": "49a52bc4a7241bf82392f65eb3ae20f5414bdd8684e806f79115a03ec5940747"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libicui18n.79.dylib",
+      "size": 3177264,
+      "sha256": "5710a61a9567321469bc8472f215c304a3eaf863d931b941fffd294304cdd78b"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtDBus",
+      "symlink": "QtDBus.framework/Versions/A/QtDBus"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtWidgets",
+      "symlink": "QtWidgets.framework/Versions/A/QtWidgets"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libdbus-1.3.dylib",
+      "size": 300720,
+      "sha256": "493a7f31ce72cc24234a757004103b66ece08e7baee1bc9efc41ba4dd35d66e3"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libgthread-2.0.0.dylib",
+      "size": 33568,
+      "sha256": "b37cd46aed7f1da997b3edb4b93d87d4d39cd0de752d0b5d7ff600d42d67e0ff"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libicuuc.79.dylib",
+      "size": 1874176,
+      "sha256": "e6705648988a992bfdc82b08bb767e37a273f83d153498fa41ed2cf1214d4258"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/liblzma.5.dylib",
+      "size": 166576,
+      "sha256": "f337280256637f971a31df9ea1d5aa9e025d5a501e0d65b83bd6534be310369d"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libzstd.1.dylib",
+      "size": 631664,
+      "sha256": "d320898f14cca509f42cb8075851efde8301e74085fff76597b2b849080785f9"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libmpdec.4.dylib",
+      "size": 170192,
+      "sha256": "abe5fa7f77e043159e0453f842114b20706b55bd6434f0af01372caa9bfd5451"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libicudata.79.dylib",
+      "size": 33636784,
+      "sha256": "7bd6bb558d56e71cec2e83bd9fcb9ad7c07831cb2cc65e0fb7dd8800c71b1cbe"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libb2.1.dylib",
+      "size": 67584,
+      "sha256": "b9717270ecb649b6d6de0f9099bdea197071f30696bc5fd10d336e1aa7b0ff44"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtCore",
+      "symlink": "QtCore.framework/Versions/A/QtCore"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libshiboken6.abi3.6.12.dylib",
+      "size": 476832,
+      "sha256": "00da60fc194d9608138d2faec8c1611e65b4ef5718e01ec1b468e2e47fa88670"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/libdouble-conversion.3.dylib",
+      "size": 76272,
+      "sha256": "56eac06afac91f815f3ca9e4be3b3f90cf923c404591ba9f585b823d688a43b0"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/shiboken6/Shiboken.abi3.so",
+      "size": 58176,
+      "sha256": "2527fe626737246bc52248fd269c911f8a1edddda1c289e1e53c096d94b0bc34"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/zhixu/assets/LGPL-3.0.txt",
+      "size": 7652,
+      "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/zhixu/assets/GPL-3.0.txt",
+      "size": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/zhixu/assets/brand.svg",
+      "size": 191,
+      "sha256": "fb076d1ca7c2f97b0a528b1e0cd30d58c8a0f2927e3ac0814437c4993a93afdc"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/zhixu/assets/THIRD_PARTY_NOTICES.txt",
+      "size": 1015,
+      "sha256": "f762a6c381abc2550aab698d075d6eced0c40410572ecf6504257eeb7b78cb9b"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtGui.framework/QtGui",
+      "symlink": "Versions/Current/QtGui"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtGui.framework/Versions/A/QtGui",
+      "size": 7764544,
+      "sha256": "1f261d518fa2efb0298d792d562c136b7b07d31e98291967b536248f1bfddbf5"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtGui.framework/Versions/A/Resources/Info.plist",
+      "size": 808,
+      "sha256": "48662e83d61e1ec30f07d84d7462960e73369dc353c1d2c22504a884b2141528"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtDBus.framework/QtDBus",
+      "symlink": "Versions/Current/QtDBus"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtDBus.framework/Versions/A/QtDBus",
+      "size": 1019648,
+      "sha256": "09f6fe094f568ad479964951ab64c21deed2842ab4ac9c2825ed85c2a9a71e3f"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtDBus.framework/Versions/A/Resources/Info.plist",
+      "size": 810,
+      "sha256": "598b31cbb9b1c16eb910ed1c63178b1d6484c78f59cd71b4373add0b9f4f79eb"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtCore.framework/QtCore",
+      "symlink": "Versions/Current/QtCore"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtCore.framework/Versions/A/QtCore",
+      "size": 6825200,
+      "sha256": "32af3e8b751f20ccc91dd192faaedd392113c6caa3d6935cd2491e5691969ad3"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtCore.framework/Versions/A/Resources/Info.plist",
+      "size": 810,
+      "sha256": "4628ea4f3801c3b59d36d6ac00987a8476c568a25adc9fe170f67c72262dd7f7"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/PySide6/QtWidgets.abi3.so",
+      "size": 8507936,
+      "sha256": "cda7fb13558caaf263bb01317bbbc0c450ee051a1c4ff70795f3a9db80f8a11a"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/PySide6/QtGui.abi3.so",
+      "size": 6417392,
+      "sha256": "666f9ae900a08ae484e1dd2e6c3d6b375b5109085eafdd3a1a9c1a235b7a3417"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/PySide6/QtNetwork.abi3.so",
+      "size": 1795904,
+      "sha256": "a5414eded9cec13c331d164cb550ec48cd23e51926e9ffb44a87c7e3edc2185d"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/PySide6/QtCore.abi3.so",
+      "size": 5924864,
+      "sha256": "cc36e9cfd2cbc31e4ad6053e97a35bd009eafd47c21ff60dd98e2cf334f8944b"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/PySide6/QtDBus.abi3.so",
+      "size": 506896,
+      "sha256": "fc611112ac350ccae8b52d353211e7fd2c3668f8370f875709e8653947538c56"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/PySide6/Qt/plugins/platforms/libqoffscreen.dylib",
+      "size": 159408,
+      "sha256": "5358b9a3c2bfe89541cb825b780d9aa27ddf6d80379794b0b747bdb578615cfa"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/PySide6/Qt/plugins/platforms/libqminimal.dylib",
+      "size": 90496,
+      "sha256": "559ea07008ab2d3bff2edfc2085ce7666412ae5b017ec485a1fe2163f34fb294"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/PySide6/Qt/plugins/platforms/libqcocoa.dylib",
+      "size": 1263824,
+      "sha256": "178fa790443fa8aea008522ac73554269e6cea8bcb7059684669a369481ad62b"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/PySide6/Qt/plugins/iconengines/libqsvgicon.dylib",
+      "size": 101808,
+      "sha256": "e250eca27ac691a9adeda7be38543172a96be330f327e483124b062e863f22f1"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/PySide6/Qt/plugins/imageformats/libqsvg.dylib",
+      "size": 77552,
+      "sha256": "b82d39a00fee2ed02b1bf34a1fbb9ad17bb70a68b8af610dd4c59adefff1ae61"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtWidgets.framework/QtWidgets",
+      "symlink": "Versions/Current/QtWidgets"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtWidgets.framework/Versions/A/QtWidgets",
+      "size": 6929712,
+      "sha256": "ceb4e61dcb6749d6a09cb3f6bc88f71e9d0d88dc1e8b9d83db95afb38e8b84d6"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtWidgets.framework/Versions/A/Resources/Info.plist",
+      "size": 816,
+      "sha256": "662256e19237be95e330fba9af1efc2f3d4507298f436557568bf461d91c7539"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/Python.framework/Python",
+      "symlink": "Versions/Current/Python"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/Python.framework/Versions/3.15/Python",
+      "size": 5835568,
+      "sha256": "ec068698253d6e705cc22508d78e0f113520f3e4f88aeb04933e782de0d8442e"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/Python.framework/Versions/3.15/Resources/Info.plist",
+      "size": 973,
+      "sha256": "a37a1f4b97206c9095b1a12532988be53eb7adba44bf7d5cb2b411ba5b93742f"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtNetwork.framework/QtNetwork",
+      "symlink": "Versions/Current/QtNetwork"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtNetwork.framework/Versions/A/QtNetwork",
+      "size": 2099792,
+      "sha256": "7d6e80f02c89beaecd717229bd4cc0c2b4a67e3df77a335b18ac015a386baa11"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtNetwork.framework/Versions/A/Resources/Info.plist",
+      "size": 816,
+      "sha256": "d619ce391107014fdb6f0c9deb6b89c95cf43d90255852ca34ce14bb82e2b75b"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtSvg.framework/QtSvg",
+      "symlink": "Versions/Current/QtSvg"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtSvg.framework/Versions/A/QtSvg",
+      "size": 598720,
+      "sha256": "a1123e86145825e22af4851df5bc6d5a131ee8ac4cb0a52753fb4cae2d7304fc"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/QtSvg.framework/Versions/A/Resources/Info.plist",
+      "size": 808,
+      "sha256": "9ced66dc295d327cdf37f3386bb6bbfb6f47164313cb8f4d58302e519beeb58a"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/xxsubtype.cpython-315-darwin.so",
+      "size": 51232,
+      "sha256": "deebf0a878ee53b3870eb051ac4cac610838b47cac8b51352c4223f933c39673"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_posixsubprocess.cpython-315-darwin.so",
+      "size": 54496,
+      "sha256": "36417dd52630db4ca7b88974ac3d6da65263f01f2ead2945e091af4038826610"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_pickle.cpython-315-darwin.so",
+      "size": 151808,
+      "sha256": "1949a752ba2bca9ec0250da8e39a43668acfec02b4a4ca7458093f4545a0fb94"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/select.cpython-315-darwin.so",
+      "size": 74528,
+      "sha256": "b9203b7477612a6ad20edbec1b72e238f62088e9c67da599dcdcb28db6f38e9f"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_lzma.cpython-315-darwin.so",
+      "size": 74368,
+      "sha256": "f752508ab86dbd51974c2b91d906e04a4d98fbdc4e49f2c90531e7fa1fab1fb7"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/pyexpat.cpython-315-darwin.so",
+      "size": 102640,
+      "sha256": "6c29343f6fa477edeb32e95c0c4fe0a782a5d569048f3dca6b78b74f63ec5f28"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/unicodedata.cpython-315-darwin.so",
+      "size": 765232,
+      "sha256": "84a18feb3c901002a6b68f2266d9dea178180bbe398398682107ffa96ba2f669"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/zlib.cpython-315-darwin.so",
+      "size": 76752,
+      "sha256": "72ff5bf9db406ce95bbf601842df5b0a4a56de57274e0532ea93b2f9358948ed"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_codecs_cn.cpython-315-darwin.so",
+      "size": 167296,
+      "sha256": "3806c6be39fa2f5ae6aafcda95e6fb718f4e7067479507119eac1aaba04ba555"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_multibytecodec.cpython-315-darwin.so",
+      "size": 78288,
+      "sha256": "4b9ccdb18ba9f47c58d5c7280fcfb29c64aee7dbf10c644240cf8d69f3dc3b57"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_bisect.cpython-315-darwin.so",
+      "size": 52800,
+      "sha256": "d8c5b2dd334e567a8d44eca76f035441da7f76aeffb1fd17e4093d87dfc0af0c"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_socket.cpython-315-darwin.so",
+      "size": 115936,
+      "sha256": "ec0cf9522c8e8a9fd07d592667ce2ace16a41a79f446e055ec38dbb6c88f94c2"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_decimal.cpython-315-darwin.so",
+      "size": 228896,
+      "sha256": "f180ebae8e4bce3e8452fc436adc6a13cfba66157f622f8890e400bb43b7097d"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_hashlib.cpython-315-darwin.so",
+      "size": 81664,
+      "sha256": "ce50e46e508796802ad4a07d2fbe131beca1e3f44ceba51217851c5fc5e406e6"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/grp.cpython-315-darwin.so",
+      "size": 53024,
+      "sha256": "47a82a1ad2dc8f5ca44df38e0923639e05f87ca72a9021941b86b6c5687193ba"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_ssl.cpython-315-darwin.so",
+      "size": 208096,
+      "sha256": "a01ff40918754a695758e85fca429382b610171cf7f604594f118102930def0f"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_sha3.cpython-315-darwin.so",
+      "size": 56208,
+      "sha256": "9c47478faee53e32d0a286a535156b18d32316713bb0da70f6c0fc45b5c0a7e7"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/fcntl.cpython-315-darwin.so",
+      "size": 53344,
+      "sha256": "2b0b8b6172507a08452e44b12380d19f060fc40af0ed4242047bf51a2d584641"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_csv.cpython-315-darwin.so",
+      "size": 73248,
+      "sha256": "463794a1db6bea9c84a3f29a955f50d1fcb379b0baae0010b3e887e4ae6e5663"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_statistics.cpython-315-darwin.so",
+      "size": 50544,
+      "sha256": "06279a0cea0e1e5c3992c86f3c81f3d55b663684c448769afd0ea573b7f01d20"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_blake2.cpython-315-darwin.so",
+      "size": 71872,
+      "sha256": "5a5459fd9c21aee72c844eda0a651a3c21298d2775b001efb0a2f6f7f60f3272"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/array.cpython-315-darwin.so",
+      "size": 96896,
+      "sha256": "d14631caa5634fb7d158063679d59e6d2dd0c7c90100a2d995feae5280f5272a"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_zstd.cpython-315-darwin.so",
+      "size": 96096,
+      "sha256": "28a3cb6a97906dc1306abdf73145964fb8a129164a0ec2f5f0fb58f6673e6db8"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_struct.cpython-315-darwin.so",
+      "size": 78032,
+      "sha256": "4e6ee37702ba868be78bba861232029069ba2544bb8df6bcad164b09ae2a1b51"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_sha1.cpython-315-darwin.so",
+      "size": 53744,
+      "sha256": "710579f4deaf9cc8916732cf335c0100e1e2bd0957cc0a1129ae431528e85e02"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_codecs_hk.cpython-315-darwin.so",
+      "size": 183808,
+      "sha256": "358127785ff784294b70c27d22f765e21ef280f5c2e45d3c6a5f85a78950a8a4"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/resource.cpython-315-darwin.so",
+      "size": 53104,
+      "sha256": "7e771941f44ea5efa5e42379bcce28c7b77bf199f31513b48780740d9893d82f"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_random.cpython-315-darwin.so",
+      "size": 53680,
+      "sha256": "766832ceb143787049f0e943ac476a84b0e1fb62fb9b76e860ea24fec41d1e08"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_json.cpython-315-darwin.so",
+      "size": 73248,
+      "sha256": "cee516da4fe484f87d571f74ae3adbef65d0f2c164c2fc0e0cc47a0a2ae359a9"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/binascii.cpython-315-darwin.so",
+      "size": 73152,
+      "sha256": "85da3eb7188018ab2cd1ffa5989618beaf64191b49047b4414c05c0e82a42b71"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_md5.cpython-315-darwin.so",
+      "size": 53840,
+      "sha256": "a13c9d7c72f40393d64a0b6243e521ac36a88e981f7a3f5c5f39aa3cdc67a167"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_scproxy.cpython-315-darwin.so",
+      "size": 53136,
+      "sha256": "00f63dca62c63c5f6622b8902ae003b215ae06a548a25ec98b22fa7819edebea"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_codecs_tw.cpython-315-darwin.so",
+      "size": 150464,
+      "sha256": "351a2b42f22dfc5e9f4e7236336eb24df2795d4ff9ae981694f16bb5cb67a2c3"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_codecs_kr.cpython-315-darwin.so",
+      "size": 150960,
+      "sha256": "16fc1200ca3cc3e3422e67608602e3ca57ce99d56bcf7d2961be94464d462560"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_heapq.cpython-315-darwin.so",
+      "size": 52000,
+      "sha256": "7675040c27a546890258c1d70bac0d7ff4683e57821d651c6f8eddbc4b0b7806"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_uuid.cpython-315-darwin.so",
+      "size": 50368,
+      "sha256": "943d854dc6abede4b9c668980bd80bdb27bda54094122e66908d7122727c3057"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_sha2.cpython-315-darwin.so",
+      "size": 88144,
+      "sha256": "630c2551249303b06fc27531a21d4d5b0e5c2f6ae2e1212b87b73e8146c27f5e"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/math.cpython-315-darwin.so",
+      "size": 75520,
+      "sha256": "a7e6a423adb9740f196bf785b9f84b18b3612a327c14041fda63cdbe9b93e646"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_codecs_iso2022.cpython-315-darwin.so",
+      "size": 54048,
+      "sha256": "603eab9ea5798dea6da1f578cac9e63f306936930d87676a613710adbcd0c8a1"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_math_integer.cpython-315-darwin.so",
+      "size": 53312,
+      "sha256": "2ca48941ab89effffdf7f7d4328b35e6060720d12b86e25f8f75322346876e65"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_ctypes.cpython-315-darwin.so",
+      "size": 162288,
+      "sha256": "b226a399946b4304a7a677cc41227125eceffc436a4ec7ab9d3268be0244d501"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_codecs_jp.cpython-315-darwin.so",
+      "size": 283152,
+      "sha256": "dfc903ae9f73021fc0767effe3a066c02dda109b028fe4e3beca2375f9e8df75"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu/_internal/python3.15/lib-dynload/_bz2.cpython-315-darwin.so",
+      "size": 54832,
+      "sha256": "9f7004ee3622fc7d6281400e2a606121c2d11c2006d843c7c965f45ade6d6c50"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Info.plist",
+      "size": 709,
+      "sha256": "3f5b52d7fca25ccfe24c24daf1fe24659e7728bf0ff0ee89eb624d9e5b4b4411"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/_CodeSignature/CodeResources",
+      "size": 32575,
+      "sha256": "8d044d342a9e88c114e3003c2a02b4c0ddcaebdb3473c387661712d8d2c5f884"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/MacOS/Zhixu",
+      "size": 2092272,
+      "sha256": "f4bc29bae4c57d1f86e8b50ecd6e7f9f8957137d34955ab04e12645c9e313062"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libpcre2-16.0.dylib",
+      "symlink": "../Frameworks/libpcre2-16.0.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libbrotlidec.1.dylib",
+      "symlink": "../Frameworks/libbrotlidec.1.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libgraphite2.3.dylib",
+      "symlink": "../Frameworks/libgraphite2.3.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/QtNetwork",
+      "symlink": "QtNetwork.framework/Versions/A/QtNetwork"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libcrypto.4.dylib",
+      "symlink": "../Frameworks/libcrypto.4.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libbrotlicommon.1.dylib",
+      "symlink": "../Frameworks/libbrotlicommon.1.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libmd4c.0.dylib",
+      "symlink": "../Frameworks/libmd4c.0.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libssl.4.dylib",
+      "symlink": "../Frameworks/libssl.4.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libpcre2-8.0.dylib",
+      "symlink": "../Frameworks/libpcre2-8.0.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/Python",
+      "symlink": "Python.framework/Versions/3.15/Python"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/QtSvg",
+      "symlink": "QtSvg.framework/Versions/A/QtSvg"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libglib-2.0.0.dylib",
+      "symlink": "../Frameworks/libglib-2.0.0.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libpng16.16.dylib",
+      "symlink": "../Frameworks/libpng16.16.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libfreetype.6.dylib",
+      "symlink": "../Frameworks/libfreetype.6.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libpyside6.abi3.6.12.dylib",
+      "symlink": "../Frameworks/libpyside6.abi3.6.12.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/icon-windowed.icns",
+      "size": 110199,
+      "sha256": "b90a3b56e59169be0f86fe0410699f42ccaa16a0c85d980ef0eb6068032f0b36"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libharfbuzz.0.dylib",
+      "symlink": "../Frameworks/libharfbuzz.0.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/base_library.zip",
+      "size": 1424882,
+      "sha256": "a61c05aea9a636ef146d1e6cbfb2bd2ac7de5a85fdfe0a6ec54f219dbff00fa4"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/QtGui",
+      "symlink": "QtGui.framework/Versions/A/QtGui"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libintl.8.dylib",
+      "symlink": "../Frameworks/libintl.8.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libicui18n.79.dylib",
+      "symlink": "../Frameworks/libicui18n.79.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/QtDBus",
+      "symlink": "QtDBus.framework/Versions/A/QtDBus"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/QtWidgets",
+      "symlink": "QtWidgets.framework/Versions/A/QtWidgets"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libdbus-1.3.dylib",
+      "symlink": "../Frameworks/libdbus-1.3.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libgthread-2.0.0.dylib",
+      "symlink": "../Frameworks/libgthread-2.0.0.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libicuuc.79.dylib",
+      "symlink": "../Frameworks/libicuuc.79.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/liblzma.5.dylib",
+      "symlink": "../Frameworks/liblzma.5.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libzstd.1.dylib",
+      "symlink": "../Frameworks/libzstd.1.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libmpdec.4.dylib",
+      "symlink": "../Frameworks/libmpdec.4.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libicudata.79.dylib",
+      "symlink": "../Frameworks/libicudata.79.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libb2.1.dylib",
+      "symlink": "../Frameworks/libb2.1.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/QtCore",
+      "symlink": "QtCore.framework/Versions/A/QtCore"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libshiboken6.abi3.6.12.dylib",
+      "symlink": "../Frameworks/libshiboken6.abi3.6.12.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/libdouble-conversion.3.dylib",
+      "symlink": "../Frameworks/libdouble-conversion.3.dylib"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/zhixu/assets/LGPL-3.0.txt",
+      "size": 7652,
+      "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/zhixu/assets/GPL-3.0.txt",
+      "size": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/zhixu/assets/brand.svg",
+      "size": 191,
+      "sha256": "fb076d1ca7c2f97b0a528b1e0cd30d58c8a0f2927e3ac0814437c4993a93afdc"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Resources/zhixu/assets/THIRD_PARTY_NOTICES.txt",
+      "size": 1015,
+      "sha256": "f762a6c381abc2550aab698d075d6eced0c40410572ecf6504257eeb7b78cb9b"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libpcre2-16.0.dylib",
+      "size": 535856,
+      "sha256": "4ae422a13a0cf5a4c2a73016df9705492380c6d813802f45cd99c2ed5458f93d"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libbrotlidec.1.dylib",
+      "size": 69744,
+      "sha256": "402b1422a032eeca6981cf562f7b8badd987ae39995d609abb54e25cb29e22e5"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libgraphite2.3.dylib",
+      "size": 124560,
+      "sha256": "eb6ffb5a72c1817f709fd94a5e8ddd2dc47ff0941a5029be1929877ab8181871"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtNetwork",
+      "symlink": "QtNetwork.framework/Versions/A/QtNetwork"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libcrypto.4.dylib",
+      "size": 4910688,
+      "sha256": "bedc5adce1a3d1e355e5e25b44e5e54ab2b616760b58b21170d046934d5cc71b"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libbrotlicommon.1.dylib",
+      "size": 149264,
+      "sha256": "3362d04a11c8cb4fcc1dc5906c6ab24c0b5ae33b4d047ece60d8ab010153fb36"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libmd4c.0.dylib",
+      "size": 86640,
+      "sha256": "5ace7730ac0c56c381b24bd90045d30b49cd93fa302aeffb59924285f86aa889"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libssl.4.dylib",
+      "size": 990384,
+      "sha256": "bb0842c74bb8cc249ec7b252f857f87cc13060c0105db2224ac49fb808fc0dc2"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libpcre2-8.0.dylib",
+      "size": 570784,
+      "sha256": "4c494053ae7324f5dda00472f12c9b3d6303dcf8ac2ca3baf7dcdd7d80f95021"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/Python",
+      "symlink": "Python.framework/Versions/3.15/Python"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtSvg",
+      "symlink": "QtSvg.framework/Versions/A/QtSvg"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libglib-2.0.0.dylib",
+      "size": 1354928,
+      "sha256": "34e91fce68b07b46b2694a0ea35887074b9ee2b9c360f9a3298a2d50ea44feaa"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libpng16.16.dylib",
+      "size": 190272,
+      "sha256": "c662c15e52f71da5914295393a71718043afaa1f50cbfc85cfc863f4f7a9cb83"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libfreetype.6.dylib",
+      "size": 657424,
+      "sha256": "9fcc1c93e3620ed4bf8d30c2cf50954a01579175667d2adb420bd7ceedd880ed"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libpyside6.abi3.6.12.dylib",
+      "size": 379568,
+      "sha256": "e6b27ee7054ed112975e3c88f9565e1ffd198280a4c9a9d16326ee3f3446d54d"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libharfbuzz.0.dylib",
+      "size": 1419376,
+      "sha256": "442049215350f5be8a146b8845b7520539a5daf7b56853bf2543396479b7afc1"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/base_library.zip",
+      "symlink": "../Resources/base_library.zip"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtGui",
+      "symlink": "QtGui.framework/Versions/A/QtGui"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libintl.8.dylib",
+      "size": 210816,
+      "sha256": "49a52bc4a7241bf82392f65eb3ae20f5414bdd8684e806f79115a03ec5940747"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libicui18n.79.dylib",
+      "size": 3177264,
+      "sha256": "5710a61a9567321469bc8472f215c304a3eaf863d931b941fffd294304cdd78b"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtDBus",
+      "symlink": "QtDBus.framework/Versions/A/QtDBus"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtWidgets",
+      "symlink": "QtWidgets.framework/Versions/A/QtWidgets"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libdbus-1.3.dylib",
+      "size": 300720,
+      "sha256": "493a7f31ce72cc24234a757004103b66ece08e7baee1bc9efc41ba4dd35d66e3"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libgthread-2.0.0.dylib",
+      "size": 33568,
+      "sha256": "b37cd46aed7f1da997b3edb4b93d87d4d39cd0de752d0b5d7ff600d42d67e0ff"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libicuuc.79.dylib",
+      "size": 1874176,
+      "sha256": "e6705648988a992bfdc82b08bb767e37a273f83d153498fa41ed2cf1214d4258"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/liblzma.5.dylib",
+      "size": 166576,
+      "sha256": "f337280256637f971a31df9ea1d5aa9e025d5a501e0d65b83bd6534be310369d"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libzstd.1.dylib",
+      "size": 631664,
+      "sha256": "d320898f14cca509f42cb8075851efde8301e74085fff76597b2b849080785f9"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libmpdec.4.dylib",
+      "size": 170192,
+      "sha256": "abe5fa7f77e043159e0453f842114b20706b55bd6434f0af01372caa9bfd5451"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libicudata.79.dylib",
+      "size": 33636784,
+      "sha256": "7bd6bb558d56e71cec2e83bd9fcb9ad7c07831cb2cc65e0fb7dd8800c71b1cbe"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libb2.1.dylib",
+      "size": 67584,
+      "sha256": "b9717270ecb649b6d6de0f9099bdea197071f30696bc5fd10d336e1aa7b0ff44"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtCore",
+      "symlink": "QtCore.framework/Versions/A/QtCore"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libshiboken6.abi3.6.12.dylib",
+      "size": 476832,
+      "sha256": "00da60fc194d9608138d2faec8c1611e65b4ef5718e01ec1b468e2e47fa88670"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/libdouble-conversion.3.dylib",
+      "size": 76272,
+      "sha256": "56eac06afac91f815f3ca9e4be3b3f90cf923c404591ba9f585b823d688a43b0"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/xxsubtype.cpython-315-darwin.so",
+      "size": 51232,
+      "sha256": "deebf0a878ee53b3870eb051ac4cac610838b47cac8b51352c4223f933c39673"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_posixsubprocess.cpython-315-darwin.so",
+      "size": 54496,
+      "sha256": "36417dd52630db4ca7b88974ac3d6da65263f01f2ead2945e091af4038826610"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_pickle.cpython-315-darwin.so",
+      "size": 151808,
+      "sha256": "1949a752ba2bca9ec0250da8e39a43668acfec02b4a4ca7458093f4545a0fb94"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/select.cpython-315-darwin.so",
+      "size": 74528,
+      "sha256": "b9203b7477612a6ad20edbec1b72e238f62088e9c67da599dcdcb28db6f38e9f"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_lzma.cpython-315-darwin.so",
+      "size": 74368,
+      "sha256": "f752508ab86dbd51974c2b91d906e04a4d98fbdc4e49f2c90531e7fa1fab1fb7"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/pyexpat.cpython-315-darwin.so",
+      "size": 102640,
+      "sha256": "6c29343f6fa477edeb32e95c0c4fe0a782a5d569048f3dca6b78b74f63ec5f28"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/unicodedata.cpython-315-darwin.so",
+      "size": 765232,
+      "sha256": "84a18feb3c901002a6b68f2266d9dea178180bbe398398682107ffa96ba2f669"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/zlib.cpython-315-darwin.so",
+      "size": 76752,
+      "sha256": "72ff5bf9db406ce95bbf601842df5b0a4a56de57274e0532ea93b2f9358948ed"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_codecs_cn.cpython-315-darwin.so",
+      "size": 167296,
+      "sha256": "3806c6be39fa2f5ae6aafcda95e6fb718f4e7067479507119eac1aaba04ba555"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_multibytecodec.cpython-315-darwin.so",
+      "size": 78288,
+      "sha256": "4b9ccdb18ba9f47c58d5c7280fcfb29c64aee7dbf10c644240cf8d69f3dc3b57"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_bisect.cpython-315-darwin.so",
+      "size": 52800,
+      "sha256": "d8c5b2dd334e567a8d44eca76f035441da7f76aeffb1fd17e4093d87dfc0af0c"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_socket.cpython-315-darwin.so",
+      "size": 115936,
+      "sha256": "ec0cf9522c8e8a9fd07d592667ce2ace16a41a79f446e055ec38dbb6c88f94c2"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_decimal.cpython-315-darwin.so",
+      "size": 228896,
+      "sha256": "f180ebae8e4bce3e8452fc436adc6a13cfba66157f622f8890e400bb43b7097d"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_hashlib.cpython-315-darwin.so",
+      "size": 81664,
+      "sha256": "ce50e46e508796802ad4a07d2fbe131beca1e3f44ceba51217851c5fc5e406e6"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/grp.cpython-315-darwin.so",
+      "size": 53024,
+      "sha256": "47a82a1ad2dc8f5ca44df38e0923639e05f87ca72a9021941b86b6c5687193ba"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_ssl.cpython-315-darwin.so",
+      "size": 208096,
+      "sha256": "a01ff40918754a695758e85fca429382b610171cf7f604594f118102930def0f"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_sha3.cpython-315-darwin.so",
+      "size": 56208,
+      "sha256": "9c47478faee53e32d0a286a535156b18d32316713bb0da70f6c0fc45b5c0a7e7"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/fcntl.cpython-315-darwin.so",
+      "size": 53344,
+      "sha256": "2b0b8b6172507a08452e44b12380d19f060fc40af0ed4242047bf51a2d584641"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_csv.cpython-315-darwin.so",
+      "size": 73248,
+      "sha256": "463794a1db6bea9c84a3f29a955f50d1fcb379b0baae0010b3e887e4ae6e5663"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_statistics.cpython-315-darwin.so",
+      "size": 50544,
+      "sha256": "06279a0cea0e1e5c3992c86f3c81f3d55b663684c448769afd0ea573b7f01d20"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_blake2.cpython-315-darwin.so",
+      "size": 71872,
+      "sha256": "5a5459fd9c21aee72c844eda0a651a3c21298d2775b001efb0a2f6f7f60f3272"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/array.cpython-315-darwin.so",
+      "size": 96896,
+      "sha256": "d14631caa5634fb7d158063679d59e6d2dd0c7c90100a2d995feae5280f5272a"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_zstd.cpython-315-darwin.so",
+      "size": 96096,
+      "sha256": "28a3cb6a97906dc1306abdf73145964fb8a129164a0ec2f5f0fb58f6673e6db8"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_struct.cpython-315-darwin.so",
+      "size": 78032,
+      "sha256": "4e6ee37702ba868be78bba861232029069ba2544bb8df6bcad164b09ae2a1b51"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_sha1.cpython-315-darwin.so",
+      "size": 53744,
+      "sha256": "710579f4deaf9cc8916732cf335c0100e1e2bd0957cc0a1129ae431528e85e02"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_codecs_hk.cpython-315-darwin.so",
+      "size": 183808,
+      "sha256": "358127785ff784294b70c27d22f765e21ef280f5c2e45d3c6a5f85a78950a8a4"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/resource.cpython-315-darwin.so",
+      "size": 53104,
+      "sha256": "7e771941f44ea5efa5e42379bcce28c7b77bf199f31513b48780740d9893d82f"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_random.cpython-315-darwin.so",
+      "size": 53680,
+      "sha256": "766832ceb143787049f0e943ac476a84b0e1fb62fb9b76e860ea24fec41d1e08"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_json.cpython-315-darwin.so",
+      "size": 73248,
+      "sha256": "cee516da4fe484f87d571f74ae3adbef65d0f2c164c2fc0e0cc47a0a2ae359a9"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/binascii.cpython-315-darwin.so",
+      "size": 73152,
+      "sha256": "85da3eb7188018ab2cd1ffa5989618beaf64191b49047b4414c05c0e82a42b71"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_md5.cpython-315-darwin.so",
+      "size": 53840,
+      "sha256": "a13c9d7c72f40393d64a0b6243e521ac36a88e981f7a3f5c5f39aa3cdc67a167"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_scproxy.cpython-315-darwin.so",
+      "size": 53136,
+      "sha256": "00f63dca62c63c5f6622b8902ae003b215ae06a548a25ec98b22fa7819edebea"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_codecs_tw.cpython-315-darwin.so",
+      "size": 150464,
+      "sha256": "351a2b42f22dfc5e9f4e7236336eb24df2795d4ff9ae981694f16bb5cb67a2c3"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_codecs_kr.cpython-315-darwin.so",
+      "size": 150960,
+      "sha256": "16fc1200ca3cc3e3422e67608602e3ca57ce99d56bcf7d2961be94464d462560"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_heapq.cpython-315-darwin.so",
+      "size": 52000,
+      "sha256": "7675040c27a546890258c1d70bac0d7ff4683e57821d651c6f8eddbc4b0b7806"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_uuid.cpython-315-darwin.so",
+      "size": 50368,
+      "sha256": "943d854dc6abede4b9c668980bd80bdb27bda54094122e66908d7122727c3057"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_sha2.cpython-315-darwin.so",
+      "size": 88144,
+      "sha256": "630c2551249303b06fc27531a21d4d5b0e5c2f6ae2e1212b87b73e8146c27f5e"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/math.cpython-315-darwin.so",
+      "size": 75520,
+      "sha256": "a7e6a423adb9740f196bf785b9f84b18b3612a327c14041fda63cdbe9b93e646"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_codecs_iso2022.cpython-315-darwin.so",
+      "size": 54048,
+      "sha256": "603eab9ea5798dea6da1f578cac9e63f306936930d87676a613710adbcd0c8a1"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_math_integer.cpython-315-darwin.so",
+      "size": 53312,
+      "sha256": "2ca48941ab89effffdf7f7d4328b35e6060720d12b86e25f8f75322346876e65"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_ctypes.cpython-315-darwin.so",
+      "size": 162288,
+      "sha256": "b226a399946b4304a7a677cc41227125eceffc436a4ec7ab9d3268be0244d501"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_codecs_jp.cpython-315-darwin.so",
+      "size": 283152,
+      "sha256": "dfc903ae9f73021fc0767effe3a066c02dda109b028fe4e3beca2375f9e8df75"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/python3__dot__15/lib-dynload/_bz2.cpython-315-darwin.so",
+      "size": 54832,
+      "sha256": "9f7004ee3622fc7d6281400e2a606121c2d11c2006d843c7c965f45ade6d6c50"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/shiboken6/Shiboken.abi3.so",
+      "size": 58176,
+      "sha256": "2527fe626737246bc52248fd269c911f8a1edddda1c289e1e53c096d94b0bc34"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtGui.framework/QtGui",
+      "symlink": "Versions/Current/QtGui"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtGui.framework/Versions/A/QtGui",
+      "size": 7764544,
+      "sha256": "df57fe906e9231a57cdd30df38f6aa524f6a16b67d0d1572d6330508020d1cd8"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtGui.framework/Versions/A/_CodeSignature/CodeResources",
+      "size": 2442,
+      "sha256": "7a74db41848d1992c3d5ac907978eb3719ee970891392124d825d01e53ab3906"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtGui.framework/Versions/A/Resources/Info.plist",
+      "size": 808,
+      "sha256": "48662e83d61e1ec30f07d84d7462960e73369dc353c1d2c22504a884b2141528"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtDBus.framework/QtDBus",
+      "symlink": "Versions/Current/QtDBus"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtDBus.framework/Versions/A/QtDBus",
+      "size": 1019648,
+      "sha256": "0bac739ca83a2d1b23aafbddb24f139f191669afb8afa98fb9b9f9bd952e1b89"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtDBus.framework/Versions/A/_CodeSignature/CodeResources",
+      "size": 2442,
+      "sha256": "4a1a67bdbdbf880bf7b0e30b5fc7dfa3e5ef5526153f08e3ec964870a5930f7a"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtDBus.framework/Versions/A/Resources/Info.plist",
+      "size": 810,
+      "sha256": "598b31cbb9b1c16eb910ed1c63178b1d6484c78f59cd71b4373add0b9f4f79eb"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtCore.framework/QtCore",
+      "symlink": "Versions/Current/QtCore"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtCore.framework/Versions/A/QtCore",
+      "size": 6825200,
+      "sha256": "52c7a446ad20b3b339d64bfd2aa8255f88826a7efdea71f52fbd970fd9574985"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtCore.framework/Versions/A/_CodeSignature/CodeResources",
+      "size": 2442,
+      "sha256": "d1ff0d851603d4ae2a591ff6ffb226ad6ef36e11613f31da7edba936bcbb5b9d"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtCore.framework/Versions/A/Resources/Info.plist",
+      "size": 810,
+      "sha256": "4628ea4f3801c3b59d36d6ac00987a8476c568a25adc9fe170f67c72262dd7f7"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/PySide6/QtWidgets.abi3.so",
+      "size": 8507936,
+      "sha256": "cda7fb13558caaf263bb01317bbbc0c450ee051a1c4ff70795f3a9db80f8a11a"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/PySide6/QtGui.abi3.so",
+      "size": 6417392,
+      "sha256": "666f9ae900a08ae484e1dd2e6c3d6b375b5109085eafdd3a1a9c1a235b7a3417"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/PySide6/QtNetwork.abi3.so",
+      "size": 1795904,
+      "sha256": "a5414eded9cec13c331d164cb550ec48cd23e51926e9ffb44a87c7e3edc2185d"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/PySide6/QtCore.abi3.so",
+      "size": 5924864,
+      "sha256": "cc36e9cfd2cbc31e4ad6053e97a35bd009eafd47c21ff60dd98e2cf334f8944b"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/PySide6/QtDBus.abi3.so",
+      "size": 506896,
+      "sha256": "fc611112ac350ccae8b52d353211e7fd2c3668f8370f875709e8653947538c56"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/PySide6/Qt/plugins/platforms/libqoffscreen.dylib",
+      "size": 159408,
+      "sha256": "5358b9a3c2bfe89541cb825b780d9aa27ddf6d80379794b0b747bdb578615cfa"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/PySide6/Qt/plugins/platforms/libqminimal.dylib",
+      "size": 90496,
+      "sha256": "559ea07008ab2d3bff2edfc2085ce7666412ae5b017ec485a1fe2163f34fb294"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/PySide6/Qt/plugins/platforms/libqcocoa.dylib",
+      "size": 1263824,
+      "sha256": "178fa790443fa8aea008522ac73554269e6cea8bcb7059684669a369481ad62b"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/PySide6/Qt/plugins/iconengines/libqsvgicon.dylib",
+      "size": 101808,
+      "sha256": "e250eca27ac691a9adeda7be38543172a96be330f327e483124b062e863f22f1"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/PySide6/Qt/plugins/imageformats/libqsvg.dylib",
+      "size": 77552,
+      "sha256": "b82d39a00fee2ed02b1bf34a1fbb9ad17bb70a68b8af610dd4c59adefff1ae61"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtWidgets.framework/QtWidgets",
+      "symlink": "Versions/Current/QtWidgets"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtWidgets.framework/Versions/A/QtWidgets",
+      "size": 6929728,
+      "sha256": "dd4f8d7b310de3268c1757921a830beffd515a9bc23f22390e35bd0a803598d3"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtWidgets.framework/Versions/A/_CodeSignature/CodeResources",
+      "size": 2442,
+      "sha256": "64e2dfc31b5147569a97eb0b802ec6b1e008310a0fae2f690e30b87b0bc3e6ed"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtWidgets.framework/Versions/A/Resources/Info.plist",
+      "size": 816,
+      "sha256": "662256e19237be95e330fba9af1efc2f3d4507298f436557568bf461d91c7539"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/Python.framework/Python",
+      "symlink": "Versions/Current/Python"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/Python.framework/Versions/3.15/Python",
+      "size": 5835568,
+      "sha256": "bf74be84d7a02dcbe55bb7f66cf460c74ef4ed87ea2cd2840603ff925ca580a1"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/Python.framework/Versions/3.15/_CodeSignature/CodeResources",
+      "size": 2442,
+      "sha256": "1d01d3a73d9de4baade81255cb798426bab8048c8a913e35ce0233659197f864"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/Python.framework/Versions/3.15/Resources/Info.plist",
+      "size": 973,
+      "sha256": "a37a1f4b97206c9095b1a12532988be53eb7adba44bf7d5cb2b411ba5b93742f"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtNetwork.framework/QtNetwork",
+      "symlink": "Versions/Current/QtNetwork"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtNetwork.framework/Versions/A/QtNetwork",
+      "size": 2099808,
+      "sha256": "40b1f8ce58e3b40c2a525dfbf02b745b38df2136160176340ed7e78054e5c2af"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtNetwork.framework/Versions/A/_CodeSignature/CodeResources",
+      "size": 2442,
+      "sha256": "3632b4d3bc143bdcccb19c6a696e38d52f67b1186e02daa9af55459924766a12"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtNetwork.framework/Versions/A/Resources/Info.plist",
+      "size": 816,
+      "sha256": "d619ce391107014fdb6f0c9deb6b89c95cf43d90255852ca34ce14bb82e2b75b"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtSvg.framework/QtSvg",
+      "symlink": "Versions/Current/QtSvg"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtSvg.framework/Versions/A/QtSvg",
+      "size": 598720,
+      "sha256": "435b002cc5da9d2d9df1b7929967c6faae8288b96b82ab802a6a983f0fdf8a5a"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtSvg.framework/Versions/A/_CodeSignature/CodeResources",
+      "size": 2442,
+      "sha256": "3cd64c051c037b3124a8ed7d2a7582f3518946e877b1b16bd8d26cb311c7349d"
+    },
+    {
+      "path": "clients/desktop/dist/2026.10.30 16-29-52/Zhixu.app/Contents/Frameworks/QtSvg.framework/Versions/A/Resources/Info.plist",
+      "size": 808,
+      "sha256": "9ced66dc295d327cdf37f3386bb6bbfb6f47164313cb8f4d58302e519beeb58a"
+    },
+    {
+      "path": "clients/flutter/Flutter说明阅读版.html",
+      "size": 16429,
+      "sha256": "2177520c150f7c99c196f0c1b950b66a200dd8bdf9aa09977a7f0c51ab62e7d2"
+    },
+    {
+      "path": "clients/flutter/.metadata",
+      "size": 1260,
+      "sha256": "a166a37cae492322e28168145a6e340f85277f56f22a1a7f42f01f9bee37c2d5"
+    },
+    {
+      "path": "clients/flutter/pubspec.lock",
+      "size": 16416,
+      "sha256": "97c8509b0878fd2ad739b04f9c2d8a26866e6a6fcccab7a4bb4a22b292c7c814"
+    },
+    {
+      "path": "clients/flutter/zhixu.iml",
+      "size": 842,
+      "sha256": "078556ebd66f23eeb43b60557b1ed3d3e0b1a2a6297ccb71ad3b779316c7880d"
+    },
+    {
+      "path": "clients/flutter/README.md",
+      "size": 12982,
+      "sha256": "a0bc6bec297f533c8abb00b7471c0ecee0d1f0d4548ae4589139ca5d0bf6b184"
+    },
+    {
+      "path": "clients/flutter/pubspec.yaml",
+      "size": 370,
+      "sha256": "193011fa24b4fd1b1d3e5cc5957150e70c9d41033233f864154f318aa5aff4ab"
+    },
+    {
+      "path": "clients/flutter/.gitignore",
+      "size": 746,
+      "sha256": "441eaa1de5b3db9fae056e7503567e9f8dd94173e1389c60f76956abf729015a"
+    },
+    {
+      "path": "clients/flutter/analysis_options.yaml",
+      "size": 1500,
+      "sha256": "2965e15dbd3bf9fb18ad236b84975481c4adbbd629c4af97ebdbd5ac630782e8"
+    },
+    {
+      "path": "clients/flutter/test/repository_test.dart",
+      "size": 14739,
+      "sha256": "d2d810bd26ad6a69b9cafa704a54b58cb992b48d45d2512b2e25e8af567246ad"
+    },
+    {
+      "path": "clients/flutter/test/widget_test.dart",
+      "size": 12555,
+      "sha256": "e24988861d90e2021c5d4083f279fc42a24614af535cc4d7a1b32f354473828f"
+    },
+    {
+      "path": "clients/flutter/dist/admin/flutter_bootstrap.js",
+      "size": 13119,
+      "sha256": "ae8c27fb4c51fdc6bb938e456f9247da56dc2b06a4c8812cc1bad410bbd8a077"
+    },
+    {
+      "path": "clients/flutter/dist/admin/version.json",
+      "size": 80,
+      "sha256": "d92feb669c659e07a3afdd29b2a44dfe76fc4fb5280de8c141f61721a71b92ea"
+    },
+    {
+      "path": "clients/flutter/dist/admin/.last_build_id",
+      "size": 32,
+      "sha256": "d8995a6ee2b47bbcc32ecd46fa138b5ad900b66a9a51c5a4387c89eb492a42a7"
+    },
+    {
+      "path": "clients/flutter/dist/admin/index.html",
+      "size": 1504,
+      "sha256": "1dfb0a8bba01a18f4d5282cbc60ec06cb981a4acfc4529506a672d3b764b4da0"
+    },
+    {
+      "path": "clients/flutter/dist/admin/main.dart.js",
+      "size": 2744093,
+      "sha256": "e4fdec6fd0009a43482461463b514ee2086f8df5259fa9951536b4532fb9a134"
+    },
+    {
+      "path": "clients/flutter/dist/admin/flutter.js",
+      "size": 12136,
+      "sha256": "2beb1ce6b159c71540aa66030af1d7964b6a92377cc78473745e02f97b74effe"
+    },
+    {
+      "path": "clients/flutter/dist/admin/flutter_service_worker.js",
+      "size": 784,
+      "sha256": "a131df5ca46154cc4eb79044f7f5a14029c2f8bfccf8cef34e3ec3b5a9f5a88c"
+    },
+    {
+      "path": "clients/flutter/dist/admin/favicon.png",
+      "size": 917,
+      "sha256": "7ab2525f4b86b65d3e4c70358a17e5a1aaf6f437f99cbcc046dad73d59bb9015"
+    },
+    {
+      "path": "clients/flutter/dist/admin/manifest.json",
+      "size": 906,
+      "sha256": "0deecd24f2e022144f9c9f7a51f0e3e1e0aedda2dda6440c0f8f6f5def14d179"
+    },
+    {
+      "path": "clients/flutter/dist/admin/icons/Icon-192.png",
+      "size": 5292,
+      "sha256": "3dce99077602f70421c1c6b2a240bc9b83d64d86681d45f2154143310c980be3"
+    },
+    {
+      "path": "clients/flutter/dist/admin/icons/Icon-maskable-192.png",
+      "size": 5594,
+      "sha256": "d2c842e22a9f4ec9d996b23373a905c88d9a203b220c5c151885ad621f974b5c"
+    },
+    {
+      "path": "clients/flutter/dist/admin/icons/Icon-maskable-512.png",
+      "size": 20998,
+      "sha256": "6aee06cdcab6b2aef74b1734c4778f4421d2da100b0ff9e52b21b55240202929"
+    },
+    {
+      "path": "clients/flutter/dist/admin/icons/Icon-512.png",
+      "size": 8252,
+      "sha256": "baccb205ae45f0b421be1657259b4943ac40c95094ab877f3bcbe12cd544dcbe"
+    },
+    {
+      "path": "clients/flutter/dist/admin/assets/NOTICES",
+      "size": 1337953,
+      "sha256": "6ac9d27734ae099b2282a686d5ca9739aeb22eb5f91800ae055a19d0d20cfd61"
+    },
+    {
+      "path": "clients/flutter/dist/admin/assets/FontManifest.json",
+      "size": 158,
+      "sha256": "fc9ee87dd76174c0937f58e64b881d8a2c46968a386f9f9be60bc18b8a0bb0c6"
+    },
+    {
+      "path": "clients/flutter/dist/admin/assets/AssetManifest.bin.json",
+      "size": 6,
+      "sha256": "937f7ce783516c54a2bd2007cf32b7dd921c477ddac5ffe8112c6131e43d80a3"
+    },
+    {
+      "path": "clients/flutter/dist/admin/assets/AssetManifest.bin",
+      "size": 2,
+      "sha256": "f566cc6fccc657365c0197accf3a7d6f80f85209ff666ff774f4dcbc524aa842"
+    },
+    {
+      "path": "clients/flutter/dist/admin/assets/shaders/ink_sparkle.frag",
+      "size": 8890,
+      "sha256": "2dca5ab93d4ec29e963f996f3916320ba60825e9537dfb149a68008c7a16b026"
+    },
+    {
+      "path": "clients/flutter/dist/admin/assets/shaders/stretch_effect.frag",
+      "size": 6737,
+      "sha256": "ab412f07a5b9b50b67a885b24dbe16929738ae28630407d6490c924caf0a3220"
+    },
+    {
+      "path": "clients/flutter/dist/admin/assets/fonts/MaterialIcons-Regular.otf",
+      "size": 7736,
+      "sha256": "d9bad7f2677571a9c5586bb96a9fd3769a1c7742771f0165f3f9d088df89c1e1"
+    },
+    {
+      "path": "clients/flutter/dist/admin/assets/fonts/fallback/Roboto-Regular.ttf",
+      "size": 171676,
+      "sha256": "79e851404657dac2106b3d22ad256d47824a9a5765458edb72c9102a45816d95"
+    },
+    {
+      "path": "clients/flutter/dist/admin/canvaskit/wimp.wasm",
+      "size": 3581677,
+      "sha256": "e924eaafd801d41e017d178f3fd5cf8a417f641fe35c9ed34a4e1d7582283e0c"
+    },
+    {
+      "path": "clients/flutter/dist/admin/canvaskit/skwasm.js",
+      "size": 63537,
+      "sha256": "71d7d3e34bf71b52bdba3b588b103bba8148ba28de5754083e01b3398e7a6e1c"
+    },
+    {
+      "path": "clients/flutter/dist/admin/canvaskit/skwasm_heavy.js",
+      "size": 63650,
+      "sha256": "cec554b46ddcf4c0e63d799e0556d546f42d2c3f69316fb4f67ed776f6104558"
+    },
+    {
+      "path": "clients/flutter/dist/admin/canvaskit/skwasm.js.symbols",
+      "size": 1540006,
+      "sha256": "9137f1a3ae744dea575043abfc6e063a047e910e6dab1ee53e496c975d1c033e"
+    },
+    {
+      "path": "clients/flutter/dist/admin/canvaskit/canvaskit.js.symbols",
+      "size": 1356926,
+      "sha256": "384f80b392972c83fd4f262527e3d06215a297d33ed59732c726721e9d9311bd"
+    },
+    {
+      "path": "clients/flutter/dist/admin/canvaskit/skwasm_heavy.js.symbols",
+      "size": 1672152,
+      "sha256": "b6b79ed497e11d4cd13cc46724f9e289eacc744d2d185e31c72d595cdf62772b"
+    },
+    {
+      "path": "clients/flutter/dist/admin/canvaskit/skwasm.wasm",
+      "size": 3593715,
+      "sha256": "e540fd5e8303b7b68ec2718cb49e9c421f8ade3075b15e02a7059a62654df9a1"
+    },
+    {
+      "path": "clients/flutter/dist/admin/canvaskit/canvaskit.js",
+      "size": 86987,
+      "sha256": "bb559f6080c7d312ac2a912b4abec9f68ff3d3022d4a603c7796b9b31460642b"
+    },
+    {
+      "path": "clients/flutter/dist/admin/canvaskit/wimp.js",
+      "size": 59127,
+      "sha256": "8fd8a47480c6eb0a374d159912d0b3fb15661b41f5c113ecdd39c2f01f2bee46"
+    },
+    {
+      "path": "clients/flutter/dist/admin/canvaskit/canvaskit.wasm",
+      "size": 7284602,
+      "sha256": "fbed517a43e82452404446683f00f2e876d835aed84410695759e67b6bb01cd3"
+    },
+    {
+      "path": "clients/flutter/dist/admin/canvaskit/wimp.js.symbols",
+      "size": 1813030,
+      "sha256": "b4907ebd33131302a8cd99f7c55f52357bdfde04f421b605a616ba8764ae1de4"
+    },
+    {
+      "path": "clients/flutter/dist/admin/canvaskit/skwasm_heavy.wasm",
+      "size": 5216217,
+      "sha256": "565f5cc1cca6ab120f11934b105f01fec4b58b480c82e0889dca93af8e6f8635"
+    },
+    {
+      "path": "clients/flutter/dist/admin/canvaskit/webparagraph/canvaskit.js.symbols",
+      "size": 963641,
+      "sha256": "44d6c47919106235cf32252252490cdf798d907ee874ba343ab53dc94bc2a9dc"
+    },
+    {
+      "path": "clients/flutter/dist/admin/canvaskit/webparagraph/canvaskit.js",
+      "size": 76114,
+      "sha256": "3110e3e4d9b7b5657d336f253aaca8acca5777cde9319fb69ac302d6ff5a8b23"
+    },
+    {
+      "path": "clients/flutter/dist/admin/canvaskit/webparagraph/canvaskit.wasm",
+      "size": 3729129,
+      "sha256": "0ce1b05082efdc8529550e8a01f6ff0593972d55525035010e26f5600aa9f254"
+    },
+    {
+      "path": "clients/flutter/dist/admin/canvaskit/chromium/canvaskit.js.symbols",
+      "size": 1235870,
+      "sha256": "31c86fac6042dd8b756150832c1d15495d0d07742e2718f75dbdde5a5a91455e"
+    },
+    {
+      "path": "clients/flutter/dist/admin/canvaskit/chromium/canvaskit.js",
+      "size": 86226,
+      "sha256": "6018b12bd8ed37e6952eee72d59c1cf7ad707ccdb74a0a45190010f77edd9068"
+    },
+    {
+      "path": "clients/flutter/dist/admin/canvaskit/chromium/canvaskit.wasm",
+      "size": 5428806,
+      "sha256": "ae8ff1d858140f7b1300ced3fa89fb8c9dce0a400a0f4f1e11f6dcfb3315fdcf"
+    },
+    {
+      "path": "clients/flutter/dist/client/flutter_bootstrap.js",
+      "size": 13119,
+      "sha256": "8d9621cbc464b7e8f21a406ba03432616d6aff6cd9015d3e35dffd378dd76849"
+    },
+    {
+      "path": "clients/flutter/dist/client/version.json",
+      "size": 80,
+      "sha256": "d92feb669c659e07a3afdd29b2a44dfe76fc4fb5280de8c141f61721a71b92ea"
+    },
+    {
+      "path": "clients/flutter/dist/client/.last_build_id",
+      "size": 32,
+      "sha256": "b88b253be15913fe7cda68012fdcefe1ae23585d4fcc1ed26d322f8681f2e15f"
+    },
+    {
+      "path": "clients/flutter/dist/client/index.html",
+      "size": 1505,
+      "sha256": "27a810c0186f63022075774fcb89ac2e2d7ed765844b2c357babf504de052274"
+    },
+    {
+      "path": "clients/flutter/dist/client/main.dart.js",
+      "size": 2744035,
+      "sha256": "b1ba89bba45b2f8cdc6198293a82bb0cbc7bb1a2bce941b7fc78a6c87ea27ed7"
+    },
+    {
+      "path": "clients/flutter/dist/client/flutter.js",
+      "size": 12136,
+      "sha256": "2beb1ce6b159c71540aa66030af1d7964b6a92377cc78473745e02f97b74effe"
+    },
+    {
+      "path": "clients/flutter/dist/client/flutter_service_worker.js",
+      "size": 784,
+      "sha256": "a131df5ca46154cc4eb79044f7f5a14029c2f8bfccf8cef34e3ec3b5a9f5a88c"
+    },
+    {
+      "path": "clients/flutter/dist/client/favicon.png",
+      "size": 917,
+      "sha256": "7ab2525f4b86b65d3e4c70358a17e5a1aaf6f437f99cbcc046dad73d59bb9015"
+    },
+    {
+      "path": "clients/flutter/dist/client/manifest.json",
+      "size": 906,
+      "sha256": "0deecd24f2e022144f9c9f7a51f0e3e1e0aedda2dda6440c0f8f6f5def14d179"
+    },
+    {
+      "path": "clients/flutter/dist/client/icons/Icon-192.png",
+      "size": 5292,
+      "sha256": "3dce99077602f70421c1c6b2a240bc9b83d64d86681d45f2154143310c980be3"
+    },
+    {
+      "path": "clients/flutter/dist/client/icons/Icon-maskable-192.png",
+      "size": 5594,
+      "sha256": "d2c842e22a9f4ec9d996b23373a905c88d9a203b220c5c151885ad621f974b5c"
+    },
+    {
+      "path": "clients/flutter/dist/client/icons/Icon-maskable-512.png",
+      "size": 20998,
+      "sha256": "6aee06cdcab6b2aef74b1734c4778f4421d2da100b0ff9e52b21b55240202929"
+    },
+    {
+      "path": "clients/flutter/dist/client/icons/Icon-512.png",
+      "size": 8252,
+      "sha256": "baccb205ae45f0b421be1657259b4943ac40c95094ab877f3bcbe12cd544dcbe"
+    },
+    {
+      "path": "clients/flutter/dist/client/assets/NOTICES",
+      "size": 1337953,
+      "sha256": "6ac9d27734ae099b2282a686d5ca9739aeb22eb5f91800ae055a19d0d20cfd61"
+    },
+    {
+      "path": "clients/flutter/dist/client/assets/FontManifest.json",
+      "size": 158,
+      "sha256": "fc9ee87dd76174c0937f58e64b881d8a2c46968a386f9f9be60bc18b8a0bb0c6"
+    },
+    {
+      "path": "clients/flutter/dist/client/assets/AssetManifest.bin.json",
+      "size": 6,
+      "sha256": "937f7ce783516c54a2bd2007cf32b7dd921c477ddac5ffe8112c6131e43d80a3"
+    },
+    {
+      "path": "clients/flutter/dist/client/assets/AssetManifest.bin",
+      "size": 2,
+      "sha256": "f566cc6fccc657365c0197accf3a7d6f80f85209ff666ff774f4dcbc524aa842"
+    },
+    {
+      "path": "clients/flutter/dist/client/assets/shaders/ink_sparkle.frag",
+      "size": 8890,
+      "sha256": "2dca5ab93d4ec29e963f996f3916320ba60825e9537dfb149a68008c7a16b026"
+    },
+    {
+      "path": "clients/flutter/dist/client/assets/shaders/stretch_effect.frag",
+      "size": 6737,
+      "sha256": "ab412f07a5b9b50b67a885b24dbe16929738ae28630407d6490c924caf0a3220"
+    },
+    {
+      "path": "clients/flutter/dist/client/assets/fonts/MaterialIcons-Regular.otf",
+      "size": 7736,
+      "sha256": "d9bad7f2677571a9c5586bb96a9fd3769a1c7742771f0165f3f9d088df89c1e1"
+    },
+    {
+      "path": "clients/flutter/dist/client/assets/fonts/fallback/Roboto-Regular.ttf",
+      "size": 171676,
+      "sha256": "79e851404657dac2106b3d22ad256d47824a9a5765458edb72c9102a45816d95"
+    },
+    {
+      "path": "clients/flutter/dist/client/canvaskit/wimp.wasm",
+      "size": 3581677,
+      "sha256": "e924eaafd801d41e017d178f3fd5cf8a417f641fe35c9ed34a4e1d7582283e0c"
+    },
+    {
+      "path": "clients/flutter/dist/client/canvaskit/skwasm.js",
+      "size": 63537,
+      "sha256": "71d7d3e34bf71b52bdba3b588b103bba8148ba28de5754083e01b3398e7a6e1c"
+    },
+    {
+      "path": "clients/flutter/dist/client/canvaskit/skwasm_heavy.js",
+      "size": 63650,
+      "sha256": "cec554b46ddcf4c0e63d799e0556d546f42d2c3f69316fb4f67ed776f6104558"
+    },
+    {
+      "path": "clients/flutter/dist/client/canvaskit/skwasm.js.symbols",
+      "size": 1540006,
+      "sha256": "9137f1a3ae744dea575043abfc6e063a047e910e6dab1ee53e496c975d1c033e"
+    },
+    {
+      "path": "clients/flutter/dist/client/canvaskit/canvaskit.js.symbols",
+      "size": 1356926,
+      "sha256": "384f80b392972c83fd4f262527e3d06215a297d33ed59732c726721e9d9311bd"
+    },
+    {
+      "path": "clients/flutter/dist/client/canvaskit/skwasm_heavy.js.symbols",
+      "size": 1672152,
+      "sha256": "b6b79ed497e11d4cd13cc46724f9e289eacc744d2d185e31c72d595cdf62772b"
+    },
+    {
+      "path": "clients/flutter/dist/client/canvaskit/skwasm.wasm",
+      "size": 3593715,
+      "sha256": "e540fd5e8303b7b68ec2718cb49e9c421f8ade3075b15e02a7059a62654df9a1"
+    },
+    {
+      "path": "clients/flutter/dist/client/canvaskit/canvaskit.js",
+      "size": 86987,
+      "sha256": "bb559f6080c7d312ac2a912b4abec9f68ff3d3022d4a603c7796b9b31460642b"
+    },
+    {
+      "path": "clients/flutter/dist/client/canvaskit/wimp.js",
+      "size": 59127,
+      "sha256": "8fd8a47480c6eb0a374d159912d0b3fb15661b41f5c113ecdd39c2f01f2bee46"
+    },
+    {
+      "path": "clients/flutter/dist/client/canvaskit/canvaskit.wasm",
+      "size": 7284602,
+      "sha256": "fbed517a43e82452404446683f00f2e876d835aed84410695759e67b6bb01cd3"
+    },
+    {
+      "path": "clients/flutter/dist/client/canvaskit/wimp.js.symbols",
+      "size": 1813030,
+      "sha256": "b4907ebd33131302a8cd99f7c55f52357bdfde04f421b605a616ba8764ae1de4"
+    },
+    {
+      "path": "clients/flutter/dist/client/canvaskit/skwasm_heavy.wasm",
+      "size": 5216217,
+      "sha256": "565f5cc1cca6ab120f11934b105f01fec4b58b480c82e0889dca93af8e6f8635"
+    },
+    {
+      "path": "clients/flutter/dist/client/canvaskit/webparagraph/canvaskit.js.symbols",
+      "size": 963641,
+      "sha256": "44d6c47919106235cf32252252490cdf798d907ee874ba343ab53dc94bc2a9dc"
+    },
+    {
+      "path": "clients/flutter/dist/client/canvaskit/webparagraph/canvaskit.js",
+      "size": 76114,
+      "sha256": "3110e3e4d9b7b5657d336f253aaca8acca5777cde9319fb69ac302d6ff5a8b23"
+    },
+    {
+      "path": "clients/flutter/dist/client/canvaskit/webparagraph/canvaskit.wasm",
+      "size": 3729129,
+      "sha256": "0ce1b05082efdc8529550e8a01f6ff0593972d55525035010e26f5600aa9f254"
+    },
+    {
+      "path": "clients/flutter/dist/client/canvaskit/chromium/canvaskit.js.symbols",
+      "size": 1235870,
+      "sha256": "31c86fac6042dd8b756150832c1d15495d0d07742e2718f75dbdde5a5a91455e"
+    },
+    {
+      "path": "clients/flutter/dist/client/canvaskit/chromium/canvaskit.js",
+      "size": 86226,
+      "sha256": "6018b12bd8ed37e6952eee72d59c1cf7ad707ccdb74a0a45190010f77edd9068"
+    },
+    {
+      "path": "clients/flutter/dist/client/canvaskit/chromium/canvaskit.wasm",
+      "size": 5428806,
+      "sha256": "ae8ff1d858140f7b1300ced3fa89fb8c9dce0a400a0f4f1e11f6dcfb3315fdcf"
+    },
+    {
+      "path": "clients/flutter/web/index.html",
+      "size": 1515,
+      "sha256": "1e1d479c5069a12a472674c8f31f1da8f44e8e3a3d1d4325e097754651eb942f"
+    },
+    {
+      "path": "clients/flutter/web/favicon.png",
+      "size": 917,
+      "sha256": "7ab2525f4b86b65d3e4c70358a17e5a1aaf6f437f99cbcc046dad73d59bb9015"
+    },
+    {
+      "path": "clients/flutter/web/manifest.json",
+      "size": 906,
+      "sha256": "0deecd24f2e022144f9c9f7a51f0e3e1e0aedda2dda6440c0f8f6f5def14d179"
+    },
+    {
+      "path": "clients/flutter/web/icons/Icon-192.png",
+      "size": 5292,
+      "sha256": "3dce99077602f70421c1c6b2a240bc9b83d64d86681d45f2154143310c980be3"
+    },
+    {
+      "path": "clients/flutter/web/icons/Icon-maskable-192.png",
+      "size": 5594,
+      "sha256": "d2c842e22a9f4ec9d996b23373a905c88d9a203b220c5c151885ad621f974b5c"
+    },
+    {
+      "path": "clients/flutter/web/icons/Icon-maskable-512.png",
+      "size": 20998,
+      "sha256": "6aee06cdcab6b2aef74b1734c4778f4421d2da100b0ff9e52b21b55240202929"
+    },
+    {
+      "path": "clients/flutter/web/icons/Icon-512.png",
+      "size": 8252,
+      "sha256": "baccb205ae45f0b421be1657259b4943ac40c95094ab877f3bcbe12cd544dcbe"
+    },
+    {
+      "path": "clients/flutter/harmony/hvigorfile.ts",
+      "size": 90,
+      "sha256": "e39d434027326990d164a45c742d8ed747692a7d4fe9cd7ceb70524a0175206a"
+    },
+    {
+      "path": "clients/flutter/harmony/oh-package.json5",
+      "size": 139,
+      "sha256": "b86e20e1339cdcb3effb7468a1d631e792560f161f1bad95561c978f4738f8ae"
+    },
+    {
+      "path": "clients/flutter/harmony/build-profile.json5",
+      "size": 327,
+      "sha256": "54481db866d243d5ea96c50ccf5203fa6a62a03958c7adefcccdb03eff3e2e58"
+    },
+    {
+      "path": "clients/flutter/harmony/hvigor/hvigor-config.json5",
+      "size": 202,
+      "sha256": "e71284f368df920563675afce69c951971fa96df8cc43cd84f243ec91421ae09"
+    },
+    {
+      "path": "clients/flutter/harmony/entry/hvigorfile.ts",
+      "size": 90,
+      "sha256": "de6f413080e8299112792cd496784a40355ee6eb795b2528cea5391d65bb5c68"
+    },
+    {
+      "path": "clients/flutter/harmony/entry/oh-package.json5",
+      "size": 90,
+      "sha256": "fb452e74859b6e8105d881a817e5d0d50de3fe55fa6eddfb8d38789a16ecc779"
+    },
+    {
+      "path": "clients/flutter/harmony/entry/build-profile.json5",
+      "size": 129,
+      "sha256": "5eb358430130c305e06f79f90f987f0ba51a93939ba04968a59c53e2dac8ebc4"
+    },
+    {
+      "path": "clients/flutter/harmony/entry/src/main/module.json5",
+      "size": 649,
+      "sha256": "2db9beb2405a822fb32b76daaaabf0553e7dadf141bb059f7b3c570045606487"
+    },
+    {
+      "path": "clients/flutter/harmony/entry/src/main/resources/rawfile/web/先生成用户端.txt",
+      "size": 189,
+      "sha256": "ab3b2c2e71934b4dd63e1ea7b91f2ac9e6292bace5895b932882415b6b941d5f"
+    },
+    {
+      "path": "clients/flutter/harmony/entry/src/main/resources/base/element/color.json",
+      "size": 65,
+      "sha256": "4b8ab7a387df88fe42c3f33cdbb94224fb3b49c070787eda2466b687905b72f2"
+    },
+    {
+      "path": "clients/flutter/harmony/entry/src/main/resources/base/element/string.json",
+      "size": 102,
+      "sha256": "4660a99626e8f33ac34a9fc38f5d335c3e8e05f293c9dd5bad1c3cadb517378a"
+    },
+    {
+      "path": "clients/flutter/harmony/entry/src/main/resources/base/profile/main_pages.json",
+      "size": 24,
+      "sha256": "621d1c271cf89755a64364b8e70c65745d9049ebaf18efa3eba95a2ae0b4558d"
+    },
+    {
+      "path": "clients/flutter/harmony/entry/src/main/ets/entryability/EntryAbility.ets",
+      "size": 238,
+      "sha256": "786a0d3d632e8993f69139d5a63aa95a071be0181feabbdfc70f8a4cb09309d2"
+    },
+    {
+      "path": "clients/flutter/harmony/entry/src/main/ets/config/Endpoint.ets",
+      "size": 228,
+      "sha256": "6b82f16eee3690dc03a863d84e54a61de9761f3ca536d8ed1605a1e8b71e796e"
+    },
+    {
+      "path": "clients/flutter/harmony/entry/src/main/ets/pages/Index.ets",
+      "size": 3247,
+      "sha256": "bbd16db136dff6d48b003403d3351e4478b6b7cab77f22185a3119c5ffbf1f0d"
+    },
+    {
+      "path": "clients/flutter/harmony/AppScope/app.json5",
+      "size": 146,
+      "sha256": "e41994b631cc18db1437a8d48a277f17904e8c78766cedeb9511922776f41e88"
+    },
+    {
+      "path": "clients/flutter/harmony/AppScope/resources/base/element/string.json",
+      "size": 50,
+      "sha256": "f2de4cc040848b49b3b5d17f7996cd8a20238d97d598e3a1d715c442e26e7657"
+    },
+    {
+      "path": "clients/flutter/harmony/AppScope/resources/base/media/app_icon.svg",
+      "size": 329,
+      "sha256": "6ac728c03059ef22a930292b2897c0ad66392cfb14b4044795dfbfa418630df0"
+    },
+    {
+      "path": "clients/flutter/docs/build-android-latest-config.log",
+      "size": 4294,
+      "sha256": "a754d88b9051710c117468793e3ddb8c8630ace2982d8f9c8a3f1a6c8c1e8c24"
+    },
+    {
+      "path": "clients/flutter/docs/build-client-final.log",
+      "size": 942,
+      "sha256": "5571c828d379837801c4e8a0663b858d24d64184e461bd26990748378965af9c"
+    },
+    {
+      "path": "clients/flutter/docs/dependency-status.json",
+      "size": 1345,
+      "sha256": "81697fb493005e20bff0b7d761b43dc47cfdf1fcbe3cca3d8ffdc58226139422"
+    },
+    {
+      "path": "clients/flutter/docs/build-ios.log",
+      "size": 872,
+      "sha256": "e95629b55ab8a200ddba9a47e50dc69fa4322536238e7705eb9ce1fe52ce4a47"
+    },
+    {
+      "path": "clients/flutter/docs/build-android-latest.log",
+      "size": 1823,
+      "sha256": "9ca28283856935255ede4af9016e22e0fd76d0225a1c2e059c564fb65cd30a6d"
+    },
+    {
+      "path": "clients/flutter/docs/test-round-10.log",
+      "size": 5694,
+      "sha256": "d5cfe6d049cbd05c243b3e05ddac2aacfbceead81164ee6b86c6fc1973e46134"
+    },
+    {
+      "path": "clients/flutter/docs/build-ios-final.log",
+      "size": 357,
+      "sha256": "9abd09989567781d202c05b15c2a0dbd8229a106ca53b70ebd15bc4cf8556c67"
+    },
+    {
+      "path": "clients/flutter/docs/test-round-11.log",
+      "size": 5683,
+      "sha256": "fdc1e80901ad7a95ec2edda2b99119e3af71a4791fd096558cb6c81d3762a4d2"
+    },
+    {
+      "path": "clients/flutter/docs/pub-upgrade-final.log",
+      "size": 627,
+      "sha256": "9da1c682d92f057b414ad919312bd6127fbd4005c4930a779f6fa36d1c948597"
+    },
+    {
+      "path": "clients/flutter/docs/dart-fix-final.log",
+      "size": 298,
+      "sha256": "a924860dcd72b72fcbd0e29e06e16d7a4c551b9852e90925e3481795df6305ab"
+    },
+    {
+      "path": "clients/flutter/docs/analyze-final.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "clients/flutter/docs/android-artifact-downloads.log",
+      "size": 2468,
+      "sha256": "3436336ec73ec755600162298eaca48f0c9d74a671b708b9aa90c05721035e76"
+    },
+    {
+      "path": "clients/flutter/docs/format-final.log",
+      "size": 79,
+      "sha256": "ec89593c46e501abdb5e267c3ce33136399713d0f5c349d3d1ed70485eb19d12"
+    },
+    {
+      "path": "clients/flutter/docs/test-round-12.log",
+      "size": 5641,
+      "sha256": "fb8cf670546d637bdfd5f2e8ad4a50a6d36de2bdd541ad86b5bc0e02aab76023"
+    },
+    {
+      "path": "clients/flutter/docs/build-android-final.log",
+      "size": 20207,
+      "sha256": "8d99c4946875361d4de4004f592a1c81fa03b1844a31acae1888ba5ae0de364a"
+    },
+    {
+      "path": "clients/flutter/docs/test-round-3.log",
+      "size": 3992,
+      "sha256": "5ecee335ff43b7cef12218c041691dcc12ceaf82a846ce602266a2bc34735418"
+    },
+    {
+      "path": "clients/flutter/docs/dart-fix.log",
+      "size": 443,
+      "sha256": "ebb2edf8db62c5b30777127ca1db6129aec8a706e56d91dae4ec2286179cb8e4"
+    },
+    {
+      "path": "clients/flutter/docs/test-round-2.log",
+      "size": 3412,
+      "sha256": "7510690badb85e48f9e95c8be99e96393e10d592703e1b0f20eb6e8b3657ca94"
+    },
+    {
+      "path": "clients/flutter/docs/test-round-1.log",
+      "size": 6758,
+      "sha256": "776c66d783a8a98dde62fc0c8ee8600fb6e7bdb0fb9dfcff7bd1d2765b3554f7"
+    },
+    {
+      "path": "clients/flutter/docs/test-round-5.log",
+      "size": 4442,
+      "sha256": "8a9a4a82c00eb06bc05941db58c9639c67a7f442636d51f910aca876fd8cc9c6"
+    },
+    {
+      "path": "clients/flutter/docs/harmony-contract-tests.log",
+      "size": 534,
+      "sha256": "b530f83067197c7dbe545599f11a5cc49999617ac562573939033a00e7dfb12f"
+    },
+    {
+      "path": "clients/flutter/docs/build-android-latest-retry.log",
+      "size": 578,
+      "sha256": "33a372828f8fc6869b28c9c32726b8c0df0a713a64447179d8db740840a62a93"
+    },
+    {
+      "path": "clients/flutter/docs/test-round-4.log",
+      "size": 3992,
+      "sha256": "cb5350a024ecff62fed77961a31aaafe8f59b403e734163bfbeab137f433d016"
+    },
+    {
+      "path": "clients/flutter/docs/build-client.log",
+      "size": 1456,
+      "sha256": "0806a2dd3ca149f40dda3d021142778f6b1f22e3b0a8bc5f137040103092d512"
+    },
+    {
+      "path": "clients/flutter/docs/harmony-prepare-check.log",
+      "size": 257,
+      "sha256": "57eed8d8a795abd65f005424e2d1b687f88a66e841e9ba59f6784fa7dab861f1"
+    },
+    {
+      "path": "clients/flutter/docs/build-admin-final.log",
+      "size": 941,
+      "sha256": "79dc7f1ccb3923100b896a2dab5bd619d37695d8fc3948282bad0fc98825ad4c"
+    },
+    {
+      "path": "clients/flutter/docs/gradle-version.log",
+      "size": 1344,
+      "sha256": "47cebbcc717d24392bfec912ea1aa7deefda63d6da8a3d595d9fe2b5710914a5"
+    },
+    {
+      "path": "clients/flutter/docs/test-round-6.log",
+      "size": 3928,
+      "sha256": "b248f1fcae78e2d467068b169adc036761de25af282c969a3532debd954facff"
+    },
+    {
+      "path": "clients/flutter/docs/build-android-final-sdk.log",
+      "size": 10032,
+      "sha256": "58b3329aa60cc996a9082042a09222e8e53f5fad0ce990ae667992d3ca9f454e"
+    },
+    {
+      "path": "clients/flutter/docs/build-android.log",
+      "size": 641,
+      "sha256": "0a607258f535d04fad52e2a90207272c550e0afebbf5c1042a3ddd820a2f2601"
+    },
+    {
+      "path": "clients/flutter/docs/test-round-7.log",
+      "size": 214590,
+      "sha256": "a9e55f681e9f2d294c0e297d451ff14bea7a44b8311bdc3d27cfa4fc38266352"
+    },
+    {
+      "path": "clients/flutter/docs/gradle-help-jdk27.log",
+      "size": 2435,
+      "sha256": "d894bcf157701c8dc8f0990f8d59a0acf1ea4c612fb3c22d3ad79c0393e72f58"
+    },
+    {
+      "path": "clients/flutter/docs/test-round-9.log",
+      "size": 11997,
+      "sha256": "d4cf550f88ed0f1f19dbc0e5e641661f1aeef0499338a26d969dab71c7539da9"
+    },
+    {
+      "path": "clients/flutter/docs/analyze-round-1.log",
+      "size": 6518,
+      "sha256": "b074d8ecdf755d6fdbfec7b558555dc42e3ad0a4854c567929f0d459b925d136"
+    },
+    {
+      "path": "clients/flutter/docs/test-round-8.log",
+      "size": 4872,
+      "sha256": "12cf382c057baccae430eda0fe6f26523c881d18f99e1357de24b8aec700a3f5"
+    },
+    {
+      "path": "clients/flutter/docs/build-admin.log",
+      "size": 1454,
+      "sha256": "424d4d934482cca06df86921e2b69f6ae070328bc58148cc6ceedcf69bc875e3"
+    },
+    {
+      "path": "clients/flutter/docs/gradle-download.log",
+      "size": 1978,
+      "sha256": "80bda56f70b460b2730f9f0a8ac3c2eeaafea9c581f5e47ed1740335d1f2c2ee"
+    },
+    {
+      "path": "clients/flutter/docs/gradle-help-latest.log",
+      "size": 1690,
+      "sha256": "f2a812b6b4914ea77c9909f533cafc31a7190c669baf76c526112c0102428fb9"
+    },
+    {
+      "path": "clients/flutter/docs/build-android-final-retry.log",
+      "size": 2339,
+      "sha256": "e0dc13bb9a1c583c682ea0da49b503d74d60581f27c3dada596c31ccc9083ec5"
+    },
+    {
+      "path": "clients/flutter/docs/build-android-kgp-aligned.log",
+      "size": 41019,
+      "sha256": "a4d23cf9c7b6e758fa29c7fe9ec05d21c547d6a7b851499c7d2b1da68c06726e"
+    },
+    {
+      "path": "clients/flutter/docs/validation-summary.json",
+      "size": 3095,
+      "sha256": "fed73b37a93927099a0327bbfc7a4112751f6f4afc601c158e66ba541bbc013c"
+    },
+    {
+      "path": "clients/flutter/ios/.gitignore",
+      "size": 569,
+      "sha256": "37380775aeb2499662b7aca80f4ac4c95ae827c3ba2bfa179aa3e9af4812c623"
+    },
+    {
+      "path": "clients/flutter/ios/Runner.xcworkspace/contents.xcworkspacedata",
+      "size": 152,
+      "sha256": "46c3c9702ff7c5584e11c954d943cfb6e07fb26e3fbd072ddbc0f388aa352de1"
+    },
+    {
+      "path": "clients/flutter/ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist",
+      "size": 238,
+      "sha256": "dfa0f9bb85b95ccba9c6811adadf8cb407fb5d52088e89db83ebc308ec448542"
+    },
+    {
+      "path": "clients/flutter/ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings",
+      "size": 226,
+      "sha256": "11b247bc6796892d67c9a821d18604db4dd6a880981b34f38460b9866e6b247f"
+    },
+    {
+      "path": "clients/flutter/ios/RunnerTests/RunnerTests.swift",
+      "size": 285,
+      "sha256": "5e8f4908dacea6f29b2a790e4d38bf5fded69096063f9a27a2f21584d62b30c0"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Runner-Bridging-Header.h",
+      "size": 38,
+      "sha256": "1a8d11d01d1cc92c650c9c9ed35299240052d4683a15a719a2315ef44185e074"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/GeneratedPluginRegistrant.h",
+      "size": 378,
+      "sha256": "a5f88cc6415d2e639d2cb549348b84e02a7fdd0261603b0063abef6fa11f075a"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/AppDelegate.swift",
+      "size": 539,
+      "sha256": "451c6d9ba0a2b3ff43092ea349c60fa79a91f1158b915eb29dbdd357cb95d7b8"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/GeneratedPluginRegistrant.m",
+      "size": 772,
+      "sha256": "7f0afd4c3a1d06e57d77873d63a8a67d300036672513d77bad04c74203810a83"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Info.plist",
+      "size": 2300,
+      "sha256": "9a26897191a7e66ca8c9749f7bb6aee2a9ea4d6c7c099b7d2d1de0ba56968cec"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/SceneDelegate.swift",
+      "size": 76,
+      "sha256": "add68b905971dedfcc0d0b5b7118030de5925ba8c081ad9815463699e3a444ad"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png",
+      "size": 68,
+      "sha256": "93ae7d494fad0fb30cbf3ae746a39c4bc7a0f8bbf87fbb587a3f3c01f3c5ce20"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png",
+      "size": 68,
+      "sha256": "93ae7d494fad0fb30cbf3ae746a39c4bc7a0f8bbf87fbb587a3f3c01f3c5ce20"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md",
+      "size": 336,
+      "sha256": "a985b626c4f7546a8ba392d135e9226c3547c8e2b46895f5f2bdf40d7b14ef9f"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json",
+      "size": 391,
+      "sha256": "ccc7950fd5f5b82067c85f667940a9d59189151460761ece8098ca78daa19469"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png",
+      "size": 68,
+      "sha256": "93ae7d494fad0fb30cbf3ae746a39c4bc7a0f8bbf87fbb587a3f3c01f3c5ce20"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png",
+      "size": 1226,
+      "sha256": "41c7d42f6e61f8fe7f30b1ffa2256aecbc9682be06d18c4a3062043e1a2e547c"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png",
+      "size": 282,
+      "sha256": "5dee24dc104ac76dc162e42ae0beb163d426bf365562ee28ba7b3ad368559a60"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png",
+      "size": 406,
+      "sha256": "b9ad02cf6576a04d1b6806ac02a2431481b448dd0c2e505ce25842d1f7c4730b"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png",
+      "size": 295,
+      "sha256": "cab10a0d391ec5bc09ef50ce49e8ad401cee7ef03707ec0923a222c5c2b3d212"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png",
+      "size": 10932,
+      "sha256": "7770183009e914112de7d8ef1d235a6a30c5834424858e0d2f8253f6b8d31926"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png",
+      "size": 1418,
+      "sha256": "5d7e5bdf01b93802bc973345b3a78c038907147625035952a08a115a563b7f81"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png",
+      "size": 450,
+      "sha256": "c6e6d3b215ae744a9c391f4c4d44157eff5e739d6ad6c39f9bfa5df66dddd267"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json",
+      "size": 2519,
+      "sha256": "3b1e214f466ffedff74baa5598ad5c4421130eea6bc8d57b8fe23435e8280ae4"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png",
+      "size": 406,
+      "sha256": "b9ad02cf6576a04d1b6806ac02a2431481b448dd0c2e505ce25842d1f7c4730b"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png",
+      "size": 704,
+      "sha256": "e677d701ffe4af7bc2935098d6b3984cc9ab7ace573e6900955a5535b12410cf"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png",
+      "size": 586,
+      "sha256": "7c61c42fc7b657d9cf314d32a4ec458f0647c3aaf360be1b9377857266ec2499"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png",
+      "size": 1674,
+      "sha256": "4209a49e44a92ec40a327d3455eb1b1c153ee83d75de1c2be0a12ab18b2ff9de"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png",
+      "size": 862,
+      "sha256": "19be171481dc71a0b2803ebcd01dd8b0c5fd5778dee34c0a3cabc948c225f24e"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png",
+      "size": 762,
+      "sha256": "836c918cb613249eba0483a6b02fa3df3c1c0a89a315ee4d3b88509b83c7ab73"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png",
+      "size": 862,
+      "sha256": "19be171481dc71a0b2803ebcd01dd8b0c5fd5778dee34c0a3cabc948c225f24e"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png",
+      "size": 462,
+      "sha256": "a9b21eb6f4271385655a8771f76e29eef8c1107d7879cbcfc567e6619d1f716a"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Base.lproj/LaunchScreen.storyboard",
+      "size": 2377,
+      "sha256": "857e61203b3deafb05766d8fcda898b86a7cb6f3d5e385ecc9926c4d698215e9"
+    },
+    {
+      "path": "clients/flutter/ios/Runner/Base.lproj/Main.storyboard",
+      "size": 1605,
+      "sha256": "fd367b6c43006d61b730f674970dd48b9f662c8f2264e52ffc1558102a2c9f2d"
+    },
+    {
+      "path": "clients/flutter/ios/Runner.xcodeproj/project.pbxproj",
+      "size": 25842,
+      "sha256": "be26b28a390214926b60d865ffbebf7aaee1c99591fe238334741a382fd02d94"
+    },
+    {
+      "path": "clients/flutter/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata",
+      "size": 135,
+      "sha256": "7f3b00b5c3fdb45242d7b87e1e5c4e25d1fa8129a16c94295ecc4e8ea2235c5f"
+    },
+    {
+      "path": "clients/flutter/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist",
+      "size": 238,
+      "sha256": "dfa0f9bb85b95ccba9c6811adadf8cb407fb5d52088e89db83ebc308ec448542"
+    },
+    {
+      "path": "clients/flutter/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings",
+      "size": 226,
+      "sha256": "11b247bc6796892d67c9a821d18604db4dd6a880981b34f38460b9866e6b247f"
+    },
+    {
+      "path": "clients/flutter/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme",
+      "size": 4717,
+      "sha256": "9fbce429f56243561dd437a527136c9f9ed77165e3b271b923faf236cfcd0484"
+    },
+    {
+      "path": "clients/flutter/ios/Flutter/Debug.xcconfig",
+      "size": 30,
+      "sha256": "a82d7765b37116ee4821d2cd1d65942febf8032353757ffb0826eabde785b4a6"
+    },
+    {
+      "path": "clients/flutter/ios/Flutter/Release.xcconfig",
+      "size": 30,
+      "sha256": "a82d7765b37116ee4821d2cd1d65942febf8032353757ffb0826eabde785b4a6"
+    },
+    {
+      "path": "clients/flutter/ios/Flutter/AppFrameworkInfo.plist",
+      "size": 720,
+      "sha256": "da12038f9b2688a8a26160fea2609fa8fcb11421448c109f09c0f573efe7698d"
+    },
+    {
+      "path": "clients/flutter/android/zhixu_android.iml",
+      "size": 1601,
+      "sha256": "90d961bc4ccb4b0ae3f75ce495c273f08745a55c50bd213e259723fc341d0193"
+    },
+    {
+      "path": "clients/flutter/android/gradlew",
+      "size": 4971,
+      "sha256": "ec56c02543666d92d9ac5ae7fcc48f88ce4de0deb8b7f9b39928ca46f68c1b2b"
+    },
+    {
+      "path": "clients/flutter/android/.gitignore",
+      "size": 253,
+      "sha256": "b027c9de1011765c015e5819bf857c0d75bfcd0886fb01721c091159012e50f1"
+    },
+    {
+      "path": "clients/flutter/android/build.gradle.kts",
+      "size": 994,
+      "sha256": "f2e8ed8bc70d54125a08def33601a59b92b0b15d32e788af6d7de1c4f4c7af97"
+    },
+    {
+      "path": "clients/flutter/android/settings.gradle.kts",
+      "size": 860,
+      "sha256": "c235498958744f6d13e43d0c1e219164d92f4e28a9b5453d6b01101ff10ac290"
+    },
+    {
+      "path": "clients/flutter/android/gradle.properties",
+      "size": 324,
+      "sha256": "a399b4295134fe3a281b6ce0363b517dfbfa28b85faa8f327b378d70e1790fe6"
+    },
+    {
+      "path": "clients/flutter/android/gradlew.bat",
+      "size": 2404,
+      "sha256": "c13c6e91b9a517783976de213d46398c661ea9e17651376d7301e839eaedcc62"
+    },
+    {
+      "path": "clients/flutter/android/app/build.gradle.kts",
+      "size": 1857,
+      "sha256": "e8b03202760a4c7b75fb23c80768f12d295a23bbad259df0ba8097c35d3a5192"
+    },
+    {
+      "path": "clients/flutter/android/app/src/profile/AndroidManifest.xml",
+      "size": 378,
+      "sha256": "30b0832ed8b92dfbd6ae2abfa939ccf26333d37600056b1572bd4a397a18a74b"
+    },
+    {
+      "path": "clients/flutter/android/app/src/main/AndroidManifest.xml",
+      "size": 2260,
+      "sha256": "42a2aea128c2cd80f6d76ed06e849e9e9209e4aa3a31c707b7d7e87814269cc0"
+    },
+    {
+      "path": "clients/flutter/android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
+      "size": 442,
+      "sha256": "c7c0c0189145e4e32a401c61c9bdc615754b0264e7afae24e834bb81049eaf81"
+    },
+    {
+      "path": "clients/flutter/android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
+      "size": 544,
+      "sha256": "6a7c8f0d703e3682108f9662f813302236240d3f8f638bb391e32bfb96055fef"
+    },
+    {
+      "path": "clients/flutter/android/app/src/main/res/drawable/launch_background.xml",
+      "size": 434,
+      "sha256": "94433756fe10005ddd6fc55cc5c0b1e9f3c10b66a08ceac795ece6713d34e28a"
+    },
+    {
+      "path": "clients/flutter/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "size": 1443,
+      "sha256": "3c34e1f298d0c9ea3455d46db6b7759c8211a49e9ec6e44b635fc5c87dfb4180"
+    },
+    {
+      "path": "clients/flutter/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+      "size": 1031,
+      "sha256": "4d470bf22d5c17d84edc5f82516d1ba8a1c09559cd761cefb792f86d9f52b540"
+    },
+    {
+      "path": "clients/flutter/android/app/src/main/res/values-night/styles.xml",
+      "size": 995,
+      "sha256": "8c5bad5152f217e837519f9c15211d19f39bd45f5f67faf6dd81cb4b299e518f"
+    },
+    {
+      "path": "clients/flutter/android/app/src/main/res/values/styles.xml",
+      "size": 996,
+      "sha256": "937d7c82f539c72eb94fd3a3773f29b3d3fef1997213c92cb632298cedf4bda9"
+    },
+    {
+      "path": "clients/flutter/android/app/src/main/res/drawable-v21/launch_background.xml",
+      "size": 438,
+      "sha256": "7ca6d5cec2169c5a98661a119db23a6f3399c8fef2256ff04f3a642831282478"
+    },
+    {
+      "path": "clients/flutter/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+      "size": 721,
+      "sha256": "e14aa40904929bf313fded22cf7e7ffcbf1d1aac4263b5ef1be8bfce650397aa"
+    },
+    {
+      "path": "clients/flutter/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java",
+      "size": 1276,
+      "sha256": "a5e07fb79d1b2d57ad36575c37663038384f16339656038cf04d787f3b7183e8"
+    },
+    {
+      "path": "clients/flutter/android/app/src/main/kotlin/com/jobs/zhixu/zhixu/MainActivity.kt",
+      "size": 122,
+      "sha256": "f76c0878da55e8d6f7f7d3aeb304127d261d5f0b7d22ef74437a9e66b248fe82"
+    },
+    {
+      "path": "clients/flutter/android/app/src/debug/AndroidManifest.xml",
+      "size": 378,
+      "sha256": "30b0832ed8b92dfbd6ae2abfa939ccf26333d37600056b1572bd4a397a18a74b"
+    },
+    {
+      "path": "clients/flutter/android/gradle/wrapper/gradle-wrapper.jar",
+      "size": 53636,
+      "sha256": "16caeaf66d57a0d1d2087fef6a97efa62de8da69afa5b908f40db35afc4342da"
+    },
+    {
+      "path": "clients/flutter/android/gradle/wrapper/gradle-wrapper.properties",
+      "size": 290,
+      "sha256": "9d9fa95449c3a22a5d14cd25d26f9a4659533515ba2780e2b4d6a522b1009f05"
+    },
+    {
+      "path": "clients/flutter/lib/main.dart",
+      "size": 152,
+      "sha256": "754d580af125c91ca9b931c2a2bd3323f1f02134acd63a3816946065d530e117"
+    },
+    {
+      "path": "clients/flutter/lib/main_admin.dart",
+      "size": 167,
+      "sha256": "422898d45a31c7b82dd7983793e7bc375b779a974a7b546323df2d929aab9457"
+    },
+    {
+      "path": "clients/flutter/lib/ui/actions.dart",
+      "size": 8144,
+      "sha256": "5c64c97e8fff96e0dbcece6252ddf68b7d737ecf804588a70692315507ba2cdf"
+    },
+    {
+      "path": "clients/flutter/lib/ui/app.dart",
+      "size": 42976,
+      "sha256": "0b7f832f3e7b814ab09629d39470c5b9bc69c29dde4c4d5168deed53c9d32562"
+    },
+    {
+      "path": "clients/flutter/lib/ui/theme.dart",
+      "size": 2369,
+      "sha256": "11d190dce535f5887046479487ec56ef7d9a5d685cb31b420ef27090d4d0655d"
+    },
+    {
+      "path": "clients/flutter/lib/data/repository.dart",
+      "size": 19932,
+      "sha256": "148d0043ed9b6f4384201d2f33c2e49636046e09f9b0ddea4874df1cd0b330f0"
+    },
+    {
+      "path": "clients/flutter/lib/data/models.dart",
+      "size": 3207,
+      "sha256": "14e19711dedf216e539c082617d26faa2fca10d6894b85a29d5bbbf8db31de97"
+    },
+    {
+      "path": "clients/flutter/tool/prepare_harmony.py",
+      "size": 3675,
+      "sha256": "b748fc928561cd109c24c8bc0e48636df778462b5ea8285b6f35298db685d735"
+    },
+    {
+      "path": "clients/flutter/tool/test_prepare_harmony.py",
+      "size": 2154,
+      "sha256": "bc97a5c33a69c3906ea79389b16dfdf63412f5ff04ace8dd7c6700b27351a58e"
+    },
+    {
+      "path": "clients/miniprogram/app.json",
+      "size": 382,
+      "sha256": "be5aaac05b461c20400109e05f0535ba24dc26ac97f7ef0ec87c0a0a11b708ee"
+    },
+    {
+      "path": "clients/miniprogram/小程序说明阅读版.html",
+      "size": 5000,
+      "sha256": "bfeb93e9df07e67333b4253c5ac2ae9ab54600e2c5102e5d28274a290fc44472"
+    },
+    {
+      "path": "clients/miniprogram/project.config.json",
+      "size": 319,
+      "sha256": "4b32378479552cd6ed78c39c6722122e3c44ac7320865829695e05a481744ab4"
+    },
+    {
+      "path": "clients/miniprogram/README.md",
+      "size": 3245,
+      "sha256": "10a7eb4a052539e3c0af06f1d38f0ee275ca40eaed0e9b8702f4df393790b22f"
+    },
+    {
+      "path": "clients/miniprogram/app.wxss",
+      "size": 1684,
+      "sha256": "7b2ea8b8ebfb57e433d46d2735534178149f3efa0225cb3a174fe88ed23e4714"
+    },
+    {
+      "path": "clients/miniprogram/sitemap.json",
+      "size": 45,
+      "sha256": "549f3524af2e86ba0ec6e11a5b979d327a5930c970ab3ba35da52fc9a5d692df"
+    },
+    {
+      "path": "clients/miniprogram/app.js",
+      "size": 104,
+      "sha256": "9151fc4d4717417a2b2ed8ab9aa9e5d65dcb6033a0385aa21a844ebb07ee711c"
+    },
+    {
+      "path": "clients/miniprogram/utils/format.js",
+      "size": 778,
+      "sha256": "e127c84c6224c3ce462fb1061c65214c7d0f815c5f8680b235264dc13e77c2a8"
+    },
+    {
+      "path": "clients/miniprogram/utils/api.js",
+      "size": 11708,
+      "sha256": "c07a6128d196c95bf7ff942948a1bdea0d5d1ec5e568a0e1c5b705fb7e680d20"
+    },
+    {
+      "path": "clients/miniprogram/pages/home/index.wxml",
+      "size": 1117,
+      "sha256": "de2b3efe11c47c642f93c332052ebba248828753a471e94c8ccd54bf77e46522"
+    },
+    {
+      "path": "clients/miniprogram/pages/home/index.js",
+      "size": 533,
+      "sha256": "4aa7fa484356f894ce9b860eb55773bb9bdb47f51cbcb0792d555f2142942a70"
+    },
+    {
+      "path": "clients/miniprogram/pages/workspace/index.wxml",
+      "size": 1192,
+      "sha256": "8e5fac26b934050962dd4f306b49368ae951b4d63fe31c569df13c16d2ce7b6c"
+    },
+    {
+      "path": "clients/miniprogram/pages/workspace/index.js",
+      "size": 1239,
+      "sha256": "f672917207fc7e9934c3fc8ebe9ab033a4394306f5af9795dc617f88211d66eb"
+    },
+    {
+      "path": "clients/miniprogram/pages/detail/index.wxml",
+      "size": 3997,
+      "sha256": "2bb0a2982e048596b254d96d944807d0cc3508aafb1ac8e0657d2061bdf8e720"
+    },
+    {
+      "path": "clients/miniprogram/pages/detail/index.js",
+      "size": 3115,
+      "sha256": "0a457af41fff9d61ac19404d403f0f08c210a00b4a86f7d30490f4da924c36e1"
+    },
+    {
+      "path": "clients/miniprogram/pages/create/index.wxml",
+      "size": 1931,
+      "sha256": "54a236d79dd1b87c2dd2c0918b6f072fbcbe4c1a8464ecaad0a27202f7fbfef1"
+    },
+    {
+      "path": "clients/miniprogram/pages/create/index.js",
+      "size": 1489,
+      "sha256": "e88e403f61aff6db648fe5a7370a631699d94f6cfe1f93ba5de0300ca56407b9"
+    },
+    {
+      "path": "clients/miniprogram/pages/login/index.wxml",
+      "size": 922,
+      "sha256": "f3f3b25609d16f527762cbef7508c90b6f1e6aa17f9a6bec85075dc7a917f3f6"
+    },
+    {
+      "path": "clients/miniprogram/pages/login/index.js",
+      "size": 1112,
+      "sha256": "e21d676d04f6470eff989b4ab202039cee895f455e0eaef94a8450705900cb02"
+    },
+    {
+      "path": "artifacts/ios/说明.txt",
+      "size": 244,
+      "sha256": "683ed8ebe4ca67e24ce6de0bbbbab0c1da0acf5b0bd5cf90c6e6eeb0b0a5eb9d"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/AppIcon60x60@2x.png",
+      "size": 987,
+      "sha256": "9d328d1d45f386375e28736159b4ffa53c4930e3962016dbf98b029a4e80121c"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Runner",
+      "size": 367040,
+      "sha256": "a39b506d89114fdb4f39244602637c86d4b9f9602d151ff734538d85edc93e75"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Assets.car",
+      "size": 66920,
+      "sha256": "9d850f193eb68716e682f485b11bdad92f42ea44d6793130f5890fa79dc12306"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/AppFrameworkInfo.plist",
+      "size": 347,
+      "sha256": "275c1f7273e185d2d65f8b447af25841e2be7fbdb3df89feb6324634f33ce317"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/AppIcon76x76@2x~ipad.png",
+      "size": 1362,
+      "sha256": "29a53a06908d2de7e2c0d4b50d967cc61acb33f76689c207e43f28e9724c3996"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Info.plist",
+      "size": 1856,
+      "sha256": "48be02c31624fbc17d8a0a8c467cc621c642a396eba75c87e2a32e8fc878841d"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/PkgInfo",
+      "size": 8,
+      "sha256": "82502191c9484b04d685374f9879a0066069c49b8acae7a04b01d38d07e8eca0"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/file_picker_darwin_file_picker_darwin.bundle/PrivacyInfo.xcprivacy",
+      "size": 325,
+      "sha256": "204d035a88eab2281b3d914f46c796766ae78e3cb82537711928dca9e28dbbb8"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/file_picker_darwin_file_picker_darwin.bundle/Info.plist",
+      "size": 726,
+      "sha256": "ad113650336d8a79a8be8be4744e1c4ffc500853368b3d42f1abb95a7253bbad"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Base.lproj/Main.storyboardc/UIViewController-BYZ-38-t0r.nib",
+      "size": 951,
+      "sha256": "cbdd28d89423b2c9beef2b27ce2c9608d30d6c6a9d2e7679f79a53814444e53f"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Base.lproj/Main.storyboardc/BYZ-38-t0r-view-8bC-Xf-vdC.nib",
+      "size": 1863,
+      "sha256": "a3bb094a3cc4ada29dce11898ae26fd164c9be5a2687a58560a8a048713e36c5"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Base.lproj/Main.storyboardc/Info.plist",
+      "size": 258,
+      "sha256": "3e9bdaa408d1eb6ae5e989b813a8644e0a4a981202c536905de52a7291e69aa4"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib",
+      "size": 2309,
+      "sha256": "a241c1e1652c6231e5c157a595dd9095ddee4b6243c6e6bdbe17fb27d63791ed"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Base.lproj/LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib",
+      "size": 924,
+      "sha256": "54f3637f671feba5f19e82ec4f4a7fb448bb3cfc0fb180f089aa571fc8f053e2"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Base.lproj/LaunchScreen.storyboardc/Info.plist",
+      "size": 258,
+      "sha256": "1f255d5cc53b531e3f29a9406a8df49a958e2bf9443d3e20bd8374f707f7d5c8"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/shared_preferences_foundation_shared_preferences_foundation.bundle/PrivacyInfo.xcprivacy",
+      "size": 598,
+      "sha256": "056428b938bd57018a60019d15c3c1ee2fa727f23687598bbbd934848b180b1a"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/shared_preferences_foundation_shared_preferences_foundation.bundle/Info.plist",
+      "size": 770,
+      "sha256": "6786d94d1ccee70b1bd9dde793875ad215125a5e4271810624c53fb5cd140077"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/objective_c.framework/objective_c",
+      "size": 185296,
+      "sha256": "a037691fc227a160a840cb975ad409b39bd9a4189557ff5dd31c2d2bfa340f1d"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/objective_c.framework/Info.plist",
+      "size": 791,
+      "sha256": "7896b09dbca92969d6c9b95d57fd87c2c18b2a65d0d9b5216166bfd669f372c8"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/objective_c.framework/_CodeSignature/CodeResources",
+      "size": 1798,
+      "sha256": "436838fb0c5317621b3e3f98c49720685f57e2a033c95d72e32549f859c2684a"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/icudtl.dat",
+      "size": 864880,
+      "sha256": "325a86063d26334c2eabe1743cea073b612540fbf3d8fc2ef0b5708e3763a8c7"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Flutter",
+      "size": 9414656,
+      "sha256": "87e53767d719605ea9a15b42d721deaac2e94f98b9e49061fba458c1540245d5"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/PrivacyInfo.xcprivacy",
+      "size": 845,
+      "sha256": "9f95d7e7862a4b56b66ed926bd6d622d2a6545a827d19847278b438d571d4212"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Info.plist",
+      "size": 1078,
+      "sha256": "47457f1a8356f88dc1b63ef9966a48806f3549afc26ee3c04f10ef2d0843ad95"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/_CodeSignature/CodeResources",
+      "size": 7070,
+      "sha256": "27d40776e47e23de156d9792dd628b9b4b7f51cb47e03c407e45a6fd7816a089"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/FlutterSceneDelegate.h",
+      "size": 893,
+      "sha256": "1bdbab65e137d7695d6b391e3ffeecbadd2dda103795f72ec47452b8b9a3fa06"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/FlutterEngine.h",
+      "size": 21724,
+      "sha256": "29528cda49a2619ac88f2a31be72b314af4e543918315dfaf11e5622c200742a"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/FlutterChannels.h",
+      "size": 18414,
+      "sha256": "920d7de42def64b88e9fc29e150532ec3a15b80f55643a6aa012d59fae2e19a2"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/FlutterPlugin.h",
+      "size": 19326,
+      "sha256": "349bc734c4eec7babf27b476f7c7a3bcfa01f4b0114bfbc7eae8ed9b09947838"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/FlutterAppDelegate.h",
+      "size": 2283,
+      "sha256": "ebf60356f3456e2054548d873f08674ea2cdb5d7518d7530a328b5e81d867ba3"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/FlutterTexture.h",
+      "size": 2263,
+      "sha256": "25ca4de1af6cbfac729e50f7462eb5d4de72f87a2ea545a9da1cab21707f23c6"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/FlutterEngineGroup.h",
+      "size": 4755,
+      "sha256": "4aacef231a815c427753d2c9df6842117b2b1f63f5ea0ba643e810c7a3dd95fe"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/FlutterPlatformViews.h",
+      "size": 1966,
+      "sha256": "d1a53db8ce90729ce6669b8560e6e3f5d1a51849132a8c0f304449410745d8fe"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/FlutterHeadlessDartRunner.h",
+      "size": 3927,
+      "sha256": "9e6663669bc5097af281fe14f5a3e4362f15708edc2f902d03e098e6e51620bd"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/FlutterCodecs.h",
+      "size": 15290,
+      "sha256": "672aa51d8b996e915ebd57a7cbd59d974ad51604bbb33232b2c4a20b269a7853"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/Flutter.h",
+      "size": 921,
+      "sha256": "c1f5b26a03d82c2451dbec13b8645bb56df3df3d80592f98171ba204e15d4a36"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/FlutterViewController.h",
+      "size": 10734,
+      "sha256": "e2336e4d76c2899c2aa71d253a64dd292183b3ebaba237681a95ce2bac09a9a5"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/FlutterMacros.h",
+      "size": 1823,
+      "sha256": "79b0551d265c52701b378851718ab7b6db7afbecf561b73c2954988554e80f99"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/FlutterDartProject.h",
+      "size": 3914,
+      "sha256": "53cabfd086edf6ae0ed8732c09d530213b49753c7c2e3865c7ed1a63cddf1fab"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/FlutterHourFormat.h",
+      "size": 536,
+      "sha256": "43848b1528212ffe441493f22e0ecf362f49ff1a645557f3ae8d15422407b6b6"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/FlutterPluginAppLifeCycleDelegate.h",
+      "size": 5318,
+      "sha256": "f8f327fb94838f655de9153c09022dfc9625dd3fbc0e1a7b1c89aa033a1ca0d9"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/FlutterBinaryMessenger.h",
+      "size": 3761,
+      "sha256": "1170e4e2dfbba82a724246abfaaf561ea63d6dc2bc7b2a210b0195b41261332f"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/FlutterCallbackCache.h",
+      "size": 1724,
+      "sha256": "d21f7ebcae4afabf26a13b221817ecebe4ccf50a20d3cf5a7c7032de06dcc035"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Headers/FlutterSceneLifeCycle.h",
+      "size": 8387,
+      "sha256": "b4d90b84efbe3ce2f8db38397e312fe7f0c97d0ad7bbca8763a24b6ebf2d2217"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/Flutter.framework/Modules/module.modulemap",
+      "size": 95,
+      "sha256": "d158eb891a59ec065968fff498c00f3093e18ba2e8301e0c857ccbe63db8b46b"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/App.framework/App",
+      "size": 6208768,
+      "sha256": "7b19e35018ebcf33f93d3f064ec2418800f31e9cc0c9150693981f12b3c4b307"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/App.framework/Info.plist",
+      "size": 754,
+      "sha256": "448bf45fc4afbdf5a384e44425f995ab5318901915a4f766809b44bed1b1930d"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/App.framework/_CodeSignature/CodeResources",
+      "size": 3618,
+      "sha256": "a33db9a92e1db8653101480e583e19d673311c37a0d76986cbf847f563263715"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/App.framework/flutter_assets/NOTICES.Z",
+      "size": 104706,
+      "sha256": "50866bf7d05a66d4267e941f48123769614fa874fa03ae9b4d68c7ea65a210ac"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/App.framework/flutter_assets/NativeAssetsManifest.json",
+      "size": 147,
+      "sha256": "625b2ddedce42e3d218ceb8869bc9119e8dea8650a6cb24ab779d5008055b141"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/App.framework/flutter_assets/FontManifest.json",
+      "size": 82,
+      "sha256": "28b1eb2b3d2e1ad60b8c8b0f9100b1ccbf492f7fa97f5bebb51ea97e73926e7d"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/App.framework/flutter_assets/AssetManifest.bin",
+      "size": 2,
+      "sha256": "f566cc6fccc657365c0197accf3a7d6f80f85209ff666ff774f4dcbc524aa842"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/App.framework/flutter_assets/shaders/ink_sparkle.frag",
+      "size": 4960,
+      "sha256": "62ce4ba6e34254371ffdfb8e0670afcc5314f4452edf5ee70afcf079f2ed7ea2"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/App.framework/flutter_assets/shaders/stretch_effect.frag",
+      "size": 4408,
+      "sha256": "21cdf2ecc9b113671fb228620d952ebae0f102a78a39a9df89b6ebdf6aec315a"
+    },
+    {
+      "path": "artifacts/ios/Runner.app/Frameworks/App.framework/flutter_assets/fonts/MaterialIcons-Regular.otf",
+      "size": 1636,
+      "sha256": "a865cb69318a2b48b04de70b711eb4d90e39b102c34424f1f22a953550869bc6"
+    },
+    {
+      "path": "contracts/api.json",
+      "size": 8541,
+      "sha256": "b70b36845d1bd490ea25723c67c38b893fae94feefd36d03fab41051501ee260"
+    },
+    {
+      "path": "tests/test_http.py",
+      "size": 12668,
+      "sha256": "b050aaecdd9892f9c3f858e74ce1f3d7656ca14abf56cdcac4b11473d68809d6"
+    },
+    {
+      "path": "tests/test_deploy.py",
+      "size": 7246,
+      "sha256": "e3c3c3572c565c571ddcca1790e446008e3dfea6cd64aada765adac67055e92f"
+    },
+    {
+      "path": "tests/test_mini.cjs",
+      "size": 5362,
+      "sha256": "5e03c7923db3efcb2cd022eb16b1144697506c1a3e02ab3952bc6263446bc1d2"
+    },
+    {
+      "path": "backend/后端说明阅读版.html",
+      "size": 17857,
+      "sha256": "d5c3e1ca021e0a148ee7b6c4791b6957053f64d312b81a783ea6d2ccc027638e"
+    },
+    {
+      "path": "backend/go.mod",
+      "size": 348,
+      "sha256": "ebb474889e9927c41d7eba458bfefe062c7393f351e423de9520442a57ac69fa"
+    },
+    {
+      "path": "backend/go.sum",
+      "size": 2782,
+      "sha256": "570c8bcc5d5bf443d4365d5957da44c044e0d24d3eff896ef73448023a07aed2"
+    },
+    {
+      "path": "backend/README.md",
+      "size": 13640,
+      "sha256": "0f33b91a8841aa40dce6f3ccce825619b75c89aab5287beb1d03457047024ec5"
+    },
+    {
+      "path": "backend/.env.example",
+      "size": 485,
+      "sha256": "d89465b74c75f322acce3ed37dd4c66bd65da9516b070798030d5ba08d31dcbd"
+    },
+    {
+      "path": "backend/admin-web/flutter_bootstrap.js",
+      "size": 13119,
+      "sha256": "ae8c27fb4c51fdc6bb938e456f9247da56dc2b06a4c8812cc1bad410bbd8a077"
+    },
+    {
+      "path": "backend/admin-web/version.json",
+      "size": 80,
+      "sha256": "d92feb669c659e07a3afdd29b2a44dfe76fc4fb5280de8c141f61721a71b92ea"
+    },
+    {
+      "path": "backend/admin-web/.last_build_id",
+      "size": 32,
+      "sha256": "d8995a6ee2b47bbcc32ecd46fa138b5ad900b66a9a51c5a4387c89eb492a42a7"
+    },
+    {
+      "path": "backend/admin-web/index.html",
+      "size": 1504,
+      "sha256": "1dfb0a8bba01a18f4d5282cbc60ec06cb981a4acfc4529506a672d3b764b4da0"
+    },
+    {
+      "path": "backend/admin-web/main.dart.js",
+      "size": 2744093,
+      "sha256": "e4fdec6fd0009a43482461463b514ee2086f8df5259fa9951536b4532fb9a134"
+    },
+    {
+      "path": "backend/admin-web/flutter.js",
+      "size": 12136,
+      "sha256": "2beb1ce6b159c71540aa66030af1d7964b6a92377cc78473745e02f97b74effe"
+    },
+    {
+      "path": "backend/admin-web/flutter_service_worker.js",
+      "size": 784,
+      "sha256": "a131df5ca46154cc4eb79044f7f5a14029c2f8bfccf8cef34e3ec3b5a9f5a88c"
+    },
+    {
+      "path": "backend/admin-web/favicon.png",
+      "size": 917,
+      "sha256": "7ab2525f4b86b65d3e4c70358a17e5a1aaf6f437f99cbcc046dad73d59bb9015"
+    },
+    {
+      "path": "backend/admin-web/manifest.json",
+      "size": 906,
+      "sha256": "0deecd24f2e022144f9c9f7a51f0e3e1e0aedda2dda6440c0f8f6f5def14d179"
+    },
+    {
+      "path": "backend/admin-web/icons/Icon-192.png",
+      "size": 5292,
+      "sha256": "3dce99077602f70421c1c6b2a240bc9b83d64d86681d45f2154143310c980be3"
+    },
+    {
+      "path": "backend/admin-web/icons/Icon-maskable-192.png",
+      "size": 5594,
+      "sha256": "d2c842e22a9f4ec9d996b23373a905c88d9a203b220c5c151885ad621f974b5c"
+    },
+    {
+      "path": "backend/admin-web/icons/Icon-maskable-512.png",
+      "size": 20998,
+      "sha256": "6aee06cdcab6b2aef74b1734c4778f4421d2da100b0ff9e52b21b55240202929"
+    },
+    {
+      "path": "backend/admin-web/icons/Icon-512.png",
+      "size": 8252,
+      "sha256": "baccb205ae45f0b421be1657259b4943ac40c95094ab877f3bcbe12cd544dcbe"
+    },
+    {
+      "path": "backend/admin-web/assets/NOTICES",
+      "size": 1337953,
+      "sha256": "6ac9d27734ae099b2282a686d5ca9739aeb22eb5f91800ae055a19d0d20cfd61"
+    },
+    {
+      "path": "backend/admin-web/assets/FontManifest.json",
+      "size": 158,
+      "sha256": "fc9ee87dd76174c0937f58e64b881d8a2c46968a386f9f9be60bc18b8a0bb0c6"
+    },
+    {
+      "path": "backend/admin-web/assets/AssetManifest.bin.json",
+      "size": 6,
+      "sha256": "937f7ce783516c54a2bd2007cf32b7dd921c477ddac5ffe8112c6131e43d80a3"
+    },
+    {
+      "path": "backend/admin-web/assets/AssetManifest.bin",
+      "size": 2,
+      "sha256": "f566cc6fccc657365c0197accf3a7d6f80f85209ff666ff774f4dcbc524aa842"
+    },
+    {
+      "path": "backend/admin-web/assets/shaders/ink_sparkle.frag",
+      "size": 8890,
+      "sha256": "2dca5ab93d4ec29e963f996f3916320ba60825e9537dfb149a68008c7a16b026"
+    },
+    {
+      "path": "backend/admin-web/assets/shaders/stretch_effect.frag",
+      "size": 6737,
+      "sha256": "ab412f07a5b9b50b67a885b24dbe16929738ae28630407d6490c924caf0a3220"
+    },
+    {
+      "path": "backend/admin-web/assets/fonts/MaterialIcons-Regular.otf",
+      "size": 7736,
+      "sha256": "d9bad7f2677571a9c5586bb96a9fd3769a1c7742771f0165f3f9d088df89c1e1"
+    },
+    {
+      "path": "backend/admin-web/assets/fonts/fallback/Roboto-Regular.ttf",
+      "size": 171676,
+      "sha256": "79e851404657dac2106b3d22ad256d47824a9a5765458edb72c9102a45816d95"
+    },
+    {
+      "path": "backend/admin-web/canvaskit/wimp.wasm",
+      "size": 3581677,
+      "sha256": "e924eaafd801d41e017d178f3fd5cf8a417f641fe35c9ed34a4e1d7582283e0c"
+    },
+    {
+      "path": "backend/admin-web/canvaskit/skwasm.js",
+      "size": 63537,
+      "sha256": "71d7d3e34bf71b52bdba3b588b103bba8148ba28de5754083e01b3398e7a6e1c"
+    },
+    {
+      "path": "backend/admin-web/canvaskit/skwasm_heavy.js",
+      "size": 63650,
+      "sha256": "cec554b46ddcf4c0e63d799e0556d546f42d2c3f69316fb4f67ed776f6104558"
+    },
+    {
+      "path": "backend/admin-web/canvaskit/skwasm.js.symbols",
+      "size": 1540006,
+      "sha256": "9137f1a3ae744dea575043abfc6e063a047e910e6dab1ee53e496c975d1c033e"
+    },
+    {
+      "path": "backend/admin-web/canvaskit/canvaskit.js.symbols",
+      "size": 1356926,
+      "sha256": "384f80b392972c83fd4f262527e3d06215a297d33ed59732c726721e9d9311bd"
+    },
+    {
+      "path": "backend/admin-web/canvaskit/skwasm_heavy.js.symbols",
+      "size": 1672152,
+      "sha256": "b6b79ed497e11d4cd13cc46724f9e289eacc744d2d185e31c72d595cdf62772b"
+    },
+    {
+      "path": "backend/admin-web/canvaskit/skwasm.wasm",
+      "size": 3593715,
+      "sha256": "e540fd5e8303b7b68ec2718cb49e9c421f8ade3075b15e02a7059a62654df9a1"
+    },
+    {
+      "path": "backend/admin-web/canvaskit/canvaskit.js",
+      "size": 86987,
+      "sha256": "bb559f6080c7d312ac2a912b4abec9f68ff3d3022d4a603c7796b9b31460642b"
+    },
+    {
+      "path": "backend/admin-web/canvaskit/wimp.js",
+      "size": 59127,
+      "sha256": "8fd8a47480c6eb0a374d159912d0b3fb15661b41f5c113ecdd39c2f01f2bee46"
+    },
+    {
+      "path": "backend/admin-web/canvaskit/canvaskit.wasm",
+      "size": 7284602,
+      "sha256": "fbed517a43e82452404446683f00f2e876d835aed84410695759e67b6bb01cd3"
+    },
+    {
+      "path": "backend/admin-web/canvaskit/wimp.js.symbols",
+      "size": 1813030,
+      "sha256": "b4907ebd33131302a8cd99f7c55f52357bdfde04f421b605a616ba8764ae1de4"
+    },
+    {
+      "path": "backend/admin-web/canvaskit/skwasm_heavy.wasm",
+      "size": 5216217,
+      "sha256": "565f5cc1cca6ab120f11934b105f01fec4b58b480c82e0889dca93af8e6f8635"
+    },
+    {
+      "path": "backend/admin-web/canvaskit/webparagraph/canvaskit.js.symbols",
+      "size": 963641,
+      "sha256": "44d6c47919106235cf32252252490cdf798d907ee874ba343ab53dc94bc2a9dc"
+    },
+    {
+      "path": "backend/admin-web/canvaskit/webparagraph/canvaskit.js",
+      "size": 76114,
+      "sha256": "3110e3e4d9b7b5657d336f253aaca8acca5777cde9319fb69ac302d6ff5a8b23"
+    },
+    {
+      "path": "backend/admin-web/canvaskit/webparagraph/canvaskit.wasm",
+      "size": 3729129,
+      "sha256": "0ce1b05082efdc8529550e8a01f6ff0593972d55525035010e26f5600aa9f254"
+    },
+    {
+      "path": "backend/admin-web/canvaskit/chromium/canvaskit.js.symbols",
+      "size": 1235870,
+      "sha256": "31c86fac6042dd8b756150832c1d15495d0d07742e2718f75dbdde5a5a91455e"
+    },
+    {
+      "path": "backend/admin-web/canvaskit/chromium/canvaskit.js",
+      "size": 86226,
+      "sha256": "6018b12bd8ed37e6952eee72d59c1cf7ad707ccdb74a0a45190010f77edd9068"
+    },
+    {
+      "path": "backend/admin-web/canvaskit/chromium/canvaskit.wasm",
+      "size": 5428806,
+      "sha256": "ae8ff1d858140f7b1300ced3fa89fb8c9dce0a400a0f4f1e11f6dcfb3315fdcf"
+    },
+    {
+      "path": "backend/cmd/server/main.go",
+      "size": 1641,
+      "sha256": "126b1220f194141c3acdc5f1cc8924f25cae0e6f3b04abcab6a474a2abbc2109"
+    },
+    {
+      "path": "backend/migrations/reference-requirements-v03.sql",
+      "size": 40335,
+      "sha256": "23f91c88007a306936e136e12b824652c042de3d5097c5a378e8b5d1db8d715f"
+    },
+    {
+      "path": "backend/migrations/README.md",
+      "size": 1452,
+      "sha256": "43e0bb92814eef5cabf64d0ee5d887df4641827bf797ad43314897cbbf44b15c"
+    },
+    {
+      "path": "backend/migrations/001_runtime.sql",
+      "size": 342,
+      "sha256": "fa50e9af4008f17e4611d51742a7af1ed2e6b03d674a2a913c5dd3837c233d7e"
+    },
+    {
+      "path": "backend/client-web/flutter_bootstrap.js",
+      "size": 13119,
+      "sha256": "8d9621cbc464b7e8f21a406ba03432616d6aff6cd9015d3e35dffd378dd76849"
+    },
+    {
+      "path": "backend/client-web/version.json",
+      "size": 80,
+      "sha256": "d92feb669c659e07a3afdd29b2a44dfe76fc4fb5280de8c141f61721a71b92ea"
+    },
+    {
+      "path": "backend/client-web/.last_build_id",
+      "size": 32,
+      "sha256": "b88b253be15913fe7cda68012fdcefe1ae23585d4fcc1ed26d322f8681f2e15f"
+    },
+    {
+      "path": "backend/client-web/index.html",
+      "size": 1505,
+      "sha256": "27a810c0186f63022075774fcb89ac2e2d7ed765844b2c357babf504de052274"
+    },
+    {
+      "path": "backend/client-web/main.dart.js",
+      "size": 2744035,
+      "sha256": "b1ba89bba45b2f8cdc6198293a82bb0cbc7bb1a2bce941b7fc78a6c87ea27ed7"
+    },
+    {
+      "path": "backend/client-web/flutter.js",
+      "size": 12136,
+      "sha256": "2beb1ce6b159c71540aa66030af1d7964b6a92377cc78473745e02f97b74effe"
+    },
+    {
+      "path": "backend/client-web/flutter_service_worker.js",
+      "size": 784,
+      "sha256": "a131df5ca46154cc4eb79044f7f5a14029c2f8bfccf8cef34e3ec3b5a9f5a88c"
+    },
+    {
+      "path": "backend/client-web/favicon.png",
+      "size": 917,
+      "sha256": "7ab2525f4b86b65d3e4c70358a17e5a1aaf6f437f99cbcc046dad73d59bb9015"
+    },
+    {
+      "path": "backend/client-web/manifest.json",
+      "size": 906,
+      "sha256": "0deecd24f2e022144f9c9f7a51f0e3e1e0aedda2dda6440c0f8f6f5def14d179"
+    },
+    {
+      "path": "backend/client-web/icons/Icon-192.png",
+      "size": 5292,
+      "sha256": "3dce99077602f70421c1c6b2a240bc9b83d64d86681d45f2154143310c980be3"
+    },
+    {
+      "path": "backend/client-web/icons/Icon-maskable-192.png",
+      "size": 5594,
+      "sha256": "d2c842e22a9f4ec9d996b23373a905c88d9a203b220c5c151885ad621f974b5c"
+    },
+    {
+      "path": "backend/client-web/icons/Icon-maskable-512.png",
+      "size": 20998,
+      "sha256": "6aee06cdcab6b2aef74b1734c4778f4421d2da100b0ff9e52b21b55240202929"
+    },
+    {
+      "path": "backend/client-web/icons/Icon-512.png",
+      "size": 8252,
+      "sha256": "baccb205ae45f0b421be1657259b4943ac40c95094ab877f3bcbe12cd544dcbe"
+    },
+    {
+      "path": "backend/client-web/assets/NOTICES",
+      "size": 1337953,
+      "sha256": "6ac9d27734ae099b2282a686d5ca9739aeb22eb5f91800ae055a19d0d20cfd61"
+    },
+    {
+      "path": "backend/client-web/assets/FontManifest.json",
+      "size": 158,
+      "sha256": "fc9ee87dd76174c0937f58e64b881d8a2c46968a386f9f9be60bc18b8a0bb0c6"
+    },
+    {
+      "path": "backend/client-web/assets/AssetManifest.bin.json",
+      "size": 6,
+      "sha256": "937f7ce783516c54a2bd2007cf32b7dd921c477ddac5ffe8112c6131e43d80a3"
+    },
+    {
+      "path": "backend/client-web/assets/AssetManifest.bin",
+      "size": 2,
+      "sha256": "f566cc6fccc657365c0197accf3a7d6f80f85209ff666ff774f4dcbc524aa842"
+    },
+    {
+      "path": "backend/client-web/assets/shaders/ink_sparkle.frag",
+      "size": 8890,
+      "sha256": "2dca5ab93d4ec29e963f996f3916320ba60825e9537dfb149a68008c7a16b026"
+    },
+    {
+      "path": "backend/client-web/assets/shaders/stretch_effect.frag",
+      "size": 6737,
+      "sha256": "ab412f07a5b9b50b67a885b24dbe16929738ae28630407d6490c924caf0a3220"
+    },
+    {
+      "path": "backend/client-web/assets/fonts/MaterialIcons-Regular.otf",
+      "size": 7736,
+      "sha256": "d9bad7f2677571a9c5586bb96a9fd3769a1c7742771f0165f3f9d088df89c1e1"
+    },
+    {
+      "path": "backend/client-web/assets/fonts/fallback/Roboto-Regular.ttf",
+      "size": 171676,
+      "sha256": "79e851404657dac2106b3d22ad256d47824a9a5765458edb72c9102a45816d95"
+    },
+    {
+      "path": "backend/client-web/canvaskit/wimp.wasm",
+      "size": 3581677,
+      "sha256": "e924eaafd801d41e017d178f3fd5cf8a417f641fe35c9ed34a4e1d7582283e0c"
+    },
+    {
+      "path": "backend/client-web/canvaskit/skwasm.js",
+      "size": 63537,
+      "sha256": "71d7d3e34bf71b52bdba3b588b103bba8148ba28de5754083e01b3398e7a6e1c"
+    },
+    {
+      "path": "backend/client-web/canvaskit/skwasm_heavy.js",
+      "size": 63650,
+      "sha256": "cec554b46ddcf4c0e63d799e0556d546f42d2c3f69316fb4f67ed776f6104558"
+    },
+    {
+      "path": "backend/client-web/canvaskit/skwasm.js.symbols",
+      "size": 1540006,
+      "sha256": "9137f1a3ae744dea575043abfc6e063a047e910e6dab1ee53e496c975d1c033e"
+    },
+    {
+      "path": "backend/client-web/canvaskit/canvaskit.js.symbols",
+      "size": 1356926,
+      "sha256": "384f80b392972c83fd4f262527e3d06215a297d33ed59732c726721e9d9311bd"
+    },
+    {
+      "path": "backend/client-web/canvaskit/skwasm_heavy.js.symbols",
+      "size": 1672152,
+      "sha256": "b6b79ed497e11d4cd13cc46724f9e289eacc744d2d185e31c72d595cdf62772b"
+    },
+    {
+      "path": "backend/client-web/canvaskit/skwasm.wasm",
+      "size": 3593715,
+      "sha256": "e540fd5e8303b7b68ec2718cb49e9c421f8ade3075b15e02a7059a62654df9a1"
+    },
+    {
+      "path": "backend/client-web/canvaskit/canvaskit.js",
+      "size": 86987,
+      "sha256": "bb559f6080c7d312ac2a912b4abec9f68ff3d3022d4a603c7796b9b31460642b"
+    },
+    {
+      "path": "backend/client-web/canvaskit/wimp.js",
+      "size": 59127,
+      "sha256": "8fd8a47480c6eb0a374d159912d0b3fb15661b41f5c113ecdd39c2f01f2bee46"
+    },
+    {
+      "path": "backend/client-web/canvaskit/canvaskit.wasm",
+      "size": 7284602,
+      "sha256": "fbed517a43e82452404446683f00f2e876d835aed84410695759e67b6bb01cd3"
+    },
+    {
+      "path": "backend/client-web/canvaskit/wimp.js.symbols",
+      "size": 1813030,
+      "sha256": "b4907ebd33131302a8cd99f7c55f52357bdfde04f421b605a616ba8764ae1de4"
+    },
+    {
+      "path": "backend/client-web/canvaskit/skwasm_heavy.wasm",
+      "size": 5216217,
+      "sha256": "565f5cc1cca6ab120f11934b105f01fec4b58b480c82e0889dca93af8e6f8635"
+    },
+    {
+      "path": "backend/client-web/canvaskit/webparagraph/canvaskit.js.symbols",
+      "size": 963641,
+      "sha256": "44d6c47919106235cf32252252490cdf798d907ee874ba343ab53dc94bc2a9dc"
+    },
+    {
+      "path": "backend/client-web/canvaskit/webparagraph/canvaskit.js",
+      "size": 76114,
+      "sha256": "3110e3e4d9b7b5657d336f253aaca8acca5777cde9319fb69ac302d6ff5a8b23"
+    },
+    {
+      "path": "backend/client-web/canvaskit/webparagraph/canvaskit.wasm",
+      "size": 3729129,
+      "sha256": "0ce1b05082efdc8529550e8a01f6ff0593972d55525035010e26f5600aa9f254"
+    },
+    {
+      "path": "backend/client-web/canvaskit/chromium/canvaskit.js.symbols",
+      "size": 1235870,
+      "sha256": "31c86fac6042dd8b756150832c1d15495d0d07742e2718f75dbdde5a5a91455e"
+    },
+    {
+      "path": "backend/client-web/canvaskit/chromium/canvaskit.js",
+      "size": 86226,
+      "sha256": "6018b12bd8ed37e6952eee72d59c1cf7ad707ccdb74a0a45190010f77edd9068"
+    },
+    {
+      "path": "backend/client-web/canvaskit/chromium/canvaskit.wasm",
+      "size": 5428806,
+      "sha256": "ae8ff1d858140f7b1300ced3fa89fb8c9dce0a400a0f4f1e11f6dcfb3315fdcf"
+    },
+    {
+      "path": "backend/deploy/部署说明阅读版.html",
+      "size": 10297,
+      "sha256": "02e2d9c30d7b60d1e7c9d8df5b29bd010bdf19808c7bb8f86d53ff57f746330f"
+    },
+    {
+      "path": "backend/deploy/README.md",
+      "size": 7881,
+      "sha256": "ea0ec2ccfde037501f4aa23e458e2bcf36b03a3f69448a99e2b4e0adfa54fc12"
+    },
+    {
+      "path": "backend/deploy/toolchains.json",
+      "size": 1843,
+      "sha256": "78a5be7356664aa7220b390084de7d4f5597c9253ec1f1214128076e8cee8954"
+    },
+    {
+      "path": "backend/deploy/Alpine/双击部署.desktop",
+      "size": 218,
+      "sha256": "07fcba2c72d1dfef7c14e1768c478969c3a0a688e9120098560a3447078a19e7"
+    },
+    {
+      "path": "backend/deploy/Alpine/README.md",
+      "size": 1046,
+      "sha256": "cab697e43012aac7224ece39bc4f390efa1491ffd351fb296bb6fb4f4baa8f91"
+    },
+    {
+      "path": "backend/deploy/Alpine/deploy.sh",
+      "size": 11260,
+      "sha256": "eccbf81d48d0964e03d247b9d64188c3fffb94e1f6dcc98a163b82f0c792cc9c"
+    },
+    {
+      "path": "backend/deploy/macOS/README.md",
+      "size": 1054,
+      "sha256": "0e96e21857be6748fccd7382de6d6f99dcf1e205d6d8d503191de6c4e8583a71"
+    },
+    {
+      "path": "backend/deploy/macOS/部署.command",
+      "size": 10373,
+      "sha256": "1acbba44fc390d79973a0b18835a88b00f7a5a10dba6ebee849d5c274789ee32"
+    },
+    {
+      "path": "backend/deploy/Debian/双击部署.desktop",
+      "size": 218,
+      "sha256": "7fd062ce3c3e280a410799e542b8642310219f34ca7bdf3169a309bae48285d7"
+    },
+    {
+      "path": "backend/deploy/Debian/README.md",
+      "size": 1046,
+      "sha256": "2e94d3cb5877843fd5d9c537bf6787fda54ec9c2f4a58d58fc069c3e50da1aa9"
+    },
+    {
+      "path": "backend/deploy/Debian/deploy.sh",
+      "size": 11306,
+      "sha256": "4a6f697db63695aafe12abaf26b0c222584d1888b7d0a7a11e1b179e3d496af5"
+    },
+    {
+      "path": "backend/deploy/RockyLinux/双击部署.desktop",
+      "size": 222,
+      "sha256": "a2eaadf361cd28ed360db87c2939ce9d8be4a9161ae64e5c7f732ac187feea0a"
+    },
+    {
+      "path": "backend/deploy/RockyLinux/README.md",
+      "size": 1054,
+      "sha256": "5cc0b56387ac7493ed112ad24815c53f367917eb8525609ed6fe7daf13d76ca3"
+    },
+    {
+      "path": "backend/deploy/RockyLinux/deploy.sh",
+      "size": 11269,
+      "sha256": "b7ff996c1e8cc153a8d82baeed8ee9f5ca6e6c85a7a1368deba55df7485a13b4"
+    },
+    {
+      "path": "backend/deploy/FreeBSD/README.md",
+      "size": 1048,
+      "sha256": "1d463c94198cf9257aa5a32c8d0a2e5475dbf36cb02c50d8286804bfc9534cb5"
+    },
+    {
+      "path": "backend/deploy/FreeBSD/deploy.sh",
+      "size": 10932,
+      "sha256": "21cf6e2b8b730d9709f9bbda9ed9dee3c8c05923c5371f6ae60d335477e5bcf0"
+    },
+    {
+      "path": "backend/deploy/AlibabaCloudLinux/双击部署.desktop",
+      "size": 229,
+      "sha256": "2bbccb05d71344aa920fc30276149c32cae337dca0604989733b6a0f24a18e63"
+    },
+    {
+      "path": "backend/deploy/AlibabaCloudLinux/README.md",
+      "size": 1068,
+      "sha256": "d8bd983fe85cb4e569fa0ba2988367964359672c3d9a6cd70ba006bb421d5f07"
+    },
+    {
+      "path": "backend/deploy/AlibabaCloudLinux/deploy.sh",
+      "size": 11284,
+      "sha256": "5e47f573b925057815be107e191f0ba692a67c0fc806b1d1a0476fc3846fc59d"
+    },
+    {
+      "path": "backend/deploy/Windows/部署.cmd",
+      "size": 192,
+      "sha256": "09028d0eff6754bb1e2ed64e58723450f810e05c7ec0455070906a4b07c662c8"
+    },
+    {
+      "path": "backend/deploy/Windows/README.md",
+      "size": 1050,
+      "sha256": "78f95d3a07a4daa4cd8d3219d63c10ab5ed7d6504f6cb3bf306896dec99eebad"
+    },
+    {
+      "path": "backend/deploy/Windows/deploy.ps1",
+      "size": 9586,
+      "sha256": "bab12f2989cd97fdbf0928fe95382bc2fbc7a0e32cc1b1a7c4a37c7cee2e4d45"
+    },
+    {
+      "path": "backend/deploy/Ubuntu/双击部署.desktop",
+      "size": 218,
+      "sha256": "19af6d96d7f824c3dc3e31337a939f74b2de0c0edd310363e14aeac686279c21"
+    },
+    {
+      "path": "backend/deploy/Ubuntu/README.md",
+      "size": 1046,
+      "sha256": "85393deed38c33833fcd6f7836b8b4ef7307b47ae5dca5e90d19d531a735f866"
+    },
+    {
+      "path": "backend/deploy/Ubuntu/deploy.sh",
+      "size": 11306,
+      "sha256": "acf809fa58644bb2a0656079543fde0283b5b1398621dd772b179c830d71653e"
+    },
+    {
+      "path": "backend/contracts/api.json",
+      "size": 8541,
+      "sha256": "b70b36845d1bd490ea25723c67c38b893fae94feefd36d03fab41051501ee260"
+    },
+    {
+      "path": "backend/internal/platform/store.go",
+      "size": 5661,
+      "sha256": "6b6854a0bb67999d000904517e254285bf9af9af729714ef07e1842a2a7a754b"
+    },
+    {
+      "path": "backend/internal/platform/http_test.go",
+      "size": 10576,
+      "sha256": "825eb8139a5fc666b449328a5c2f8e0f9690c4ab8c5ff030600b0e47e571bc37"
+    },
+    {
+      "path": "backend/internal/platform/engine_test.go",
+      "size": 22455,
+      "sha256": "5c2d4e48455ada8d257e4babe5f0265d10959e6f566d8bc68e5bdb9c46a1e9a5"
+    },
+    {
+      "path": "backend/internal/platform/http.go",
+      "size": 14834,
+      "sha256": "1571e84769773b115c94f4e82d5b717b46017831772d01dda713b70fc56271f8"
+    },
+    {
+      "path": "backend/internal/platform/engine.go",
+      "size": 31588,
+      "sha256": "0f6fc23cfd341c1bb48d50e577a7a983d2549c99755e569482e48192b691e1cd"
+    },
+    {
+      "path": "backend/internal/platform/model.go",
+      "size": 9230,
+      "sha256": "c42ae56cf1633897d7dd8d0d62494305eeb98e0e37d37f1dbaf8dfa14c6e3ab2"
+    },
+    {
+      "path": "backend/verification/regression-round-3.jsonl",
+      "size": 24488,
+      "sha256": "1e30eded9f3eeecaecd35c507d038deba3c8f18d3b0301564369bd18a1121497"
+    },
+    {
+      "path": "requirements/需求回归报告.md",
+      "size": 19335,
+      "sha256": "a3b944af0203d27bdbbc6899330f738da8b2806c0f0e40a9c26f784641eb28b6"
+    },
+    {
+      "path": "requirements/数据库设计阅读版.html",
+      "size": 111623,
+      "sha256": "ff70cf2dd8bc6a4fe91d430963658f6f799a1b1ab7b68afb099cc864d0e7f0ea"
+    },
+    {
+      "path": "requirements/先读我.txt",
+      "size": 730,
+      "sha256": "06b8fd9a8685d50f99aca10e4e0e2bf11234455c88c1405b9dd7d51bee35e493"
+    },
+    {
+      "path": "requirements/数据库结构.sql",
+      "size": 40335,
+      "sha256": "23f91c88007a306936e136e12b824652c042de3d5097c5a378e8b5d1db8d715f"
+    },
+    {
+      "path": "requirements/学术服务小程序需求分析.md",
+      "size": 60670,
+      "sha256": "b6410d84e4e1a6b1cfa506d36dfd64a75a40323f2b25e804ec334aa333ee8ae4"
+    },
+    {
+      "path": "requirements/数据库验证结果.json",
+      "size": 12868,
+      "sha256": "89301ebe1127ba73e43f60022ad94f68038b332c86fe27dfd43a76412a1a422a"
+    },
+    {
+      "path": "requirements/需求分析阅读版.html",
+      "size": 75714,
+      "sha256": "79836110cda6c8752b8f937424c9a839f2e374cb7caf9027d09154234ae98288"
+    },
+    {
+      "path": "requirements/数据库设计.md",
+      "size": 78055,
+      "sha256": "441aa5b2955c741646335c671a60ead9aaae26b0371b099e8cf72c7c5a4ecce2"
+    },
+    {
+      "path": "requirements/需求回归报告阅读版.html",
+      "size": 31178,
+      "sha256": "89a87621a3f251f12297f7a4f6f8383a6fec18280c1c686d03efd957d4a0654a"
+    },
+    {
+      "path": "requirements/阅读资源/mermaid.min.js",
+      "size": 5494801,
+      "sha256": "a8a6a6f805b074a8261a2825c86f99c8054acb3b35f50bb7e24a4f9f2c3c3b9f"
+    },
+    {
+      "path": "requirements/阅读资源/Mermaid-LICENSE.txt",
+      "size": 1089,
+      "sha256": "ec9fb67dcb25eccc416ed56e1aab819222c805a2a4bfe4cb19e7556bf2ffde80"
+    },
+    {
+      "path": "requirements/阅读资源/来源.txt",
+      "size": 218,
+      "sha256": "0f4c076d51f2af00ed12099bd7715645cf928b8876864a4863e8333a8c4c394a"
+    },
+    {
+      "path": "requirements/参考截图/02-服务总览.jpg",
+      "size": 527572,
+      "sha256": "c0464d98da367f0d3e5f981a18615408a66af36033e6bf7b96beaa1a974c6dc1"
+    },
+    {
+      "path": "requirements/参考截图/01-官网首页.jpg",
+      "size": 471075,
+      "sha256": "225087227fda6c0a4304e2e5991be49a49d21b2cfd14b7982d6dce2c799993d5"
+    },
+    {
+      "path": "docs/回归测试报告阅读版.html",
+      "size": 9293,
+      "sha256": "455bd08b9fc2d735e9928d039f4b6e879fe222a67ea393d876f6de02eb0a0e85"
+    },
+    {
+      "path": "docs/阅读与界面验证.json",
+      "size": 418,
+      "sha256": "8bec41d093e274400dc6f45f42f096184572aa94a8b702b99af876ca11ed55c4"
+    },
+    {
+      "path": "docs/链接校验.json",
+      "size": 79,
+      "sha256": "cb20ab74b908f1ff59adb8a36ad27835aea02a7731ff79ad361b3ee18fcf3a0f"
+    },
+    {
+      "path": "docs/技术方案阅读版.html",
+      "size": 12225,
+      "sha256": "78836dd68558f351b86bf7c95eb5d678b14f1ee6b66c9a137ff86c7a212a776c"
+    },
+    {
+      "path": "docs/源码统计.json",
+      "size": 9742,
+      "sha256": "079774e21d1096bb656934b0cf1ff61bfba284cfe6cb2afb8f55c8c6f8eb580f"
+    },
+    {
+      "path": "docs/回归测试报告.md",
+      "size": 6955,
+      "sha256": "6d9b902e26302bfa5dbf10aabe7e43ca9df0eb75b7d6c097375f1c132ec0859a"
+    },
+    {
+      "path": "docs/技术方案与实现范围.md",
+      "size": 9046,
+      "sha256": "c6e131429dd95b93df5f7ec57f13b54bcca36aac1c4f7cc9ba56480467077e38"
+    },
+    {
+      "path": "docs/交付状态.json",
+      "size": 857,
+      "sha256": "a80253deefcd92b76eefefbdf074d62ca267c7a72b83c684cd8d355348a935fb"
+    },
+    {
+      "path": "docs/screenshots/用户端首页.jpg",
+      "size": 61751,
+      "sha256": "5353f0e5bf7e741fa44dbe6d63445132a0313952adad5a340b27d492c95005cb"
+    },
+    {
+      "path": "docs/screenshots/用户端手机窗口.jpg",
+      "size": 35888,
+      "sha256": "a5c7272d535c8eeb129a408b232267b7c7e4f14d7ca56a7f5a5c8bf5437346b1"
+    },
+    {
+      "path": "docs/screenshots/后台报价与订单.jpg",
+      "size": 61457,
+      "sha256": "36c3a963979d79cc3ff867280092bc1fcb72bde50e050d2eaea2fe3cc617ec7e"
+    },
+    {
+      "path": "docs/verification/deploy-round4.log",
+      "size": 1319,
+      "sha256": "96e8e204a89610f43278a74c990c830b29309e0036bb89725c6ebf46fe104884"
+    },
+    {
+      "path": "docs/verification/deploy-round5.log",
+      "size": 2513,
+      "sha256": "5f772b0f0e820675102cdf94bc0d4f0f50519f9026279583ddedd9ed14d73718"
+    },
+    {
+      "path": "docs/verification/deploy-round6.log",
+      "size": 1545,
+      "sha256": "8e16057fe98c83651e35fc1f0d71a5743015eee35f0d7243177d945208d57667"
+    },
+    {
+      "path": "docs/verification/deploy-round2.log",
+      "size": 1038,
+      "sha256": "6e71b546fad588494e5f20a8e77109754d69a088640b8060a54e9e724d886dbd"
+    },
+    {
+      "path": "docs/verification/deploy-round3.log",
+      "size": 1319,
+      "sha256": "236c5481dfb0f9ec6b845d39ccedacb4c433231276d1a33e6cb6fa3d95ab94eb"
+    },
+    {
+      "path": "docs/verification/Mac部署冒烟.json",
+      "size": 655,
+      "sha256": "e8459f20331de82a7ef04c66fb80805840cdb5a98783eef050895aa681126808"
+    },
+    {
+      "path": "docs/verification/deploy-round1.log",
+      "size": 1038,
+      "sha256": "9320797c0ddaa172832ef766957d51c1fdc235c6e00209bcd08dbac9641b1840"
+    },
+    {
+      "path": "docs/verification/Mac迁移部署最终.log",
+      "size": 1119,
+      "sha256": "c19bc2393e44a738d91eeda561ba7209e858446901ab6061a3f2e30423795086"
+    },
+    {
+      "path": "docs/verification/http-round4.log",
+      "size": 1613,
+      "sha256": "f17fa0bd754e9a3e8d748486c015b82e2a686519adafd7732a1f3c0c4036b628"
+    },
+    {
+      "path": "docs/verification/配置链接修复复测.json",
+      "size": 372,
+      "sha256": "bd7644cdc89a1a0071adcbdc98819e714858edad68d09c2f07c4ee6acd4179dc"
+    },
+    {
+      "path": "docs/verification/http-round2.log",
+      "size": 25964,
+      "sha256": "ffb75a60096dddf488b28ff44425370c56a088292af1735c640def8203c6a594"
+    },
+    {
+      "path": "docs/verification/http-round3.log",
+      "size": 1613,
+      "sha256": "a1c3061408391294114c65ed74040ddfdabe88ba03dbf8201f6def5d0bfaffa7"
+    },
+    {
+      "path": "docs/verification/http-round1.log",
+      "size": 18324,
+      "sha256": "bf53ae9ccfe72f2e7c3688840359845f01e0250c3728c9247ebb6cb1ebc091e3"
+    },
+    {
+      "path": "docs/verification/cross-build.log",
+      "size": 723,
+      "sha256": "7f94901a7c6e5a28b5538271ee4cb013bbcebcebd8cc91de1969076460596be5"
+    },
+    {
+      "path": "docs/verification/mini-round4.log",
+      "size": 1158,
+      "sha256": "aec405a03c883bb4bbb9ea513f2cfbdbdd65861c53d685b68f1ab0fa911b5e59"
+    },
+    {
+      "path": "docs/verification/mini-round3.log",
+      "size": 846,
+      "sha256": "b81e9aba667eb7e10bda434a4f58cccb5a4dd1cc68d7dbeb8e1d4720f04c1b20"
+    },
+    {
+      "path": "docs/verification/mini-round2.log",
+      "size": 846,
+      "sha256": "b9f39955c4d70d110656357622aaf37564a1617b566d5d03e20aa40940a7499c"
+    },
+    {
+      "path": "docs/verification/交叉编译结果.json",
+      "size": 1170,
+      "sha256": "df70c7a2d4e740a01136fe1b6ad87070f61bd991d007e09994cae451ee4807df"
+    }
+  ],
+  "excluded": "SDK/dependency/build caches, local runtime state and passwords, generated developer-machine SDK paths; source, distributable apps, Web builds, tests and logs retained"
+}

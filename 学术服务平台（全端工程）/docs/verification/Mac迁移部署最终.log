@@ -1,0 +1,12 @@
+来源｜Go依赖｜https://goproxy.cn|https://proxy.golang.org|direct｜版本按go.mod/go.sum锁定｜缓存 /Users/jobs/Documents/Codex/2026-10-30/www-keyan-asia/work/部署迁移 夹具/backend/.tools/gomodcache
+构建｜go version go1.27.3 darwin/arm64｜/Users/jobs/Documents/Codex/2026-10-30/www-keyan-asia/work/部署迁移 夹具/backend
+go: downloading github.com/jackc/pgx/v5 v5.11.0
+go: downloading github.com/jackc/puddle/v2 v2.2.3
+go: downloading golang.org/x/text v0.43.0
+go: downloading github.com/jackc/pgpassfile v1.0.0
+go: downloading github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761
+go: downloading golang.org/x/sync v0.24.0
+编译通过。
+启动｜监听 127.0.0.1:8181｜管理端 /admin/｜Ctrl+C停止；运行日志 /Users/jobs/Documents/Codex/2026-10-30/www-keyan-asia/work/部署迁移 夹具/backend/.runtime/logs/deploy-20261030-183641.log
+管理端静态文件缺失；API仍可运行，请按说明先构建Flutter管理端。
+2026/10/30 18:36:59 INFO academic service ready listen=127.0.0.1:8181 environment=production storage_postgres=false payment_mode=manual_ledger

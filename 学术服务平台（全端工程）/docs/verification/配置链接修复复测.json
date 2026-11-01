@@ -1,0 +1,16 @@
+[
+  {
+    "platform": "macOS",
+    "exit": 1,
+    "external_target_written": false,
+    "rejected_link": true,
+    "stdout": "失败：拒绝读取或写入符号链接配置。\n"
+  },
+  {
+    "platform": "Ubuntu",
+    "exit": 1,
+    "external_target_written": false,
+    "rejected_link": true,
+    "stdout": "失败：拒绝读取或写入符号链接配置。\n"
+  }
+]

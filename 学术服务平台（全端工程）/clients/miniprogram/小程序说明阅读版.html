@@ -1,0 +1,17 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>微信小程序入口</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f7f8f3;color:#1b322a;font:16px/1.85 system-ui,sans-serif}main{max-width:1120px;margin:auto;padding:40px 28px}header{padding:28px 0}h1{font-size:42px;line-height:1.3}h2{margin-top:56px;border-top:1px solid #d8dfd4;padding-top:28px}h3{margin-top:32px}nav{display:flex;flex-wrap:wrap;gap:10px 24px;padding:20px;background:#e6eee3;border-radius:16px}a{color:#176347}nav a{text-decoration:none;font-size:14px}table{border-collapse:collapse;display:block;overflow:auto;max-width:100%;background:#fff;font-size:14px}td,th{padding:12px 16px;border:1px solid #d5dfd2;text-align:left;min-width:90px}th{background:#e6eee3}pre{overflow:auto;background:#e9eee5;padding:20px;border-radius:12px;line-height:1.6}code{font-family:ui-monospace,monospace}p code,li code{background:#e9eee5;padding:2px 5px;border-radius:4px;overflow-wrap:anywhere}img,svg{max-width:100%}.mermaid{background:#fff}blockquote{border-left:3px solid #38755b;padding-left:20px}li{margin:6px 0}footer{margin-top:50px;border-top:1px solid #d8dfd4;padding:20px;font-size:13px;color:#47614d}@media(max-width:620px){main{padding:24px 16px}h1{font-size:32px}h2{font-size:23px}table{font-size:13px}}@media print{nav{display:none}body{background:#fff}}</style><main id="top"><header><small>知序 / 全端工程 / 2026.10.30</small><h1>微信小程序入口</h1><nav><a href="#前言">前言</a><a href="#section-1">一、打开和连接</a><a href="#section-2">二、业务和恢复</a><a href="#section-3">三、验证与限制</a></nav></header><hr>
+<h2>🔥 <span id="前言">前言</span></h2>
+<p>原需求的小程序入口保留。使用 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/"><strong>微信小程序</strong></a> 原生WXML/WXSS/JavaScript，零第三方运行依赖。和其它客户端共用Go API，覆盖三服务浏览、登录、提交、需求详情、报价确认、文件、消息、交付反馈/验收、取消结算确认与售后。</p>
+<h2><span id="section-1">一、打开和连接</span></h2>
+<p>微信开发者工具导入本目录。<code>project.config.json</code> 使用 <code>touristappid</code> 便于开发预览，基础库 <code>latest</code> 由开发者工具解析；本机尚未运行开发者工具验证具体基础库版本。正式发布填写自己的AppID，使用最新稳定开发者工具，并在管理后台配置API的HTTPS合法域名。</p>
+<p>“账户与连接”中填写完整API地址。本机工具可连接 <code>http://127.0.0.1:8080/api/v1</code>；真机必须使用可访问的HTTPS服务器域名，不能用电脑的loopback地址。开发账户按钮会尝试真实customer演示账户，密码被正式配置替换后须手动输入自己的密码。</p>
+<h2><span id="section-2">二、业务和恢复</span></h2>
+<p>游客可读三服务，提交前登录。毕业论文要求专业/学历，普刊要求专业，编译要求语种，所有需求要求标题、说明与处理授权。附件从聊天文件选择，每次上传新文件，服务端限制8MB。通过授权下载接口预览文件，当前格式无法打开时提示改用桌面下载。</p>
+<p>读失败回退隔离演示，真实空列表不填假数据。401撤销会话并清私有缓存；403/409/422显示真实拒绝。未知真实写入保留原键与正文、阻止重复写，列表提供核对入口；404尚未找到收据不视为在途请求已经失败。本地待核对资料按API地址与账户分开保存，不保存密码/会话Token；设备使用者仍应保护应用存储。</p>
+<p>离线演示仅支持新建、留言、补说明与撤回，复杂资金及正式文件动作须连接后端。样例不自动上传。全量管理动作由Flutter管理后台提供，小程序不作为管理员入口。</p>
+<h2><span id="section-3">三、验证与限制</span></h2>
+<p>仓库逻辑可在工程根运行：</p>
+<pre><code class="language-shell">node --test tests/test_mini.cjs
+</code></pre>
+<p>包含空结果、网络恢复、鉴权清缓存、真实未知写入核对、换号迟到响应等保护。WXML/JS的自动检查不等于微信开发者工具编译或真机验收；当前未做微信登录、手机号授权、在线支付、订阅消息或平台提审。所选基础库及iOS/Android微信真机需要继续验证。</p>
+<p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
+<footer>可编辑原稿：clients/miniprogram/README.md。本阅读版使用随包资源，无外部渲染器依赖。</footer></main><script src="../../requirements/阅读资源/mermaid.min.js"></script><script>mermaid.initialize({startOnLoad:true,securityLevel:"strict",theme:"neutral",flowchart:{htmlLabels:false,useMaxWidth:true}})</script></html>

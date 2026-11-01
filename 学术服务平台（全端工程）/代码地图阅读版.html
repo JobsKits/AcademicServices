@@ -1,0 +1,89 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>代码地图</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f7f8f3;color:#1b322a;font:16px/1.85 system-ui,sans-serif}main{max-width:1120px;margin:auto;padding:40px 28px}header{padding:28px 0}h1{font-size:42px;line-height:1.3}h2{margin-top:56px;border-top:1px solid #d8dfd4;padding-top:28px}h3{margin-top:32px}nav{display:flex;flex-wrap:wrap;gap:10px 24px;padding:20px;background:#e6eee3;border-radius:16px}a{color:#176347}nav a{text-decoration:none;font-size:14px}table{border-collapse:collapse;display:block;overflow:auto;max-width:100%;background:#fff;font-size:14px}td,th{padding:12px 16px;border:1px solid #d5dfd2;text-align:left;min-width:90px}th{background:#e6eee3}pre{overflow:auto;background:#e9eee5;padding:20px;border-radius:12px;line-height:1.6}code{font-family:ui-monospace,monospace}p code,li code{background:#e9eee5;padding:2px 5px;border-radius:4px;overflow-wrap:anywhere}img,svg{max-width:100%}.mermaid{background:#fff}blockquote{border-left:3px solid #38755b;padding-left:20px}li{margin:6px 0}footer{margin-top:50px;border-top:1px solid #d8dfd4;padding:20px;font-size:13px;color:#47614d}@media(max-width:620px){main{padding:24px 16px}h1{font-size:32px}h2{font-size:23px}table{font-size:13px}}@media print{nav{display:none}body{background:#fff}}</style><main id="top"><header><small>知序 / 全端工程 / 2026.10.30</small><h1>代码地图</h1><nav><a href="#前言">前言</a><a href="#section-1">一、业务后端</a><a href="#section-2">二、用户端和后台</a><a href="#section-3">三、部署与验证</a></nav></header><hr>
+<h2>🔥 <span id="前言">前言</span></h2>
+<p>源码定位入口，按职责读文件，不依赖本机路径或额外索引服务。</p>
+<h2><span id="section-1">一、业务后端</span></h2>
+<table>
+<thead>
+<tr>
+<th>路径</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>backend/cmd/server/main.go</code></td>
+<td>配置、存储启动、HTTP服务、优雅退出</td>
+</tr>
+<tr>
+<td><code>backend/internal/platform/http.go</code></td>
+<td>登录/会话/限流/CORS、接口与静态SPA/私有附件</td>
+</tr>
+<tr>
+<td><code>backend/internal/platform/engine.go</code></td>
+<td>需求、报价、订单、退款、交付、修改、取消及售后原子动作</td>
+</tr>
+<tr>
+<td><code>backend/internal/platform/model.go</code></td>
+<td>领域类型、快照、公开视图、状态汇总</td>
+</tr>
+<tr>
+<td><code>backend/internal/platform/store.go</code></td>
+<td>文件原子替换与实例锁、PG聚合事务</td>
+</tr>
+<tr>
+<td><code>backend/internal/platform/engine_test.go</code></td>
+<td>状态、资金、并发、存储与HTTP保护</td>
+</tr>
+</tbody></table>
+<h2><span id="section-2">二、用户端和后台</span></h2>
+<table>
+<thead>
+<tr>
+<th>路径</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>clients/flutter/lib/main.dart</code> / <code>main_admin.dart</code></td>
+<td>用户/管理员两个入口</td>
+</tr>
+<tr>
+<td><code>clients/flutter/lib/data/repository.dart</code></td>
+<td>API、身份、样例隔离、未知提交与原键核对</td>
+</tr>
+<tr>
+<td><code>clients/flutter/lib/ui/app.dart</code> / <code>actions.dart</code></td>
+<td>响应式页面与角色/阶段动作表单</td>
+</tr>
+<tr>
+<td><code>clients/flutter/lib/ui/theme.dart</code></td>
+<td>主副文字、背景与主题</td>
+</tr>
+<tr>
+<td><code>clients/flutter/harmony/entry/src/main/ets/pages/Index.ets</code></td>
+<td>鸿蒙HTTPS Web宿主与失败重试</td>
+</tr>
+<tr>
+<td><code>clients/desktop/zhixu/src/zhixu/app.py</code></td>
+<td>Python图形界面</td>
+</tr>
+<tr>
+<td><code>clients/desktop/zhixu/src/zhixu/repository.py</code></td>
+<td>同一后端的HTTP与演示/未知结果保护</td>
+</tr>
+<tr>
+<td><code>clients/desktop/zhixu/scripts</code></td>
+<td>环境准备、本机打包与冻结包验证</td>
+</tr>
+<tr>
+<td><code>clients/miniprogram/utils/api.js</code></td>
+<td>小程序HTTP及会话/幂等保护</td>
+</tr>
+<tr>
+<td><code>clients/miniprogram/pages</code></td>
+<td>首页、登录、新建、列表、详情5页</td>
+</tr>
+</tbody></table>
+<h2><span id="section-3">三、部署与验证</span></h2>
+<p><code>backend/deploy</code> 每系统一个完整入口，脚本按自身位置解析backend；<code>contracts/api.json</code>是共用合同，backend有副本便于单独搬走。<code>tests/test_http.py</code>通过真实子进程跑整单；<code>test_deploy.py</code>检查脚本与隔离夹具；<code>test_mini.cjs</code>验证小程序仓库。每端自己的测试与日志在模块README中有入口。</p>
+<p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
+<footer>可编辑原稿：代码地图.md。本阅读版使用随包资源，无外部渲染器依赖。</footer></main><script src="requirements/阅读资源/mermaid.min.js"></script><script>mermaid.initialize({startOnLoad:true,securityLevel:"strict",theme:"neutral",flowchart:{htmlLabels:false,useMaxWidth:true}})</script></html>

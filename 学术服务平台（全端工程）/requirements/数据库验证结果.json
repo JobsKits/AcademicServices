@@ -1,0 +1,475 @@
+{
+  "version": "V0.3",
+  "date": "2026-10-30 Asia/Shanghai",
+  "engine": "PostgreSQL 18.6 (PGlite 0.5.13) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.5 (1db513782be24469589d7cb8a1f1834e9a33f271), 32-bit",
+  "inputSqlSha256": "23f91c88007a306936e136e12b824652c042de3d5097c5a378e8b5d1db8d715f",
+  "tables": 29,
+  "columns": 315,
+  "total": 57,
+  "passed": 57,
+  "failed": 0,
+  "results": [
+    {
+      "id": "DDL",
+      "name": "完整建表事务在全新隔离空库执行",
+      "kind": "ddl",
+      "status": "passed",
+      "expected": "29 tables",
+      "actual": "29 tables"
+    },
+    {
+      "id": "DB01",
+      "name": "初始化分类恰好三项",
+      "kind": "positive",
+      "status": "passed",
+      "expected": "accepted",
+      "actual": "accepted"
+    },
+    {
+      "id": "DB02",
+      "name": "拒绝第四种服务分类",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23514",
+      "actual": "SQLSTATE 23514"
+    },
+    {
+      "id": "DB03",
+      "name": "同账号稳定提交键不可重复",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23505",
+      "actual": "SQLSTATE 23505"
+    },
+    {
+      "id": "DB04",
+      "name": "响应缓存清理后仍可按业务提交键定位原需求",
+      "kind": "positive",
+      "status": "passed",
+      "expected": "accepted",
+      "actual": "accepted"
+    },
+    {
+      "id": "DB05",
+      "name": "关闭需求缺少原因NULL被拒",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23514",
+      "actual": "SQLSTATE 23514"
+    },
+    {
+      "id": "DB06",
+      "name": "修改当前报价不能指向其他需求",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23503",
+      "actual": "SQLSTATE 23503"
+    },
+    {
+      "id": "DB07",
+      "name": "需求材料版本拒绝他人归属",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23503",
+      "actual": "SQLSTATE 23503"
+    },
+    {
+      "id": "DB08",
+      "name": "材料版本与子服务复合关联",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23503",
+      "actual": "SQLSTATE 23503"
+    },
+    {
+      "id": "DB09",
+      "name": "正式报价拒绝其他子服务版本",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23503",
+      "actual": "SQLSTATE 23503"
+    },
+    {
+      "id": "DB10",
+      "name": "正式报价分类必须匹配需求",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23503",
+      "actual": "SQLSTATE 23503"
+    },
+    {
+      "id": "DB11",
+      "name": "同需求只有一个offered报价",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23505",
+      "actual": "SQLSTATE 23505"
+    },
+    {
+      "id": "DB12",
+      "name": "一需求不可重复接受报价",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23505",
+      "actual": "SQLSTATE 23505"
+    },
+    {
+      "id": "DB13",
+      "name": "接受报价不能串用客户",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23503",
+      "actual": "SQLSTATE 23503"
+    },
+    {
+      "id": "DB14",
+      "name": "一需求不可建立两笔服务订单",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23505",
+      "actual": "SQLSTATE 23505"
+    },
+    {
+      "id": "DB15",
+      "name": "订单币种与接受凭据必须一致",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23503",
+      "actual": "SQLSTATE 23503"
+    },
+    {
+      "id": "DB16",
+      "name": "负金额被拒",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23514",
+      "actual": "SQLSTATE 23514"
+    },
+    {
+      "id": "DB17",
+      "name": "启动付款阈值不能超过应收",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23514",
+      "actual": "SQLSTATE 23514"
+    },
+    {
+      "id": "DB18",
+      "name": "完成订单必须记录完成时刻",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23514",
+      "actual": "SQLSTATE 23514"
+    },
+    {
+      "id": "DB19",
+      "name": "同一私有文件对象不可重复登记",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23505",
+      "actual": "SQLSTATE 23505"
+    },
+    {
+      "id": "DB20",
+      "name": "附件绑定不能跨用户或需求",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23503",
+      "actual": "SQLSTATE 23503"
+    },
+    {
+      "id": "DB21",
+      "name": "附件宿主必须恰好一个",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23514",
+      "actual": "SQLSTATE 23514"
+    },
+    {
+      "id": "DB22",
+      "name": "合法同需求附件绑定成功",
+      "kind": "positive",
+      "status": "passed",
+      "expected": "accepted",
+      "actual": "accepted"
+    },
+    {
+      "id": "DB23",
+      "name": "售后交付不能缺少售后任务",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23514",
+      "actual": "SQLSTATE 23514"
+    },
+    {
+      "id": "DB24",
+      "name": "售后交付必须匹配本订单",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23503",
+      "actual": "SQLSTATE 23503"
+    },
+    {
+      "id": "DB25",
+      "name": "修改反馈必须有非空说明",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23514",
+      "actual": "SQLSTATE 23514"
+    },
+    {
+      "id": "DB26",
+      "name": "反馈作者必须是订单本人",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23503",
+      "actual": "SQLSTATE 23503"
+    },
+    {
+      "id": "DB27",
+      "name": "反馈交付版本不得来自其他订单",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23503",
+      "actual": "SQLSTATE 23503"
+    },
+    {
+      "id": "DB28",
+      "name": "普刊更正只能指向同一订单",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23503",
+      "actual": "SQLSTATE 23503"
+    },
+    {
+      "id": "DB29",
+      "name": "人工到账必须有核验人和证据",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23514",
+      "actual": "SQLSTATE 23514"
+    },
+    {
+      "id": "DB30",
+      "name": "人工到账必须有稳定凭据标识",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23514",
+      "actual": "SQLSTATE 23514"
+    },
+    {
+      "id": "DB31",
+      "name": "同渠道同商户交易结果去重",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23505",
+      "actual": "SQLSTATE 23505"
+    },
+    {
+      "id": "DB32",
+      "name": "收款币种必须匹配服务订单",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23503",
+      "actual": "SQLSTATE 23503"
+    },
+    {
+      "id": "DB33",
+      "name": "退款必须关联原订单收款",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23503",
+      "actual": "SQLSTATE 23503"
+    },
+    {
+      "id": "DB34",
+      "name": "退款必须匹配原渠道商户",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23503",
+      "actual": "SQLSTATE 23503"
+    },
+    {
+      "id": "DB35",
+      "name": "退款成功必须有实际结果说明",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23514",
+      "actual": "SQLSTATE 23514"
+    },
+    {
+      "id": "DB36",
+      "name": "同渠道商户退款结果去重",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23505",
+      "actual": "SQLSTATE 23505"
+    },
+    {
+      "id": "DB37",
+      "name": "渠道事件不能引用人工收款",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23503",
+      "actual": "SQLSTATE 23503"
+    },
+    {
+      "id": "DB38",
+      "name": "渠道事件不能跨商户引用收款",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23503",
+      "actual": "SQLSTATE 23503"
+    },
+    {
+      "id": "DB39",
+      "name": "相同渠道事件重复投递被唯一约束拦截",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23505",
+      "actual": "SQLSTATE 23505"
+    },
+    {
+      "id": "DB40",
+      "name": "未经核验的渠道事件不能标已处理",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23514",
+      "actual": "SQLSTATE 23514"
+    },
+    {
+      "id": "DB41",
+      "name": "同一事件接收人渠道只生成一通知任务",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23505",
+      "actual": "SQLSTATE 23505"
+    },
+    {
+      "id": "DB42",
+      "name": "发送成功必须记录确认时刻",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23514",
+      "actual": "SQLSTATE 23514"
+    },
+    {
+      "id": "DB43",
+      "name": "活跃订单员工授权不可重复",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23505",
+      "actual": "SQLSTATE 23505"
+    },
+    {
+      "id": "DB44",
+      "name": "幂等记录按操作者动作请求键唯一",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23505",
+      "actual": "SQLSTATE 23505"
+    },
+    {
+      "id": "DB45",
+      "name": "其他账号可使用相同客户端请求键而不串结果",
+      "kind": "positive",
+      "status": "passed",
+      "expected": "accepted",
+      "actual": "accepted"
+    },
+    {
+      "id": "DB46",
+      "name": "退款占额事务示例拒绝累计超实收",
+      "kind": "transaction_example",
+      "status": "passed",
+      "expected": "accepted",
+      "actual": "accepted"
+    },
+    {
+      "id": "DB47",
+      "name": "失败退款释放占额后可以重新批准",
+      "kind": "transaction_example",
+      "status": "passed",
+      "expected": "accepted",
+      "actual": "accepted"
+    },
+    {
+      "id": "DB48",
+      "name": "业务与待发送通知回滚时均不残留",
+      "kind": "transaction_example",
+      "status": "passed",
+      "expected": "accepted",
+      "actual": "accepted"
+    },
+    {
+      "id": "DB49",
+      "name": "未知收款可持久化且不伪装成功或失败",
+      "kind": "positive",
+      "status": "passed",
+      "expected": "accepted",
+      "actual": "accepted"
+    },
+    {
+      "id": "DB50",
+      "name": "未知退款必须保留批准依据",
+      "kind": "constraint",
+      "status": "passed",
+      "expected": "SQLSTATE 23514",
+      "actual": "SQLSTATE 23514"
+    },
+    {
+      "id": "DB51",
+      "name": "并行售后按各自任务取最新正式交付",
+      "kind": "projection_example",
+      "status": "passed",
+      "expected": "accepted",
+      "actual": "accepted"
+    },
+    {
+      "id": "DB52",
+      "name": "新草稿不取代同组既有正式交付",
+      "kind": "projection_example",
+      "status": "passed",
+      "expected": "accepted",
+      "actual": "accepted"
+    },
+    {
+      "id": "DB53",
+      "name": "多个暂停原因全部解除才恢复的事件投影",
+      "kind": "projection_example",
+      "status": "passed",
+      "expected": "accepted",
+      "actual": "accepted"
+    },
+    {
+      "id": "DB54",
+      "name": "修改轮次投影不按反馈或补充条数重复扣次",
+      "kind": "projection_example",
+      "status": "passed",
+      "expected": "accepted",
+      "actual": "accepted"
+    },
+    {
+      "id": "DB55",
+      "name": "取消结算保留原价并按最终应收计算差额",
+      "kind": "transaction_example",
+      "status": "passed",
+      "expected": "accepted",
+      "actual": "accepted"
+    },
+    {
+      "id": "DB56",
+      "name": "历史退款不重复计算应退差额",
+      "kind": "projection_example",
+      "status": "passed",
+      "expected": "accepted",
+      "actual": "accepted"
+    }
+  ],
+  "limits": [
+    "单连接隔离引擎，不证明原生多连接竞争、死锁与隔离级别",
+    "事务示例是设计探针，不是已实现业务API",
+    "外键不证明用户访问授权，未验证真实文件、渠道或生产环境",
+    "版本及交付不可覆盖由服务事务与数据库权限合同负责，本DDL未提供完整触发器"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "checked_at": "2026-10-30",
+  "platform": "macOS arm64",
+  "scope": "Relocated full backend source fixture at Unicode path with spaces; launched from unrelated /tmp cwd",
+  "configuration_created": true,
+  "config_mode": "0600",
+  "production_health": {
+    "environment": "production",
+    "status": "ok",
+    "payment_mode": "manual_ledger"
+  },
+  "config_reused_on_second_start": true,
+  "ctrl_c_exit": 130,
+  "instance_lock_released": true,
+  "project_local_module_and_build_cache": true,
+  "official_module_proxy_timeout_observed": true,
+  "goproxy_cn_module_download_then_build_succeeded": true,
+  "system_services_or_firewall_changed": false
+}

@@ -1,0 +1,9 @@
+dist/
+知序.app
+知序.dmg
+*.lnk
+zhixu/.build/
+zhixu/.build-venv/
+zhixu/.tools/
+__pycache__/
+*.pyc

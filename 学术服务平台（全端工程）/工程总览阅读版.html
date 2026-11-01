@@ -1,0 +1,220 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>知序｜学术服务全端工程</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f7f8f3;color:#1b322a;font:16px/1.85 system-ui,sans-serif}main{max-width:1120px;margin:auto;padding:40px 28px}header{padding:28px 0}h1{font-size:42px;line-height:1.3}h2{margin-top:56px;border-top:1px solid #d8dfd4;padding-top:28px}h3{margin-top:32px}nav{display:flex;flex-wrap:wrap;gap:10px 24px;padding:20px;background:#e6eee3;border-radius:16px}a{color:#176347}nav a{text-decoration:none;font-size:14px}table{border-collapse:collapse;display:block;overflow:auto;max-width:100%;background:#fff;font-size:14px}td,th{padding:12px 16px;border:1px solid #d5dfd2;text-align:left;min-width:90px}th{background:#e6eee3}pre{overflow:auto;background:#e9eee5;padding:20px;border-radius:12px;line-height:1.6}code{font-family:ui-monospace,monospace}p code,li code{background:#e9eee5;padding:2px 5px;border-radius:4px;overflow-wrap:anywhere}img,svg{max-width:100%}.mermaid{background:#fff}blockquote{border-left:3px solid #38755b;padding-left:20px}li{margin:6px 0}footer{margin-top:50px;border-top:1px solid #d8dfd4;padding:20px;font-size:13px;color:#47614d}@media(max-width:620px){main{padding:24px 16px}h1{font-size:32px}h2{font-size:23px}table{font-size:13px}}@media print{nav{display:none}body{background:#fff}}</style><main id="top"><header><small>知序 / 全端工程 / 2026.10.30</small><h1>知序｜学术服务全端工程</h1><nav><a href="#前言">前言</a><a href="#section-1">一、当前功能与交付</a><a href="#section-2">二、运行、构建与测试</a><a href="#section-3">三、目录与定位</a><a href="#section-4">四、模块与业务路由</a><a href="#section-5">五、源码规模与功能盘点</a><a href="#section-6">六、依赖与最新稳定基线</a><a href="#section-7">七、交付与后续边界</a></nav></header><hr>
+<h2>🔥 <span id="前言">前言</span></h2>
+<p>“知序”是暂定品牌，为客户和运营人员提供毕业论文、普刊、编译三项服务的统一工作流。维护者Jobs，当前状态为<strong>在研MVP / 可运行联调版</strong>。已落地前后端和主要闭环；当前固定客户/管理员账户，不等于完整生产运营系统。普通操作者先双击<a href="开始使用.html">开始使用</a>，或阅读<a href="使用说明阅读版.html">零基础使用说明</a>。</p>
+<h2><span id="section-1">一、当前功能与交付</span></h2>
+<table>
+<thead>
+<tr>
+<th>部分</th>
+<th>当前能做什么</th>
+<th>入口与验证边界</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Go后端</td>
+<td>三服务、需求、报价、订单、材料、交付、修改、取消结算、退款台账、售后、私有文件与幂等</td>
+<td><a href="backend/后端说明阅读版.html">backend</a>，28组race/PG协议夹具+14项真实HTTP闭环</td>
+</tr>
+<tr>
+<td>Python桌面</td>
+<td>服务化表单、需求/订单、文件、报价/验收/售后、主题与连接设置</td>
+<td><a href="clients/desktop/桌面说明阅读版.html">desktop</a>，47项回归；Mac APP/DMG实际启动通过</td>
+</tr>
+<tr>
+<td>Flutter用户端</td>
+<td>iOS/Android同源码、用户Web预览、宽窄窗口、真实API及隔离演示</td>
+<td><a href="clients/flutter/Flutter说明阅读版.html">flutter</a>，34项；iOS无签名Release构建通过；Android结果见报告</td>
+</tr>
+<tr>
+<td>Flutter后台</td>
+<td>移动/PC共用的报价、资金登记、履约与售后动作</td>
+<td><a href="backend/admin-web/index.html">admin-web</a>，通过Go <code>/admin/</code> 访问；不直接双击此index运行</td>
+</tr>
+<tr>
+<td>鸿蒙</td>
+<td>ArkWeb加载同源HTTPS Flutter用户页面</td>
+<td><a href="clients/flutter/harmony">harmony</a>，宿主源码与生成脚本已交付，HAP/设备验收待完成</td>
+</tr>
+<tr>
+<td>微信小程序</td>
+<td>保留原需求主体入口，三服务、需求/报价/交付/消息/售后</td>
+<td><a href="clients/miniprogram/小程序说明阅读版.html">miniprogram</a>，14项仓库保护；开发者工具与真机待验</td>
+</tr>
+<tr>
+<td>分平台部署</td>
+<td>各系统独立脚本完成配置、SDK准备、构建、前台运行</td>
+<td><a href="backend/deploy/部署说明阅读版.html">deploy</a>，Mac实际迁移冒烟；其它平台按报告区分检查/编译/实机</td>
+</tr>
+</tbody></table>
+<p>资金采用人工核验台账，申请退款不等于退款成功；服务不会向银行或微信自动付款。报价中的真实费用、交期、修改与取消约定由运营填写、客户确认；未预置商业收费。</p>
+<h2><span id="section-2">二、运行、构建与测试</span></h2>
+<p>零基础完整流程见<a href="使用说明阅读版.html">使用说明</a>。复制整个 <code>backend</code> 到服务器，双击其 <code>deploy</code> 内对应平台入口；管理员页面和用户Web已随目录带入，服务器不必装Flutter或Node。</p>
+<p>开发者在 <code>backend</code> 运行：</p>
+<pre><code class="language-shell">go run ./cmd/server
+go test -race -count=1 ./...
+go vet ./...
+</code></pre>
+<p>Flutter在 <code>clients/flutter</code> 执行 <code>flutter pub get</code>，用户入口 <code>lib/main.dart</code>，管理入口 <code>lib/main_admin.dart</code>。Web构建、签名、最新SDK矩阵及鸿蒙准备命令见该模块README。桌面APP/DMG在 <code>clients/desktop/dist</code>，Windows EXE须在Windows本机生成。</p>
+<p>工程根的整合保护：</p>
+<pre><code class="language-shell">GO_BIN=/本机Go目录/bin/go \
+  python3 tests/test_http.py
+
+python3 tests/test_deploy.py
+node --test tests/test_mini.cjs
+</code></pre>
+<p>所有测试使用独立夹具和临时数据。正式数据、真实收付款与对外消息不作为测试输入。<a href="docs/回归测试报告阅读版.html">回归报告</a>列出各轮结果与未验收项。</p>
+<h2><span id="section-3">三、目录与定位</span></h2>
+<pre><code class="language-text">学术服务平台（全端工程）/
+├── 开始使用.html / 使用说明.md / README.md
+├── backend/                 # 单份Go源码、已构建Web、各平台部署入口
+├── clients/
+│   ├── desktop/             # Python桌面源码、打包脚本、Mac成品
+│   ├── flutter/             # Flutter用户端/管理端、iOS/Android、鸿蒙宿主
+│   └── miniprogram/         # 微信原生入口
+├── contracts/api.json       # 共用接口契约；backend内有单独移植副本
+├── requirements/            # 原V0.3需求/数据库/回归文档与阅读资源快照
+├── docs/                    # 实现范围、测试证据与统计
+└── tests/                   # 整合HTTP、部署与小程序回归
+</code></pre>
+<p><a href="docs/技术方案阅读版.html">技术方案与39项需求追踪</a>说明各项已实现、部分实现与待验边界；<a href="代码地图阅读版.html">代码地图</a>可定位入口和模块。未初始化CodeGraph索引，不把本地索引当必需依赖。</p>
+<h2><span id="section-4">四、模块与业务路由</span></h2>
+<pre class="mermaid">flowchart LR
+    PY[Python src/zhixu/app.py] --&gt; GO[Go cmd/server/main.go]
+    F[Flutter main.dart] --&gt; GO
+    A[Flutter main_admin.dart] --&gt; GO
+    M[微信 app.js] --&gt; GO
+    H[鸿蒙 Index.ets HTTPS宿主] --&gt; F
+    GO --&gt; HTTP[http.go 身份与私有网关]
+    HTTP --&gt; E[engine.go 原子状态机]
+    E --&gt; S[store.go 文件或PG事务聚合]
+</pre>
+<pre class="mermaid">flowchart TD
+    R[提交需求] --&gt; Q[人工版本报价]
+    Q --&gt; C[客户接受生成唯一订单]
+    C --&gt; P[核实启动款]
+    P --&gt; W[履约 可暂停恢复]
+    W --&gt; D[正式交付]
+    D --&gt; V[反馈/受理修改]
+    V --&gt; W
+    D --&gt; X[客户确认完成]
+    X --&gt; A[独立售后交付组]
+    C --&gt; K[协商取消最终结算]
+    W --&gt; K
+    K --&gt; RF[原收款退款申请/核验]
+</pre>
+<h2><span id="section-5">五、源码规模与功能盘点</span></h2>
+<p>统计日期2026-10-30，口径见<a href="docs/源码统计.json">源码统计JSON</a>。只统计自维护源码、测试、配置与脚本；排除SDK、依赖、平台自动脚手架、生成物、资源、锁文件和原需求快照，不以文件扩展名数量冒充业务量。</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>文件数</th>
+<th>行数</th>
+<th>行数占比</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>业务代码</td>
+<td>28</td>
+<td>6133</td>
+<td>49.2%</td>
+</tr>
+<tr>
+<td>测试代码</td>
+<td>11</td>
+<td>2566</td>
+<td>20.6%</td>
+</tr>
+<tr>
+<td>配置与脚本</td>
+<td>37</td>
+<td>3760</td>
+<td>30.2%</td>
+</tr>
+</tbody></table>
+<pre class="mermaid">pie showData
+    title 自维护源码行数占比
+    &quot;业务代码&quot; : 6133
+    &quot;测试代码&quot; : 2566
+    &quot;配置与脚本&quot; : 3760
+</pre>
+<p>前端路由口径：Flutter用户/管理各3个主导航页面，详情属于工作区子视图，弹窗不另计页；Python3个主页面；微信5个独立page；鸿蒙复用Flutter页面、无新增业务页面。不跨实现简单相加成独立产品功能数。后端独立部署单元1个，业务HTTP接口10类，另有健康/管理诊断；RPC/MQ/定时任务/外部支付或通知投递器均0。一个actions接口承载多项状态动作，因此页面/接口比例不适用普通CRUD的机械对比。</p>
+<table>
+<thead>
+<tr>
+<th>类目</th>
+<th>涉及情况与实现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>网络/安全</td>
+<td>HTTPS由反代，Bearer内存会话、PBKDF2密码、登录限流；未实现证书绑定/OAuth/微信身份；本地偏好不保存密码或Token</td>
+</tr>
+<tr>
+<td>数据</td>
+<td>文件原子快照或PG单行JSONB事务；客户端隔离演示与真实未知写；未实现29表关系迁移及压力容量验收</td>
+</tr>
+<tr>
+<td>端能力</td>
+<td>文件选择/授权下载；未接推送、蓝牙、定位、NFC、生物识别或真实支付；鸿蒙文件能力按README边界</td>
+</tr>
+<tr>
+<td>工程</td>
+<td>中文UI、三态主题、多端源码与分平台脚本；无热更新/埋点/崩溃收集/自动发布流水线</td>
+</tr>
+<tr>
+<td>后端</td>
+<td>版本锁、幂等收据、事务审计/outbox、退款额度及未知占用；未有真正通知发送、渠道对账或分布式任务队列</td>
+</tr>
+<tr>
+<td>隐私</td>
+<td>附件私有授权、请求处理授权、日志不记密码；正式隐私清单、数据保留及账号注销流程尚未完整</td>
+</tr>
+</tbody></table>
+<h2><span id="section-6">六、依赖与最新稳定基线</span></h2>
+<p>直接运行第三方库5项，均公库、无私库；传递依赖不计入此数量。2026-10-30核对并锁定兼容的最新直接依赖，最新Android工具链按官方资料显式配置；SDK约束中的传递包差异单列于<a href="clients/flutter/docs/dependency-status.json">Flutter依赖状态</a>，没有强制覆盖为不兼容版本。</p>
+<table>
+<thead>
+<tr>
+<th>直接依赖</th>
+<th>版本</th>
+<th>来源/许可证</th>
+<th>使用模块</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://github.com/jackc/pgx">pgx</a></td>
+<td>5.11.0</td>
+<td>公库MIT</td>
+<td>Go可选PG存储</td>
+</tr>
+<tr>
+<td><a href="https://pypi.org/project/PySide6/6.12.0/">PySide6</a></td>
+<td>6.12.0</td>
+<td>公库LGPL-3.0及其它官方许可选项</td>
+<td>Python桌面</td>
+</tr>
+<tr>
+<td><a href="https://pub.dev/packages/http">http</a></td>
+<td>1.6.0</td>
+<td>公库BSD-3-Clause</td>
+<td>Flutter HTTP</td>
+</tr>
+<tr>
+<td><a href="https://pub.dev/packages/shared_preferences">shared_preferences</a></td>
+<td>2.5.6</td>
+<td>公库BSD-3-Clause</td>
+<td>Flutter偏好/待核对记录</td>
+</tr>
+<tr>
+<td><a href="https://pub.dev/packages/file_picker">file_picker</a></td>
+<td>13.3.0</td>
+<td>公库MIT</td>
+<td>Flutter原生/网页文件</td>
+</tr>
+</tbody></table>
+<p>工具链：Go1.27.3、Python3.15.2、Flutter3.47.8/Dart3.13.7、本机Xcode27.2；Android AGP9.4.0/Kotlin2.4.21/Gradle9.8.2/API37/NDKr30。开发/打包工具还包括flutter_lints6.0.0、PyInstaller6.22.3（GPL及打包例外）、setuptools84.2.1（MIT），版本与来源见各模块README。桌面按Qt LGPL条件分发，许可原文随包；尚未完成商店签名公证。没有私库凭据和业务密钥。</p>
+<h2><span id="section-7">七、交付与后续边界</span></h2>
+<p>当前可以联调主要业务，Mac成品和Web可直接体验。正式运营前还需完成真实客户身份、细分员工权限、关系库/对象存储、真实支付与通知、正式HTTPS/运维常驻、品牌协议与各商店签名。Windows、Android、鸿蒙和iPhone Duo具体实机结果以<a href="docs/回归测试报告阅读版.html">回归报告</a>为准。没有提交或推送远程仓库。</p>
+<p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
+<footer>可编辑原稿：README.md。本阅读版使用随包资源，无外部渲染器依赖。</footer></main><script src="requirements/阅读资源/mermaid.min.js"></script><script>mermaid.initialize({startOnLoad:true,securityLevel:"strict",theme:"neutral",flowchart:{htmlLabels:false,useMaxWidth:true}})</script></html>

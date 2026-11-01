@@ -1,0 +1,2 @@
+2026/10/30 16:18:28 INFO academic service ready listen=127.0.0.1:54162 environment=development storage_postgres=false payment_mode=manual_ledger
+2026/10/30 16:18:28 WARN development sample identities enabled; configure passwords before production

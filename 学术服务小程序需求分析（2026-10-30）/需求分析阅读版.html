@@ -1,0 +1,1554 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>学术服务小程序需求分析 V0.3</title><style>:root{--ink:#142630;--muted:#536871;--accent:#12685e;--line:#dbe5e5;--paper:#fff;--bg:#eff3f2}
+*{box-sizing:border-box}html{scroll-behavior:auto;scroll-padding-top:32px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+.layout{max-width:1480px;margin:auto;display:grid;grid-template-columns:250px minmax(0,1fr);gap:40px;padding:38px 40px 80px}
+aside{position:sticky;top:28px;align-self:start;max-height:calc(100vh - 56px);overflow:auto;font-size:13px;padding-right:14px}.brand{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}.nav-title{font-size:22px;line-height:1.5;font-weight:700;margin:8px 0 16px}aside a{display:block;padding:7px 10px;margin:2px 0;color:var(--muted);text-decoration:none;border-left:2px solid transparent}aside a:hover,aside a.active{color:var(--accent);border-color:var(--accent);background:#e1ece8}aside small{display:block;margin-top:24px;color:var(--muted)}
+main{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 8px 36px #18363008}.cover{padding:58px 60px 46px;background:#153c3b;color:white;border-bottom:6px solid #91c9b6}.cover .eyebrow{font-size:12px;letter-spacing:3px;color:#bddbd1}.cover h1{font-size:38px;line-height:1.4;letter-spacing:1px;margin:18px 0}.cover p{max-width:650px;color:#d8e9e2;font-size:17px;margin:12px 0 25px}.tags{display:flex;gap:10px;flex-wrap:wrap}.tags span{border:1px solid #7baca3;padding:4px 12px;border-radius:30px;font-size:13px;color:#edf7f3}.meta{margin-top:28px;font-size:12px;color:#b7d4ca}
+article{padding:26px 60px 50px}h2{font-size:25px;line-height:1.55;letter-spacing:.3px;padding-top:16px;margin:38px 0 20px;border-bottom:1px solid var(--line);padding-bottom:14px;break-after:avoid}h3{font-size:19px;line-height:1.6;margin:30px 0 14px;break-after:avoid}p{margin:16px 0}a{color:var(--accent);text-underline-offset:3px}strong{font-weight:650}hr{border:0;border-top:1px solid var(--line);margin:20px 0}ul{padding-left:24px}li{margin:8px 0}.table-scroll{overflow-x:auto;margin:20px 0}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.75;table-layout:auto}th{background:#edf4f1;color:#1d4e47;text-align:left;font-weight:650}td,th{padding:12px 14px;border:1px solid var(--line);vertical-align:top}tr:nth-child(even) td{background:#fbfcfc}td:first-child{min-width:68px}td p{margin:0}img{display:block;max-width:100%;height:auto;border:1px solid var(--line);border-radius:8px}code{font:13px/1.7 ui-monospace,SFMono-Regular,monospace;background:#edf3f1;padding:2px 5px;border-radius:3px}pre{background:#edf3f1;padding:18px;overflow:auto;white-space:pre-wrap}pre code{padding:0}.source{padding:14px 18px;background:#f5f8f7;border:1px solid var(--line);border-radius:8px;font-size:14px}.source summary{cursor:pointer;font-weight:650;color:var(--accent)}footer{padding:22px 60px;background:#f6f8f7;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}.top-button{position:fixed;right:20px;bottom:20px;background:var(--accent);color:white;padding:9px 14px;border:0;border-radius:8px;text-decoration:none;font-size:13px}
+@media(max-width:1050px){.layout{grid-template-columns:190px minmax(0,1fr);padding:25px 20px;gap:20px}.cover{padding:38px 35px}article{padding:15px 32px 36px}.cover h1{font-size:30px}footer{padding:20px 32px}}
+@media(max-width:760px){body{font-size:15px}.layout{display:block;padding:12px}aside{position:static;max-height:none;padding:4px 4px 18px}aside nav{display:flex;overflow:auto;gap:5px}aside a{white-space:nowrap;font-size:12px;border:1px solid var(--line);border-radius:5px;padding:6px 9px}aside small{display:none}.nav-title{font-size:19px;margin-bottom:12px}.cover{padding:30px 24px}.cover h1{font-size:28px}.cover p{font-size:15px}article{padding:10px 22px 32px}h2{font-size:21px}h3{font-size:18px}table{min-width:620px}footer{padding:20px 24px}.top-button{display:none}}
+@media print{body{background:white;font-size:11pt;line-height:1.7}.layout{display:block;padding:0;max-width:none}aside,.top-button{display:none}main{border:0;box-shadow:none;border-radius:0}.cover{padding:30px;background:white;color:var(--ink);border-bottom:3px solid var(--accent)}.cover p,.cover .eyebrow,.meta,.tags span{color:var(--ink)}.cover h1{font-size:27pt}.tags span{border-color:var(--line)}article{padding:0 20px}.table-scroll{overflow:visible}table{font-size:9pt;min-width:0}th,td{padding:6px 8px}tr{break-inside:avoid}h2{font-size:17pt;margin-top:25px}h3{font-size:13pt}img{max-height:240mm;object-fit:contain}.source{display:none}footer{padding:18px 20px}@page{size:A4;margin:15mm}}
+
+.mermaid{overflow:auto;text-align:center;background:#fafcfb;border:1px solid var(--line);padding:20px 12px;border-radius:8px}.mermaid svg{max-width:100%;height:auto}.doclinks{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0;font-size:13px}.badge{display:inline-block;padding:3px 10px;border:1px solid var(--line);border-radius:5px;background:#f5f8f7}.source{margin-top:10px}.source pre{max-height:500px}
+.field-table{table-layout:fixed;width:100%;min-width:0}.field-table td,.field-table th{overflow-wrap:anywhere;word-break:break-word}.field-table code{white-space:normal;overflow-wrap:anywhere;word-break:break-word}</style></head><body id="top"><div class="layout"><aside><div class="brand">PROJECT DOCUMENTATION</div><div class="nav-title">学术服务小程序<br>需求分析</div><nav><a href="#confirmed">已确认需求与分析假设</a><a href="#reference">对方网站观察与本项目取舍</a><a href="#positioning">产品定位与用户目标</a><a href="#scope">首期范围与后续范围</a><a href="#services">三项服务的需求定义</a><a href="#pages">小程序信息架构与页面清单</a><a href="#flow">业务流程与状态规则</a><a href="#rules">报价、变更、取消和售后</a><a href="#admin">内部后台的最小需求</a><a href="#design">简洁明确与差异化的设计要求</a><a href="#data">材料、数据与隐私需求</a><a href="#runtime">接口、异常与本地演示要求</a><a href="#launch">上线前提与实施工作包</a><a href="#acceptance">验收条件</a><a href="#decisions">待确认事项与建议默认值</a><a href="#evidence">参考截图与来源</a><a href="#regression">需求回归与整改结果</a><a href="#database">数据库设计总览</a></nav><small>V0.3 · 2026年10月30日<br>需求与数据库设计稿<br>实现验收状态见回归报告</small></aside><main><header class="cover"><div class="eyebrow">REQUIREMENTS & DATA / V0.3</div><h1>学术服务小程序需求分析</h1><p>三项服务，清楚呈现。<br>需求、回归与数据库设计。</p><div class="tags"><span>毕业论文</span><span>普刊</span><span>编译</span></div><div class="meta">2026年10月30日 · 小程序优先 · 对外官网可后置</div></header><article><div class="doclinks"><a href="./需求分析阅读版.html">需求分析</a><a href="./数据库设计阅读版.html">数据库设计</a><a href="./需求回归报告阅读版.html">需求回归报告</a></div><hr>
+<h2>🔥 <span id="前言">前言</span></h2>
+<p>以 <a href="https://www.keyan.asia/"><strong>氪研学术</strong></a> 为业务与体验参考，规划一个只经营“毕业论文、普刊、编译”三项服务的小程序。核心体验是：用户快速看懂服务、方便提交需求、明确知道价格与交付进度。</p>
+<p><strong>建议首期采用“三项服务 + 人工报价 + 订单进度 + 文件交付”的轻量闭环。对外网站不作为首期前置条件，内部运营后台需要保留。</strong> 借鉴对方的信息组织和服务入口，品牌、视觉、文案与页面构图独立设计。</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>文档信息</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>版本</td>
+<td>V0.3，需求回归修订稿，供业务讨论、原型及后续开发使用</td>
+</tr>
+<tr>
+<td>日期</td>
+<td>2026年10月30日，北京时间</td>
+</tr>
+<tr>
+<td>已确认输入</td>
+<td>用户本轮描述，见第一章</td>
+</tr>
+<tr>
+<td>调研对象</td>
+<td>对方公开官网首页、学术产品服务页；两张实际截图附后</td>
+</tr>
+<tr>
+<td>本轮交付</td>
+<td>需求分析、范围建议、页面清单、业务流程、验收条件、待确认事项、需求回归报告与数据库设计</td>
+</tr>
+<tr>
+<td>当前阶段</td>
+<td>尚未设计最终界面、开发软件或评估正式工期；建议项尚未成为用户确认的开发合同</td>
+</tr>
+</tbody></table></div>
+<p>阅读顺序：先看<a href="#confirmed">已确认范围</a>、<a href="#scope">首期范围</a>和<a href="#decisions">待确认事项</a>，再看<a href="#services">三项服务</a>、<a href="#pages">页面清单</a>与<a href="#acceptance">验收条件</a>。本稿同时包含<a href="#regression">需求回归结论</a>与<a href="#database">数据库设计总览</a>；字段字典及建表语句见配套文件。</p>
+<h2>一、<span id="confirmed">已确认需求与分析假设</span></h2>
+<h3>1.1、<span id="confirmed-input">用户已明确的要求</span></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>编号</th>
+<th>确认内容</th>
+<th>对产品的影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>C01</td>
+<td>主体必须是小程序</td>
+<td>用户端按小程序使用方式设计，不把电脑网站缩小后直接搬进去</td>
+</tr>
+<tr>
+<td>C02</td>
+<td>有没有网站不影响</td>
+<td>对外官网可后置；小程序业务不依赖用户先访问官网</td>
+</tr>
+<tr>
+<td>C03</td>
+<td>只提供毕业论文、普刊、编译</td>
+<td>首页与服务分类只有三个业务入口</td>
+</tr>
+<tr>
+<td>C04</td>
+<td>整体感觉像参考网站，简洁、明确</td>
+<td>分类、说明、价格表达和下一步动作清楚，减少无关内容</td>
+</tr>
+<tr>
+<td>C05</td>
+<td>高度参考对方做法，同时避免外观雷同</td>
+<td>提取可见产品逻辑，独立设计自身品牌及表达方式</td>
+</tr>
+<tr>
+<td>C06</td>
+<td>先做需求分析，文档放桌面独立文件夹</td>
+<td>本轮止于需求交付，不自行启动开发、发布或采购</td>
+</tr>
+<tr>
+<td>C07</td>
+<td>需求分析还要进行回归与数据库设计</td>
+<td>对需求作交叉回归、修正缺口，并交付数据模型、约束及隔离验证结果</td>
+</tr>
+</tbody></table></div>
+<h3>1.2、<span id="assumptions">尚未确认的分析假设</span></h3>
+<ul>
+<li><strong>平台假设：</strong> 暂按 <a href="https://mp.weixin.qq.com/"><strong>微信小程序</strong></a> 分析；用户尚未限定平台。</li>
+<li><strong>经营方式假设：</strong> 单一运营方提供服务，人工评估与交付；不是多商家平台。</li>
+<li><strong>服务含义假设：</strong> 毕业论文按辅导、稿件反馈与编辑支持分析；普刊按稿件编辑、选刊及投稿支持分析；编译暂按学术翻译与润色分析。具体项目以实际经营内容确认为准。</li>
+<li><strong>成交方式假设：</strong> 定制需求先评估再报价，用户确认后形成服务订单；是否小程序内付款独立决策。</li>
+<li><strong>视觉假设：</strong> 清爽、专业、低信息负担；本稿提出视觉原则，不代表已选定最终设计。</li>
+</ul>
+<p>后续章节除 C01—C07 与标明的竞品观察事实外，均为<strong>建议需求</strong>。没有把对方的后台、支付或交付方式当成已证实的模板。编写及隔离验证数据库设计不代表批准将其部署到生产环境。</p>
+<h2>二、<span id="reference">对方网站观察与本项目取舍</span></h2>
+<h3>2.1、<span id="reference-facts">已核查的公开页面</span></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>页面与证据</th>
+<th>实际观察</th>
+<th>体验判断与本项目取舍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><a href="https://www.keyan.asia/">官网首页</a>，<a href="./%E5%8F%82%E8%80%83%E6%88%AA%E5%9B%BE/01-%E5%AE%98%E7%BD%91%E9%A6%96%E9%A1%B5.jpg">截图01</a></td>
+<td>浅色背景、独立服务卡片、推广主视觉、明显的绿色动作入口；除目标三类外还有多个业务和内容栏目</td>
+<td>入口明确，但整体范围大于本项目。提取服务卡片与清楚动作，去掉无关栏目与大面积推广占屏</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="https://www.keyan.asia/productService/">学术产品服务页</a>，<a href="./%E5%8F%82%E8%80%83%E6%88%AA%E5%9B%BE/02-%E6%9C%8D%E5%8A%A1%E6%80%BB%E8%A7%88.jpg">截图02</a></td>
+<td>分类、搜索、产品卡片并列；卡片呈现名称、金额或咨询标识、详情入口</td>
+<td>便于浏览。小程序改成三个分类与纵向内容，避免把电脑端多列卡片等比缩小</td>
+</tr>
+<tr>
+<td>3</td>
+<td>服务页公开文本及浏览器可访问树</td>
+<td>毕业论文与普刊下有不同子服务；编译下列有学术翻译、学术润色</td>
+<td>说明三类业务可继续细分。本项目子服务应按自己的真实交付能力配置，不能由竞品目录直接推定</td>
+</tr>
+<tr>
+<td>4</td>
+<td>服务详情及后续成交</td>
+<td>本轮未稳定进入、未完成登录、咨询提交、支付或交付</td>
+<td><strong>未核实。</strong> 以下业务流程为本项目方案，不声称与对方后台一致</td>
+</tr>
+</tbody></table></div>
+<p>观察日期均为2026年10月30日。搜索读取的服务页曾只显示空列表，实际浏览器中能看到产品；因此“没有更多”不能作为对方没有服务的证据。分类筛选结果未可靠验证，不能据此判定对方功能正常或故障。</p>
+<h3>2.2、<span id="reference-principles">借鉴什么，重新设计什么</span></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>可保留的产品原则</th>
+<th>本项目的具体改法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>信息结构</td>
+<td>先分类，再看服务，再行动</td>
+<td>首页直接突出三类业务；不放核心期刊、会议、知识产权等入口</td>
+</tr>
+<tr>
+<td>卡片表达</td>
+<td>名称、说明、价格方式、动作集中呈现</td>
+<td>采用文字优先的纵向卡片，自有图标和比例；不使用对方人物海报</td>
+</tr>
+<tr>
+<td>转化入口</td>
+<td>容易找到详情与咨询</td>
+<td>详情底部保留“联系客服”和主按钮“提交需求”，避免多个悬浮球争抢注意力</td>
+</tr>
+<tr>
+<td>价格表达</td>
+<td>标价与咨询报价可以区分</td>
+<td>依据自身服务配置“明确单价／评估后报价”，不沿用对方金额或低价引流方案</td>
+</tr>
+<tr>
+<td>品牌表现</td>
+<td>整体干净、有明确主色</td>
+<td>名称、标志、主色、图形、排版与文案重新设计，不能只替换名称和颜色</td>
+</tr>
+<tr>
+<td>信任内容</td>
+<td>用户需要知道谁提供服务</td>
+<td>使用自己的主体、团队、服务说明及真实案例；没有已授权资料时不展示对应模块</td>
+</tr>
+</tbody></table></div>
+<p>对方截图仅作为本需求文档的内部调研证据，不作为小程序宣传素材。业务类别的通用名称可以用于描述服务，整段营销文案、标志、人物插画、评价和客户数据另行原创或取得授权。</p>
+<h3>2.3、<span id="reference-limits">可用性观察的范围</span></h3>
+<p>两张截图能支持对页面层级、卡片及可见入口的判断。部分辅助文字较浅，彩色推广区较多；这些是本项目应检查文字对比和信息密度的提示，未测量对方对比度，也未验证键盘、读屏及手机适配。此处属于公开页面观察，不是完整可访问性审计。</p>
+<h2>三、<span id="positioning">产品定位与用户目标</span></h2>
+<p>产品定位：一个提供三类学术支持服务的轻量小程序，帮助用户把“我有一个需求”变成“服务范围、价格、周期、进度、交付物都能查到的一笔服务”。</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>用户／角色</th>
+<th>主要目标</th>
+<th>产品需要解决的问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>毕业论文用户</td>
+<td>知道当前阶段可获得什么支持</td>
+<td>服务范围模糊、材料不知道如何准备、交付标准不明确</td>
+</tr>
+<tr>
+<td>普刊用户</td>
+<td>了解稿件支持及投稿相关服务</td>
+<td>平台处理进度与期刊外部反馈混淆、收费项目不清楚</td>
+</tr>
+<tr>
+<td>编译用户</td>
+<td>把已有稿件翻译或润色到约定标准</td>
+<td>字数、语种、术语、修改范围和交期不统一</td>
+</tr>
+<tr>
+<td>客服／运营</td>
+<td>接收需求、确认范围、跟进订单</td>
+<td>只靠聊天记录容易丢单、重复询问和遗漏变更</td>
+</tr>
+<tr>
+<td>服务人员</td>
+<td>获取授权材料并按版本交付</td>
+<td>材料混乱、交付版本不明、修改要求缺少上下文</td>
+</tr>
+<tr>
+<td>管理员</td>
+<td>管理内容、权限与服务记录</td>
+<td>谁改了报价或状态不可追溯，敏感材料访问过宽</td>
+</tr>
+</tbody></table></div>
+<p>同一人可以兼任多种运营角色，但系统中的权限与操作记录应区分。</p>
+<h2>四、<span id="scope">首期范围与后续范围</span></h2>
+<h3>4.1、<span id="mvp">首期建议必须完成</span></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>编号</th>
+<th>功能</th>
+<th>最小交付范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>F01</td>
+<td>三项服务展示</td>
+<td>首页入口、服务分类、子服务列表及详情；内容可在后台维护</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>账号与本人数据</td>
+<td>浏览免登录，提交需求及查看本人订单时登录；拒绝非必要授权不阻断浏览</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>需求提交</td>
+<td>按业务切换字段，必要材料上传，提交回执与需求编号</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>咨询与补充材料</td>
+<td>客服入口、人工跟进、补充材料及关键沟通记录；不自建聊天系统</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>报价与确认</td>
+<td>人工出具完整报价，用户接受、拒绝或申请调整，保留版本</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>服务订单</td>
+<td>报价确认后转订单，展示阶段、下一步动作、约定交期和处理记录</td>
+</tr>
+<tr>
+<td>F07</td>
+<td>交付与修改</td>
+<td>文件版本、交付说明、反馈、约定范围内修改与确认验收</td>
+</tr>
+<tr>
+<td>F08</td>
+<td>取消与售后</td>
+<td>申请入口、原因、处理进度、结论；退款执行方式随付款方案确定</td>
+</tr>
+<tr>
+<td>F09</td>
+<td>基础内容</td>
+<td>主体与联系方式、服务规则、隐私说明、常见问题</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>内部运营后台</td>
+<td>处理 F01—F09 所需的内容、需求、报价、订单、附件与权限管理</td>
+</tr>
+</tbody></table></div>
+<h3>4.2、<span id="payment-scope">付款能力单独决策</span></h3>
+<p><strong>推荐的需求基线：先确认报价与交付闭环，在线支付作为待确认的独立工作包。</strong> 这不是认定用户放弃在线支付，而是避免在主体、定价和收款能力都未知时把它误写成已确定范围。</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>适用条件</th>
+<th>用户体验与后台要求</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A：人工确认成交</td>
+<td>首期暂不接小程序内支付，且经营方式及平台要求允许</td>
+<td>报价中明确收款安排；系统仅记录经核验的收款结果与凭据。未核验时显示“待核实”，不显示支付成功</td>
+</tr>
+<tr>
+<td>B：小程序内支付</td>
+<td>确认首期交易闭环，完成对应商户及平台能力接入</td>
+<td>复用报价接受后生成的服务订单，按应付阶段创建支付单；增加服务端支付确认、支付取消、退款、对账及异常处理，不重复生成服务订单；客户端返回不能独自作为到账依据</td>
+</tr>
+</tbody></table></div>
+<p>若不能确认允许的收款方式，则保持“咨询／需求跟进”，不能用私下转账提示替代尚未确认的交易方案。报价接受只代表同意服务方案，付款条件满足且材料齐备后再启动服务。</p>
+<p>微信支付接入涉及账号认证、商户权限、AppID 绑定；交易类小程序还需按适用规范处理订单管理。上线方案以届时后台可申请能力为准。<a href="https://pay.wechatpay.cn/doc/v3/merchant/4015459512">微信支付官方接入准备</a></p>
+<h3>4.3、<span id="excluded">首期不主动扩展</span></h3>
+<p>不纳入首期建议范围：独立对外官网、论坛社区、学术资讯频道、查询工具库、核心期刊业务、会议和知识产权、课程直播、自建即时聊天、专家入驻、会员积分、分销返佣、复杂营销、自动选刊数据库。</p>
+<p>内部后台即使使用网页，也是小程序的运营工具，与可选的宣传官网是两件事。后端服务、附件存储与管理能力仍然需要，不会因为“不要网站”就消失。</p>
+<h2>五、<span id="services">三项服务的需求定义</span></h2>
+<h3>5.1、<span id="graduation">毕业论文</span></h3>
+<p>入口名称保留“毕业论文”。建议详情解释为具体的辅导与编辑支持，避免用户只看一个大类却不知道实际购买内容。</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>建议定义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>可选服务方向</td>
+<td>选题与结构辅导、开题反馈、已有稿件评阅、语言与格式编辑、答辩材料反馈；最终上架项由业务确认</td>
+</tr>
+<tr>
+<td>提交时必填</td>
+<td>专业方向、学历层次、当前阶段、需求类型、希望完成日期、需求说明、可联系渠道</td>
+</tr>
+<tr>
+<td>条件必填</td>
+<td>选择稿件评阅／编辑时提供现有稿件；选择格式编辑时提供学校格式要求</td>
+</tr>
+<tr>
+<td>可选信息</td>
+<td>题目、字数范围、模板、导师反馈、希望沟通时间；不默认收集身份证或学号</td>
+</tr>
+<tr>
+<td>报价依据</td>
+<td>服务范围、材料现状、工作量、时限、沟通及修改安排</td>
+</tr>
+<tr>
+<td>交付物</td>
+<td>按项目确认：建议清单、批注稿、编辑稿、沟通记录、格式检查清单等</td>
+</tr>
+<tr>
+<td>完成依据</td>
+<td>约定支持内容与文件交付完毕，按约修改并由用户验收</td>
+</tr>
+</tbody></table></div>
+<p>本稿不将代替学生完成考核、虚构数据或保证答辩通过列为需求。服务菜单需明确“做什么、交什么”，不能用“全包”代替具体标准；实际经营边界仍需在<a href="#decisions">决策 D02</a>中确认。</p>
+<h3>5.2、<span id="journal">普刊</span></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>建议定义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>可选服务方向</td>
+<td>稿件评估、编辑支持、期刊适配建议、投稿材料检查、投稿流程协助；最终上架项由业务确认</td>
+</tr>
+<tr>
+<td>提交时必填</td>
+<td>学科方向、稿件状态、需求类型、期望时间、需求说明、可联系渠道</td>
+</tr>
+<tr>
+<td>条件必填</td>
+<td>评估／编辑时上传稿件；已有明确目标期刊时填写期刊名称和已知要求</td>
+</tr>
+<tr>
+<td>可选信息</td>
+<td>题目、摘要、字数、目标期刊、用途、已收到的编辑意见</td>
+</tr>
+<tr>
+<td>报价依据</td>
+<td>稿件工作量、支持项目、目标要求、服务次数、时限；第三方费用单列</td>
+</tr>
+<tr>
+<td>交付物</td>
+<td>按项目确认：评估意见、编辑稿、选刊建议及依据、投稿材料清单、协助记录</td>
+</tr>
+<tr>
+<td>完成依据</td>
+<td>约定平台服务交付达成；若约定持续跟踪，写明跟踪范围与结束条件</td>
+</tr>
+</tbody></table></div>
+<p><strong>平台内部状态与期刊外部状态分开。</strong> “服务中”不能自动显示成“期刊审稿中”；录用、出刊等反馈只在有真实来源时登记，并标注来源与日期。平台服务费和可能发生的期刊费用分别列明，谁收取、何时支付、是否包含在总价内均需确认。不默认承诺录用、刊期、数据库收录或无限次改投。</p>
+<h3>5.3、<span id="editing">编译</span></h3>
+<p>竞品公开目录将编译细分为学术翻译与学术润色，因此本稿暂以此理解用户指定的“编译”。<strong>本项目实际是否包含两项、支持哪些语种与领域，仍待确认。</strong></p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>建议定义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>可选服务方向</td>
+<td>学术翻译、语言润色；服务选项使用通俗解释，减少“编译”一词的理解歧义</td>
+</tr>
+<tr>
+<td>提交时必填</td>
+<td>服务类型、学科、源语言／目标语言或稿件语言、估计字数、希望完成日期、联系渠道</td>
+</tr>
+<tr>
+<td>条件必填</td>
+<td>正式评估报价前需要稿件；翻译需明确源语言与目标语言，润色无需填写不相关的目标语言</td>
+</tr>
+<tr>
+<td>可选信息</td>
+<td>术语表、格式保留要求、用途、期刊风格要求、图表／参考文献是否处理</td>
+</tr>
+<tr>
+<td>报价依据</td>
+<td>计费字数口径、语种、专业难度、服务深度、加急与修改范围</td>
+</tr>
+<tr>
+<td>交付物</td>
+<td>译文／润色稿、必要时对照稿或修订记录、术语说明；以报价单确认内容为准</td>
+</tr>
+<tr>
+<td>完成依据</td>
+<td>文件与格式满足约定要求，按约完成术语及语言修改并验收</td>
+</tr>
+</tbody></table></div>
+<p>字数由用户估计只用于初步咨询，正式报价应由运营核定，说明图表、参考文献、空格及重复文本如何计数。不得用一个未确认的统一单价覆盖全部语种、学科和服务深度。</p>
+<h2>六、<span id="pages">小程序信息架构与页面清单</span></h2>
+<p>建议底部导航为<strong>首页／订单／我的</strong>。“订单”页面内部区分“我的需求”和“服务订单”，避免提交咨询就被当成已成交。三项服务直接放首页，不为三个分类额外增加复杂导航。</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>页面编号</th>
+<th>页面</th>
+<th>主要内容</th>
+<th>主要动作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P01</td>
+<td>首页</td>
+<td>自有品牌一句话说明、三个服务入口、简短流程、常见问题与客服</td>
+<td>选择服务</td>
+</tr>
+<tr>
+<td>P02</td>
+<td>服务列表</td>
+<td>三分类切换、该类子服务、简介、计价方式</td>
+<td>查看详情；仅有一项时可直接进入详情</td>
+</tr>
+<tr>
+<td>P03</td>
+<td>服务详情</td>
+<td>适用对象、服务范围、材料、交付物、费用方式、周期说明、修改规则</td>
+<td>提交需求；辅助动作联系客服</td>
+</tr>
+<tr>
+<td>P04</td>
+<td>需求表单</td>
+<td>业务字段、条件必填、附件、必要授权说明</td>
+<td>提交需求</td>
+</tr>
+<tr>
+<td>P05</td>
+<td>提交回执／需求详情</td>
+<td>编号、已提交内容、当前状态、补材料入口、报价记录</td>
+<td>补充材料／查看报价／撤回未成交需求</td>
+</tr>
+<tr>
+<td>P06</td>
+<td>报价详情</td>
+<td>范围、费用、周期、交付物、修改及收款安排、有效期</td>
+<td>接受／拒绝／申请调整</td>
+</tr>
+<tr>
+<td>P07</td>
+<td>订单列表</td>
+<td>我的需求与服务订单切换、状态、更新时间、完整空态</td>
+<td>打开详情／重新加载</td>
+</tr>
+<tr>
+<td>P08</td>
+<td>服务订单详情</td>
+<td>固化的报价及变更、服务进度与暂停标记、待办、交付版本、剩余修改轮次、应收实收退款及核查状态</td>
+<td>按状态提供付款、取消申请、变更／取消结算确认、反馈修改、验收及售后；已完成订单不提供取消；A方案无小程序支付按钮</td>
+</tr>
+<tr>
+<td>P09</td>
+<td>我的</td>
+<td>账号、联系渠道、客服、常见问题、协议与隐私入口</td>
+<td>管理联系信息／查看规则</td>
+</tr>
+<tr>
+<td>P10</td>
+<td>售后详情</td>
+<td>申请原因、关联订单、证据、处理状态、返修版本、取消结算及退款安排</td>
+<td>补充说明／确认处理或结算方案／查看结果</td>
+</tr>
+<tr>
+<td>P11</td>
+<td>基础说明模板</td>
+<td>主体、联系方式、常见问题、协议、隐私、服务规则</td>
+<td>阅读与返回</td>
+</tr>
+<tr>
+<td>P12</td>
+<td>支付与结果，条件项</td>
+<td>仅方案 B：本阶段待付金额、本次支付状态、异常恢复</td>
+<td>结果未知先查询核实；确认原支付未付或已关闭后才按应付安排继续支付，不因客户端超时直接创建新支付尝试</td>
+</tr>
+</tbody></table></div>
+<p>页面编号用于需求定位，不代表最终一定是12个独立路由；回执、报价和售后可以按原型合理复用组件。</p>
+<h3>6.1、<span id="home-layout">首页内容顺序建议</span></h3>
+<p>1、品牌与一句话价值说明，避免大海报先占满屏幕。</p>
+<p>2、毕业论文、普刊、编译三个明确入口；卡片各有一句解释和一致的下一步动作。</p>
+<p>3、简要服务流程：提交需求、评估报价、提供服务、交付验收。</p>
+<p>4、少量高频问题和客服入口；真实案例有授权且确有必要时再加，不为填充页面编造团队或评价。</p>
+<p>在常见手机尺寸、正常字体下，用户不滚动或仅短距离滚动即可发现全部三项服务。具体卡片比例和字号在原型阶段验证，本稿不伪造已完成的界面效果图。</p>
+<h2>七、<span id="flow">业务流程与状态规则</span></h2>
+<h3>7.1、<span id="main-flow">从需求到交付的主流程</span></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>谁负责</th>
+<th>输入与输出</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 浏览服务</td>
+<td>用户</td>
+<td>看清服务范围，选择类别或子服务</td>
+</tr>
+<tr>
+<td>2 提交需求</td>
+<td>用户</td>
+<td>提交业务字段，系统返回需求编号</td>
+</tr>
+<tr>
+<td>3 人工评估</td>
+<td>客服／服务人员</td>
+<td>判断能否承接；缺材料则要求补充，无法承接则说明并关闭需求</td>
+</tr>
+<tr>
+<td>4 出具报价</td>
+<td>客服</td>
+<td>明确范围、费用、交期、交付物与修改规则</td>
+</tr>
+<tr>
+<td>5 确认方案</td>
+<td>用户</td>
+<td>接受报价后生成待启动订单；拒绝、过期或修改报价不视为成交；报价过期仅失效该版本，可申请重新评估</td>
+</tr>
+<tr>
+<td>6 启动服务</td>
+<td>运营</td>
+<td>确认材料与约定的付款条件均满足，记录启动日期及到期日期</td>
+</tr>
+<tr>
+<td>7 交付与反馈</td>
+<td>服务人员／用户</td>
+<td>上传版本文件，用户验收或提交本次修改意见</td>
+</tr>
+<tr>
+<td>8 修改或完成</td>
+<td>服务人员／用户</td>
+<td>范围内修改再次交付；验收后完成；未完成订单（待启动、服务中、待验收、修改中）可按规则申请取消，完成后仅进入约定售后</td>
+</tr>
+</tbody></table></div>
+<p>以下 <a href="https://mermaid.js.org"><strong>Mermaid</strong></a> 源码保留用于后续原型和技术文档复用，阅读版同时保留上表，无需依赖图形渲染理解流程。</p>
+<pre class="mermaid">flowchart TD
+    A[浏览三项服务] --&gt; B[提交需求]
+    B --&gt; C[人工评估]
+    C --&gt; D{是否可承接且材料足够}
+    D --&gt;|待补充| E[补充材料]
+    E --&gt; C
+    D --&gt;|不承接| X[说明原因并关闭需求]
+    D --&gt;|可以| F[出具报价]
+    F --&gt; G{用户决定}
+    G --&gt;|申请调整| F
+    G --&gt;|明确拒绝| X
+    G --&gt;|报价到期需重报| C
+    G --&gt;|接受| H[生成待启动订单]
+    H --&gt; I{材料与付款条件满足}
+    H --&gt;|取消申请| O[售后处理]
+    I --&gt;|尚未满足| H
+    I --&gt;|满足| J[启动服务]
+    J --&gt;|取消或争议| O
+    J --&gt; K[版本交付]
+    K --&gt; L{用户反馈}
+    L --&gt;|按规则受理一轮范围内修改| M[修改中]
+    M --&gt; K
+    M --&gt;|取消或争议| O
+    L --&gt;|确认验收| N[已完成]
+    L --&gt;|争议或取消申请| O
+    N --&gt;|约定售后范围内| O
+    O --&gt; P[记录处理结论]
+    P --&gt;|未完成订单确认取消结算| Q[已取消]
+    P --&gt;|未完成订单继续履约| S[恢复原阶段或按确认的变更继续]
+    P --&gt;|完成后问题已解决| T[维持已完成并保留售后结果]
+</pre><details class="source"><summary>展开可编辑图形源码</summary><pre><code>flowchart TD
+    A[浏览三项服务] --&gt; B[提交需求]
+    B --&gt; C[人工评估]
+    C --&gt; D{是否可承接且材料足够}
+    D --&gt;|待补充| E[补充材料]
+    E --&gt; C
+    D --&gt;|不承接| X[说明原因并关闭需求]
+    D --&gt;|可以| F[出具报价]
+    F --&gt; G{用户决定}
+    G --&gt;|申请调整| F
+    G --&gt;|明确拒绝| X
+    G --&gt;|报价到期需重报| C
+    G --&gt;|接受| H[生成待启动订单]
+    H --&gt; I{材料与付款条件满足}
+    H --&gt;|取消申请| O[售后处理]
+    I --&gt;|尚未满足| H
+    I --&gt;|满足| J[启动服务]
+    J --&gt;|取消或争议| O
+    J --&gt; K[版本交付]
+    K --&gt; L{用户反馈}
+    L --&gt;|按规则受理一轮范围内修改| M[修改中]
+    M --&gt; K
+    M --&gt;|取消或争议| O
+    L --&gt;|确认验收| N[已完成]
+    L --&gt;|争议或取消申请| O
+    N --&gt;|约定售后范围内| O
+    O --&gt; P[记录处理结论]
+    P --&gt;|未完成订单确认取消结算| Q[已取消]
+    P --&gt;|未完成订单继续履约| S[恢复原阶段或按确认的变更继续]
+    P --&gt;|完成后问题已解决| T[维持已完成并保留售后结果]
+</code></pre></details>
+<h3>7.2、<span id="states">需求、订单与资金分别记录</span></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>对象</th>
+<th>建议状态</th>
+<th>核心转换规则</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>需求单</td>
+<td>待评估、待补充、待确认报价、已转订单、已关闭</td>
+<td>提交进入待评估；补材料后重新评估；接受有效报价仅转一次订单；报价到期仅失效该版本，需重报时回待评估；明确拒绝、撤回或不承接时记录原因并关闭</td>
+</tr>
+<tr>
+<td>服务订单</td>
+<td>待启动、服务中、待验收、修改中、已完成、已取消</td>
+<td>启动条件满足才服务中；正式交付进入待验收；范围内、额度允许且经受理的一轮修改进入修改中；用户确认才完成；取消须有处理结果</td>
+</tr>
+<tr>
+<td>收款记录／收款汇总</td>
+<td>单笔待核实、待支付、结果未知／核查中、成功、确认失败、已关闭；汇总未收款、部分收款、已满足及超收提示</td>
+<td>A/B均可查看实际核验结果；分期允许多笔收款，未知不等于失败，不允许无判断地再次付款</td>
+</tr>
+<tr>
+<td>退款记录／退款汇总</td>
+<td>单笔申请、已批准、处理中、结果未知、成功、已拒绝、确认失败、已撤销；汇总展示已退及占用金额</td>
+<td>unknown继续占额度；失败不能抹去其他笔已退金额，批准不等于退款到账；未知仅查询不换号重退</td>
+</tr>
+<tr>
+<td>售后单</td>
+<td>待处理、处理中、已解决、已关闭</td>
+<td>原因、证据、处理意见及执行结果全程留痕；退款执行失败时不得标已解决</td>
+</tr>
+</tbody></table></div>
+<p>售后是独立记录，不覆盖原订单的交付历史。涉及服务暂停时，订单显示“售后处理中”的提示，并记录暂停／继续及交期变更；不凭一条售后申请自动取消服务或退款。未完成订单可按处理结论继续原阶段、确认范围变更或取消。<strong>完成后发生的售后修改挂在售后单下，新增交付版本和反馈，原订单保持已完成；已取消订单不被支付或售后回调重新启动。</strong> 资金结果独立记录。</p>
+<p>未在约定时间回复验收时先提醒，不默认把沉默视为学校通过或期刊录用。是否设置平台服务的自动完成规则另行确认；首期建议用户明确确认完成。</p>
+<h2>八、<span id="rules">报价、变更、取消和售后</span></h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>编号</th>
+<th>规则</th>
+<th>系统表现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R01</td>
+<td>报价完整</td>
+<td>正式报价固定本方具体子服务发布版本及材料版本；项目、服务范围、不含内容、金额与币种、第三方费用、周期起算条件、交付物、修改次数与期限、付款安排、有效期、取消退款规则必须能查看</td>
+</tr>
+<tr>
+<td>R02</td>
+<td>接受时锁定版本</td>
+<td>保存报价版本、用户确认时间及服务规则版本；报价被更新时旧链接不可接受</td>
+</tr>
+<tr>
+<td>R03</td>
+<td>范围变化再次确认</td>
+<td>用户新增内容或重大改稿时出具变更单；金额、交期及修改范围经再次确认后生效</td>
+</tr>
+<tr>
+<td>R04</td>
+<td>启动条件可解释</td>
+<td>订单显示“等待什么”：资料、约定款项或排期确认；不只显示模糊的“处理中”</td>
+</tr>
+<tr>
+<td>R05</td>
+<td>周期有基准</td>
+<td>明确工作日／自然日、开始事件、到期日期；补材料与暂停影响须记录，不能静默延后</td>
+</tr>
+<tr>
+<td>R06</td>
+<td>取消分阶段</td>
+<td>未接受报价可撤回需求；已转订单按约定规则审核取消；启动后说明已完成工作与可退金额依据</td>
+</tr>
+<tr>
+<td>R07</td>
+<td>退款有执行证据</td>
+<td>审批通过与退款完成分开；保留金额、渠道、凭据及结果，方案 B 由服务端确认支付渠道结果</td>
+</tr>
+<tr>
+<td>R08</td>
+<td>修改有上下文</td>
+<td>每次反馈关联交付版本；说明范围内修改、超范围新增和剩余约定次数，不默认为无限修改</td>
+</tr>
+<tr>
+<td>R09</td>
+<td>售后可追溯</td>
+<td>用户可查申请、处理人、时间及结论；拒绝申请也须给出原因，不静默移除记录</td>
+</tr>
+<tr>
+<td>R10</td>
+<td>联系可回退</td>
+<td>客服不可用时保留需求提交或留言入口及工作时间说明；不承诺未经确认的全天候响应</td>
+</tr>
+<tr>
+<td>R11</td>
+<td>接受报价原子化</td>
+<td>校验本人、当前报价版本、有效期和需求状态；接受记录、报价快照及转订单同事务完成。一需求只生成一笔服务订单；接受与重报价并发时只允许一个基于最新状态的结果生效</td>
+</tr>
+<tr>
+<td>R12</td>
+<td>付款尝试与服务分离</td>
+<td>一服务订单可以有多次付款尝试或约定分期；付款取消／关闭只影响该笔支付。支付超时、重复或迟到回调先核验渠道结果，不复开已取消／已完成的服务订单；多收款进入对账与售后处理</td>
+</tr>
+<tr>
+<td>R13</td>
+<td>退款金额守恒</td>
+<td>所有金额使用币种和最小货币单位整数；每笔退款关联原收款。同一币种下，累计退款成功金额与已批准占用额度之和不超过已核实实收；以事务锁定原收款并校验，失败后释放占用再重试</td>
+</tr>
+<tr>
+<td>R14</td>
+<td>完成后售后独立</td>
+<td>完成后返修记录在售后下，文件继续追加版本；保留原完成时间与验收证据，不倒改历史订单为服务中</td>
+</tr>
+<tr>
+<td>R15</td>
+<td>材料与授权不串单</td>
+<td>附件绑定需求／订单／交付／售后时校验归属；转单继承必要资料，员工撤派后撤销相应访问。替换文件生成新对象与新版本，已引用文件不原位覆盖；临时上传失效与业务留存分开清理</td>
+</tr>
+<tr>
+<td>R16</td>
+<td>演示数据隔离</td>
+<td>本地样例、真实数据与未知提交结果分别记录；缓存按账号与数据来源隔离，登出或换号清除上个账号的可见数据。恢复接口不自动上传演示写入，不混合替换真实订单的单个字段</td>
+</tr>
+<tr>
+<td>R17</td>
+<td>状态、通知和审计一致</td>
+<td>关键写入校验当前状态与版本号，并记录动作人、前后状态和发生时间；业务写入与待发送通知同事务登记，通知失败可重试，不能因此重复报价、订单或退款</td>
+</tr>
+<tr>
+<td>R18</td>
+<td>已售版本稳定</td>
+<td>下架停止新需求并失效未接受报价；未成交需求保留资料，重新承接需恢复可售并重新报价；已成交订单仍可按接受时版本查询和履约，条款更新不追改历史</td>
+</tr>
+<tr>
+<td>R19</td>
+<td>提交结果可追踪</td>
+<td>创建需求保留稳定提交标识与内容摘要；响应缓存过期后仍能返回原需求，同键异内容拒绝。结果未知或处理中记录不能仅按过期时间清理</td>
+</tr>
+<tr>
+<td>R20</td>
+<td>暂停与恢复可判定</td>
+<td>暂停是独立履约标记，保留原阶段、原因、开始时间及恢复条件；暂停期间停止新履约推进，恢复须有依据。多个暂停原因全部解除后才恢复，交期按已确认规则或变更单处理</td>
+</tr>
+<tr>
+<td>R21</td>
+<td>修改按受理轮次计数</td>
+<td>报价固化计次口径与额度；按受理的一轮范围内修改计数。同轮补充、重复请求及未受理／拒绝请求不重复扣次；超范围或额度用尽先评估，不直接改状态或收费</td>
+</tr>
+<tr>
+<td>R22</td>
+<td>取消先明确最终结算</td>
+<td>未完成订单取消结论须固定最终应收、已完成工作／减免依据、确认人及退款或尾款安排；经确认的结算变更与取消同事务生效，保留原成交价，终态不自动催付</td>
+</tr>
+<tr>
+<td>R23</td>
+<td>有效交付按业务分组</td>
+<td>主服务按订单判断，售后按订单＋售后任务判断各自最新正式交付；草稿不取代已发布版本。旧版只读，不能让另一个售后任务的新版本阻断本任务验收</td>
+</tr>
+</tbody></table></div>
+<p>R11的重复接受应返回已生成订单，而不是报错后要求重新提交；幂等键同时绑定操作者、动作与内容摘要，同一键携带不同内容须拒绝。已转单需求不得再出用于首次转单的报价，后续调整走变更单。</p>
+<p>R13的收款、退款与占用额从已核验记录聚合，不由手动编辑汇总状态代替。变更确认前原应收有效；确认后记录金额调整，原成交价和已收记录不覆盖。追加、降价后重新计算应付与可退；多收不能自动消失。人工核验同一收款凭据也需防止重复入账。</p>
+<p>退款结果未知时继续占用可退额度，先查询核实，不能把网络超时当作已失败而释放额度或更换业务号重新退款。</p>
+<p>资金展示使用同一币种、同一订单的已核验记录：实收为成功收款合计；实退为成功退款合计；退款占用为approved／processing／unknown合计；净实收＝实收－实退；启动可用款＝净实收－退款占用。当前待结算差额按有效应收与净实收计算，实际应付节点仍由已确认分期安排决定；多收单列，不抹除历史。启动还须满足材料、排期及未暂停，不因资金状态回调自动推进终态订单。</p>
+<p>R20中，创建售后不自动暂停，也不自动顺延。暂停期间允许查询、沟通、补料、核查资金、提出变更及处理售后；阻止启动、新的主服务交付和主服务完成。经同意的售后返修按该售后方案执行。恢复记录原暂停标识、条件满足依据及结束时间；未确认的新交期不覆盖原日期，连续暂停不得重复计时。</p>
+<p>R21中，每轮受理记录轮次标识、关联交付／反馈、适用规则和计次数。普通扣次轮为1、按规则免计轮为0；按轮次去重后累计计次数，不把免计轮当作一次已用额度。未发布下一正式版本前，同轮追加意见合并到原轮次；最后一轮额度的并发请求在订单锁下判定。主服务与各售后任务分别使用各自已约定的额度，不能互相扣次。次数、期限以及哪些纠正不消耗额度仍由报价规则明确，不代填数值。</p>
+<p>R22的验收示例（非服务报价）：原价1000元、已收300元，取消时双方确认最终应收100元、应退200元。系统保留原价1000元，生效应收改为100元；退款成功后净实收100元、待结算差额为0，不能继续提示900元待付。退款未成功前显示200元处理中或待查，售后不提前结案。若结算存在争议，不静默改价；已取消／已完成仅保留已确认结算处理入口，不自动新建支付或恢复履约。</p>
+<p>R18的“保留查询”不等于继续销售：服务下架时停止新需求并使未接受报价失效；未成交需求保留，重新承接前需恢复可售并重新报价。已成交订单继续按已接受快照履约，不受目录上下架影响。下架与接受报价冲突时由事务顺序决定，先接受的订单保留，先下架的报价不得再接受。</p>
+<p>具体金额、定金比例、修改次数、验收期限和退款公式由业务确认，本稿不代填数字。若业务选择无需预付款或分期，R04 按实际报价约定判断，不硬编码成“全额付款才启动”。</p>
+<h2>九、<span id="admin">内部后台的最小需求</span></h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>模块</th>
+<th>最小能力</th>
+<th>主要角色</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>服务内容</td>
+<td>三分类固定；子服务、说明、排序、上下架与计价方式配置</td>
+<td>管理员／运营</td>
+</tr>
+<tr>
+<td>需求管理</td>
+<td>查看、筛选、联系记录、补资料、指派、关闭及原因</td>
+<td>客服／运营</td>
+</tr>
+<tr>
+<td>报价管理</td>
+<td>创建、修改版本、发送、有效期、接受记录及变更单</td>
+<td>有报价权限的人员</td>
+</tr>
+<tr>
+<td>订单管理</td>
+<td>启动条件、负责人、交期、状态、备注、版本交付</td>
+<td>运营／被指派服务人员</td>
+</tr>
+<tr>
+<td>文件管理</td>
+<td>业务归属、上传者、版本、下载权限和失效控制</td>
+<td>按订单授权</td>
+</tr>
+<tr>
+<td>售后管理</td>
+<td>申请、证据、沟通、处理意见、执行结果</td>
+<td>客服／管理员</td>
+</tr>
+<tr>
+<td>资金记录</td>
+<td>方案 A 核验记录；方案 B 支付、退款及对账</td>
+<td>财务权限人员</td>
+</tr>
+<tr>
+<td>配置与权限</td>
+<td>主体、客服、规则文本、账号角色、操作日志</td>
+<td>管理员</td>
+</tr>
+</tbody></table></div>
+<p>服务人员默认只看被分配订单及必要附件；客服看自己负责或获授权的数据；财务权限不自动包含全部稿件访问权。修改报价、交期、状态、退款和文件权限记录操作人与时间。</p>
+<p>首期不要求额外建设专家端或独立员工小程序。后台需要在常见电脑浏览器可用，是否支持手机处理可作为后续明确项。</p>
+<h2>十、<span id="design">简洁明确与差异化的设计要求</span></h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>建议要求</th>
+<th>检查方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>第一眼</td>
+<td>能识别三项服务及平台提供什么支持</td>
+<td>首屏短测：用户能找到对应业务，无需阅读长介绍</td>
+</tr>
+<tr>
+<td>信息量</td>
+<td>每页一个主要动作，服务详情先给范围与交付</td>
+<td>详情按钮层级清楚，避免咨询、购买、预约同时抢主位</td>
+</tr>
+<tr>
+<td>自有品牌</td>
+<td>新名称、标志、图标、文案、卡片构图和主视觉</td>
+<td>与参考截图并排检查，不能出现对方品牌、人物素材或同版式海报</td>
+</tr>
+<tr>
+<td>配色</td>
+<td>白／浅灰背景、深色正文、一个自有强调色；具体颜色待品牌与设计选定</td>
+<td>主次清楚，不能只靠颜色识别状态，不沿用竞品醒目绿色组合与整套构图</td>
+</tr>
+<tr>
+<td>移动端</td>
+<td>窄屏优先、纵向浏览、底部动作适配安全区域</td>
+<td>表单键盘不遮挡提交，长标题不截断关键内容</td>
+</tr>
+<tr>
+<td>易读易点</td>
+<td>主次文字清楚、可点击区域充足、错误定位明确</td>
+<td>检查小屏、大字体、弱网、触控与读屏标签；不以截图代替可访问性实测</td>
+</tr>
+<tr>
+<td>信任</td>
+<td>展示真实主体、可执行的服务规则与联系方式</td>
+<td>不展示无依据的客户数量、机构合作、保证通过或虚构好评</td>
+</tr>
+</tbody></table></div>
+<p>候选文案仅用于表达方向：“三类服务，按需获得支持”“选清服务，进度可查”。品牌名称和最终宣传文案待确认，不从对方页面改几个字后直接上架。</p>
+<p>素材制作阶段按用户既有规则先查 <a href="https://www.iconfont.cn/"><strong>iconfont</strong></a>，不合适时查官方或可追溯来源；使用本地打包素材并记录来源。参考截图与文档封面不属于产品运行素材。</p>
+<h2>十一、<span id="data">材料、数据与隐私需求</span></h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>数据对象</th>
+<th>需要保留的业务信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>服务</td>
+<td>三分类、子服务、范围、交付物、计价方式、规则版本、上下架状态</td>
+</tr>
+<tr>
+<td>用户</td>
+<td>登录标识、必要联系信息、授权记录；昵称头像非必要不强制</td>
+</tr>
+<tr>
+<td>需求</td>
+<td>编号、所属用户、类型、字段、附件、状态、处理人、来源及时间</td>
+</tr>
+<tr>
+<td>报价</td>
+<td>版本、范围、费用、币种、周期、修改规则、有效期、确认记录</td>
+</tr>
+<tr>
+<td>订单</td>
+<td>已确认报价快照、状态、负责人、交期、启动条件、关键事件</td>
+</tr>
+<tr>
+<td>文件</td>
+<td>归属、用途、版本、上传者、时间、格式、大小与访问授权</td>
+</tr>
+<tr>
+<td>售后／资金</td>
+<td>申请原因、证据、处理结论；按付款方案记录金额、渠道与核验结果</td>
+</tr>
+</tbody></table></div>
+<p>上传前说明用途与可访问人员范围。稿件可能包含未公开研究、个人信息或第三方材料，用户仅提交履约所需内容；运营不将稿件自动转成公开案例或训练素材。</p>
+<p>文件格式、大小、数量、保留期限、删除流程与备份策略应在开发前确认。删除申请需要区分可删除附件与需保留的交易／争议记录，并告知处理结果；本稿不虚构统一保存年限。附件不可通过可猜测的公开地址任意下载；下载与重新登录均校验访问权限。对象存储保存文件内容，数据库保存对象标识、业务绑定、版本与授权信息；不把文件本体、支付密钥或微信会话密钥混进业务表。删除、保留及备份恢复必须继承已确认的撤权／删除结果，不以恢复备份重新公开已撤回材料。</p>
+<h2>十二、<span id="runtime">接口、异常与本地演示要求</span></h2>
+<p>沿用 Jobs 已确认的全端规则：<strong>服务端优先，本地演示回退。</strong> 页面进入、刷新及用户写操作照常请求业务接口；首屏可先显示本地样例，成功后用服务端响应替换，失败、超时或解析失败时继续演示本地数据。</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>必需行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>演示环境接口不可用</td>
+<td>使用短且可配置的超时；本地继续提交样例需求、报价、交付与反馈，并明显标识“本地演示，未实际提交”</td>
+</tr>
+<tr>
+<td>接口恢复</td>
+<td>后续成功响应自动显示真实数据；不要求用户切模式；本地样例不自动上传成真实订单</td>
+</tr>
+<tr>
+<td>换号及登出</td>
+<td>缓存绑定用户与数据来源；清除原账号可见稿件、订单及联系信息，不能先绘制上一账号的真实数据</td>
+</tr>
+<tr>
+<td>真实写入结果未知</td>
+<td>不把网络超时直接当成失败再重复创建；通过请求标识查询或安全重试，避免重复需求／订单</td>
+</tr>
+<tr>
+<td>付款、上传、交付回退</td>
+<td>可以演示样例状态，但不能伪装实际到账、文件已上传或真实交付；服务端真实结果和演示状态分开</td>
+</tr>
+<tr>
+<td>动态列表为空</td>
+<td>服务、需求、订单、交付记录等各有完整空态、说明及重新加载入口；成功返回空数组应显示真实空态，不被假数据填满</td>
+</tr>
+<tr>
+<td>真实空态后刷新失败</td>
+<td>保留该账号上次成功的真实空态与重试提示；本地演示仍可继续，但应在清楚标识的独立演示上下文中呈现，不冒充本人真实订单</td>
+</tr>
+<tr>
+<td>登录失效／无权／对象不存在</td>
+<td>不作为接口宕机触发假成功；立即停止展示对应受保护内容，重新登录或返回列表，不用旧缓存绕过撤权</td>
+</tr>
+<tr>
+<td>失败可恢复</td>
+<td>保留表单内容，提供重试；上传失败显示到具体文件，不丢失其他已上传材料</td>
+</tr>
+<tr>
+<td>图片不可用</td>
+<td>优先使用本地打包素材；若后续明确采用网络图，则先显示本地品牌图，异步成功后替换，失败保留本地兜底</td>
+</tr>
+<tr>
+<td>状态变化</td>
+<td>服务端校验允许的状态转换；用户看见发生时间与下一步，不能只靠客户端改状态</td>
+</tr>
+</tbody></table></div>
+<p>部署说明必须区分演示数据与真实业务数据，写明接口回退、空态、图片兜底和无服务器预览方式。生产环境中的失败操作不能显示普通的“提交成功”，本地演示结果使用不同提示。</p>
+<h2>十三、<span id="launch">上线前提与实施工作包</span></h2>
+<h3>13.1、<span id="launch-inputs">业务与平台准备</span></h3>
+<ul>
+<li>品牌名称、标志、运营主体及真实联系方式。</li>
+<li>三项服务准确边界、上架菜单、报价方式、周期和修改售后规则。</li>
+<li>小程序平台账号、实际可申请类目与主体能力核验；根据上线地与平台要求准备所需资料，不承诺当然过审。</li>
+<li>后端部署、接口与文件服务地址、附件访问控制、备份和日志方案；可无宣传官网，但仍需这些运行条件。</li>
+<li>如选择在线支付，完成商户接入与必要的订单管理适配，验证实际到账、退款及异常恢复。</li>
+<li>按实际采集信息形成隐私说明与授权交互，完成手机真机的附件选择、上传、下载及文档打开验证。</li>
+</ul>
+<p>微信开发文档中的<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/user-privacy/miniprogram-intro.html">隐私能力说明</a>和<a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/file/wx.chooseMessageFile.html">文件选择接口</a>列为开发核验入口；本轮未能打开其正文，未据此写入具体版本、限制或权限结论。</p>
+<h3>13.2、<span id="delivery-plan">实施顺序建议</span></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>工作</th>
+<th>完成标志</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A 需求定稿</td>
+<td>确认 D01—D09 的关键业务选项，补充真实服务菜单</td>
+<td>范围、服务、收款、文件和交付口径可执行</td>
+</tr>
+<tr>
+<td>B 原型与视觉</td>
+<td>首页、服务详情、需求表单、报价、订单五个核心界面优先</td>
+<td>手机流程能走通，独立品牌风格可检查</td>
+</tr>
+<tr>
+<td>C 核心开发</td>
+<td>小程序、运营后台、接口、附件、权限和演示回退</td>
+<td>三项服务各有完整样例及真实接口链路</td>
+</tr>
+<tr>
+<td>D 交易工作包</td>
+<td>仅选择在线支付时加入支付、退款、对账与平台适配</td>
+<td>资金状态可核验，失败与重复回调处理正确</td>
+</tr>
+<tr>
+<td>E 验收上线</td>
+<td>业务用例、真实设备、权限、恢复、内容和平台提审</td>
+<td>验收项通过，材料与运营规则齐备</td>
+</tr>
+</tbody></table></div>
+<p>工期和费用应在平台、服务子项、支付方案、文件处理与运营角色确认后评估；当前不报缺乏依据的固定天数或金额。</p>
+<h2>十四、<span id="acceptance">验收条件</span></h2>
+<p>以下是未来软件验收要求。文档回归与数据库隔离探针的实际结果单列于<a href="./%E9%9C%80%E6%B1%82%E5%9B%9E%E5%BD%92%E6%8A%A5%E5%91%8A%E9%98%85%E8%AF%BB%E7%89%88.html">回归报告</a>，不代表这些软件验收项已经通过。</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>编号</th>
+<th>验收场景</th>
+<th>通过条件</th>
+<th>关联</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T01</td>
+<td>首页范围</td>
+<td>可找到毕业论文、普刊、编译，未混入其他业务</td>
+<td>C03、F01</td>
+</tr>
+<tr>
+<td>T02</td>
+<td>简洁与原创表达</td>
+<td>手机可清楚辨认入口；无对方标志、人物海报、整段文案及虚构资质</td>
+<td>C04、C05</td>
+</tr>
+<tr>
+<td>T03</td>
+<td>游客浏览</td>
+<td>未登录能浏览服务，拒绝非必要授权仍可继续浏览</td>
+<td>F02</td>
+</tr>
+<tr>
+<td>T04</td>
+<td>三类表单</td>
+<td>每类字段匹配业务，条件必填与错误提示正确</td>
+<td>F03</td>
+</tr>
+<tr>
+<td>T05</td>
+<td>上传恢复</td>
+<td>显示进度及失败文件，可重试，表单不丢失</td>
+<td>F03</td>
+</tr>
+<tr>
+<td>T06</td>
+<td>重复与超时</td>
+<td>重复点击与结果未知重试不生成重复有效需求／订单</td>
+<td>F03、R02</td>
+</tr>
+<tr>
+<td>T07</td>
+<td>提交与补充</td>
+<td>返回编号；后台可见；补资料后能继续评估</td>
+<td>F03、F04</td>
+</tr>
+<tr>
+<td>T08</td>
+<td>完整报价</td>
+<td>用户能查看 R01 所列要素，接受或调整有记录</td>
+<td>F05、R01</td>
+</tr>
+<tr>
+<td>T09</td>
+<td>报价一致性</td>
+<td>过期／旧版不可接受，转单与报价版本一致且仅转一次</td>
+<td>F05、R02</td>
+</tr>
+<tr>
+<td>T10</td>
+<td>启动与进度</td>
+<td>条件未满足不能启动；下一步及交期清楚</td>
+<td>F06、R04、R05</td>
+</tr>
+<tr>
+<td>T11</td>
+<td>普刊状态</td>
+<td>平台进度与外部期刊反馈分开，外部反馈有来源日期</td>
+<td>F06</td>
+</tr>
+<tr>
+<td>T12</td>
+<td>交付与修改</td>
+<td>每次文件有版本与时间，反馈关联具体版本</td>
+<td>F07、R08</td>
+</tr>
+<tr>
+<td>T13</td>
+<td>需求变更</td>
+<td>变更金额或交期需重新确认，原记录可查</td>
+<td>R03</td>
+</tr>
+<tr>
+<td>T14</td>
+<td>取消与售后</td>
+<td>阶段规则正确，处理及拒绝原因可查，结果不伪造</td>
+<td>F08、R06—R09</td>
+</tr>
+<tr>
+<td>T15</td>
+<td>资金真实</td>
+<td>A：核验前不标到账；B：服务端确认到账／退款，异常可查询</td>
+<td>付款方案、R07</td>
+</tr>
+<tr>
+<td>T16</td>
+<td>空态与恢复</td>
+<td>所有动态列表有空态及重载；真实空结果不被演示数据覆盖</td>
+<td>第十二章</td>
+</tr>
+<tr>
+<td>T17</td>
+<td>演示回退</td>
+<td>断网可演示，显著区分未真实提交／付款／上传；恢复后成功响应替换数据</td>
+<td>第十二章</td>
+</tr>
+<tr>
+<td>T18</td>
+<td>本人权限</td>
+<td>不同用户不能查看对方需求、订单或文件，改编号和链接也无效</td>
+<td>F02、第十一章</td>
+</tr>
+<tr>
+<td>T19</td>
+<td>员工权限</td>
+<td>被指派员工只能访问授权业务；改价、改交期、退款留日志</td>
+<td>F10</td>
+</tr>
+<tr>
+<td>T20</td>
+<td>真机与可读性</td>
+<td>小屏、大字体、键盘、上传下载及文档打开可用，关键信息无裁切</td>
+<td>第十章</td>
+</tr>
+<tr>
+<td>T21</td>
+<td>后台闭环</td>
+<td>运营能独立完成接单、报价、更新、交付及售后，不依赖开发人员改数据</td>
+<td>F10</td>
+</tr>
+<tr>
+<td>T22</td>
+<td>端到端</td>
+<td>三项服务各走通提交、报价、转单、交付、修改与验收；补资料、撤回、拒绝报价、网络失败有用例</td>
+<td>F01—F10</td>
+</tr>
+<tr>
+<td>T23</td>
+<td>并发接受与重报价</td>
+<td>并发请求仅生成一订单；被替换或到期的版本不能转单，异常回滚无半完成记录</td>
+<td>R11</td>
+</tr>
+<tr>
+<td>T24</td>
+<td>迟到或重复收款结果</td>
+<td>渠道交易去重；取消付款不取消服务单；终态订单不被复开，实际到账进入对账</td>
+<td>R12</td>
+</tr>
+<tr>
+<td>T25</td>
+<td>退款聚合</td>
+<td>多笔退款成功、处理中及失败混合时汇总正确；重复审批／回调不重复扣减，可退额不得为负</td>
+<td>R13</td>
+</tr>
+<tr>
+<td>T26</td>
+<td>完成后返修</td>
+<td>售后返修新增版本，保留原完成与验收证据；不能改变原订单终态</td>
+<td>R14</td>
+</tr>
+<tr>
+<td>T27</td>
+<td>文件归属及撤派</td>
+<td>绑定他人文件被拒；撤派后旧员工不可继续下载；替换材料不覆盖旧交付引用</td>
+<td>R15</td>
+</tr>
+<tr>
+<td>T28</td>
+<td>演示与账号隔离</td>
+<td>换号不闪现旧账号数据；恢复接口不自动补发样例，真实空态保留</td>
+<td>R16</td>
+</tr>
+<tr>
+<td>T29</td>
+<td>业务与通知重试</td>
+<td>状态版本冲突安全拒绝；提交成功通知失败仍只有一笔业务记录，通知可补发</td>
+<td>R17</td>
+</tr>
+<tr>
+<td>T30</td>
+<td>下架与历史条款</td>
+<td>新需求不能选已下架服务；已存在订单按接受时的版本继续履约</td>
+<td>R18</td>
+</tr>
+<tr>
+<td>T31</td>
+<td>阶段动作一致</td>
+<td>未成交需求可撤回，转单后使用取消申请；完成后仅约定售后，A/B付款入口符合配置</td>
+<td>P05、P08、P12、R06</td>
+</tr>
+<tr>
+<td>T32</td>
+<td>验收与取消冲突</td>
+<td>并发验收／取消只允许基于当前状态及版本的一个结果成功，另一方刷新；终态保留历史</td>
+<td>R14、R17</td>
+</tr>
+<tr>
+<td>T33</td>
+<td>响应缓存过期后的重试</td>
+<td>需求已创建但响应丢失，清理响应缓存后同提交键仍返回原需求；不同正文不能复用该键</td>
+<td>R19、T06</td>
+</tr>
+<tr>
+<td>T34</td>
+<td>修改中取消</td>
+<td>修改中可进入取消／争议流程，批准前不直接取消；拒绝后保留原轮次继续修改</td>
+<td>R06、R22、主流程</td>
+</tr>
+<tr>
+<td>T35</td>
+<td>未知资金结果与动作</td>
+<td>P08的A/B资金状态均可查；B未知结果先查询，不误显失败或直接再付；退款未知不换号重退</td>
+<td>R12、R13、P08、P12</td>
+</tr>
+<tr>
+<td>T36</td>
+<td>暂停、恢复与交期</td>
+<td>多个暂停原因、连续暂停／恢复不重复计时；条件未满足不推进履约；原交期与确认后的交期均可追溯</td>
+<td>R20、R05</td>
+</tr>
+<tr>
+<td>T37</td>
+<td>修改轮次与额度</td>
+<td>同轮多条意见只扣一次；重复或被拒请求不扣；末次额度并发不多扣，超范围先评估</td>
+<td>R21、R08</td>
+</tr>
+<tr>
+<td>T38</td>
+<td>取消结算</td>
+<td>原价1000、收300、结算100、退200的样例中，取消后不再提示900待付；原价、结算、退款与差额可追溯</td>
+<td>R22、R13</td>
+</tr>
+<tr>
+<td>T39</td>
+<td>交付分组与草稿</td>
+<td>两个并行售后各自可验收最新正式版本；新草稿不使原正式版本失效；同组新正式版发布后旧版只读</td>
+<td>R23、R14</td>
+</tr>
+</tbody></table></div>
+<h2>十五、<span id="decisions">待确认事项与建议默认值</span></h2>
+<p><strong>不影响本轮文档交付；D01—D09 影响原型定稿和开发估算。</strong> 未回复不等于确认，以下默认值仅用于继续分析。</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>编号</th>
+<th>需要明确什么</th>
+<th>当前建议／待补材料</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>D01</td>
+<td>哪种小程序</td>
+<td>暂按微信小程序；若另有平台，需要调整平台能力与审核准备</td>
+<td>平台与技术路径</td>
+</tr>
+<tr>
+<td>D02</td>
+<td>三项服务具体经营内容</td>
+<td>确认毕业论文与普刊的可售子项；编译是否就是翻译＋润色</td>
+<td>字段、文案、交付与范围</td>
+</tr>
+<tr>
+<td>D03</td>
+<td>自有品牌与主体</td>
+<td>名称、标志、运营主体、客服渠道；当前未提供，不虚构</td>
+<td>设计、账号与信任信息</td>
+</tr>
+<tr>
+<td>D04</td>
+<td>定价方式</td>
+<td>优先人工评估后报价；有标准服务再配置明确价格</td>
+<td>详情页与报价流程</td>
+</tr>
+<tr>
+<td>D05</td>
+<td>首期是否在线支付</td>
+<td>从第四章 A／B 选定；在线支付另计工作包</td>
+<td>开发范围、主体与资金流程</td>
+</tr>
+<tr>
+<td>D06</td>
+<td>收款和费用边界</td>
+<td>全款／分期、启动条件、第三方费用与开票需求</td>
+<td>启动、退款与财务</td>
+</tr>
+<tr>
+<td>D07</td>
+<td>周期与售后标准</td>
+<td>响应时间、周期起算、修改次数、反馈期限、取消退款规则</td>
+<td>可承诺文案与验收</td>
+</tr>
+<tr>
+<td>D08</td>
+<td>运营方式</td>
+<td>谁接待、报价、服务、交付和处理争议；是否需要外部老师参与</td>
+<td>后台角色、权限、工作量</td>
+</tr>
+<tr>
+<td>D09</td>
+<td>材料与保存</td>
+<td>常用格式、大小、数量、保留期限、删除与备份需求</td>
+<td>文件方案与隐私</td>
+</tr>
+<tr>
+<td>D10</td>
+<td>展示素材</td>
+<td>只使用真实且可授权的团队、案例和评价，无资料则不设模块</td>
+<td>首页内容与素材工作量</td>
+</tr>
+<tr>
+<td>D11</td>
+<td>规模与预算</td>
+<td>初期预计咨询量、并行订单、上线期望与预算范围</td>
+<td>容量、计划及报价</td>
+</tr>
+<tr>
+<td>D12</td>
+<td>对外官网</td>
+<td>暂不建设，需要推广承接时再独立提出</td>
+<td>不阻塞小程序核心流程</td>
+</tr>
+</tbody></table></div>
+<h2>十六、<span id="evidence">参考截图与来源</span></h2>
+<h3>16.1、<span id="shot-home">截图01　官网首页</span></h3>
+<p>来源：<a href="https://www.keyan.asia/">官网首页</a>。本轮浏览器实际截取并检查，包含导航、推广区、服务入口及推荐服务。截图是电脑网页，不代表其小程序样式。</p>
+<p><img src="./%E5%8F%82%E8%80%83%E6%88%AA%E5%9B%BE/01-%E5%AE%98%E7%BD%91%E9%A6%96%E9%A1%B5.jpg" alt="官网首页调研截图"></p>
+<h3>16.2、<span id="shot-services">截图02　服务总览</span></h3>
+<p>来源：<a href="https://www.keyan.asia/productService/">学术产品服务页</a>。本轮浏览器实际截取并检查，展示分类、搜索及服务卡片；截图没有覆盖页面全部内容。</p>
+<p><img src="./%E5%8F%82%E8%80%83%E6%88%AA%E5%9B%BE/02-%E6%9C%8D%E5%8A%A1%E6%80%BB%E8%A7%88.jpg" alt="服务总览调研截图"></p>
+<h3>16.3、<span id="source-boundary">来源边界与复核清单</span></h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>来源</th>
+<th>用于支持什么</th>
+<th>不用于推断什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>官网公开页面及本地截图</td>
+<td>公开导航、可见分类、产品卡片、价格表达和品牌呈现</td>
+<td>不验证对方成交量、服务质量、真实收费、登录后能力或后台实现</td>
+</tr>
+<tr>
+<td>服务页公开文本与可访问树</td>
+<td>编译下列有翻译、润色等产品，三类业务可有子项</td>
+<td>不等于确认本项目全部照此经营</td>
+</tr>
+<tr>
+<td>微信支付官方接入准备，页面更新时间2026年10月16日</td>
+<td>在线支付需要单独处理账号、商户、绑定及适用的订单要求</td>
+<td>不代表本项目主体已获权限或一定能通过平台审核</td>
+</tr>
+<tr>
+<td>用户本轮及补充说明</td>
+<td>C01—C07 的需求基线</td>
+<td>不代表已批准本稿其他建议或工程预算</td>
+</tr>
+</tbody></table></div>
+<p>后续若需要“他们每一步怎么做”的逐页对标，应继续核查三项服务详情、咨询入口及有授权的登录后路径；目前不能把未进入的支付与交付链路写成已复刻。此项不影响本轮需求分析交付。</p>
+<h2>十七、<span id="regression">需求回归与整改结果</span></h2>
+<p>回归范围覆盖已确认要求、服务定义、页面、流程、状态、资金、文件、权限、接口回退与验收映射。回归结果必须落实到对应需求正文与验收条目；仅在报告罗列问题不算闭环。</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>发现的缺口</th>
+<th>需求中的处理位置</th>
+<th>回归检查</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>同时接受与更新报价可能重复转单</td>
+<td>R11，T23</td>
+<td>锁定当前报价、接受与转单同事务、一需求一订单</td>
+</tr>
+<tr>
+<td>付款状态变化可能错误驱动服务状态</td>
+<td>R12，T24</td>
+<td>付款尝试独立，重复／迟到支付结果不能复开订单</td>
+</tr>
+<tr>
+<td>收退款状态混杂与重复退款</td>
+<td>第7.2节、R13，T25</td>
+<td>收款与退款分轴显示，成功金额与占用额守恒</td>
+</tr>
+<tr>
+<td>完成后返修可能修改原完成历史</td>
+<td>第7.2节、R14，T26</td>
+<td>售后交付追加版本，原订单保持终态</td>
+</tr>
+<tr>
+<td>文件跨单或原位覆盖、撤派后仍有访问</td>
+<td>第十一章、R15，T27</td>
+<td>业务绑定校验、不可覆盖版本与即时撤权</td>
+</tr>
+<tr>
+<td>本地样例与换号缓存可能串用</td>
+<td>第十二章、R16，T28</td>
+<td>账号及来源隔离，未知写入先查询，样例不自动上传</td>
+</tr>
+<tr>
+<td>业务落库与通知可能相互影响</td>
+<td>R17，T29</td>
+<td>状态版本校验、事务内登记事件、通知重试不重做业务</td>
+</tr>
+<tr>
+<td>服务下架或条款更新影响历史履约</td>
+<td>R18，T30</td>
+<td>接受时固化服务与规则版本，下架只停止新增</td>
+</tr>
+<tr>
+<td>响应缓存过期后可能重复创建需求</td>
+<td>R19，T33</td>
+<td>提交标识与摘要随业务记录保留，结果未知不按TTL清理</td>
+</tr>
+<tr>
+<td>修改中取消在流程图遗漏</td>
+<td>第7.1节、T34</td>
+<td>修改中与其他未完成阶段使用相同的取消审核入口</td>
+</tr>
+<tr>
+<td>unknown资金状态与页面未对齐</td>
+<td>第7.2节、P08、P12、T35</td>
+<td>A/B均显示核验状态，未知先查询而不是直接再付</td>
+</tr>
+<tr>
+<td>暂停缺恢复和计时合同</td>
+<td>R20、T36</td>
+<td>独立暂停标记、动作限制、条件恢复与交期留痕</td>
+</tr>
+<tr>
+<td>剩余修改次数无扣减单位</td>
+<td>R21、T37</td>
+<td>受理轮次、合并补充与幂等扣次，主服务／售后额度分开</td>
+</tr>
+<tr>
+<td>取消后仍可能按原价催付</td>
+<td>R22、T38</td>
+<td>确认最终结算应收，保留原价及退款事实，终态不自动催付</td>
+</tr>
+<tr>
+<td>订单最大交付号误伤并行售后</td>
+<td>R23、T39</td>
+<td>按主服务／各售后分组取最新正式版本，排除草稿</td>
+</tr>
+</tbody></table></div>
+<p>完整问题台账、追踪矩阵、执行证据及未执行项见<a href="./%E9%9C%80%E6%B1%82%E5%9B%9E%E5%BD%92%E6%8A%A5%E5%91%8A%E9%98%85%E8%AF%BB%E7%89%88.html">需求回归报告</a>。本阶段“文档已闭环”“数据库约束探针已执行”“真实业务尚未验收”分别记录，不能相互替代。</p>
+<h2>十八、<span id="database">数据库设计总览</span></h2>
+<p>数据库采用29张表的关系模型：账号与授权、服务与规则版本、需求与报价、订单与变更、文件与交付、售后与资金分别保存并关联。详细设计见<a href="./%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E9%98%85%E8%AF%BB%E7%89%88.html">数据库设计</a>，可执行空库建表语句见<a href="./%E6%95%B0%E6%8D%AE%E5%BA%93%E7%BB%93%E6%9E%84.sql">数据库结构</a>，57项隔离探针结果见<a href="./%E6%95%B0%E6%8D%AE%E5%BA%93%E9%AA%8C%E8%AF%81%E7%BB%93%E6%9E%9C.json">数据库验证结果</a>。</p>
+<p>工程方案暂按 <a href="https://www.postgresql.org/"><strong>PostgreSQL</strong></a> 设计，<strong>属于本稿建议，不代表用户已选定技术栈。</strong> 本轮在 PGlite 0.5.13 的隔离 PostgreSQL 18.6 引擎中执行建表与约束探针，不接触现有业务数据库；真实部署前仍需在最终原生数据库版本上执行迁移、并发、权限和备份恢复验收。</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>业务领域</th>
+<th>设计要求</th>
+<th>关联需求</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>账号与权限</td>
+<td>用户与登录身份分离，员工角色及业务授权独立；不能只靠知道记录编号取得访问权</td>
+<td>F02、F10、T18、T19</td>
+</tr>
+<tr>
+<td>服务与条款</td>
+<td>固定三分类；子服务与规则保留版本；历史订单保留已接受版本</td>
+<td>C03、F01、R18</td>
+</tr>
+<tr>
+<td>需求与报价</td>
+<td>需求保留材料版本；报价版本、有效期与接受证据可追溯</td>
+<td>F03—F05、R01、R11</td>
+</tr>
+<tr>
+<td>订单与变更</td>
+<td>一需求一订单，价格、交期与范围变更经确认后生效，状态事件保留历史</td>
+<td>F06、R03、R17</td>
+</tr>
+<tr>
+<td>文件与交付</td>
+<td>文件对象与业务绑定分离；不可原位覆盖；交付及反馈绑定正确订单版本</td>
+<td>F07、R14、R15</td>
+</tr>
+<tr>
+<td>期刊外部信息</td>
+<td>与平台服务状态分开，记录真实来源及时间</td>
+<td>第5.2节、T11</td>
+</tr>
+<tr>
+<td>售后与资金</td>
+<td>售后状态、收款和退款独立；退款关联原收款并限制累计额度</td>
+<td>F08、R12、R13</td>
+</tr>
+<tr>
+<td>审计与幂等</td>
+<td>重要写入留痕；同一业务命令重复执行有唯一性及恢复路径</td>
+<td>R11、R17、T06、T29</td>
+</tr>
+</tbody></table></div>
+<p>金额按币种最小单位整数存储，时间采用带时区时间戳。主键、外键、唯一与检查约束负责单行／关系完整性；跨行金额累计、当前报价有效性、状态转换、员工权限和文件删除执行由明确的事务及服务规则负责，不能假称一个外键就能完成授权或防止所有并发问题。</p>
+<p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
+</article><footer>可编辑原稿：学术服务小程序需求分析.md。图形使用随包Mermaid离线渲染；数据库验证边界见回归报告。</footer></main></div><a class="top-button" href="#top">返回顶部 ↑</a><script src="./阅读资源/mermaid.min.js"></script><script>mermaid.initialize({startOnLoad:true,securityLevel:"strict",theme:"neutral",flowchart:{htmlLabels:false,useMaxWidth:true},er:{useMaxWidth:true}});const links=[...document.querySelectorAll("aside nav a")];const observer=new IntersectionObserver(entries=>{for(const e of entries){if(e.isIntersecting){const id=e.target.querySelector("span[id]")?.id;links.forEach(a=>a.classList.toggle("active",a.hash==="#"+id))}}},{rootMargin:"0px 0px -75% 0px"});document.querySelectorAll("article h2").forEach(h=>observer.observe(h));</script></body></html>

@@ -1,0 +1,9 @@
+{
+  "checked_at": "2026-10-30",
+  "reader": "工程总览阅读版.html",
+  "mermaid_diagrams_rendered": 3,
+  "mermaid_errors": 0,
+  "reading_links_use_html": true,
+  "ui_smoke": "Real local Go: customer creates editing case; admin quotes CNY100; customer accepts; shared case versions 1/2/3. 390px user layout screenshot captured.",
+  "temporary_servers": "Stopped after verification; test instance locks released"
+}

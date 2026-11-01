@@ -1,0 +1,10 @@
+{
+  "checked_at": "2026-10-30",
+  "bundle": "dist/2026.10.30 16-29-52/Zhixu.app",
+  "dmg": "dist/2026.10.30 16-29-52/Zhixu.dmg",
+  "dmg_sha256": "ead920d0dc7c6721c32245c0b939e6663b46b4b9673f0024454d0106e55565ef",
+  "native_macho_files_checked": 87,
+  "external_non_system_dependencies": [],
+  "relocated_native_launch": true,
+  "scope": "macOS Apple Silicon local build + independent renamed copied bundle, not another computer or actual AirDrop AppTranslocation"
+}

@@ -1,0 +1,202 @@
+test_01_three_services_and_empty_lists (__main__.HTTPRegression.test_01_three_services_and_empty_lists) ... ok
+test_02_auth_and_validation (__main__.HTTPRegression.test_02_auth_and_validation) ... /opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/lib/python3.15/tempfile.py:538: ResourceWarning: Implicitly cleaning up <HTTPError 401: 'Unauthorized'>
+  _warnings.warn(self.warn_message, ResourceWarning)
+/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/lib/python3.15/tempfile.py:538: ResourceWarning: Implicitly cleaning up <HTTPError 422: 'Unprocessable Entity'>
+  _warnings.warn(self.warn_message, ResourceWarning)
+ok
+test_03_stable_idempotency (__main__.HTTPRegression.test_03_stable_idempotency) ... FAIL
+test_04_ownership_and_staff_authority (__main__.HTTPRegression.test_04_ownership_and_staff_authority) ... /opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/lib/python3.15/tempfile.py:538: ResourceWarning: Implicitly cleaning up <HTTPError 429: 'Too Many Requests'>
+  _warnings.warn(self.warn_message, ResourceWarning)
+FAIL
+test_05_concurrent_acceptance (__main__.HTTPRegression.test_05_concurrent_acceptance) ... FAIL
+test_06_version_and_receipt_replay (__main__.HTTPRegression.test_06_version_and_receipt_replay) ... FAIL
+test_07_private_attachment_gateway (__main__.HTTPRegression.test_07_private_attachment_gateway) ... FAIL
+test_08_prepayment_and_multiple_holds (__main__.HTTPRegression.test_08_prepayment_and_multiple_holds) ... FAIL
+test_09_cancel_settlement_and_refund (__main__.HTTPRegression.test_09_cancel_settlement_and_refund) ... FAIL
+test_10_delivery_revision_and_after_sale (__main__.HTTPRegression.test_10_delivery_revision_and_after_sale) ... FAIL
+test_11_change_requires_customer_acceptance (__main__.HTTPRegression.test_11_change_requires_customer_acceptance) ... FAIL
+test_12_supplement_invalidates_unaccepted_quote (__main__.HTTPRegression.test_12_supplement_invalidates_unaccepted_quote) ... FAIL
+test_13_readiness_and_session_no_cache (__main__.HTTPRegression.test_13_readiness_and_session_no_cache) ... FAIL
+test_99_restart_preserves_business_and_receipt (__main__.HTTPRegression.test_99_restart_preserves_business_and_receipt) ... FAIL
+
+======================================================================
+FAIL: test_03_stable_idempotency (__main__.HTTPRegression.test_03_stable_idempotency)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 94, in test_03_stable_idempotency
+    a=self.req('/cases',self.customer,body,key=key)['case']; b=self.req('/cases',self.customer,body,key=key)['case']; self.assertEqual(a['id'],b['id'])
+      ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 201 != 200 : /cases: b'{"case":{"id":"9a8ccccf-f6e9-4ea1-a396-ff9c1284c8dc","owner_id":"customer","service_id":"editing","title":"\xe7\xbf\xbb\xe8\xaf\x91","description":"\xe6\x9c\xac\xe4\xba\xba\xe6\x9d\x90\xe6\x96\x99","discipline":"","level":"","word_count":0,"language":"\xe4\xb8\xad\xe6\x96\x87\xe2\x86\x92\xe8\x8b\xb1\xe6\x96\x87","deadline":"","contact":"","consent":true,"status":"pending_review","version":1,"material_version":1,"created_at":"2026-10-30T07:52:43.812228Z","updated_at":"2026-10-30T07:52:43.812228Z","quote":null,"quote_history":[],"order":null,"attachments":[],"messages":[],"events":[{"id":"b9f10'
+
+======================================================================
+FAIL: test_04_ownership_and_staff_authority (__main__.HTTPRegression.test_04_ownership_and_staff_authority)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 56, in setUp
+    self.customer=self.login('customer','demo-customer')
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 73, in login
+    def login(self,account,password):return self.req('/auth/login',body={'account':account,'password':password})['token']
+                                            ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 429 != 200 : /auth/login: b'{"error":{"code":"rate_limit","message":"\xe5\xb0\x9d\xe8\xaf\x95\xe8\xbf\x87\xe4\xba\x8e\xe9\xa2\x91\xe7\xb9\x81\xef\xbc\x8c\xe8\xaf\xb7\xe7\xa8\x8d\xe5\x90\x8e\xe5\x86\x8d\xe8\xaf\x95"}}\n'
+
+======================================================================
+FAIL: test_05_concurrent_acceptance (__main__.HTTPRegression.test_05_concurrent_acceptance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 56, in setUp
+    self.customer=self.login('customer','demo-customer')
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 73, in login
+    def login(self,account,password):return self.req('/auth/login',body={'account':account,'password':password})['token']
+                                            ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 429 != 200 : /auth/login: b'{"error":{"code":"rate_limit","message":"\xe5\xb0\x9d\xe8\xaf\x95\xe8\xbf\x87\xe4\xba\x8e\xe9\xa2\x91\xe7\xb9\x81\xef\xbc\x8c\xe8\xaf\xb7\xe7\xa8\x8d\xe5\x90\x8e\xe5\x86\x8d\xe8\xaf\x95"}}\n'
+
+======================================================================
+FAIL: test_06_version_and_receipt_replay (__main__.HTTPRegression.test_06_version_and_receipt_replay)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 56, in setUp
+    self.customer=self.login('customer','demo-customer')
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 73, in login
+    def login(self,account,password):return self.req('/auth/login',body={'account':account,'password':password})['token']
+                                            ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 429 != 200 : /auth/login: b'{"error":{"code":"rate_limit","message":"\xe5\xb0\x9d\xe8\xaf\x95\xe8\xbf\x87\xe4\xba\x8e\xe9\xa2\x91\xe7\xb9\x81\xef\xbc\x8c\xe8\xaf\xb7\xe7\xa8\x8d\xe5\x90\x8e\xe5\x86\x8d\xe8\xaf\x95"}}\n'
+
+======================================================================
+FAIL: test_07_private_attachment_gateway (__main__.HTTPRegression.test_07_private_attachment_gateway)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 56, in setUp
+    self.customer=self.login('customer','demo-customer')
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 73, in login
+    def login(self,account,password):return self.req('/auth/login',body={'account':account,'password':password})['token']
+                                            ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 429 != 200 : /auth/login: b'{"error":{"code":"rate_limit","message":"\xe5\xb0\x9d\xe8\xaf\x95\xe8\xbf\x87\xe4\xba\x8e\xe9\xa2\x91\xe7\xb9\x81\xef\xbc\x8c\xe8\xaf\xb7\xe7\xa8\x8d\xe5\x90\x8e\xe5\x86\x8d\xe8\xaf\x95"}}\n'
+
+======================================================================
+FAIL: test_08_prepayment_and_multiple_holds (__main__.HTTPRegression.test_08_prepayment_and_multiple_holds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 56, in setUp
+    self.customer=self.login('customer','demo-customer')
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 73, in login
+    def login(self,account,password):return self.req('/auth/login',body={'account':account,'password':password})['token']
+                                            ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 429 != 200 : /auth/login: b'{"error":{"code":"rate_limit","message":"\xe5\xb0\x9d\xe8\xaf\x95\xe8\xbf\x87\xe4\xba\x8e\xe9\xa2\x91\xe7\xb9\x81\xef\xbc\x8c\xe8\xaf\xb7\xe7\xa8\x8d\xe5\x90\x8e\xe5\x86\x8d\xe8\xaf\x95"}}\n'
+
+======================================================================
+FAIL: test_09_cancel_settlement_and_refund (__main__.HTTPRegression.test_09_cancel_settlement_and_refund)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 56, in setUp
+    self.customer=self.login('customer','demo-customer')
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 73, in login
+    def login(self,account,password):return self.req('/auth/login',body={'account':account,'password':password})['token']
+                                            ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 429 != 200 : /auth/login: b'{"error":{"code":"rate_limit","message":"\xe5\xb0\x9d\xe8\xaf\x95\xe8\xbf\x87\xe4\xba\x8e\xe9\xa2\x91\xe7\xb9\x81\xef\xbc\x8c\xe8\xaf\xb7\xe7\xa8\x8d\xe5\x90\x8e\xe5\x86\x8d\xe8\xaf\x95"}}\n'
+
+======================================================================
+FAIL: test_10_delivery_revision_and_after_sale (__main__.HTTPRegression.test_10_delivery_revision_and_after_sale)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 56, in setUp
+    self.customer=self.login('customer','demo-customer')
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 73, in login
+    def login(self,account,password):return self.req('/auth/login',body={'account':account,'password':password})['token']
+                                            ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 429 != 200 : /auth/login: b'{"error":{"code":"rate_limit","message":"\xe5\xb0\x9d\xe8\xaf\x95\xe8\xbf\x87\xe4\xba\x8e\xe9\xa2\x91\xe7\xb9\x81\xef\xbc\x8c\xe8\xaf\xb7\xe7\xa8\x8d\xe5\x90\x8e\xe5\x86\x8d\xe8\xaf\x95"}}\n'
+
+======================================================================
+FAIL: test_11_change_requires_customer_acceptance (__main__.HTTPRegression.test_11_change_requires_customer_acceptance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 56, in setUp
+    self.customer=self.login('customer','demo-customer')
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 73, in login
+    def login(self,account,password):return self.req('/auth/login',body={'account':account,'password':password})['token']
+                                            ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 429 != 200 : /auth/login: b'{"error":{"code":"rate_limit","message":"\xe5\xb0\x9d\xe8\xaf\x95\xe8\xbf\x87\xe4\xba\x8e\xe9\xa2\x91\xe7\xb9\x81\xef\xbc\x8c\xe8\xaf\xb7\xe7\xa8\x8d\xe5\x90\x8e\xe5\x86\x8d\xe8\xaf\x95"}}\n'
+
+======================================================================
+FAIL: test_12_supplement_invalidates_unaccepted_quote (__main__.HTTPRegression.test_12_supplement_invalidates_unaccepted_quote)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 56, in setUp
+    self.customer=self.login('customer','demo-customer')
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 73, in login
+    def login(self,account,password):return self.req('/auth/login',body={'account':account,'password':password})['token']
+                                            ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 429 != 200 : /auth/login: b'{"error":{"code":"rate_limit","message":"\xe5\xb0\x9d\xe8\xaf\x95\xe8\xbf\x87\xe4\xba\x8e\xe9\xa2\x91\xe7\xb9\x81\xef\xbc\x8c\xe8\xaf\xb7\xe7\xa8\x8d\xe5\x90\x8e\xe5\x86\x8d\xe8\xaf\x95"}}\n'
+
+======================================================================
+FAIL: test_13_readiness_and_session_no_cache (__main__.HTTPRegression.test_13_readiness_and_session_no_cache)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 56, in setUp
+    self.customer=self.login('customer','demo-customer')
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 73, in login
+    def login(self,account,password):return self.req('/auth/login',body={'account':account,'password':password})['token']
+                                            ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 429 != 200 : /auth/login: b'{"error":{"code":"rate_limit","message":"\xe5\xb0\x9d\xe8\xaf\x95\xe8\xbf\x87\xe4\xba\x8e\xe9\xa2\x91\xe7\xb9\x81\xef\xbc\x8c\xe8\xaf\xb7\xe7\xa8\x8d\xe5\x90\x8e\xe5\x86\x8d\xe8\xaf\x95"}}\n'
+
+======================================================================
+FAIL: test_99_restart_preserves_business_and_receipt (__main__.HTTPRegression.test_99_restart_preserves_business_and_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 56, in setUp
+    self.customer=self.login('customer','demo-customer')
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 73, in login
+    def login(self,account,password):return self.req('/auth/login',body={'account':account,'password':password})['token']
+                                            ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 429 != 200 : /auth/login: b'{"error":{"code":"rate_limit","message":"\xe5\xb0\x9d\xe8\xaf\x95\xe8\xbf\x87\xe4\xba\x8e\xe9\xa2\x91\xe7\xb9\x81\xef\xbc\x8c\xe8\xaf\xb7\xe7\xa8\x8d\xe5\x90\x8e\xe5\x86\x8d\xe8\xaf\x95"}}\n'
+
+----------------------------------------------------------------------
+Ran 14 tests in 54.826s
+
+FAILED (failures=12)

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=知序 Alpine 部署
+Comment=在终端配置、编译并运行Go服务
+Exec=bash -c "exec bash \"\$(dirname -- \"\$1\")/deploy.sh\"" zhixu %k
+Terminal=true
+Categories=Development;

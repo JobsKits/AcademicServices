@@ -1,0 +1,27 @@
+test_01_shell_syntax (__main__.DeploymentTests.test_01_shell_syntax) ... ok
+test_02_powershell_parse (__main__.DeploymentTests.test_02_powershell_parse) ... ok
+test_03_no_hardcoded_developer_paths (__main__.DeploymentTests.test_03_no_hardcoded_developer_paths) ... ok
+test_04_mac_check_relocated_from_unrelated_cwd (__main__.DeploymentTests.test_04_mac_check_relocated_from_unrelated_cwd) ... ok
+test_05_eof_cancels_without_writes (__main__.DeploymentTests.test_05_eof_cancels_without_writes) ... ok
+test_06_healthy_go_reused_no_download (__main__.DeploymentTests.test_06_healthy_go_reused_no_download) ... ok
+test_07_install_cancel_stops_before_download (__main__.DeploymentTests.test_07_install_cancel_stops_before_download) ... ok
+test_08_corrupt_archive_rejected (__main__.DeploymentTests.test_08_corrupt_archive_rejected) ... ok
+test_09_script_main_has_first_intro (__main__.DeploymentTests.test_09_script_main_has_first_intro) ... ok
+test_10_dangling_config_symlink_cannot_write_outside (__main__.DeploymentTests.test_10_dangling_config_symlink_cannot_write_outside) ... ok
+test_11_runtime_symlink_rejected_before_log_creation (__main__.DeploymentTests.test_11_runtime_symlink_rejected_before_log_creation) ... ok
+test_12_sdk_download_failure_stops (__main__.DeploymentTests.test_12_sdk_download_failure_stops) ... ok
+test_13_installed_sdk_recheck_failure_stops (__main__.DeploymentTests.test_13_installed_sdk_recheck_failure_stops) ... FAIL
+
+======================================================================
+FAIL: test_13_installed_sdk_recheck_failure_stops (__main__.DeploymentTests.test_13_installed_sdk_recheck_failure_stops)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_deploy.py", line 100, in test_13_installed_sdk_recheck_failure_stops
+    self.assertNotEqual(result.returncode,0);self.assertIn('Go安装后健康检查失败',log);self.assertNotIn('unexpected',result.stdout)
+                                             ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'Go安装后健康检查失败' not found in '来源｜Go SDK｜https://go.dev/dl/go1.27.3.darwin-arm64.tar.gz → /var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/go-fixture-f4iubpge/.tools/go1.27.3.darwin-arm64.tar.gz\n失败：无法建立临时目录。\n'
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.636s
+
+FAILED (failures=1)

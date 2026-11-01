@@ -1,0 +1,419 @@
+{
+  "version": "1.0.0",
+  "base_path": "/api/v1",
+  "rules": [
+    "Bearer session token",
+    "Idempotency-Key required for mutations except login",
+    "expected_version required for case actions",
+    "money is integer CNY fen",
+    "timestamps RFC3339 UTC",
+    "401/403/409/422 never become demo successes",
+    "network/5xx fallback to isolated local demo; unknown real writes retain original key and reconcile by reload; never replay demo writes",
+    "Success is final 2xx; redirects are not success. File size limit 8 MiB. Production supports fixed admin/customer only in current MVP."
+  ],
+  "login": {
+    "method": "POST",
+    "path": "/auth/login",
+    "body": {
+      "account": "customer",
+      "password": "configured by environment"
+    },
+    "response": {
+      "token": "opaque token",
+      "user": {
+        "id": "customer",
+        "name": "客户",
+        "role": "customer"
+      }
+    }
+  },
+  "services": {
+    "method": "GET",
+    "path": "/services",
+    "response": {
+      "services": [
+        {
+          "id": "graduation",
+          "name": "毕业论文",
+          "summary": "选题与写作辅导",
+          "description": "服务范围以确认的报价为准",
+          "active": true
+        },
+        {
+          "id": "journal",
+          "name": "普刊",
+          "summary": "期刊咨询与稿件服务",
+          "description": "服务范围以确认的报价为准",
+          "active": true
+        },
+        {
+          "id": "editing",
+          "name": "编译",
+          "summary": "学术翻译与语言润色",
+          "description": "服务范围以确认的报价为准",
+          "active": true
+        }
+      ]
+    }
+  },
+  "workspace": {
+    "method": "GET",
+    "path": "/workspace",
+    "response": {
+      "user": {
+        "id": "customer",
+        "name": "客户",
+        "role": "customer"
+      },
+      "services": [],
+      "cases": []
+    }
+  },
+  "create_case": {
+    "method": "POST",
+    "path": "/cases",
+    "body": {
+      "service_id": "graduation",
+      "title": "示例需求",
+      "description": "说明目标和现有材料",
+      "discipline": "专业",
+      "level": "本科",
+      "word_count": 5000,
+      "language": "中文",
+      "deadline": "2026-12-01",
+      "contact": "联系说明",
+      "consent": true
+    },
+    "response": {
+      "case": "Case object"
+    },
+    "status": 201
+  },
+  "action": {
+    "method": "POST",
+    "path": "/cases/{id}/actions",
+    "body": {
+      "action": "message",
+      "expected_version": 1,
+      "text": "消息正文"
+    },
+    "response": {
+      "case": "updated Case object"
+    }
+  },
+  "upload": {
+    "method": "POST",
+    "path": "/cases/{id}/attachments",
+    "content_type": "multipart/form-data",
+    "fields": {
+      "file": "binary",
+      "expected_version": "1"
+    },
+    "response": {
+      "case": "Case object"
+    },
+    "status": 201
+  },
+  "download": {
+    "method": "GET",
+    "path": "/cases/{id}/attachments/{attachment_id}",
+    "response": "private authorized binary"
+  },
+  "case_shape": {
+    "id": "UUID",
+    "owner_id": "customer",
+    "service_id": "graduation",
+    "title": "需求标题",
+    "description": "内容",
+    "discipline": "专业",
+    "level": "本科",
+    "word_count": 5000,
+    "language": "中文",
+    "deadline": "2026-12-01",
+    "contact": "联系方式",
+    "status": "pending_review",
+    "version": 1,
+    "created_at": "RFC3339",
+    "updated_at": "RFC3339",
+    "quote": null,
+    "order": null,
+    "attachments": [],
+    "messages": [],
+    "events": [],
+    "after_sales": []
+  },
+  "quote_shape": {
+    "id": "UUID",
+    "amount_minor": 100000,
+    "prepay_minor": 0,
+    "currency": "CNY",
+    "scope": "服务与交付约定",
+    "expires_at": "RFC3339",
+    "revision_limit": 2,
+    "status": "offered"
+  },
+  "order_shape": {
+    "id": "UUID",
+    "status": "pending_start",
+    "amount_minor": 100000,
+    "original_amount_minor": 100000,
+    "prepay_minor": 0,
+    "paid_minor": 0,
+    "refunded_minor": 0,
+    "refund_held_minor": 0,
+    "revision_used": 0,
+    "revision_limit": 2,
+    "paused": false,
+    "holds": [],
+    "deliveries": [],
+    "payments": [],
+    "refunds": []
+  },
+  "actions": {
+    "need_material": {
+      "role": "admin",
+      "fields": [
+        "text"
+      ]
+    },
+    "supplement": {
+      "role": "customer",
+      "fields": [
+        "text"
+      ]
+    },
+    "quote": {
+      "role": "admin",
+      "fields": [
+        "amount_minor",
+        "prepay_minor",
+        "scope",
+        "expires_at",
+        "revision_limit"
+      ]
+    },
+    "withdraw_quote": {
+      "role": "admin",
+      "fields": [
+        "text"
+      ]
+    },
+    "accept_quote": {
+      "role": "customer",
+      "fields": [
+        "quote_id"
+      ]
+    },
+    "decline_quote": {
+      "role": "customer",
+      "fields": [
+        "text"
+      ]
+    },
+    "record_payment": {
+      "role": "admin",
+      "fields": [
+        "amount_minor",
+        "reference"
+      ]
+    },
+    "start": {
+      "role": "admin",
+      "fields": []
+    },
+    "pause": {
+      "role": "admin",
+      "fields": [
+        "text",
+        "hold_id"
+      ]
+    },
+    "resume": {
+      "role": "admin",
+      "fields": [
+        "hold_id"
+      ]
+    },
+    "deliver": {
+      "role": "admin",
+      "fields": [
+        "text",
+        "attachment_ids",
+        "after_sale_id"
+      ]
+    },
+    "revision": {
+      "role": "customer",
+      "fields": [
+        "text",
+        "delivery_id"
+      ]
+    },
+    "accept_revision": {
+      "role": "admin",
+      "fields": [
+        "feedback_id",
+        "round_id",
+        "count_units"
+      ]
+    },
+    "accept_delivery": {
+      "role": "customer",
+      "fields": [
+        "delivery_id"
+      ]
+    },
+    "cancel": {
+      "role": "admin",
+      "fields": [
+        "text",
+        "settlement_minor"
+      ]
+    },
+    "confirm_cancel": {
+      "role": "customer",
+      "fields": []
+    },
+    "refund": {
+      "role": "admin",
+      "fields": [
+        "amount_minor",
+        "payment_id"
+      ],
+      "note": "only creates requested; no money moved"
+    },
+    "after_sale": {
+      "role": "customer",
+      "fields": [
+        "text"
+      ]
+    },
+    "close_after_sale": {
+      "role": "admin",
+      "fields": [
+        "after_sale_id",
+        "text"
+      ]
+    },
+    "message": {
+      "role": "both",
+      "fields": [
+        "text"
+      ]
+    },
+    "withdraw_request": {
+      "role": "customer",
+      "fields": [
+        "text"
+      ]
+    },
+    "approve_refund": {
+      "role": "admin",
+      "fields": [
+        "refund_id"
+      ]
+    },
+    "confirm_refund": {
+      "role": "admin",
+      "fields": [
+        "refund_id",
+        "reference"
+      ]
+    },
+    "mark_refund_unknown": {
+      "role": "admin",
+      "fields": [
+        "refund_id"
+      ]
+    },
+    "fail_refund": {
+      "role": "admin",
+      "fields": [
+        "refund_id",
+        "text"
+      ]
+    },
+    "reject_refund": {
+      "role": "admin",
+      "fields": [
+        "refund_id",
+        "text"
+      ]
+    },
+    "resolve_refund_failed": {
+      "role": "admin",
+      "fields": [
+        "refund_id",
+        "reference",
+        "text"
+      ]
+    },
+    "reject_cancel": {
+      "role": "customer",
+      "fields": []
+    },
+    "propose_change": {
+      "role": "admin",
+      "fields": [
+        "amount_minor",
+        "scope",
+        "deadline"
+      ]
+    },
+    "confirm_change": {
+      "role": "customer",
+      "fields": [
+        "change_id"
+      ]
+    },
+    "reject_change": {
+      "role": "customer",
+      "fields": [
+        "change_id"
+      ]
+    }
+  },
+  "error_shape": {
+    "error": {
+      "code": "version_conflict",
+      "message": "请刷新后重试"
+    }
+  },
+  "operation": {
+    "method": "GET",
+    "path": "/operations/{key}",
+    "response": {
+      "operation": {
+        "status": "succeeded",
+        "case_id": "UUID",
+        "action": "message",
+        "created_at": "RFC3339"
+      },
+      "case": "latest Case"
+    },
+    "note": "404 means no committed receipt now, not proof an in-flight write failed"
+  },
+  "detail": {
+    "method": "GET",
+    "path": "/cases/{id}",
+    "response": {
+      "case": "Case object"
+    }
+  },
+  "logout": {
+    "method": "POST",
+    "path": "/auth/logout",
+    "body": {},
+    "response": {
+      "ok": true
+    }
+  },
+  "health": {
+    "method": "GET",
+    "path": "/health",
+    "response": {
+      "status": "ok",
+      "version": "0.1.0"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "appid": "touristappid",
+  "projectname": "知序学术服务",
+  "compileType": "miniprogram",
+  "libVersion": "latest",
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "minified": true,
+    "postcss": true
+  },
+  "description": "开发预览；发布前填写自有AppID并配置HTTPS合法域名。"
+}

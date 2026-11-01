@@ -1,0 +1,64 @@
+{
+  "checked_at": "2026-10-30",
+  "flutter": "3.47.8",
+  "dart": "3.13.7",
+  "tests": {
+    "passed": 34,
+    "failed": 0,
+    "log": "docs/test-round-12.log"
+  },
+  "harmony_contracts": {
+    "passed": 4,
+    "failed": 0,
+    "log": "docs/harmony-contract-tests.log"
+  },
+  "analyze": {
+    "issues": 0,
+    "log": "docs/analyze-final.log"
+  },
+  "web": {
+    "admin": "dist/admin",
+    "client": "dist/client",
+    "result": "built"
+  },
+  "ios": {
+    "result": "release-no-codesign-built",
+    "log": "docs/build-ios-final.log",
+    "device_tested": false
+  },
+  "android": {
+    "result": "blocked-official-ndk30-download-premature-eof",
+    "log": "docs/build-android-kgp-aligned.log",
+    "apk_verified": false,
+    "gradle_version_verified": "9.8.2",
+    "project_configuration_reached": true,
+    "device_tested": false
+  },
+  "harmony": {
+    "mode": "online-https-flutter-web-arkweb-host",
+    "hap_built": false
+  },
+  "source_hashes": {
+    "android/app/build.gradle.kts": "e8b03202760a4c7b75fb23c80768f12d295a23bbad259df0ba8097c35d3a5192",
+    "android/build.gradle.kts": "f2e8ed8bc70d54125a08def33601a59b92b0b15d32e788af6d7de1c4f4c7af97",
+    "android/gradle/wrapper/gradle-wrapper.properties": "9d9fa95449c3a22a5d14cd25d26f9a4659533515ba2780e2b4d6a522b1009f05",
+    "android/gradle.properties": "a399b4295134fe3a281b6ce0363b517dfbfa28b85faa8f327b378d70e1790fe6",
+    "android/settings.gradle.kts": "c235498958744f6d13e43d0c1e219164d92f4e28a9b5453d6b01101ff10ac290",
+    "harmony/entry/src/main/ets/config/Endpoint.ets": "6b82f16eee3690dc03a863d84e54a61de9761f3ca536d8ed1605a1e8b71e796e",
+    "harmony/entry/src/main/ets/entryability/EntryAbility.ets": "786a0d3d632e8993f69139d5a63aa95a071be0181feabbdfc70f8a4cb09309d2",
+    "harmony/entry/src/main/ets/pages/Index.ets": "bbd16db136dff6d48b003403d3351e4478b6b7cab77f22185a3119c5ffbf1f0d",
+    "lib/data/models.dart": "14e19711dedf216e539c082617d26faa2fca10d6894b85a29d5bbbf8db31de97",
+    "lib/data/repository.dart": "148d0043ed9b6f4384201d2f33c2e49636046e09f9b0ddea4874df1cd0b330f0",
+    "lib/main.dart": "754d580af125c91ca9b931c2a2bd3323f1f02134acd63a3816946065d530e117",
+    "lib/main_admin.dart": "422898d45a31c7b82dd7983793e7bc375b779a974a7b546323df2d929aab9457",
+    "lib/ui/actions.dart": "5c64c97e8fff96e0dbcece6252ddf68b7d737ecf804588a70692315507ba2cdf",
+    "lib/ui/app.dart": "0b7f832f3e7b814ab09629d39470c5b9bc69c29dde4c4d5168deed53c9d32562",
+    "lib/ui/theme.dart": "11d190dce535f5887046479487ec56ef7d9a5d685cb31b420ef27090d4d0655d",
+    "pubspec.lock": "97c8509b0878fd2ad739b04f9c2d8a26866e6a6fcccab7a4bb4a22b292c7c814",
+    "pubspec.yaml": "193011fa24b4fd1b1d3e5cc5957150e70c9d41033233f864154f318aa5aff4ab",
+    "test/repository_test.dart": "d2d810bd26ad6a69b9cafa704a54b58cb992b48d45d2512b2e25e8af567246ad",
+    "test/widget_test.dart": "e24988861d90e2021c5d4083f279fc42a24614af535cc4d7a1b32f354473828f",
+    "tool/prepare_harmony.py": "b748fc928561cd109c24c8bc0e48636df778462b5ea8285b6f35298db685d735",
+    "tool/test_prepare_harmony.py": "bc97a5c33a69c3906ea79389b16dfdf63412f5ff04ace8dd7c6700b27351a58e"
+  }
+}

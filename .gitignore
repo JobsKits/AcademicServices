@@ -1,0 +1,19 @@
+# Local work and build directories
+.DS_Store
+work/
+build/
+dist/
+DerivedData/
+
+# Generated application bundles and installers
+*.app/
+*.dSYM/
+*.ipa
+*.apk
+*.aab
+*.hap
+*.hsp
+*.dmg
+*.exe
+*.msi
+*.msix

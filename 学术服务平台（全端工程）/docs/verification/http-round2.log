@@ -1,0 +1,187 @@
+test_01_three_services_and_empty_lists (__main__.HTTPRegression.test_01_three_services_and_empty_lists) ... ok
+test_02_auth_and_validation (__main__.HTTPRegression.test_02_auth_and_validation) ... /opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/lib/python3.15/tempfile.py:538: ResourceWarning: Implicitly cleaning up <HTTPError 401: 'Unauthorized'>
+  _warnings.warn(self.warn_message, ResourceWarning)
+/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/lib/python3.15/tempfile.py:538: ResourceWarning: Implicitly cleaning up <HTTPError 422: 'Unprocessable Entity'>
+  _warnings.warn(self.warn_message, ResourceWarning)
+ok
+test_03_stable_idempotency (__main__.HTTPRegression.test_03_stable_idempotency) ... FAIL
+test_04_ownership_and_staff_authority (__main__.HTTPRegression.test_04_ownership_and_staff_authority) ... FAIL
+test_05_concurrent_acceptance (__main__.HTTPRegression.test_05_concurrent_acceptance) ... FAIL
+test_06_version_and_receipt_replay (__main__.HTTPRegression.test_06_version_and_receipt_replay) ... FAIL
+test_07_private_attachment_gateway (__main__.HTTPRegression.test_07_private_attachment_gateway) ... FAIL
+test_08_prepayment_and_multiple_holds (__main__.HTTPRegression.test_08_prepayment_and_multiple_holds) ... FAIL
+test_09_cancel_settlement_and_refund (__main__.HTTPRegression.test_09_cancel_settlement_and_refund) ... FAIL
+test_10_delivery_revision_and_after_sale (__main__.HTTPRegression.test_10_delivery_revision_and_after_sale) ... FAIL
+test_11_change_requires_customer_acceptance (__main__.HTTPRegression.test_11_change_requires_customer_acceptance) ... FAIL
+test_12_supplement_invalidates_unaccepted_quote (__main__.HTTPRegression.test_12_supplement_invalidates_unaccepted_quote) ... FAIL
+test_13_readiness_and_session_no_cache (__main__.HTTPRegression.test_13_readiness_and_session_no_cache) ... /opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/lib/python3.15/tempfile.py:538: ResourceWarning: Implicitly cleaning up <HTTPError 404: 'Not Found'>
+  _warnings.warn(self.warn_message, ResourceWarning)
+ok
+test_99_restart_preserves_business_and_receipt (__main__.HTTPRegression.test_99_restart_preserves_business_and_receipt) ... FAIL
+
+======================================================================
+FAIL: test_03_stable_idempotency (__main__.HTTPRegression.test_03_stable_idempotency)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 94, in test_03_stable_idempotency
+    a=self.req('/cases',self.customer,body,key=key)['case']; b=self.req('/cases',self.customer,body,key=key)['case']; self.assertEqual(a['id'],b['id'])
+      ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 201 != 200 : /cases: b'{"case":{"id":"39fa3ea1-d35c-4a75-9a5f-b8d3d4568349","owner_id":"customer","service_id":"editing","title":"\xe7\xbf\xbb\xe8\xaf\x91","description":"\xe6\x9c\xac\xe4\xba\xba\xe6\x9d\x90\xe6\x96\x99","discipline":"","level":"","word_count":0,"language":"\xe4\xb8\xad\xe6\x96\x87\xe2\x86\x92\xe8\x8b\xb1\xe6\x96\x87","deadline":"","contact":"","consent":true,"status":"pending_review","version":1,"material_version":1,"created_at":"2026-10-30T07:54:19.222411Z","updated_at":"2026-10-30T07:54:19.222411Z","quote":null,"quote_history":[],"order":null,"attachments":[],"messages":[],"events":[{"id":"271a9'
+
+======================================================================
+FAIL: test_04_ownership_and_staff_authority (__main__.HTTPRegression.test_04_ownership_and_staff_authority)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 99, in test_04_ownership_and_staff_authority
+    c=self.new();self.req('/cases/'+c['id'],self.other,expected=404)
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 75, in new
+    return self.req('/cases',self.customer,{'service_id':'graduation','title':'结构与方法咨询','description':'本人稿件整理与方法辅导','discipline':'计算机','level':'本科','consent':True,**extra})['case']
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 201 != 200 : /cases: b'{"case":{"id":"361354b9-9ac7-40a6-8be1-8e5037515cb5","owner_id":"customer","service_id":"graduation","title":"\xe7\xbb\x93\xe6\x9e\x84\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe5\x92\xa8\xe8\xaf\xa2","description":"\xe6\x9c\xac\xe4\xba\xba\xe7\xa8\xbf\xe4\xbb\xb6\xe6\x95\xb4\xe7\x90\x86\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe8\xbe\x85\xe5\xaf\xbc","discipline":"\xe8\xae\xa1\xe7\xae\x97\xe6\x9c\xba","level":"\xe6\x9c\xac\xe7\xa7\x91","word_count":0,"language":"","deadline":"","contact":"","consent":true,"status":"pending_review","version":1,"material_version":1,"created_at":"2026-10-30T07:54:19.270791Z","updated_at":"2026-10-30T07:54:19.270791Z","quote":null,"quote_history":[],"order":null,"attachments":'
+
+======================================================================
+FAIL: test_05_concurrent_acceptance (__main__.HTTPRegression.test_05_concurrent_acceptance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 102, in test_05_concurrent_acceptance
+    c=self.new();c=self.act(c,'quote',amount_minor=10000,prepay_minor=0,revision_limit=2,scope='明确服务',expires_at=(dt.datetime.now(dt.timezone.utc)+dt.timedelta(hours=1)).isoformat())
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 75, in new
+    return self.req('/cases',self.customer,{'service_id':'graduation','title':'结构与方法咨询','description':'本人稿件整理与方法辅导','discipline':'计算机','level':'本科','consent':True,**extra})['case']
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 201 != 200 : /cases: b'{"case":{"id":"6bdd2cea-5e1a-4cd3-8931-03d21823a9ad","owner_id":"customer","service_id":"graduation","title":"\xe7\xbb\x93\xe6\x9e\x84\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe5\x92\xa8\xe8\xaf\xa2","description":"\xe6\x9c\xac\xe4\xba\xba\xe7\xa8\xbf\xe4\xbb\xb6\xe6\x95\xb4\xe7\x90\x86\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe8\xbe\x85\xe5\xaf\xbc","discipline":"\xe8\xae\xa1\xe7\xae\x97\xe6\x9c\xba","level":"\xe6\x9c\xac\xe7\xa7\x91","word_count":0,"language":"","deadline":"","contact":"","consent":true,"status":"pending_review","version":1,"material_version":1,"created_at":"2026-10-30T07:54:19.302868Z","updated_at":"2026-10-30T07:54:19.302868Z","quote":null,"quote_history":[],"order":null,"attachments":'
+
+======================================================================
+FAIL: test_06_version_and_receipt_replay (__main__.HTTPRegression.test_06_version_and_receipt_replay)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 112, in test_06_version_and_receipt_replay
+    c=self.new();key=str(uuid.uuid4()); body={'action':'message','expected_version':c['version'],'text':'同一条消息'}
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 75, in new
+    return self.req('/cases',self.customer,{'service_id':'graduation','title':'结构与方法咨询','description':'本人稿件整理与方法辅导','discipline':'计算机','level':'本科','consent':True,**extra})['case']
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 201 != 200 : /cases: b'{"case":{"id":"b425f606-de9f-4bfa-91b3-dbd9b862999b","owner_id":"customer","service_id":"graduation","title":"\xe7\xbb\x93\xe6\x9e\x84\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe5\x92\xa8\xe8\xaf\xa2","description":"\xe6\x9c\xac\xe4\xba\xba\xe7\xa8\xbf\xe4\xbb\xb6\xe6\x95\xb4\xe7\x90\x86\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe8\xbe\x85\xe5\xaf\xbc","discipline":"\xe8\xae\xa1\xe7\xae\x97\xe6\x9c\xba","level":"\xe6\x9c\xac\xe7\xa7\x91","word_count":0,"language":"","deadline":"","contact":"","consent":true,"status":"pending_review","version":1,"material_version":1,"created_at":"2026-10-30T07:54:19.32722Z","updated_at":"2026-10-30T07:54:19.32722Z","quote":null,"quote_history":[],"order":null,"attachments":[]'
+
+======================================================================
+FAIL: test_07_private_attachment_gateway (__main__.HTTPRegression.test_07_private_attachment_gateway)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 117, in test_07_private_attachment_gateway
+    c=self.upload(self.new()); fid=c['attachments'][0]['id'];path='/cases/'+c['id']+'/attachments/'+fid
+                  ~~~~~~~~^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 75, in new
+    return self.req('/cases',self.customer,{'service_id':'graduation','title':'结构与方法咨询','description':'本人稿件整理与方法辅导','discipline':'计算机','level':'本科','consent':True,**extra})['case']
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 201 != 200 : /cases: b'{"case":{"id":"9ea37ef0-36d1-4323-8a8a-055fead21653","owner_id":"customer","service_id":"graduation","title":"\xe7\xbb\x93\xe6\x9e\x84\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe5\x92\xa8\xe8\xaf\xa2","description":"\xe6\x9c\xac\xe4\xba\xba\xe7\xa8\xbf\xe4\xbb\xb6\xe6\x95\xb4\xe7\x90\x86\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe8\xbe\x85\xe5\xaf\xbc","discipline":"\xe8\xae\xa1\xe7\xae\x97\xe6\x9c\xba","level":"\xe6\x9c\xac\xe7\xa7\x91","word_count":0,"language":"","deadline":"","contact":"","consent":true,"status":"pending_review","version":1,"material_version":1,"created_at":"2026-10-30T07:54:19.362177Z","updated_at":"2026-10-30T07:54:19.362177Z","quote":null,"quote_history":[],"order":null,"attachments":'
+
+======================================================================
+FAIL: test_08_prepayment_and_multiple_holds (__main__.HTTPRegression.test_08_prepayment_and_multiple_holds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 120, in test_08_prepayment_and_multiple_holds
+    c=self.ordered(prepay=30000);self.act(c,'start',expected=409)
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 80, in ordered
+    c=self.new(); c=self.act(c,'quote',amount_minor=amount,prepay_minor=prepay,scope='方法辅导与格式整理，修改轮次与交付明确',expires_at=(dt.datetime.now(dt.timezone.utc)+dt.timedelta(days=1)).isoformat(),revision_limit=rounds)
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 75, in new
+    return self.req('/cases',self.customer,{'service_id':'graduation','title':'结构与方法咨询','description':'本人稿件整理与方法辅导','discipline':'计算机','level':'本科','consent':True,**extra})['case']
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 201 != 200 : /cases: b'{"case":{"id":"e216718e-d20c-4c97-8e72-185186ba554a","owner_id":"customer","service_id":"graduation","title":"\xe7\xbb\x93\xe6\x9e\x84\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe5\x92\xa8\xe8\xaf\xa2","description":"\xe6\x9c\xac\xe4\xba\xba\xe7\xa8\xbf\xe4\xbb\xb6\xe6\x95\xb4\xe7\x90\x86\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe8\xbe\x85\xe5\xaf\xbc","discipline":"\xe8\xae\xa1\xe7\xae\x97\xe6\x9c\xba","level":"\xe6\x9c\xac\xe7\xa7\x91","word_count":0,"language":"","deadline":"","contact":"","consent":true,"status":"pending_review","version":1,"material_version":1,"created_at":"2026-10-30T07:54:19.408648Z","updated_at":"2026-10-30T07:54:19.408648Z","quote":null,"quote_history":[],"order":null,"attachments":'
+
+======================================================================
+FAIL: test_09_cancel_settlement_and_refund (__main__.HTTPRegression.test_09_cancel_settlement_and_refund)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 126, in test_09_cancel_settlement_and_refund
+    c=self.ordered();c=self.act(c,'record_payment',amount_minor=30000,reference=str(uuid.uuid4()));payment=c['order']['payments'][0]['id']
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 80, in ordered
+    c=self.new(); c=self.act(c,'quote',amount_minor=amount,prepay_minor=prepay,scope='方法辅导与格式整理，修改轮次与交付明确',expires_at=(dt.datetime.now(dt.timezone.utc)+dt.timedelta(days=1)).isoformat(),revision_limit=rounds)
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 75, in new
+    return self.req('/cases',self.customer,{'service_id':'graduation','title':'结构与方法咨询','description':'本人稿件整理与方法辅导','discipline':'计算机','level':'本科','consent':True,**extra})['case']
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 201 != 200 : /cases: b'{"case":{"id":"6d7b5b19-bfca-4a2c-adca-aa5937af64df","owner_id":"customer","service_id":"graduation","title":"\xe7\xbb\x93\xe6\x9e\x84\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe5\x92\xa8\xe8\xaf\xa2","description":"\xe6\x9c\xac\xe4\xba\xba\xe7\xa8\xbf\xe4\xbb\xb6\xe6\x95\xb4\xe7\x90\x86\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe8\xbe\x85\xe5\xaf\xbc","discipline":"\xe8\xae\xa1\xe7\xae\x97\xe6\x9c\xba","level":"\xe6\x9c\xac\xe7\xa7\x91","word_count":0,"language":"","deadline":"","contact":"","consent":true,"status":"pending_review","version":1,"material_version":1,"created_at":"2026-10-30T07:54:19.428522Z","updated_at":"2026-10-30T07:54:19.428522Z","quote":null,"quote_history":[],"order":null,"attachments":'
+
+======================================================================
+FAIL: test_10_delivery_revision_and_after_sale (__main__.HTTPRegression.test_10_delivery_revision_and_after_sale)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 134, in test_10_delivery_revision_and_after_sale
+    c=self.upload(self.ordered());c=self.act(c,'start');c=self.act(c,'deliver',text='第一版',attachment_ids=[c['attachments'][0]['id']]);d=c['order']['deliveries'][-1]['id']
+                  ~~~~~~~~~~~~^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 80, in ordered
+    c=self.new(); c=self.act(c,'quote',amount_minor=amount,prepay_minor=prepay,scope='方法辅导与格式整理，修改轮次与交付明确',expires_at=(dt.datetime.now(dt.timezone.utc)+dt.timedelta(days=1)).isoformat(),revision_limit=rounds)
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 75, in new
+    return self.req('/cases',self.customer,{'service_id':'graduation','title':'结构与方法咨询','description':'本人稿件整理与方法辅导','discipline':'计算机','level':'本科','consent':True,**extra})['case']
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 201 != 200 : /cases: b'{"case":{"id":"c5f616e8-ef2d-4aec-a1f8-089bca43f561","owner_id":"customer","service_id":"graduation","title":"\xe7\xbb\x93\xe6\x9e\x84\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe5\x92\xa8\xe8\xaf\xa2","description":"\xe6\x9c\xac\xe4\xba\xba\xe7\xa8\xbf\xe4\xbb\xb6\xe6\x95\xb4\xe7\x90\x86\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe8\xbe\x85\xe5\xaf\xbc","discipline":"\xe8\xae\xa1\xe7\xae\x97\xe6\x9c\xba","level":"\xe6\x9c\xac\xe7\xa7\x91","word_count":0,"language":"","deadline":"","contact":"","consent":true,"status":"pending_review","version":1,"material_version":1,"created_at":"2026-10-30T07:54:19.446052Z","updated_at":"2026-10-30T07:54:19.446052Z","quote":null,"quote_history":[],"order":null,"attachments":'
+
+======================================================================
+FAIL: test_11_change_requires_customer_acceptance (__main__.HTTPRegression.test_11_change_requires_customer_acceptance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 143, in test_11_change_requires_customer_acceptance
+    c=self.ordered();c=self.act(c,'propose_change',amount_minor=80000,scope='双方协商缩小范围')
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 80, in ordered
+    c=self.new(); c=self.act(c,'quote',amount_minor=amount,prepay_minor=prepay,scope='方法辅导与格式整理，修改轮次与交付明确',expires_at=(dt.datetime.now(dt.timezone.utc)+dt.timedelta(days=1)).isoformat(),revision_limit=rounds)
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 75, in new
+    return self.req('/cases',self.customer,{'service_id':'graduation','title':'结构与方法咨询','description':'本人稿件整理与方法辅导','discipline':'计算机','level':'本科','consent':True,**extra})['case']
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 201 != 200 : /cases: b'{"case":{"id":"a51c5613-deac-4223-8cea-7a402aa1872d","owner_id":"customer","service_id":"graduation","title":"\xe7\xbb\x93\xe6\x9e\x84\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe5\x92\xa8\xe8\xaf\xa2","description":"\xe6\x9c\xac\xe4\xba\xba\xe7\xa8\xbf\xe4\xbb\xb6\xe6\x95\xb4\xe7\x90\x86\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe8\xbe\x85\xe5\xaf\xbc","discipline":"\xe8\xae\xa1\xe7\xae\x97\xe6\x9c\xba","level":"\xe6\x9c\xac\xe7\xa7\x91","word_count":0,"language":"","deadline":"","contact":"","consent":true,"status":"pending_review","version":1,"material_version":1,"created_at":"2026-10-30T07:54:19.455903Z","updated_at":"2026-10-30T07:54:19.455903Z","quote":null,"quote_history":[],"order":null,"attachments":'
+
+======================================================================
+FAIL: test_12_supplement_invalidates_unaccepted_quote (__main__.HTTPRegression.test_12_supplement_invalidates_unaccepted_quote)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 147, in test_12_supplement_invalidates_unaccepted_quote
+    c=self.new();c=self.act(c,'quote',amount_minor=10000,prepay_minor=0,revision_limit=2,scope='旧材料范围',expires_at=(dt.datetime.now(dt.timezone.utc)+dt.timedelta(hours=1)).isoformat());old=c['quote']['id']
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 75, in new
+    return self.req('/cases',self.customer,{'service_id':'graduation','title':'结构与方法咨询','description':'本人稿件整理与方法辅导','discipline':'计算机','level':'本科','consent':True,**extra})['case']
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 201 != 200 : /cases: b'{"case":{"id":"bf6eba53-550c-4bb8-adf8-581e592ef747","owner_id":"customer","service_id":"graduation","title":"\xe7\xbb\x93\xe6\x9e\x84\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe5\x92\xa8\xe8\xaf\xa2","description":"\xe6\x9c\xac\xe4\xba\xba\xe7\xa8\xbf\xe4\xbb\xb6\xe6\x95\xb4\xe7\x90\x86\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe8\xbe\x85\xe5\xaf\xbc","discipline":"\xe8\xae\xa1\xe7\xae\x97\xe6\x9c\xba","level":"\xe6\x9c\xac\xe7\xa7\x91","word_count":0,"language":"","deadline":"","contact":"","consent":true,"status":"pending_review","version":1,"material_version":1,"created_at":"2026-10-30T07:54:19.477109Z","updated_at":"2026-10-30T07:54:19.477109Z","quote":null,"quote_history":[],"order":null,"attachments":'
+
+======================================================================
+FAIL: test_99_restart_preserves_business_and_receipt (__main__.HTTPRegression.test_99_restart_preserves_business_and_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 153, in test_99_restart_preserves_business_and_receipt
+    c=self.new();key=str(uuid.uuid4());body={'action':'message','expected_version':c['version'],'text':'重启后保留'}
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 75, in new
+    return self.req('/cases',self.customer,{'service_id':'graduation','title':'结构与方法咨询','description':'本人稿件整理与方法辅导','discipline':'计算机','level':'本科','consent':True,**extra})['case']
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jobs/Desktop/学术服务平台（全端工程）/tests/test_http.py", line 69, in req
+    self.assertEqual(code,expected, f'{path}: {payload[:500]!r}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 201 != 200 : /cases: b'{"case":{"id":"f68c1277-d201-448b-a778-81c4d5860fab","owner_id":"customer","service_id":"graduation","title":"\xe7\xbb\x93\xe6\x9e\x84\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe5\x92\xa8\xe8\xaf\xa2","description":"\xe6\x9c\xac\xe4\xba\xba\xe7\xa8\xbf\xe4\xbb\xb6\xe6\x95\xb4\xe7\x90\x86\xe4\xb8\x8e\xe6\x96\xb9\xe6\xb3\x95\xe8\xbe\x85\xe5\xaf\xbc","discipline":"\xe8\xae\xa1\xe7\xae\x97\xe6\x9c\xba","level":"\xe6\x9c\xac\xe7\xa7\x91","word_count":0,"language":"","deadline":"","contact":"","consent":true,"status":"pending_review","version":1,"material_version":1,"created_at":"2026-10-30T07:54:19.496255Z","updated_at":"2026-10-30T07:54:19.496255Z","quote":null,"quote_history":[],"order":null,"attachments":'
+
+----------------------------------------------------------------------
+Ran 14 tests in 8.241s
+
+FAILED (failures=11)
