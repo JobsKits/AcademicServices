@@ -1,0 +1,454 @@
+{
+  "checked_at": "2026-11-02",
+  "method": "Maintained source lines; generated platform scaffolds, third-party dependencies, SDKs, caches, resources, lockfiles and requirements snapshots excluded. Tests counted separately. backend/contracts duplicate excluded.",
+  "categories": {
+    "业务代码": {
+      "files": 28,
+      "lines": 6133,
+      "percent": 41.5
+    },
+    "测试代码": {
+      "files": 12,
+      "lines": 2796,
+      "percent": 18.9
+    },
+    "配置与脚本": {
+      "files": 46,
+      "lines": 5848,
+      "percent": 39.6
+    }
+  },
+  "total_lines": 14777,
+  "files": [
+    {
+      "path": "clients/desktop/【MacOS】📦生成dmg.command",
+      "kind": "配置与脚本",
+      "lines": 74
+    },
+    {
+      "path": "clients/desktop/【Windows】启动知序.bat",
+      "kind": "配置与脚本",
+      "lines": 5
+    },
+    {
+      "path": "clients/desktop/【Windows】📦生成exe.bat",
+      "kind": "配置与脚本",
+      "lines": 5
+    },
+    {
+      "path": "clients/desktop/【MacOS】启动知序.command",
+      "kind": "配置与脚本",
+      "lines": 74
+    },
+    {
+      "path": "clients/desktop/zhixu/pyproject.toml",
+      "kind": "配置与脚本",
+      "lines": 19
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/test_repository.py",
+      "kind": "测试代码",
+      "lines": 337
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/test_packaging.py",
+      "kind": "测试代码",
+      "lines": 79
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/test_gui.py",
+      "kind": "测试代码",
+      "lines": 138
+    },
+    {
+      "path": "clients/desktop/zhixu/tests/test_bootstrap.py",
+      "kind": "测试代码",
+      "lines": 47
+    },
+    {
+      "path": "clients/desktop/zhixu/scripts/live_smoke.py",
+      "kind": "配置与脚本",
+      "lines": 106
+    },
+    {
+      "path": "clients/desktop/zhixu/scripts/verify_package.py",
+      "kind": "配置与脚本",
+      "lines": 79
+    },
+    {
+      "path": "clients/desktop/zhixu/scripts/manage.py",
+      "kind": "配置与脚本",
+      "lines": 211
+    },
+    {
+      "path": "clients/desktop/zhixu/scripts/bootstrap.ps1",
+      "kind": "配置与脚本",
+      "lines": 74
+    },
+    {
+      "path": "clients/desktop/zhixu/src/entry.py",
+      "kind": "业务代码",
+      "lines": 4
+    },
+    {
+      "path": "clients/desktop/zhixu/src/zhixu/__init__.py",
+      "kind": "业务代码",
+      "lines": 2
+    },
+    {
+      "path": "clients/desktop/zhixu/src/zhixu/settings.py",
+      "kind": "业务代码",
+      "lines": 47
+    },
+    {
+      "path": "clients/desktop/zhixu/src/zhixu/app.py",
+      "kind": "业务代码",
+      "lines": 574
+    },
+    {
+      "path": "clients/desktop/zhixu/src/zhixu/repository.py",
+      "kind": "业务代码",
+      "lines": 395
+    },
+    {
+      "path": "clients/flutter/pubspec.yaml",
+      "kind": "配置与脚本",
+      "lines": 18
+    },
+    {
+      "path": "clients/flutter/analysis_options.yaml",
+      "kind": "配置与脚本",
+      "lines": 35
+    },
+    {
+      "path": "clients/flutter/test/repository_test.dart",
+      "kind": "测试代码",
+      "lines": 477
+    },
+    {
+      "path": "clients/flutter/test/widget_test.dart",
+      "kind": "测试代码",
+      "lines": 324
+    },
+    {
+      "path": "clients/flutter/web/manifest.json",
+      "kind": "配置与脚本",
+      "lines": 35
+    },
+    {
+      "path": "clients/flutter/harmony/entry/src/main/resources/base/element/color.json",
+      "kind": "配置与脚本",
+      "lines": 1
+    },
+    {
+      "path": "clients/flutter/harmony/entry/src/main/resources/base/element/string.json",
+      "kind": "配置与脚本",
+      "lines": 1
+    },
+    {
+      "path": "clients/flutter/harmony/entry/src/main/resources/base/profile/main_pages.json",
+      "kind": "配置与脚本",
+      "lines": 1
+    },
+    {
+      "path": "clients/flutter/harmony/entry/src/main/ets/entryability/EntryAbility.ets",
+      "kind": "业务代码",
+      "lines": 8
+    },
+    {
+      "path": "clients/flutter/harmony/entry/src/main/ets/config/Endpoint.ets",
+      "kind": "业务代码",
+      "lines": 4
+    },
+    {
+      "path": "clients/flutter/harmony/entry/src/main/ets/pages/Index.ets",
+      "kind": "业务代码",
+      "lines": 86
+    },
+    {
+      "path": "clients/flutter/harmony/AppScope/resources/base/element/string.json",
+      "kind": "配置与脚本",
+      "lines": 1
+    },
+    {
+      "path": "clients/flutter/android/build.gradle.kts",
+      "kind": "配置与脚本",
+      "lines": 41
+    },
+    {
+      "path": "clients/flutter/android/settings.gradle.kts",
+      "kind": "配置与脚本",
+      "lines": 27
+    },
+    {
+      "path": "clients/flutter/android/app/build.gradle.kts",
+      "kind": "配置与脚本",
+      "lines": 51
+    },
+    {
+      "path": "clients/flutter/lib/main.dart",
+      "kind": "业务代码",
+      "lines": 8
+    },
+    {
+      "path": "clients/flutter/lib/main_admin.dart",
+      "kind": "业务代码",
+      "lines": 8
+    },
+    {
+      "path": "clients/flutter/lib/ui/actions.dart",
+      "kind": "业务代码",
+      "lines": 203
+    },
+    {
+      "path": "clients/flutter/lib/ui/app.dart",
+      "kind": "业务代码",
+      "lines": 1224
+    },
+    {
+      "path": "clients/flutter/lib/ui/theme.dart",
+      "kind": "业务代码",
+      "lines": 71
+    },
+    {
+      "path": "clients/flutter/lib/data/repository.dart",
+      "kind": "业务代码",
+      "lines": 636
+    },
+    {
+      "path": "clients/flutter/lib/data/models.dart",
+      "kind": "业务代码",
+      "lines": 98
+    },
+    {
+      "path": "clients/flutter/tool/prepare_harmony.py",
+      "kind": "配置与脚本",
+      "lines": 77
+    },
+    {
+      "path": "clients/flutter/tool/test_prepare_harmony.py",
+      "kind": "配置与脚本",
+      "lines": 45
+    },
+    {
+      "path": "clients/miniprogram/app.json",
+      "kind": "配置与脚本",
+      "lines": 17
+    },
+    {
+      "path": "clients/miniprogram/project.config.json",
+      "kind": "配置与脚本",
+      "lines": 13
+    },
+    {
+      "path": "clients/miniprogram/sitemap.json",
+      "kind": "配置与脚本",
+      "lines": 1
+    },
+    {
+      "path": "clients/miniprogram/app.js",
+      "kind": "业务代码",
+      "lines": 6
+    },
+    {
+      "path": "clients/miniprogram/utils/format.js",
+      "kind": "业务代码",
+      "lines": 28
+    },
+    {
+      "path": "clients/miniprogram/utils/api.js",
+      "kind": "业务代码",
+      "lines": 363
+    },
+    {
+      "path": "clients/miniprogram/pages/home/index.js",
+      "kind": "业务代码",
+      "lines": 24
+    },
+    {
+      "path": "clients/miniprogram/pages/workspace/index.js",
+      "kind": "业务代码",
+      "lines": 54
+    },
+    {
+      "path": "clients/miniprogram/pages/detail/index.js",
+      "kind": "业务代码",
+      "lines": 117
+    },
+    {
+      "path": "clients/miniprogram/pages/create/index.js",
+      "kind": "业务代码",
+      "lines": 56
+    },
+    {
+      "path": "clients/miniprogram/pages/login/index.js",
+      "kind": "业务代码",
+      "lines": 41
+    },
+    {
+      "path": "contracts/api.json",
+      "kind": "配置与脚本",
+      "lines": 419
+    },
+    {
+      "path": "tests/test_http.py",
+      "kind": "测试代码",
+      "lines": 162
+    },
+    {
+      "path": "tests/test_deploy.py",
+      "kind": "测试代码",
+      "lines": 111
+    },
+    {
+      "path": "tests/test_mini.cjs",
+      "kind": "测试代码",
+      "lines": 20
+    },
+    {
+      "path": "backend/cmd/server/main.go",
+      "kind": "业务代码",
+      "lines": 60
+    },
+    {
+      "path": "backend/migrations/reference-requirements-v03.sql",
+      "kind": "配置与脚本",
+      "lines": 570
+    },
+    {
+      "path": "backend/migrations/001_runtime.sql",
+      "kind": "配置与脚本",
+      "lines": 7
+    },
+    {
+      "path": "backend/deploy/toolchains.json",
+      "kind": "配置与脚本",
+      "lines": 63
+    },
+    {
+      "path": "backend/deploy/Alpine/deploy.sh",
+      "kind": "配置与脚本",
+      "lines": 13
+    },
+    {
+      "path": "backend/deploy/macOS/部署.command",
+      "kind": "配置与脚本",
+      "lines": 13
+    },
+    {
+      "path": "backend/deploy/Debian/deploy.sh",
+      "kind": "配置与脚本",
+      "lines": 13
+    },
+    {
+      "path": "backend/deploy/RockyLinux/deploy.sh",
+      "kind": "配置与脚本",
+      "lines": 13
+    },
+    {
+      "path": "backend/deploy/FreeBSD/deploy.sh",
+      "kind": "配置与脚本",
+      "lines": 13
+    },
+    {
+      "path": "backend/deploy/AlibabaCloudLinux/deploy.sh",
+      "kind": "配置与脚本",
+      "lines": 13
+    },
+    {
+      "path": "backend/deploy/Windows/部署.cmd",
+      "kind": "配置与脚本",
+      "lines": 6
+    },
+    {
+      "path": "backend/deploy/Windows/deploy.ps1",
+      "kind": "配置与脚本",
+      "lines": 3
+    },
+    {
+      "path": "backend/deploy/Ubuntu/deploy.sh",
+      "kind": "配置与脚本",
+      "lines": 13
+    },
+    {
+      "path": "backend/internal/platform/store.go",
+      "kind": "业务代码",
+      "lines": 232
+    },
+    {
+      "path": "backend/internal/platform/http_test.go",
+      "kind": "测试代码",
+      "lines": 315
+    },
+    {
+      "path": "backend/internal/platform/engine_test.go",
+      "kind": "测试代码",
+      "lines": 564
+    },
+    {
+      "path": "backend/internal/platform/http.go",
+      "kind": "业务代码",
+      "lines": 502
+    },
+    {
+      "path": "backend/internal/platform/engine.go",
+      "kind": "业务代码",
+      "lines": 1023
+    },
+    {
+      "path": "backend/internal/platform/model.go",
+      "kind": "业务代码",
+      "lines": 259
+    },
+    {
+      "path": "backend/deploy/macOS/【MacOS】部署.command/【MacOS】部署.command",
+      "kind": "配置与脚本",
+      "lines": 461
+    },
+    {
+      "path": "backend/deploy/Ubuntu/【Linux】部署.sh/【Linux】部署.sh",
+      "kind": "配置与脚本",
+      "lines": 472
+    },
+    {
+      "path": "backend/deploy/Debian/【Linux】部署.sh/【Linux】部署.sh",
+      "kind": "配置与脚本",
+      "lines": 472
+    },
+    {
+      "path": "backend/deploy/RockyLinux/【Linux】部署.sh/【Linux】部署.sh",
+      "kind": "配置与脚本",
+      "lines": 472
+    },
+    {
+      "path": "backend/deploy/AlibabaCloudLinux/【Linux】部署.sh/【Linux】部署.sh",
+      "kind": "配置与脚本",
+      "lines": 472
+    },
+    {
+      "path": "backend/deploy/Alpine/【Linux】部署.sh/【Linux】部署.sh",
+      "kind": "配置与脚本",
+      "lines": 472
+    },
+    {
+      "path": "backend/deploy/FreeBSD/【FreeBSD】部署.sh/【FreeBSD】部署.sh",
+      "kind": "配置与脚本",
+      "lines": 466
+    },
+    {
+      "path": "backend/deploy/Windows/【Windows】部署.ps1/【Windows】部署.ps1",
+      "kind": "配置与脚本",
+      "lines": 385
+    },
+    {
+      "path": "backend/deploy/Windows/【Windows】部署.cmd/【Windows】部署.cmd",
+      "kind": "配置与脚本",
+      "lines": 6
+    },
+    {
+      "path": "tests/【测试】部署双模式.py/【测试】部署双模式.py",
+      "kind": "测试代码",
+      "lines": 222
+    }
+  ]
+}

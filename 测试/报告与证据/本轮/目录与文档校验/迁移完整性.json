@@ -1,0 +1,17 @@
+{
+  "映射记录": 303,
+  "缺失文件": [],
+  "已核对业务源码": 41,
+  "业务源码内容变化": [
+    "代码/微信小程序/pages/create/index.js",
+    "代码/微信小程序/pages/detail/index.js",
+    "代码/微信小程序/pages/detail/index.wxml",
+    "代码/微信小程序/pages/home/index.js",
+    "代码/微信小程序/pages/home/index.wxml",
+    "代码/微信小程序/pages/login/index.js",
+    "代码/微信小程序/pages/login/index.wxml",
+    "代码/微信小程序/pages/workspace/index.js",
+    "代码/微信小程序/utils/api.js"
+  ],
+  "代码内自维护Go测试": []
+}

@@ -1,0 +1,12 @@
+=== RUN   TestURLRoundTripAndCredentialRejection
+--- PASS: TestURLRoundTripAndCredentialRejection (0.00s)
+=== RUN   TestPlainAndNarrowTerminalsHaveNoANSI
+--- PASS: TestPlainAndNarrowTerminalsHaveNoANSI (0.00s)
+=== RUN   TestOfflineFilesAndExpiry
+--- PASS: TestOfflineFilesAndExpiry (0.01s)
+=== RUN   TestInvalidAddressDoesNotPublishFilesOrSecrets
+--- PASS: TestInvalidAddressDoesNotPublishFilesOrSecrets (0.00s)
+=== RUN   TestSymlinkOutputIsPreserved
+--- PASS: TestSymlinkOutputIsPreserved (0.00s)
+PASS
+ok  	jobs.local/deployqr	0.381s

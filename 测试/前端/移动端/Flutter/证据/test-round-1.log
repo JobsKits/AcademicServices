@@ -1,0 +1,81 @@
+Resolving dependencies...
+Downloading packages...
+  cross_file 0.3.5+5 (0.4.0 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  petitparser 7.0.2 (7.1.0 available)
+  shared_preferences_foundation 2.5.7 (2.6.1 available)
+  test_api 0.7.12 (0.7.15 available)
+  vector_math 2.4.0 (2.4.4 available)
+  xml 7.0.1 (7.1.0 available)
+Got dependencies!
+8 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+00:00 +0: loading /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart
+00:00 +0: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: real empty list stays empty and does not become sample data
+00:00 +1: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: network read failure uses isolated data then auto-recovers
+00:00 +2: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: 401 login never becomes a demo success
+00:00 +2 -1: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: 401 login never becomes a demo success [E]
+  Expected: throws <Instance of 'ApiFailure'>
+    Actual: <Instance of 'Future<void>'>
+     Which: emitted <null>
+  
+  package:matcher                                    expectLater
+  package:flutter_test/src/widget_tester.dart 507:8  expectLater
+  test/repository_test.dart 69:11                    main.<fn>
+  
+00:00 +2 -1: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: protected 401 revokes user and private cache
+00:00 +2 -2: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: protected 401 revokes user and private cache [E]
+  Expected: throws <Instance of 'ApiFailure'>
+    Actual: <Instance of 'Future<void>'>
+     Which: emitted <null>
+  
+  package:matcher                                    expectLater
+  package:flutter_test/src/widget_tester.dart 507:8  expectLater
+  test/repository_test.dart 89:11                    main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                         _CustomZone.registerUnaryCallback
+  test/repository_test.dart 87:5                     main.<fn>
+  
+00:00 +2 -2: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: unknown real write retains original key and never fakes success
+00:00 +3 -2: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: 422 does not create a fake case or leave an unknown write
+00:00 +3 -3: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: 422 does not create a fake case or leave an unknown write [E]
+  Expected: throws <Instance of 'ApiFailure'>
+    Actual: <Instance of 'Future<Map<String, dynamic>>'>
+     Which: threw UnknownWrite:<服务器结果暂未确认。请核对最新列表，或使用“重试原请求”；不会改为演示成功。>
+            stack package:zhixu/data/repository.dart 401:7           WorkspaceRepository._sendWrite
+                  ===== asynchronous gap ===========================
+                  package:matcher                                    expectLater
+                  package:flutter_test/src/widget_tester.dart 507:8  expectLater
+                  test/repository_test.dart 140:11                   main.<fn>
+                  ===== asynchronous gap ===========================
+                  dart:async                                         _CustomZone.registerUnaryCallback
+                  test/repository_test.dart 139:5                    main.<fn>
+                  
+            which is not an instance of 'ApiFailure'
+  
+  package:matcher                                    expectLater
+  package:flutter_test/src/widget_tester.dart 507:8  expectLater
+  test/repository_test.dart 140:11                   main.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                         _CustomZone.registerUnaryCallback
+  test/repository_test.dart 139:5                    main.<fn>
+  
+00:00 +3 -3: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: late private response cannot overwrite new account
+00:00 +4 -3: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: nested malformed payload falls back before rendering
+00:00 +5 -3: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: read response started before write cannot replace new version
+00:00 +6 -3: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: URL changes require secure hosts and clear session
+00:00 +7 -3: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: original write can be reconciled by GET without re-post
+00:00 +8 -3: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(320.0, 640.0)
+00:03 +9 -3: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(390.0, 844.0)
+00:03 +10 -3: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(678.0, 467.0)
+00:03 +11 -3: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(934.0, 678.0)
+00:04 +12 -3: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(1440.0, 900.0)
+00:04 +13 -3: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: large text empty workspace has reload and login entry
+00:05 +14 -3: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: theme semantic foreground/background contrast >=4.5
+00:05 +15 -3: Some tests failed.
+
+Failing tests:
+  /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: 401 login never becomes a demo success
+  /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: 422 does not create a fake case or leave an unknown write
+  /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: protected 401 revokes user and private cache

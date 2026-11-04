@@ -1,0 +1,139 @@
+{
+  "date": "2026-11-03",
+  "results": [
+    {
+      "path": "需求/项目需求与开发评审阅读版.html",
+      "title": "学术服务平台｜项目需求与开发评审",
+      "diagrams": 2,
+      "diagramErrors": [],
+      "redItems": 9,
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "pageErrors": []
+    },
+    {
+      "path": "需求/交付与运维清单阅读版.html",
+      "title": "学术服务平台｜交付与运维清单",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "redItems": 2,
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "pageErrors": []
+    },
+    {
+      "path": "测试/测试与分级验收阅读版.html",
+      "title": "学术服务平台｜测试与分级验收",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "redItems": 0,
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "pageErrors": []
+    },
+    {
+      "path": "代码/工程总览阅读版.html",
+      "title": "知序｜学术服务全端工程",
+      "diagrams": 3,
+      "diagramErrors": [],
+      "redItems": 0,
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "pageErrors": []
+    },
+    {
+      "path": "代码/使用说明阅读版.html",
+      "title": "知序｜从第一次打开开始",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "redItems": 0,
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "pageErrors": []
+    },
+    {
+      "path": "代码/代码地图阅读版.html",
+      "title": "代码地图",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "redItems": 0,
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "pageErrors": []
+    },
+    {
+      "path": "代码/后端/后端说明阅读版.html",
+      "title": "学术服务后端",
+      "diagrams": 2,
+      "diagramErrors": [],
+      "redItems": 0,
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "pageErrors": []
+    },
+    {
+      "path": "代码/后端/deploy/部署说明阅读版.html",
+      "title": "后端分平台部署",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "redItems": 0,
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "pageErrors": []
+    },
+    {
+      "path": "代码/桌面端/桌面说明阅读版.html",
+      "title": "知序桌面客户端",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "redItems": 0,
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "pageErrors": []
+    },
+    {
+      "path": "代码/移动端与管理端/Flutter说明阅读版.html",
+      "title": "知序 · Flutter 用户端与管理工作台",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "redItems": 0,
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "pageErrors": []
+    },
+    {
+      "path": "代码/微信小程序/小程序说明阅读版.html",
+      "title": "微信小程序入口",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "redItems": 0,
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "pageErrors": []
+    },
+    {
+      "path": "需求/技术方案阅读版.html",
+      "title": "技术方案与实现范围",
+      "diagrams": 2,
+      "diagramErrors": [],
+      "redItems": 0,
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "pageErrors": []
+    },
+    {
+      "path": "测试/回归测试报告阅读版.html",
+      "title": "全端工程｜多轮回归测试报告",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "redItems": 0,
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "pageErrors": []
+    }
+  ],
+  "mobile": {
+    "bodyOverflow": false,
+    "tableOverflow": true
+  }
+}

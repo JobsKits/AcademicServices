@@ -1,7 +1,10 @@
 # Local work and build directories
 .DS_Store
+**/__pycache__/
+**/*.pyc
 work/
 build/
+Dist/
 dist/
 DerivedData/
 
@@ -17,3 +20,31 @@ DerivedData/
 *.exe
 *.msi
 *.msix
+
+# Rules for the code tree (kept at the Git root)
+# Local state, credentials and regenerable SDK/build caches
+/代码/**/.runtime/
+/代码/**/.tools/
+/代码/后端/后端代码/.deployment-state/
+/代码/后端/反部署备份/
+/代码/后端/UndeploymentBackups/
+/代码/data/
+/代码/后端/后端代码/data/
+/代码/**/.dart_tool/
+/代码/**/build/
+/代码/**/.build*/
+/代码/**/.venv/
+/代码/**/__pycache__/
+/代码/**/*.pyc
+/代码/**/local.properties
+/代码/**/ios/Flutter/Generated.xcconfig
+/代码/**/ios/Flutter/flutter_export_environment.sh
+/代码/**/ios/Flutter/ephemeral/
+/代码/**/ios/Pods/
+/代码/**/.DS_Store
+/代码/前端/PC端/Python/知序.app
+/代码/前端/PC端/Python/知序.dmg
+
+# Rebuildable application packages and deployed Flutter Web copies
+/代码/后端/后端代码/admin-web/
+/代码/后端/后端代码/client-web/

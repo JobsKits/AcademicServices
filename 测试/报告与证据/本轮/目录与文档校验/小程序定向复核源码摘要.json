@@ -1,0 +1,18 @@
+{
+  "代码/微信小程序/app.js": "9151fc4d4717417a2b2ed8ab9aa9e5d65dcb6033a0385aa21a844ebb07ee711c",
+  "代码/微信小程序/utils/format.js": "e127c84c6224c3ce462fb1061c65214c7d0f815c5f8680b235264dc13e77c2a8",
+  "代码/微信小程序/utils/api.js": "1d8513e27196c6be45d9ec01788fa00cf8a87d7ca8836046b2a73afbefb6e561",
+  "代码/微信小程序/pages/home/index.js": "1926f296ce758dcf57f6407d43ceb86e307d77c4bdac5e783374f3f3c0b6cdfa",
+  "代码/微信小程序/pages/workspace/index.js": "517edd5748a5d4773b72c9e90d7db41c049cafb5277fe52fbc87ba620d145eb6",
+  "代码/微信小程序/pages/detail/index.js": "9f923139554b6007470958a7422f53bbb4bedbd192f4fbc0c394bbbd33de39b0",
+  "代码/微信小程序/pages/create/index.js": "e1bc3ecd9718ff7a18b8ce8e783291c8d59fd76b1ca862f29cea4b5a94849a3d",
+  "代码/微信小程序/pages/login/index.js": "1175872a23d63850c5eadb3669a83a0efa13ea930d79cb2056f91d85768a7645",
+  "代码/微信小程序/components/empty-state/index.js": "f8ed52e57c0dd24445bcba5caadcdef00dc5288716275a06f16347d3a91b1d1f",
+  "代码/微信小程序/pages/home/index.wxml": "f406b289cca726043092f93d5561ca753006e7ea4bf4b60bcf746cdf9c07c7e0",
+  "代码/微信小程序/pages/workspace/index.wxml": "e25770fb7770bbe2e8d445ec5aa021bb15088192b0928042c313e518ad1a850e",
+  "代码/微信小程序/pages/detail/index.wxml": "615fa6a501b5117a5994aa5ed8f3833da7e6484ca59240a422eb69a38a269a98",
+  "代码/微信小程序/pages/create/index.wxml": "787c98fc97cbee60df9805a42f396ac3fd08d2faa9939e6bfb0710751335a31c",
+  "代码/微信小程序/pages/login/index.wxml": "f3b8d068516b66625ecb7fae46202c92483f293dceaeb69583cd40d2d8ac66af",
+  "代码/微信小程序/components/empty-state/index.wxml": "c8f9b6bd14e3c062e9fcd2f41897db8e5e345ae9168b01f6562fb341e7a2d07c",
+  "测试/集成/test_mini.cjs": "f70ce4ca893b9fc26e38282f757f668e5a6a7c20b87d5163a7bc04143a905331"
+}

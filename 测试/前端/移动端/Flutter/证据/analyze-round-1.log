@@ -1,0 +1,32 @@
+WARNING|STATIC_WARNING|INVALID_NULL_AWARE_OPERATOR|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/app.dart|788|18|2|The receiver can't be null, so the null-aware operator '?[' is unnecessary.
+WARNING|STATIC_WARNING|INVALID_NULL_AWARE_OPERATOR|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/app.dart|789|32|2|The receiver can't be null, so the null-aware operator '?[' is unnecessary.
+INFO|LINT|USE_NULL_AWARE_ELEMENTS|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/data/repository.dart|107|35|2|Use the null-aware marker '?' rather than a null check via an 'if'.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/data/repository.dart|182|9|39|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/data/repository.dart|273|11|35|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/data/repository.dart|277|11|35|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/data/repository.dart|297|13|33|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/data/repository.dart|407|7|36|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/actions.dart|116|9|48|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/actions.dart|137|9|21|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/actions.dart|139|9|29|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/actions.dart|144|9|46|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/actions.dart|146|9|50|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/actions.dart|148|9|50|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/app.dart|47|9|166|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/app.dart|118|7|71|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/app.dart|131|7|91|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/app.dart|271|7|74|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/app.dart|320|7|184|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/app.dart|515|7|270|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/app.dart|565|7|349|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/app.dart|574|11|78|Statements in an if should be enclosed in a block.
+INFO|LINT|USE_BUILD_CONTEXT_SYNCHRONOUSLY|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/app.dart|618|16|7|Don't use 'BuildContext's across async gaps.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/app.dart|696|7|188|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/app.dart|699|11|81|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/app.dart|916|7|57|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/app.dart|948|15|35|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/app.dart|967|15|54|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/app.dart|978|7|87|Statements in an if should be enclosed in a block.
+INFO|LINT|USE_NULL_AWARE_ELEMENTS|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/lib/ui/app.dart|1010|9|2|Use the null-aware marker '?' rather than a null check via an 'if'.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart|132|9|58|Statements in an if should be enclosed in a block.
+INFO|LINT|CURLY_BRACES_IN_FLOW_CONTROL_STRUCTURES|/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart|259|9|103|Statements in an if should be enclosed in a block.

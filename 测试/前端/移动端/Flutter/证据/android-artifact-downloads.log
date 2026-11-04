@@ -1,0 +1,16 @@
+Official Maven artifacts to repair in project-private cache: 14
+Verified https://repo.maven.apache.org/maven2/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar b421526c5f297295adef1c886e5246c39d4ac629
+Verified https://repo.maven.apache.org/maven2/com/google/guava/failureaccess/1.0.2/failureaccess-1.0.2.jar c4a06a64e650562f30b7bf9aaec1bfed43aca12b
+Verified https://repo.maven.apache.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar 4bfc12adfe4842bf07b657f0369c4cb522955686
+Verified https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.17.1/commons-codec-1.17.1.jar 973638b7149d333563584137ebf13a691bb60579
+Verified https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/3.16.0/commons-lang3-3.16.0.jar 3eb54effe40946dfb06dc5cd6c7ce4116cd51ea4
+Verified https://repo.maven.apache.org/maven2/net/java/dev/jna/jna/5.6.0/jna-5.6.0.jar 330f2244e9030119ab3030fc3fededc86713d9cc
+Verified https://repo.maven.apache.org/maven2/net/java/dev/jna/jna-platform/5.6.0/jna-platform-5.6.0.jar d18424ffb8bbfd036d71bcaab9b546858f2ef986
+Verified https://repo.maven.apache.org/maven2/org/checkerframework/checker-qual/3.43.0/checker-qual-3.43.0.jar 9425eee39e56b116d2b998b7c2cebcbd11a3c98b
+Verified https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-daemon-client/2.2.10/kotlin-daemon-client-2.2.10.jar 9de9722b2ab63b00fed168c924c41ea3b2f7d9c5
+Verified https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-annotations/2.2.10/kotlin-gradle-plugin-annotations-2.2.10.jar 45152dbad91398d945afff472498c8610cef5ae5
+Verified https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-util-io/2.2.10/kotlin-util-io-2.2.10.jar aa4dc86feb1b0d99f14f0510892ddecf6f6139fd
+Verified https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-tooling-core/2.2.10/kotlin-tooling-core-2.2.10.jar 0685151c03e638207a3b5045002411fbef78fdeb
+Verified https://repo.maven.apache.org/maven2/org/bouncycastle/bcprov-jdk18on/1.80.2/bcprov-jdk18on-1.80.2.jar 698ebb5539a939849576a6854bd52e191cbe1c5c
+Verified https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin/2.2.10/kotlin-gradle-plugin-2.2.10-gradle813.jar 5b7032e3454baa99627177ef48a324dbf33d42a3
+Verified https://dl.google.com/dl/android/maven2/com/android/tools/build/builder/9.4.0/builder-9.4.0.jar d1d5f9a479131e45d876213b674c9fd1a8a2d6ea

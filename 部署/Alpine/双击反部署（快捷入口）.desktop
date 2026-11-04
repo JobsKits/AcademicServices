@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=知序 Alpine 反部署（快捷入口）
+Comment=打开终端并调用同名脚本包内的唯一反部署实现
+TryExec=sh
+Exec=sh -c "case \\"\\${1-}\\" in /*) ;; *) echo \\"Open this shortcut from its local folder, or run the packaged deployment script in a terminal.\\" >&2; exit 1;; esac; shortcut_dir=\\$(CDPATH= cd -- \\"\\$(dirname -- \\"\\$1\\")\\" && pwd -P) || exit 1; shortcut_count=0; shortcut_target=; for shortcut_package in \\"\\$shortcut_dir\\"/【Linux】反部署.sh; do [ -d \\"\\$shortcut_package\\" ] && [ -f \\"\\$shortcut_package/\\${shortcut_package##*/}\\" ] || continue; shortcut_count=\\$((shortcut_count+1)); shortcut_target=\\"\\$shortcut_package/\\${shortcut_package##*/}\\"; done; [ \\"\\$shortcut_count\\" -eq 1 ] || { echo \\"Expected one matching deployment script package next to this shortcut.\\" >&2; exit 1; }; exec sh \\"\\$shortcut_target\\"" zhixu-undeploy-shortcut %k
+Terminal=true
+Categories=Development;

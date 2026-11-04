@@ -1,0 +1,219 @@
+{
+  "unit_count": 14,
+  "old_locator_rows": 16,
+  "original_snapshot": "/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/academic-unit-maps-before-xl6azlpp",
+  "locator_mapping": [
+    {
+      "original": "| `后端/后端代码/cmd/server/main.go` | 配置、存储启动、HTTP服务、优雅退出 |",
+      "units": [
+        "go"
+      ],
+      "maps": [
+        "代码/后端/后端代码/代码地图/代码地图.md"
+      ]
+    },
+    {
+      "original": "| `后端/后端代码/internal/platform/http.go` | 登录/会话/限流/CORS、接口与静态SPA/私有附件 |",
+      "units": [
+        "go"
+      ],
+      "maps": [
+        "代码/后端/后端代码/代码地图/代码地图.md"
+      ]
+    },
+    {
+      "original": "| `后端/后端代码/internal/platform/engine.go` | 需求、报价、订单、退款、交付、修改、取消及售后原子动作 |",
+      "units": [
+        "go"
+      ],
+      "maps": [
+        "代码/后端/后端代码/代码地图/代码地图.md"
+      ]
+    },
+    {
+      "original": "| `后端/后端代码/internal/platform/model.go` | 领域类型、快照、公开视图、状态汇总 |",
+      "units": [
+        "go"
+      ],
+      "maps": [
+        "代码/后端/后端代码/代码地图/代码地图.md"
+      ]
+    },
+    {
+      "original": "| `后端/后端代码/internal/platform/store.go` | 文件原子替换与实例锁、PG聚合事务 |",
+      "units": [
+        "go"
+      ],
+      "maps": [
+        "代码/后端/后端代码/代码地图/代码地图.md"
+      ]
+    },
+    {
+      "original": "| `后端/后端代码/internal/platform/engine_test.go` | 状态、资金、并发、存储与HTTP保护 |",
+      "units": [
+        "go"
+      ],
+      "maps": [
+        "代码/后端/后端代码/代码地图/代码地图.md"
+      ]
+    },
+    {
+      "original": "| `前端/移动端/Flutter/lib/main.dart` / `前端/后台管理端/Flutter/lib/main.dart` | 用户/管理员两个入口 |",
+      "units": [
+        "mobile",
+        "admin"
+      ],
+      "maps": [
+        "代码/前端/移动端/Flutter/代码地图/代码地图.md",
+        "代码/前端/后台管理端/Flutter/代码地图/代码地图.md"
+      ]
+    },
+    {
+      "original": "| `前端/移动端/Flutter/lib/Data/repository.dart` | API、身份、样例隔离、未知提交与原键核对 |",
+      "units": [
+        "mobile"
+      ],
+      "maps": [
+        "代码/前端/移动端/Flutter/代码地图/代码地图.md"
+      ]
+    },
+    {
+      "original": "| `前端/移动端/Flutter/lib/Ui/app.dart` / `actions.dart` | 响应式页面与角色/阶段动作表单 |",
+      "units": [
+        "mobile"
+      ],
+      "maps": [
+        "代码/前端/移动端/Flutter/代码地图/代码地图.md"
+      ]
+    },
+    {
+      "original": "| `前端/移动端/Flutter/lib/Ui/theme.dart` | 主副文字、背景与主题 |",
+      "units": [
+        "mobile"
+      ],
+      "maps": [
+        "代码/前端/移动端/Flutter/代码地图/代码地图.md"
+      ]
+    },
+    {
+      "original": "| `前端/移动端/鸿蒙/entry/src/main/ets/Pages/Index.ets` | 鸿蒙HTTPS Web宿主与失败重试 |",
+      "units": [
+        "harmony"
+      ],
+      "maps": [
+        "代码/前端/移动端/鸿蒙/代码地图/代码地图.md"
+      ]
+    },
+    {
+      "original": "| `前端/PC端/Python/Zhixu/src/zhixu/app.py` | Python图形界面 |",
+      "units": [
+        "desktop"
+      ],
+      "maps": [
+        "代码/前端/PC端/Python/代码地图/代码地图.md"
+      ]
+    },
+    {
+      "original": "| `前端/PC端/Python/Zhixu/src/zhixu/repository.py` | 同一后端的HTTP与演示/未知结果保护 |",
+      "units": [
+        "desktop"
+      ],
+      "maps": [
+        "代码/前端/PC端/Python/代码地图/代码地图.md"
+      ]
+    },
+    {
+      "original": "| `前端/PC端/Python/Zhixu/Scripts` | 环境准备、本机打包与冻结包验证 |",
+      "units": [
+        "desktop"
+      ],
+      "maps": [
+        "代码/前端/PC端/Python/代码地图/代码地图.md"
+      ]
+    },
+    {
+      "original": "| `微信小程序/utils/api.js` | 小程序HTTP及会话/幂等保护 |",
+      "units": [
+        "mini"
+      ],
+      "maps": [
+        "代码/前端/微信小程序/代码地图/代码地图.md"
+      ]
+    },
+    {
+      "original": "| `微信小程序/pages` | 首页、登录、新建、列表、详情5页 |",
+      "units": [
+        "mini"
+      ],
+      "maps": [
+        "代码/前端/微信小程序/代码地图/代码地图.md"
+      ]
+    }
+  ],
+  "cross_unit_relationships": [
+    "接口契约唯一维护源",
+    "后台path依赖移动共享包",
+    "鸿蒙HTTPS加载Flutter用户Web",
+    "Go托管admin/client构建产物",
+    "后端与部署分发保持同级",
+    "所有测试外置并按职责运行"
+  ],
+  "maps": [
+    [
+      "代码/前端/PC端/Python/代码地图/代码地图.md",
+      "代码/前端/PC端/Python/代码地图/代码地图阅读版.html"
+    ],
+    [
+      "代码/前端/移动端/Flutter/代码地图/代码地图.md",
+      "代码/前端/移动端/Flutter/代码地图/代码地图阅读版.html"
+    ],
+    [
+      "代码/前端/移动端/鸿蒙/代码地图/代码地图.md",
+      "代码/前端/移动端/鸿蒙/代码地图/代码地图阅读版.html"
+    ],
+    [
+      "代码/前端/后台管理端/Flutter/代码地图/代码地图.md",
+      "代码/前端/后台管理端/Flutter/代码地图/代码地图阅读版.html"
+    ],
+    [
+      "代码/前端/微信小程序/代码地图/代码地图.md",
+      "代码/前端/微信小程序/代码地图/代码地图阅读版.html"
+    ],
+    [
+      "代码/后端/后端代码/代码地图/代码地图.md",
+      "代码/后端/后端代码/代码地图/代码地图阅读版.html"
+    ],
+    [
+      "代码/部署/MacOS/代码地图/代码地图.md",
+      "代码/部署/MacOS/代码地图/代码地图阅读版.html"
+    ],
+    [
+      "代码/部署/Windows/代码地图/代码地图.md",
+      "代码/部署/Windows/代码地图/代码地图阅读版.html"
+    ],
+    [
+      "代码/部署/Ubuntu/代码地图/代码地图.md",
+      "代码/部署/Ubuntu/代码地图/代码地图阅读版.html"
+    ],
+    [
+      "代码/部署/Debian/代码地图/代码地图.md",
+      "代码/部署/Debian/代码地图/代码地图阅读版.html"
+    ],
+    [
+      "代码/部署/RockyLinux/代码地图/代码地图.md",
+      "代码/部署/RockyLinux/代码地图/代码地图阅读版.html"
+    ],
+    [
+      "代码/部署/AlibabaCloudLinux/代码地图/代码地图.md",
+      "代码/部署/AlibabaCloudLinux/代码地图/代码地图阅读版.html"
+    ],
+    [
+      "代码/部署/Alpine/代码地图/代码地图.md",
+      "代码/部署/Alpine/代码地图/代码地图阅读版.html"
+    ],
+    [
+      "代码/部署/FreeBSD/代码地图/代码地图.md",
+      "代码/部署/FreeBSD/代码地图/代码地图阅读版.html"
+    ]
+  ]
+}

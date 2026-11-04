@@ -1,0 +1,204 @@
+{
+  "checks": [
+    {
+      "platform": "MacOS",
+      "relocated_source": true
+    },
+    {
+      "platform": "Ubuntu",
+      "relocated_source": true
+    },
+    {
+      "platform": "Debian",
+      "relocated_source": true
+    },
+    {
+      "platform": "RockyLinux",
+      "relocated_source": true
+    },
+    {
+      "platform": "AlibabaCloudLinux",
+      "relocated_source": true
+    },
+    {
+      "platform": "Alpine",
+      "relocated_source": true
+    },
+    {
+      "platform": "FreeBSD",
+      "relocated_source": true
+    },
+    {
+      "platform": "Windows",
+      "relocated_source": true,
+      "native_os": false
+    },
+    {
+      "platform": "MacOS",
+      "notice_mode": "tty",
+      "passed": true
+    },
+    {
+      "platform": "MacOS",
+      "notice_mode": "no_color",
+      "passed": true
+    },
+    {
+      "platform": "MacOS",
+      "notice_mode": "dumb",
+      "passed": true
+    },
+    {
+      "platform": "MacOS",
+      "notice_mode": "pipe",
+      "passed": true
+    },
+    {
+      "platform": "Ubuntu",
+      "notice_mode": "tty",
+      "passed": true
+    },
+    {
+      "platform": "Ubuntu",
+      "notice_mode": "no_color",
+      "passed": true
+    },
+    {
+      "platform": "Ubuntu",
+      "notice_mode": "dumb",
+      "passed": true
+    },
+    {
+      "platform": "Ubuntu",
+      "notice_mode": "pipe",
+      "passed": true
+    },
+    {
+      "platform": "Debian",
+      "notice_mode": "tty",
+      "passed": true
+    },
+    {
+      "platform": "Debian",
+      "notice_mode": "no_color",
+      "passed": true
+    },
+    {
+      "platform": "Debian",
+      "notice_mode": "dumb",
+      "passed": true
+    },
+    {
+      "platform": "Debian",
+      "notice_mode": "pipe",
+      "passed": true
+    },
+    {
+      "platform": "RockyLinux",
+      "notice_mode": "tty",
+      "passed": true
+    },
+    {
+      "platform": "RockyLinux",
+      "notice_mode": "no_color",
+      "passed": true
+    },
+    {
+      "platform": "RockyLinux",
+      "notice_mode": "dumb",
+      "passed": true
+    },
+    {
+      "platform": "RockyLinux",
+      "notice_mode": "pipe",
+      "passed": true
+    },
+    {
+      "platform": "AlibabaCloudLinux",
+      "notice_mode": "tty",
+      "passed": true
+    },
+    {
+      "platform": "AlibabaCloudLinux",
+      "notice_mode": "no_color",
+      "passed": true
+    },
+    {
+      "platform": "AlibabaCloudLinux",
+      "notice_mode": "dumb",
+      "passed": true
+    },
+    {
+      "platform": "AlibabaCloudLinux",
+      "notice_mode": "pipe",
+      "passed": true
+    },
+    {
+      "platform": "Alpine",
+      "notice_mode": "tty",
+      "passed": true
+    },
+    {
+      "platform": "Alpine",
+      "notice_mode": "no_color",
+      "passed": true
+    },
+    {
+      "platform": "Alpine",
+      "notice_mode": "dumb",
+      "passed": true
+    },
+    {
+      "platform": "Alpine",
+      "notice_mode": "pipe",
+      "passed": true
+    },
+    {
+      "platform": "FreeBSD",
+      "notice_mode": "tty",
+      "passed": true
+    },
+    {
+      "platform": "FreeBSD",
+      "notice_mode": "no_color",
+      "passed": true
+    },
+    {
+      "platform": "FreeBSD",
+      "notice_mode": "dumb",
+      "passed": true
+    },
+    {
+      "platform": "FreeBSD",
+      "notice_mode": "pipe",
+      "passed": true
+    },
+    {
+      "platform": "Windows",
+      "notice_mode": "tty",
+      "passed": true,
+      "native_os": false
+    },
+    {
+      "platform": "Windows",
+      "notice_mode": "no_color",
+      "passed": true,
+      "native_os": false
+    },
+    {
+      "platform": "Windows",
+      "notice_mode": "dumb",
+      "passed": true,
+      "native_os": false
+    },
+    {
+      "platform": "Windows",
+      "notice_mode": "pipe",
+      "passed": true,
+      "native_os": false
+    }
+  ],
+  "passed": 40,
+  "real_deployment": false,
+  "network_downloads": false
+}

@@ -1,0 +1,159 @@
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by net.rubygrapefruit.platform.internal.NativeLibraryLoader in an unnamed module (file:/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/.runtime/gradle/wrapper/dists/gradle-9.8.2-bin/8wepis63pzuhrlfaiy04bagwu/gradle-9.8.2/lib/native-platform-0.22-milestone-29.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :gradle:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle:compileKotlin
+> Task :gradle:pluginDescriptors
+> Task :gradle:processResources
+
+> Task :gradle:compileKotlin
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/Deeplink.kt:13:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to property.
+- To opt in to applying to both value parameter and property, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/Deeplink.kt:15:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to property.
+- To opt in to applying to both value parameter and property, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/Deeplink.kt:17:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to property.
+- To opt in to applying to both value parameter and property, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/Deeplink.kt:19:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to property.
+- To opt in to applying to both value parameter and property, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterPlugin.kt:12:8 'interface ApkVariant : Any, BaseVariant, InstallableVariant, AndroidArtifactVariant, InternalBaseVariant' is deprecated. Deprecated in Java.
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterPlugin.kt:172:29 'val properties: (Mutable)Map<String, out Any?>' is deprecated. Deprecated in Java.
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterPlugin.kt:179:31 'val properties: (Mutable)Map<String, out Any?>' is deprecated. Deprecated in Java.
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterPlugin.kt:234:49 'val properties: (Mutable)Map<String, out Any?>' is deprecated. Deprecated in Java.
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterPlugin.kt:242:53 'val properties: (Mutable)Map<String, out Any?>' is deprecated. Deprecated in Java.
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterPlugin.kt:664:69 'interface ApkVariant : Any, BaseVariant, InstallableVariant, AndroidArtifactVariant, InternalBaseVariant' is deprecated. Deprecated in Java.
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterPluginUtils.kt:766:29 Condition is always 'true'.
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/VersionFetcher.kt:64:47 'val properties: (Mutable)Map<String, out Any?>' is deprecated. Deprecated in Java.
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/plugins/PluginHandler.kt:168:70 Unchecked cast of 'NamedDomainObjectContainer<out BuildType>' to 'NamedDomainObjectContainer<BuildType>'.
+w: file:///opt/homebrew/share/flutter/packages/flutter_tools/gradle/src/main/kotlin/plugins/PluginHandler.kt:169:75 Unchecked cast of 'NamedDomainObjectContainer<out BuildType>' to 'NamedDomainObjectContainer<BuildType>'.
+
+> Task :gradle:compileJava NO-SOURCE
+> Task :gradle:compileGroovy NO-SOURCE
+> Task :gradle:classes
+> Task :gradle:jar
+
+[Incubating] Problems report is available at: file:///Users/jobs/Desktop/%E5%AD%A6%E6%9C%AF%E6%9C%8D%E5%8A%A1%E5%B9%B3%E5%8F%B0%EF%BC%88%E5%85%A8%E7%AB%AF%E5%B7%A5%E7%A8%8B%EF%BC%89/clients/flutter/android/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Could not resolve all artifacts for configuration 'classpath'.
+> Could not download gradle-9.4.0.jar (com.android.tools.build:gradle:9.4.0)
+   > Could not get resource 'https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle/9.4.0/gradle-9.4.0.jar'.
+      > Could not GET 'https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle/9.4.0/gradle-9.4.0.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+> Could not download builder-9.4.0.jar (com.android.tools.build:builder:9.4.0)
+   > Could not get resource 'https://dl.google.com/dl/android/maven2/com/android/tools/build/builder/9.4.0/builder-9.4.0.jar'.
+      > Could not GET 'https://dl.google.com/dl/android/maven2/com/android/tools/build/builder/9.4.0/builder-9.4.0.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+> Could not download kotlin-gradle-plugin-2.2.10-gradle813.jar (org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.10)
+   > Could not get resource 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin/2.2.10/kotlin-gradle-plugin-2.2.10-gradle813.jar'.
+      > Could not GET 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin/2.2.10/kotlin-gradle-plugin-2.2.10-gradle813.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+> Could not download bundletool-1.18.3.jar (com.android.tools.build:bundletool:1.18.3)
+   > Could not get resource 'https://dl.google.com/dl/android/maven2/com/android/tools/build/bundletool/1.18.3/bundletool-1.18.3.jar'.
+      > Could not GET 'https://dl.google.com/dl/android/maven2/com/android/tools/build/bundletool/1.18.3/bundletool-1.18.3.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+> Could not download protos-32.4.0.jar (com.android.tools.analytics-library:protos:32.4.0)
+   > Could not get resource 'https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/protos/32.4.0/protos-32.4.0.jar'.
+      > Could not GET 'https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/protos/32.4.0/protos-32.4.0.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+> Could not download bcprov-jdk18on-1.80.2.jar (org.bouncycastle:bcprov-jdk18on:1.80.2)
+   > Could not get resource 'https://repo.maven.apache.org/maven2/org/bouncycastle/bcprov-jdk18on/1.80.2/bcprov-jdk18on-1.80.2.jar'.
+      > Could not GET 'https://repo.maven.apache.org/maven2/org/bouncycastle/bcprov-jdk18on/1.80.2/bcprov-jdk18on-1.80.2.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+> Could not download jna-platform-5.6.0.jar (net.java.dev.jna:jna-platform:5.6.0)
+   > Could not get resource 'https://repo.maven.apache.org/maven2/net/java/dev/jna/jna-platform/5.6.0/jna-platform-5.6.0.jar'.
+      > Could not GET 'https://repo.maven.apache.org/maven2/net/java/dev/jna/jna-platform/5.6.0/jna-platform-5.6.0.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+> Could not download checker-qual-3.43.0.jar (org.checkerframework:checker-qual:3.43.0)
+   > Could not get resource 'https://repo.maven.apache.org/maven2/org/checkerframework/checker-qual/3.43.0/checker-qual-3.43.0.jar'.
+      > Could not GET 'https://repo.maven.apache.org/maven2/org/checkerframework/checker-qual/3.43.0/checker-qual-3.43.0.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+> Could not download apksig-9.4.0.jar (com.android.tools.build:apksig:9.4.0)
+   > Could not get resource 'https://dl.google.com/dl/android/maven2/com/android/tools/build/apksig/9.4.0/apksig-9.4.0.jar'.
+      > Could not GET 'https://dl.google.com/dl/android/maven2/com/android/tools/build/apksig/9.4.0/apksig-9.4.0.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+> Could not download kotlin-tooling-core-2.2.10.jar (org.jetbrains.kotlin:kotlin-tooling-core:2.2.10)
+   > Could not get resource 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-tooling-core/2.2.10/kotlin-tooling-core-2.2.10.jar'.
+      > Could not GET 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-tooling-core/2.2.10/kotlin-tooling-core-2.2.10.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+> Could not download kotlin-gradle-plugin-annotations-2.2.10.jar (org.jetbrains.kotlin:kotlin-gradle-plugin-annotations:2.2.10)
+   > Could not get resource 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-annotations/2.2.10/kotlin-gradle-plugin-annotations-2.2.10.jar'.
+      > Could not GET 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-annotations/2.2.10/kotlin-gradle-plugin-annotations-2.2.10.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+> Could not download kotlin-daemon-client-2.2.10.jar (org.jetbrains.kotlin:kotlin-daemon-client:2.2.10)
+   > Could not get resource 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-daemon-client/2.2.10/kotlin-daemon-client-2.2.10.jar'.
+      > Could not GET 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-daemon-client/2.2.10/kotlin-daemon-client-2.2.10.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+> Could not download kotlin-util-io-2.2.10.jar (org.jetbrains.kotlin:kotlin-util-io:2.2.10)
+   > Could not get resource 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-util-io/2.2.10/kotlin-util-io-2.2.10.jar'.
+      > Could not GET 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-util-io/2.2.10/kotlin-util-io-2.2.10.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+> Could not download failureaccess-1.0.2.jar (com.google.guava:failureaccess:1.0.2)
+   > Could not get resource 'https://repo.maven.apache.org/maven2/com/google/guava/failureaccess/1.0.2/failureaccess-1.0.2.jar'.
+      > Could not GET 'https://repo.maven.apache.org/maven2/com/google/guava/failureaccess/1.0.2/failureaccess-1.0.2.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+> Could not download listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar (com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava)
+   > Could not get resource 'https://repo.maven.apache.org/maven2/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar'.
+      > Could not GET 'https://repo.maven.apache.org/maven2/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+> Could not download commons-codec-1.17.1.jar (commons-codec:commons-codec:1.17.1)
+   > Could not get resource 'https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.17.1/commons-codec-1.17.1.jar'.
+      > Could not GET 'https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.17.1/commons-codec-1.17.1.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+> Could not download commons-lang3-3.16.0.jar (org.apache.commons:commons-lang3:3.16.0)
+   > Could not get resource 'https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/3.16.0/commons-lang3-3.16.0.jar'.
+      > Could not GET 'https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/3.16.0/commons-lang3-3.16.0.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+> Could not download commons-logging-1.2.jar (commons-logging:commons-logging:1.2)
+   > Could not get resource 'https://repo.maven.apache.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar'.
+      > Could not GET 'https://repo.maven.apache.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+> Could not download jna-5.6.0.jar (net.java.dev.jna:jna:5.6.0)
+   > Could not get resource 'https://repo.maven.apache.org/maven2/net/java/dev/jna/jna/5.6.0/jna-5.6.0.jar'.
+      > Could not GET 'https://repo.maven.apache.org/maven2/net/java/dev/jna/jna/5.6.0/jna-5.6.0.jar'.
+         > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+            > Remote host terminated the handshake
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 4m 57s
+4 actionable tasks: 4 executed

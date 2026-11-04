@@ -1,0 +1,13 @@
+Computing fixes in flutter...
+Applying fixes...
+
+lib/data/repository.dart
+  curly_braces_in_flow_control_structures - 1 fix
+
+lib/ui/app.dart
+  curly_braces_in_flow_control_structures - 2 fixes
+
+test/repository_test.dart
+  curly_braces_in_flow_control_structures - 2 fixes
+
+5 fixes made in 3 files.

@@ -1,0 +1,30 @@
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by net.rubygrapefruit.platform.internal.NativeLibraryLoader in an unnamed module (file:/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/.runtime/gradle/wrapper/dists/gradle-9.8.2-bin/8wepis63pzuhrlfaiy04bagwu/gradle-9.8.2/lib/native-platform-0.22-milestone-29.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :gradle:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle:compileKotlin
+> Task :gradle:compileKotlin FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':gradle:compileKotlin' (registered by plugin class 'org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper').
+> Could not resolve all files for configuration ':gradle:compileClasspath'.
+   > Could not download kotlinx-serialization-core-jvm-1.4.0.jar (org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.4.0)
+      > Could not get resource 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-serialization-core-jvm/1.4.0/kotlinx-serialization-core-jvm-1.4.0.jar'.
+         > Could not GET 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-serialization-core-jvm/1.4.0/kotlinx-serialization-core-jvm-1.4.0.jar'.
+            > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+               > Remote host terminated the handshake
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 3m 49s
+1 actionable task: 1 executed

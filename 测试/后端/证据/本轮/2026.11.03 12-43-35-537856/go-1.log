@@ -1,0 +1,62 @@
+?   	academic.local/platform/cmd/server	[no test files]
+=== RUN   TestThreeServicesValidationAndIsolation
+--- PASS: TestThreeServicesValidationAndIsolation (0.01s)
+=== RUN   TestStableCreateIdempotency
+--- PASS: TestStableCreateIdempotency (0.00s)
+=== RUN   TestQuoteReplacementExpiryAndMaterialVersion
+--- PASS: TestQuoteReplacementExpiryAndMaterialVersion (0.02s)
+=== RUN   TestConcurrentAcceptanceAndRequote
+--- PASS: TestConcurrentAcceptanceAndRequote (0.04s)
+=== RUN   TestAcceptedReplayBeforeVersionCheck
+--- PASS: TestAcceptedReplayBeforeVersionCheck (0.03s)
+=== RUN   TestPaymentsPrepayHoldsAndTerminal
+--- PASS: TestPaymentsPrepayHoldsAndTerminal (0.17s)
+=== RUN   TestCancelSettlementAndRefundWorkflow
+--- PASS: TestCancelSettlementAndRefundWorkflow (0.36s)
+=== RUN   TestRefundApprovalsGuardAggregateAndStart
+--- PASS: TestRefundApprovalsGuardAggregateAndStart (0.13s)
+=== RUN   TestRevisionRoundsQuotaAndFreeUnit
+--- PASS: TestRevisionRoundsQuotaAndFreeUnit (0.06s)
+=== RUN   TestLatestReleasedGroupingAndAftersalePreservesCompletion
+--- PASS: TestLatestReleasedGroupingAndAftersalePreservesCompletion (0.06s)
+=== RUN   TestAttachmentOwnershipBytesAndImmutability
+--- PASS: TestAttachmentOwnershipBytesAndImmutability (0.01s)
+=== RUN   TestOfflineServicePreservesSoldSnapshot
+--- PASS: TestOfflineServicePreservesSoldSnapshot (0.01s)
+=== RUN   TestStorageFailureRollsBackAuditOutboxReceipt
+--- PASS: TestStorageFailureRollsBackAuditOutboxReceipt (0.00s)
+=== RUN   TestFilePersistenceLockAndCorruptionProtection
+--- PASS: TestFilePersistenceLockAndCorruptionProtection (0.02s)
+=== RUN   TestServiceStaffAndForeignActionGuards
+--- PASS: TestServiceStaffAndForeignActionGuards (0.00s)
+=== RUN   TestPostgresIntegration
+    engine_test.go:419: set TEST_DATABASE_URL to a dedicated empty PostgreSQL database
+--- SKIP: TestPostgresIntegration (0.00s)
+=== RUN   TestChangeRequiresConfirmationPreservesInitialAndDeadline
+--- PASS: TestChangeRequiresConfirmationPreservesInitialAndDeadline (0.01s)
+=== RUN   TestUnknownRefundResolutionAndAftersaleCloseGuard
+--- PASS: TestUnknownRefundResolutionAndAftersaleCloseGuard (0.07s)
+=== RUN   TestSparseStateIsRejected
+--- PASS: TestSparseStateIsRejected (0.00s)
+=== RUN   TestConcurrentFinalAcceptanceAndCancel
+--- PASS: TestConcurrentFinalAcceptanceAndCancel (0.03s)
+=== RUN   TestHTTPAuthenticationExpiryAndLogout
+--- PASS: TestHTTPAuthenticationExpiryAndLogout (6.56s)
+=== RUN   TestHTTPCreateOperationAndForeignIsolation
+--- PASS: TestHTTPCreateOperationAndForeignIsolation (3.57s)
+=== RUN   TestHTTPPrivateAttachmentRoundTrip
+--- PASS: TestHTTPPrivateAttachmentRoundTrip (3.28s)
+=== RUN   TestHTTPRejectMalformedUnknownLargeAndRoleActions
+--- PASS: TestHTTPRejectMalformedUnknownLargeAndRoleActions (4.58s)
+=== RUN   TestHTTPLoginRateLimit
+--- PASS: TestHTTPLoginRateLimit (13.04s)
+=== RUN   TestHTTPOriginReverseProxyAndPreflight
+--- PASS: TestHTTPOriginReverseProxyAndPreflight (2.50s)
+=== RUN   TestHTTPStaticAndHealth
+--- PASS: TestHTTPStaticAndHealth (2.32s)
+=== RUN   TestConfigProductionRejectsDefaults
+--- PASS: TestConfigProductionRejectsDefaults (1.75s)
+=== RUN   TestStaticSPAAndPrivateDirectoryBoundary
+--- PASS: TestStaticSPAAndPrivateDirectoryBoundary (0.00s)
+PASS
+ok  	academic.local/platform/internal/platform	40.173s

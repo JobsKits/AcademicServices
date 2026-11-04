@@ -1,0 +1,10 @@
+{
+  "name": "知序 · 管理工作台",
+  "short_name": "知序后台",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f4f5ef",
+  "theme_color": "#183d32",
+  "description": "知序学术服务后台管理工作台",
+  "prefer_related_applications": false
+}

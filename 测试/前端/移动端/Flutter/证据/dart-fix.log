@@ -1,0 +1,18 @@
+Computing fixes in flutter...
+Applying fixes...
+
+lib/data/repository.dart
+  curly_braces_in_flow_control_structures - 5 fixes
+  use_null_aware_elements - 1 fix
+
+lib/ui/actions.dart
+  curly_braces_in_flow_control_structures - 6 fixes
+
+lib/ui/app.dart
+  curly_braces_in_flow_control_structures - 14 fixes
+  use_null_aware_elements - 1 fix
+
+test/repository_test.dart
+  curly_braces_in_flow_control_structures - 2 fixes
+
+29 fixes made in 4 files.

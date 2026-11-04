@@ -1,0 +1,37 @@
+Resolving dependencies...
+Downloading packages...
+  cross_file 0.3.5+5 (0.4.0 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  petitparser 7.0.2 (7.1.0 available)
+  shared_preferences_foundation 2.5.7 (2.6.1 available)
+  test_api 0.7.12 (0.7.15 available)
+  vector_math 2.4.0 (2.4.4 available)
+  xml 7.0.1 (7.1.0 available)
+Got dependencies!
+8 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+00:00 +0: loading /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart
+00:00 +0: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: real empty list stays empty and does not become sample data
+00:00 +1: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(320.0, 640.0)
+00:00 +2: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(320.0, 640.0)
+00:00 +3: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(320.0, 640.0)
+00:00 +4: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(320.0, 640.0)
+00:00 +5: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(320.0, 640.0)
+00:00 +6: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(320.0, 640.0)
+00:00 +7: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(320.0, 640.0)
+00:00 +8: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(320.0, 640.0)
+00:00 +9: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(320.0, 640.0)
+00:00 +10: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(320.0, 640.0)
+00:00 +11: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(320.0, 640.0)
+00:00 +12: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(320.0, 640.0)
+00:00 +13: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(320.0, 640.0)
+00:00 +14: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(320.0, 640.0)
+00:00 +15: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(320.0, 640.0)
+00:00 +16: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(390.0, 844.0)
+00:00 +17: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(678.0, 467.0)
+00:00 +18: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(934.0, 678.0)
+00:00 +19: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(1440.0, 900.0)
+00:00 +20: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: large text empty workspace has reload and login entry
+00:00 +21: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: theme semantic foreground/background contrast >=4.5
+00:00 +22: All tests passed!

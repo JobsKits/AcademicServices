@@ -1,0 +1,178 @@
+{
+  "snapshot": "/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/academic-case-before-t8kkniae",
+  "directories": [
+    {
+      "old": "代码/前端/移动端/鸿蒙/entry/src/main/resources/rawfile/web",
+      "new": "代码/前端/移动端/鸿蒙/entry/src/main/resources/rawfile/Web"
+    },
+    {
+      "old": "代码/前端/移动端/鸿蒙/entry/src/main/ets/entryability",
+      "new": "代码/前端/移动端/鸿蒙/entry/src/main/ets/Entryability"
+    },
+    {
+      "old": "代码/前端/PC端/Python/zhixu/src/zhixu/assets",
+      "new": "代码/前端/PC端/Python/Zhixu/src/zhixu/Assets"
+    },
+    {
+      "old": "代码/前端/移动端/鸿蒙/entry/src/main/ets/config",
+      "new": "代码/前端/移动端/鸿蒙/entry/src/main/ets/Config"
+    },
+    {
+      "old": "代码/前端/移动端/鸿蒙/entry/src/main/ets/pages",
+      "new": "代码/前端/移动端/鸿蒙/entry/src/main/ets/Pages"
+    },
+    {
+      "old": "代码/前端/微信小程序/components/empty-state",
+      "new": "代码/前端/微信小程序/Components/EmptyState"
+    },
+    {
+      "old": "代码/前端/PC端/Python/zhixu/scripts",
+      "new": "代码/前端/PC端/Python/Zhixu/Scripts"
+    },
+    {
+      "old": "代码/前端/移动端/Flutter/lib/platform",
+      "new": "代码/前端/移动端/Flutter/lib/Platform"
+    },
+    {
+      "old": "代码/前端/移动端/Flutter/dist/client",
+      "new": "代码/前端/移动端/Flutter/Dist/Client"
+    },
+    {
+      "old": "代码/前端/移动端/Flutter/dist/admin",
+      "new": "代码/前端/移动端/Flutter/Dist/Admin"
+    },
+    {
+      "old": "代码/前端/微信小程序/pages/workspace",
+      "new": "代码/前端/微信小程序/Pages/Workspace"
+    },
+    {
+      "old": "代码/前端/移动端/Flutter/lib/data",
+      "new": "代码/前端/移动端/Flutter/lib/Data"
+    },
+    {
+      "old": "代码/前端/微信小程序/pages/create",
+      "new": "代码/前端/微信小程序/Pages/Create"
+    },
+    {
+      "old": "代码/前端/微信小程序/pages/detail",
+      "new": "代码/前端/微信小程序/Pages/Detail"
+    },
+    {
+      "old": "代码/前端/移动端/Flutter/lib/ui",
+      "new": "代码/前端/移动端/Flutter/lib/Ui"
+    },
+    {
+      "old": "代码/前端/微信小程序/pages/login",
+      "new": "代码/前端/微信小程序/Pages/Login"
+    },
+    {
+      "old": "代码/前端/移动端/Flutter/dist",
+      "new": "代码/前端/移动端/Flutter/Dist"
+    },
+    {
+      "old": "代码/前端/PC端/Python/zhixu",
+      "new": "代码/前端/PC端/Python/Zhixu"
+    },
+    {
+      "old": "代码/前端/微信小程序/components",
+      "new": "代码/前端/微信小程序/Components"
+    },
+    {
+      "old": "代码/前端/微信小程序/pages/home",
+      "new": "代码/前端/微信小程序/Pages/Home"
+    },
+    {
+      "old": "代码/前端/移动端/Flutter/tool",
+      "new": "代码/前端/移动端/Flutter/Tool"
+    },
+    {
+      "old": "测试/报告与证据/verification",
+      "new": "测试/报告与证据/Verification"
+    },
+    {
+      "old": "代码/后端/后端代码/migrations",
+      "new": "代码/后端/后端代码/Migrations"
+    },
+    {
+      "old": "代码/前端/PC端/Python/dist",
+      "new": "代码/前端/PC端/Python/Dist"
+    },
+    {
+      "old": "测试/报告与证据/screenshots",
+      "new": "测试/报告与证据/Screenshots"
+    },
+    {
+      "old": "代码/前端/微信小程序/utils",
+      "new": "代码/前端/微信小程序/Utils"
+    },
+    {
+      "old": "代码/前端/微信小程序/pages",
+      "new": "代码/前端/微信小程序/Pages"
+    },
+    {
+      "old": "代码/部署/macOS",
+      "new": "代码/部署/MacOS"
+    }
+  ],
+  "document_changes": [
+    "README.md",
+    "代码/README.md",
+    "代码/工程总览/工程总览阅读版.html",
+    "代码/使用指南/使用说明阅读版.html",
+    "代码/使用指南/使用说明.md",
+    "代码/使用指南/开始使用.html",
+    "代码/后端/后端代码/后端说明阅读版.html",
+    "代码/后端/后端代码/README.md",
+    "代码/代码地图/代码地图.md",
+    "代码/代码地图/代码地图阅读版.html",
+    "代码/部署/部署说明阅读版.html",
+    "代码/部署/README.md",
+    "代码/前端/README.md",
+    "代码/前端/PC端/README.md",
+    "代码/前端/PC端/Python/桌面说明阅读版.html",
+    "代码/前端/PC端/Python/README.md",
+    "代码/前端/移动端/鸿蒙/README.md",
+    "代码/前端/移动端/Flutter/Flutter说明阅读版.html",
+    "代码/前端/移动端/Flutter/README.md",
+    "代码/前端/后台管理端/Flutter/后台说明阅读版.html",
+    "代码/前端/后台管理端/Flutter/README.md",
+    "测试/代码分层验证/代码分层验证.md",
+    "测试/测试与分级验收/测试与分级验收.md",
+    "测试/测试与分级验收/测试与分级验收阅读版.html",
+    "测试/部署/【测试】部署双模式.py/README.md",
+    "测试/前端/PC端/Python/README.md",
+    "需求/技术方案与实现范围/技术方案阅读版.html",
+    "需求/技术方案与实现范围/技术方案与实现范围.md",
+    "需求/交付与运维清单/交付与运维清单阅读版.html",
+    "需求/交付与运维清单/交付与运维清单.md",
+    "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+    "需求/项目需求与开发评审/项目需求与开发评审.md"
+  ],
+  "frontend_validation": {
+    "checked": {
+      "dart_internal_imports": 18,
+      "mini_local_requires": 3,
+      "mini_page_routes": 12,
+      "mini_components": 1,
+      "harmony_internal_imports": 1,
+      "harmony_page_routes": 2,
+      "mini_javascript_syntax": 9,
+      "python_syntax": 2
+    },
+    "errors": [],
+    "runtime_tests": {
+      "mini": {
+        "passed": 20,
+        "failed": 0
+      },
+      "harmony": {
+        "passed": 4,
+        "failed": 0
+      }
+    },
+    "limitations": [
+      "Flutter dependency resolution/build and Harmony SDK build were not run."
+    ]
+  },
+  "history": "旧迁移映射、原始日志与生成文件正文保留原值；本表衔接当前名称。"
+}

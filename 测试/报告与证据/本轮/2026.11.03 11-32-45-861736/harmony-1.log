@@ -1,0 +1,9 @@
+test_explicit_port_preserved (__main__.EndpointTests.test_explicit_port_preserved) ... ok
+test_host_never_uses_file_origin_or_tls_bypass (__main__.EndpointTests.test_host_never_uses_file_origin_or_tls_bypass) ... ok
+test_rejects_credentials_non_https_and_ambiguous_paths (__main__.EndpointTests.test_rejects_credentials_non_https_and_ambiguous_paths) ... ok
+test_same_https_origin (__main__.EndpointTests.test_same_https_origin) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.007s
+
+OK

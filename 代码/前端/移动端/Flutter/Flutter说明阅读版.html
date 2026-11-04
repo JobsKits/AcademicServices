@@ -1,0 +1,131 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>知序 · Flutter 用户端与共享包</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f5f6f1;color:#1c362c;font:16px/1.85 system-ui,sans-serif}main{max-width:1180px;margin:auto;padding:42px 28px}header{border-bottom:1px solid #d5ded3;padding:12px 0 26px;display:flex;gap:18px;align-items:center}header img{width:64px;height:64px;border-radius:14px}h1{font-size:36px;line-height:1.3;margin:6px 0}h2{font-size:25px;border-top:1px solid #d5ded3;margin:44px 0 20px;padding-top:24px}h3{font-size:20px;margin-top:32px}h2 a,h3 a{font-size:15px!important;text-decoration:none}a{color:#145f44;text-underline-offset:3px}small{font-size:13px;color:#50675b}.toc{background:#e7ede3;padding:14px 20px;margin:24px 0;border-radius:12px}.toc summary{cursor:pointer;font-weight:650}.toc ul{list-style:none;padding:0;columns:2}.toc li{break-inside:avoid;padding:3px 0}.toc .l3{padding-left:16px;font-size:14px}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;background:white;font-size:14px;margin:20px 0}td,th{border:1px solid #d1dcd0;padding:10px 13px;text-align:left;min-width:90px;vertical-align:top}th{background:#e6eee1;font-weight:650}p code,li code,td code{font-size:.88em;background:#e9eee4;padding:2px 4px;border-radius:4px;overflow-wrap:anywhere}pre{overflow:auto;background:#e8eee3;padding:18px;border-radius:12px;line-height:1.65}code{font-family:ui-monospace,monospace}blockquote{margin:20px 0;padding:8px 20px;border-left:3px solid #68866d;background:#edf0e7;overflow-wrap:anywhere}.mermaid{background:white;text-align:center}svg{max-width:100%;height:auto}footer{margin:42px 0 0;border-top:1px solid #d5ded3;padding:20px 0;font-size:13px;color:#50675b}body>svg{display:none}@media(max-width:650px){main{padding:20px 14px}h1{font-size:28px}h2{font-size:22px}header img{width:44px;height:44px}.toc ul{columns:1}table{font-size:13px}}@media print{.toc,header small{display:none}body{background:white}main{max-width:none}}</style></head><body><main><header><img src="../../../工程资源/icon.png" alt="项目图标"><div><small>学术服务平台 · 文档阅读</small><h1>知序 · Flutter 用户端与共享包</h1><small>原始结论日期以正文为准 · <a href="README.md">Markdown 原稿</a> · <a href="../../../../README.md">根目录说明</a></small></div></header><details class="toc"><summary>章节目录</summary><nav aria-label="章节"><ul><li class="l2"><a href="#前言">前言</a></li><li class="l2"><a href="#start">快速体验</a></li><li class="l2"><a href="#features">当前功能</a></li><li class="l2"><a href="#network">网络与未确认操作</a></li><li class="l2"><a href="#build">构建与设备适配</a></li><li class="l2"><a href="#harmony">鸿蒙交付方式</a></li><li class="l2"><a href="#deps">依赖与资源来源</a></li><li class="l2"><a href="#android-toolchain">Android 最新工具链</a></li><li class="l2"><a href="#tests">回归方式</a></li><li class="l2"><a href="#code-map">本单元代码地图</a></li></ul></nav></details>
+<hr>
+<h2>🔥 <span id="前言">前言</span></h2>
+<p>本目录是 <a href="https://flutter.dev/"><strong>Flutter</strong></a> 用户端工程及共享 zhixu 包，用户端入口为 <code>lib/main.dart</code>；<a href="../../后台管理端/Flutter/后台说明阅读版.html">独立后台工程</a>通过 path 依赖复用本目录的接口、状态、界面和主题。普通操作者先阅读平台根目录的使用说明；本页面向本机运行、构建和验收。</p>
+<h2>一、<span id="start">快速体验</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a></h2>
+<p>先启动 Go 服务。服务默认地址为 <code>http://127.0.0.1:8080</code>。打开后端托管的 <code>/admin/</code> 可直接使用已经构建的管理页面。用户预览由平台的 <code>/client/</code> 提供。</p>
+<p>客户演示账户为 <code>customer</code> / <code>demo-customer</code>，管理员为 <code>admin</code> / <code>demo-admin-change-me</code>。这些仅是本机演示默认值，正式部署按配置修改。首次登录会请求服务；只有网络不可用且明确点击演示账户入口时才进入隔离演示，密码错误不会伪造登录成功。</p>
+<p>开发者在本目录运行：</p>
+<pre><code class="language-shell">flutter pub get --enforce-lockfile
+flutter run --dart-define=API_BASE_URL=https://你的域名/api/v1
+</code></pre>
+<p>管理端请进入<a href="../../后台管理端/Flutter/后台说明阅读版.html">独立后台工程</a>，按其 <code>lib/main.dart</code> 入口运行与构建；共享实现仍以本工程为唯一维护源。</p>
+<p>浏览器默认使用当前站点的 <code>/api/v1</code>。Android 模拟器默认访问 <code>10.0.2.2</code>，iOS 模拟器默认访问 <code>127.0.0.1</code>。真实手机须使用可访问的 HTTPS 域名，可在“我的 → 配置服务地址”修改。切换地址会清除当前会话和私有列表。</p>
+<h2>二、<span id="features">当前功能</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a></h2>
+<table>
+<thead>
+<tr>
+<th>页面</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>服务</td>
+<td>毕业论文、普刊、编译；说明、分服务必填字段、选填字数与日期、授权勾选</td>
+</tr>
+<tr>
+<td>需求</td>
+<td>标题/编号/状态搜索、版本、报价、资金、进度、私有附件</td>
+</tr>
+<tr>
+<td>客户办理</td>
+<td>补充、接受/拒绝报价、修改反馈、验收、条款变更、取消结算确认、售后与消息</td>
+</tr>
+<tr>
+<td>管理办理</td>
+<td>报价、人工核实收款、开工、多原因暂停/恢复、正式交付、受理修改轮、取消方案、退款申请/审核/核实、售后关闭</td>
+</tr>
+<tr>
+<td>我的</td>
+<td>登录/切换/退出、API 地址、白天/黑夜/跟随系统</td>
+</tr>
+</tbody></table>
+<p>动作由当前阶段与角色决定，最终由服务端再次校验。办理表单提供交付、收款、退款、反馈、变更和暂停原因下拉选择，附件使用多选。修改批次自动生成，管理员可在同轮补充时复用已有标识。金额输入单位为元，发送前转换为整数分。退款申请、批准、结果未知和核实成功分别显示，申请不代表钱已退回。</p>
+<p>所有动态列表有空态和重新加载入口。真实成功空列表保持为空，不用演示条目填满。登录令牌仅保存在内存中，不写入偏好设置；重新打开应用需登录。</p>
+<h2>三、<span id="network">网络与未确认操作</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a></h2>
+<p>读取超时默认 2.2 秒，可由仓库构造参数调整。读取失败会切换到隔离演示，保留真实会话以便后续重新加载自动恢复。任何 <code>401</code> 都撤销会话与私有列表；<code>403/409/422</code> 显示真实拒绝，不改为演示成功。坏结构的响应在进入列表前被拒绝。</p>
+<p>真实写入失败时，界面保留原请求与幂等键并显示“结果待确认”。使用“查询原操作”按原键读取已提交结果；404 仅代表尚未发现已提交记录。使用“重试原请求”只发送原键和原正文，后端幂等校验避免重复执行。结果未确认期间不接受另一笔写入。</p>
+<p>未确认正文和键按服务地址与账户保存在应用本地偏好目录/浏览器存储，用于重启后核对；不保存密码和令牌，其他账户不会显示这些数据。该本地存储不是加密保险箱；正式设备按操作者权限管理。平台存储不可用时只能保护当前会话，服务器幂等台账仍然保留。已核实完成/明确拒绝后清理本地待核对记录。</p>
+<p>附件最大 8 MB，使用授权接口上传与下载。上传断网时显示原键并要求先重新加载核对附件，避免立刻选择相同文件重传。上传原件不在演示模式保存。</p>
+<h2>四、<span id="build">构建与设备适配</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a></h2>
+<p>用户预览在本目录构建；后台在独立 <code>../../后台管理端/Flutter</code> 工程构建，并通过本地包依赖共用业务。完整输出分别复制到 <code>代码/后端/后端代码/client-web/</code> 与 <code>admin-web/</code>：</p>
+<pre><code class="language-shell">flutter build web \
+  --release \
+  --no-web-resources-cdn \
+  --base-href /client/ \
+  --output Dist/Client
+</code></pre>
+<p>后台命令见<a href="../../后台管理端/Flutter/后台说明阅读版.html">后台工程说明</a>。
+两包均包含本地 CanvasKit 渲染资源，不依赖运行时从公共 CDN 获取渲染器。路径末尾的 <code>/</code> 必须保留。APK/AAB 的 release 构建不复用开发签名，发布者须在 Android 工程配置自己的 keystore；iOS 上架须配置自己的签名和团队。</p>
+<p><a href="https://developer.apple.com/iphone-duo/"><strong>iPhone Duo</strong></a> 使用可变化的场景窗口尺寸。布局按可用宽度调整导航和列表/详情，使用 <code>SafeArea</code>、<code>DisplayFeatureSubScreen</code>、可滚动表单和键盘避让；不按机型判断宽度。已编写 320、390、678、934、1440 宽窗口与大字号测试。代表尺寸测试不等于 Duo 真机、铰链、多个独立窗口或所有姿态验收；多窗口独立 Flutter 引擎尚未实现，<code>UIApplicationSupportsMultipleScenes</code> 保持关闭。</p>
+<h2>五、<span id="harmony">鸿蒙交付方式</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a></h2>
+<p>本轮鸿蒙使用同一 Flutter Web 用户界面与 <a href="https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/web-component-overview"><strong>ArkWeb</strong></a> 原生宿主，源码位于 <code>../鸿蒙/</code>。这是需要在线加载页面的混合实现。普通 Flutter stable 不含 OHOS 后端；本工程未交付 CPF 原生 Flutter OH 引擎适配。</p>
+<p>开发者先填写正式 API 域名，生成同源页面配置与用户端 Web 包：</p>
+<pre><code class="language-shell">python3 Tool/prepare_harmony.py \
+  --api https://你的域名/api/v1
+</code></pre>
+<p>脚本只接受 <code>https://域名/api/v1</code>，将固定的同源 <code>https://域名/client/?host=harmony</code> 写入 <code>../鸿蒙/entry/src/main/ets/Config/Endpoint.ets</code>。构建生成的 <code>Dist/Client/</code> 必须完整部署到同一后端的 <code>client-web/</code>。宿主使用 HTTPS 页面，不使用本地 <code>file:</code> 页面；API 与页面同源，无需放开 <code>Origin: null</code> 或通配 CORS。用 <code>--check</code> 只检查路径和工具，不构建、不写配置。Harmony 构建目标配置 API 26、最低 API 23，hvigor 来自最新 DevEco 工具链，不在本工程锁入旧版 OHOS Flutter 插件。</p>
+<p>安装官方最新版 <a href="https://developer.huawei.com/consumer/cn/deveco-studio/"><strong>DevEco Studio</strong></a>，打开 <code>../鸿蒙/</code>，选择匹配 SDK、配置自己的调试/发布签名后构建 HAP 和 APP。当前电脑没有 DevEco/鸿蒙 SDK，故未实编、未签名、未设备安装，配置值需在目标工具链首次导入时核实。</p>
+<p>宿主限制页面导航在配置的 HTTPS 来源，禁用 file access 与混合内容，证书错误沿用系统默认拒绝。首次启动必须能访问页面；连接失败或主页面 HTTP 错误显示本地说明与“重新加载”，尚未实现离线首启。页面成功加载之后，API 失败仍使用 Flutter 现有的隔离演示规则。宿主通过 <code>onShowFileSelector</code> 拉起原生文件选择器；原件保存暂不支持，页面通过 <code>host=harmony</code> 明确提示使用 iOS/Android/桌面端授权下载。首发前必须在实际 ArkWeb 验证页面渲染、文件选择、证书拒绝、同源请求与加载失败重试；源码合同检查不能代替 HAP 构建与设备验收。</p>
+<h2>六、<span id="deps">依赖与资源来源</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a></h2>
+<p>2026-10-30 核实 Flutter 3.47.8 stable / Dart 3.13.7；直接依赖按 <a href="https://pub.dev/"><strong>pub.dev</strong></a> 最新稳定版锁定：<code>http 1.6.0</code>、<code>shared_preferences 2.5.6</code>、<code>file_picker 13.3.0</code>、<code>flutter_lints 6.0.0</code>。完整解析结果在 <code>pubspec.lock</code>。本轮已将兼容可升级的传递依赖全部更新，包括 <code>shared_preferences_foundation 2.6.1</code>、<code>meta 1.19.0</code>、<code>vector_math 2.4.4</code> 等。剩余 <code>cross_file</code>、<code>material_color_utilities</code>、<code>test_api</code> 受上游插件/Flutter SDK 版本约束，没有强制覆盖为不兼容版本；差异记录在 <code>依赖状态.json</code>，不能称这三项也是最新上游版本。</p>
+<p>业务页面使用文字编号，不依赖外部图标/照片。Flutter 内部控件的 Material 字体来自 Flutter SDK（BSD-3-Clause）；鸿蒙启动图为本工程自制 SVG。生成的平台默认图标仍需在正式品牌确认后替换。字体和前端资源随构建打包，不引用竞争网站素材。</p>
+<p>上游来源：<a href="https://pub.dev/packages/http">HTTP</a>、<a href="https://pub.dev/packages/shared_preferences">Shared Preferences</a>、<a href="https://pub.dev/packages/file_picker">File Picker</a>、<a href="https://docs.flutter.dev/release/release-notes">Flutter 发布记录</a>、<a href="https://developer.apple.com/videos/play/tech-talks/111461/">Apple Duo 适配说明</a>。CPF 远端正式 tag 核对为 <code>3.35.7+ohos-1.0.5</code>，它与当前 stable/插件版本不同步，故采用上述 ArkWeb 路线。</p>
+<h2>七、<span id="android-toolchain">Android 最新工具链</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a></h2>
+<p>2026-10-30 按官方来源更新项目专属配置，未使用脚手架默认值冒充最新：</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>当前配置</th>
+<th>核对来源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AGP</td>
+<td>9.4.0</td>
+<td><a href="https://developer.android.com/build/releases/agp-9-4-0-release-notes">Android 官方发布记录</a></td>
+</tr>
+<tr>
+<td>Gradle</td>
+<td>9.8.2 binary，固定官方 SHA-256</td>
+<td><a href="https://docs.gradle.org/current/release-notes.html">Gradle 发布说明</a></td>
+</tr>
+<tr>
+<td>Kotlin KGP运行时</td>
+<td>2.4.21（AGP内置Kotlin，顶层classpath固定）</td>
+<td><a href="https://kotlinlang.org/docs/releases.html">Kotlin 发布记录</a></td>
+</tr>
+<tr>
+<td>compileSdk / targetSdk</td>
+<td>37 / 37</td>
+<td><a href="https://developer.android.com/about/versions/17/setup-sdk">Android 17 SDK 配置</a></td>
+</tr>
+<tr>
+<td>Build Tools</td>
+<td>37.0.0</td>
+<td>Android SDK Manager</td>
+</tr>
+<tr>
+<td>NDK</td>
+<td>30.0.16248370（r30 最新 LTS）</td>
+<td><a href="https://developer.android.com/ndk/downloads">NDK 下载页</a></td>
+</tr>
+<tr>
+<td>最低系统 API</td>
+<td>24</td>
+<td>当前文件与设置插件的最低要求</td>
+</tr>
+</tbody></table>
+<p>当前 Android 插件支持内置 Kotlin，工程启用 <code>android.builtInKotlin=true</code>；按照 Flutter 当前兼容方案保留 <code>android.newDsl=false</code>。最新 KGP 在 settings 插件解析与顶层 buildscript classpath 同时固定，确保先于 AGP 默认旧 KGP 解析；app 模块不再应用旧 kotlin-android 插件。</p>
+<p>本机原有平台 36/36.1、NDK 28，最新组合须下载平台 37 与 NDK 30。首轮 Gradle 压缩包不完整导致解压失败，保留在日志中；已改为官方 binary 包并加入官方 SHA-256 校验后重试。后续使用完整校验过的 Gradle 与私有缓存重试，最后按同一最新组合对齐 KGP classpath，已通过 Flutter 的 Kotlin 最低版本检查并进入 AGP 项目配置；随后官方 NDK 30 下载出现 <code>Premature EOF</code>，构建停止，未生成 APK。最后依据为 <code>../../../../测试/前端/移动端/Flutter/证据/build-android-kgp-aligned.log</code>。修复网络下载后，在 Android Studio SDK Manager 安装 API 37、Build Tools 37.0.0、NDK 30.0.16248370，再运行 <code>flutter build apk --release</code>。本轮源码配置不等于 APK 产物或 Android 设备验收通过。缺少 SDK 或网络失败时停止，不默默降到旧版本。</p>
+<h2>八、<span id="tests">回归方式</span> <a href="#前言">🔼</a> <a href="#🔚">🔽</a></h2>
+<pre><code class="language-shell">python3 ../../../../测试/运行测试.py/运行测试.py --group flutter
+dart analyze --format machine lib
+</code></pre>
+<p>当前最终 Flutter 回归为 <code>../../../../测试/前端/移动端/Flutter/证据/test-round-12.log</code>：34项通过；<code>../../../../测试/前端/移动端/Flutter/证据/analyze-final.log</code> 为空表示零问题。新增表单提交回归发现并修复了弹窗退出动画中控制器过早释放的问题，失败日志保留于第7轮。第9轮管理员窄屏测试缺少滚动后等待，补齐测试帧等待后第10轮33项全部通过。最终第12轮为34项通过，另覆盖模拟铰链占用下控件不跨越不可用区域；该几何夹具仍不等于真实Duo设备姿态验收。</p>
+<p>另可运行 <code>python3 ../../../../测试/前端/移动端/鸿蒙/test_prepare_harmony.py</code> 验证 HTTPS 同源配置与宿主源码保护（4项通过）。测试覆盖三类表单必填/选填、弹窗退出生命周期、公开服务连接标识、API、真实空列表、离线恢复、401/403/422、未知写幂等重试/重启恢复、跨账户及迟到读取隔离、坏响应、宽窄窗口、大字体、空态和主题对比。各轮日志保留在 <code>../../../../测试/前端/移动端/Flutter/证据/</code>。<code>flutter analyze</code> 在本机长中文路径触发上游 LSP 分块解析错误，使用同 SDK 的 <code>dart analyze --format machine</code> 完成源码分析；分析通过与 Web/原生构建分别记录，不混为设备验收。</p>
+<h2>一、<span id="code-map">本单元代码地图</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>定位入口见<a href="代码地图/README.md">代码地图目录</a>，包含本工程的主地图与离线阅读版；共享源只通过原归属引用。</p>
+<p><a id="🔚" href="#前言">我是有底线的➤点我回到首页</a></p>
+<footer>离线阅读版由当前文档生成。测试、构建、设备业务和正式验收按各自证据登记。</footer></main><script src="../../../../需求/阅读资源/mermaid.min.js"></script><script>window.__diagramErrors=[];mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeVariables:{fontFamily:'system-ui',primaryColor:'#e6eee1',primaryTextColor:'#1c362c',lineColor:'#526e5d'}});mermaid.run({querySelector:'.mermaid'}).then(()=>{window.__renderDone=true}).catch(e=>{window.__diagramErrors.push(String(e));window.__renderDone=true});</script></body></html>

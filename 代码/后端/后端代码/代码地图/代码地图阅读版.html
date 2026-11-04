@@ -1,0 +1,71 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>后端 · Go代码地图</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f5f6f1;color:#1c362c;font:16px/1.85 system-ui,sans-serif}main{max-width:1180px;margin:auto;padding:42px 28px}header{border-bottom:1px solid #d5ded3;padding:12px 0 26px;display:flex;gap:18px;align-items:center}header img{width:64px;height:64px;border-radius:14px}h1{font-size:36px;line-height:1.3;margin:6px 0}h2{font-size:25px;border-top:1px solid #d5ded3;margin:44px 0 20px;padding-top:24px}h3{font-size:20px;margin-top:32px}h2 a,h3 a{font-size:15px!important;text-decoration:none}a{color:#145f44;text-underline-offset:3px}small{font-size:13px;color:#50675b}.toc{background:#e7ede3;padding:14px 20px;margin:24px 0;border-radius:12px}.toc summary{cursor:pointer;font-weight:650}.toc ul{list-style:none;padding:0;columns:2}.toc li{break-inside:avoid;padding:3px 0}.toc .l3{padding-left:16px;font-size:14px}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;background:white;font-size:14px;margin:20px 0}td,th{border:1px solid #d1dcd0;padding:10px 13px;text-align:left;min-width:90px;vertical-align:top}th{background:#e6eee1;font-weight:650}p code,li code,td code{font-size:.88em;background:#e9eee4;padding:2px 4px;border-radius:4px;overflow-wrap:anywhere}pre{overflow:auto;background:#e8eee3;padding:18px;border-radius:12px;line-height:1.65}code{font-family:ui-monospace,monospace}blockquote{margin:20px 0;padding:8px 20px;border-left:3px solid #68866d;background:#edf0e7;overflow-wrap:anywhere}.mermaid{background:white;text-align:center}svg{max-width:100%;height:auto}footer{margin:42px 0 0;border-top:1px solid #d5ded3;padding:20px 0;font-size:13px;color:#50675b}body>svg{display:none}@media(max-width:650px){main{padding:20px 14px}h1{font-size:28px}h2{font-size:22px}header img{width:44px;height:44px}.toc ul{columns:1}table{font-size:13px}}@media print{.toc,header small{display:none}body{background:white}main{max-width:none}}</style></head><body><main><header><img src="../../../工程资源/icon.png" alt="项目图标"><div><small>学术服务平台 · 文档阅读</small><h1>后端 · Go代码地图</h1><small>原始结论日期以正文为准 · <a href="代码地图.md">Markdown 原稿</a> · <a href="../../../../README.md">根目录说明</a></small></div></header><details class="toc"><summary>章节目录</summary><nav aria-label="章节"><ul><li class="l2"><a href="#前言">前言</a></li><li class="l2"><a href="#modules">入口与模块职责</a></li><li class="l2"><a href="#local-flow">本单元关系</a></li><li class="l2"><a href="#dependencies">共享源与外部依赖</a></li><li class="l2"><a href="#tests">外置测试与验证边界</a></li></ul></nav></details>
+<hr>
+<h2>🔥 <span id="前言">前言</span></h2>
+<p>本图只定位 Go 服务实现。接口契约在本实现的外层同级维护；测试源码统一外置，通过运行器临时 overlay 进入 Go 包上下文，不复制回核心代码。路径均从当前文档相对指向源码；跨单元内容只通过链接引用。</p>
+<h2>一、<span id="modules">入口与模块职责</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<table>
+<thead>
+<tr>
+<th>本单元路径</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="../cmd/server/main.go">cmd/server/main.go</a></td>
+<td>配置、存储启动、HTTP 服务、优雅退出。</td>
+</tr>
+<tr>
+<td><a href="../internal/platform/http.go">internal/platform/http.go</a></td>
+<td>登录／会话／限流／CORS、接口与静态 SPA／私有附件。</td>
+</tr>
+<tr>
+<td><a href="../internal/platform/engine.go">internal/platform/engine.go</a></td>
+<td>需求、报价、订单、退款、交付、修改、取消及售后原子动作。</td>
+</tr>
+<tr>
+<td><a href="../internal/platform/model.go">internal/platform/model.go</a></td>
+<td>领域类型、快照、公开视图、状态汇总。</td>
+</tr>
+<tr>
+<td><a href="../internal/platform/store.go">internal/platform/store.go</a></td>
+<td>文件原子替换与实例锁、可选 <a href="https://www.postgresql.org/"><strong>PostgreSQL</strong></a> 聚合事务。</td>
+</tr>
+<tr>
+<td><a href="../Migrations/001_runtime.sql">Migrations/001_runtime.sql</a></td>
+<td>运行聚合存储的 DDL；不等于需求设计中的完整关系表已上线。</td>
+</tr>
+<tr>
+<td><a href="../go.mod">go.mod</a></td>
+<td>Go 工具链与模块依赖声明。</td>
+</tr>
+</tbody></table>
+<h2>二、<span id="local-flow">本单元关系</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<pre class="mermaid">flowchart LR
+    Main[cmd/server/main.go] --&gt; Http[platform/http.go]
+    Http --&gt; Engine[platform/engine.go]
+    Engine --&gt; Model[platform/model.go]
+    Engine --&gt; Store[platform/store.go]
+</pre>
+<h2>三、<span id="dependencies">共享源与外部依赖</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<ul>
+<li><a href="../../接口契约/api.json">唯一接口契约</a>：所有客户端共用，集中维护</li>
+<li><a href="../../../../部署/README.md">分系统部署导航</a>：分发时保持根目录的代码与部署并列，后端留在代码/后端/后端代码；各系统脚本在自身单元维护</li>
+<li><a href="../../../前端/后台管理端/Flutter/代码地图/代码地图阅读版.html">后台 Web 构建地图</a>：Go 托管 /admin/ 构建产物；不接管后台源码</li>
+<li><a href="../../../前端/移动端/Flutter/代码地图/代码地图阅读版.html">用户 Web 构建地图</a>：Go 托管 /client/ 构建产物；不接管 Flutter 源码</li>
+</ul>
+<h2>四、<span id="tests">外置测试与验证边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<ul>
+<li><p><a href="../../../../测试/后端/engine_test.go">engine_test.go</a>：原混合地图的状态、资金、并发及存储测试定位；物理源码已在外层</p>
+</li>
+<li><p><a href="../../../../测试/后端/http_test.go">http_test.go</a>：HTTP 保护测试</p>
+</li>
+<li><p><a href="../../../../测试/后端/接口/test_http.py">test_http.py</a>：通过真实服务子进程跑整单闭环</p>
+</li>
+<li><p><a href="../后端说明阅读版.html">本单元使用说明</a>：运行、构建及当前限制</p>
+</li>
+<li><p><a href="../../../../测试/README.md">统一测试说明</a>：各职责的执行入口与证据位置</p>
+</li>
+</ul>
+<p>地图核对文档与源码位置，不代表完成构建、设备业务或正式发布验收。已有验证状态保留原记录，未执行的目标不写成通过。</p>
+<p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
+<footer>离线阅读版由当前文档生成。测试、构建、设备业务和正式验收按各自证据登记。</footer></main><script src="../../../../需求/阅读资源/mermaid.min.js"></script><script>window.__diagramErrors=[];mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeVariables:{fontFamily:'system-ui',primaryColor:'#e6eee1',primaryTextColor:'#1c362c',lineColor:'#526e5d'}});mermaid.run({querySelector:'.mermaid'}).then(()=>{window.__renderDone=true}).catch(e=>{window.__diagramErrors.push(String(e));window.__renderDone=true});</script></body></html>

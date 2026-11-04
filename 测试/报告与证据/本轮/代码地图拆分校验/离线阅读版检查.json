@@ -1,0 +1,399 @@
+{
+  "date": "2026-11-03",
+  "pages": 28,
+  "results": [
+    {
+      "path": "代码/工程总览/工程总览阅读版.html",
+      "title": "知序｜学术服务全端工程",
+      "diagrams": 2,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 9,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/使用指南/使用说明阅读版.html",
+      "title": "知序｜从第一次打开开始",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 8,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/后端/后端代码/后端说明阅读版.html",
+      "title": "学术服务后端",
+      "diagrams": 2,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 9,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/部署/部署说明阅读版.html",
+      "title": "后端分平台部署",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 17,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/前端/PC端/Python/桌面说明阅读版.html",
+      "title": "知序桌面客户端",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 8,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/前端/移动端/Flutter/Flutter说明阅读版.html",
+      "title": "知序 · Flutter 用户端与共享包",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 10,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/前端/微信小程序/小程序说明阅读版.html",
+      "title": "微信小程序入口",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 5,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "title": "学术服务平台｜项目需求与开发评审",
+      "diagrams": 2,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 21,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "需求/技术方案与实现范围/技术方案阅读版.html",
+      "title": "技术方案与实现范围",
+      "diagrams": 2,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 6,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "title": "学术服务平台｜交付与运维清单",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 7,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/前端/后台管理端/Flutter/后台说明阅读版.html",
+      "title": "知序｜Flutter 后台入口",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 3,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "测试/测试与分级验收/测试与分级验收阅读版.html",
+      "title": "学术服务平台｜测试与分级验收",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 7,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "测试/回归测试报告/回归测试报告阅读版.html",
+      "title": "全端工程｜多轮回归测试报告",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 5,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/前端/PC端/Python/代码地图/代码地图阅读版.html",
+      "title": "PC端 · Python代码地图",
+      "diagrams": 1,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 5,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/前端/移动端/Flutter/代码地图/代码地图阅读版.html",
+      "title": "移动端 · Flutter / Dart代码地图",
+      "diagrams": 1,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 5,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/前端/移动端/鸿蒙/代码地图/代码地图阅读版.html",
+      "title": "移动端 · 鸿蒙 ArkTS / ArkWeb代码地图",
+      "diagrams": 1,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 5,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/前端/后台管理端/Flutter/代码地图/代码地图阅读版.html",
+      "title": "后台管理端 · Flutter / Dart代码地图",
+      "diagrams": 1,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 5,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/前端/微信小程序/代码地图/代码地图阅读版.html",
+      "title": "微信小程序 · JavaScript / WXML / WXSS代码地图",
+      "diagrams": 1,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 5,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "title": "后端 · Go代码地图",
+      "diagrams": 1,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 5,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/部署/MacOS/代码地图/代码地图阅读版.html",
+      "title": "MacOS 部署代码地图",
+      "diagrams": 1,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 5,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/部署/Windows/代码地图/代码地图阅读版.html",
+      "title": "Windows 部署代码地图",
+      "diagrams": 1,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 5,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/部署/Ubuntu/代码地图/代码地图阅读版.html",
+      "title": "Ubuntu 部署代码地图",
+      "diagrams": 1,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 5,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/部署/Debian/代码地图/代码地图阅读版.html",
+      "title": "Debian 部署代码地图",
+      "diagrams": 1,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 5,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/部署/RockyLinux/代码地图/代码地图阅读版.html",
+      "title": "RockyLinux 部署代码地图",
+      "diagrams": 1,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 5,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/部署/AlibabaCloudLinux/代码地图/代码地图阅读版.html",
+      "title": "AlibabaCloudLinux 部署代码地图",
+      "diagrams": 1,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 5,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/部署/Alpine/代码地图/代码地图阅读版.html",
+      "title": "Alpine 部署代码地图",
+      "diagrams": 1,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 5,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/部署/FreeBSD/代码地图/代码地图阅读版.html",
+      "title": "FreeBSD 部署代码地图",
+      "diagrams": 1,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 5,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "path": "代码/工程总览/单元导航阅读版.html",
+      "title": "工程总览与单元导航",
+      "diagrams": 0,
+      "diagramErrors": [],
+      "bodyOverflow": false,
+      "brokenImages": 0,
+      "tocEntries": 4,
+      "narrow": {
+        "bodyOverflow": false,
+        "brokenImages": 0
+      },
+      "pageErrors": []
+    }
+  ],
+  "errors": []
+}

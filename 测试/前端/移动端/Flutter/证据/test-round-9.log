@@ -1,0 +1,84 @@
+00:00 +0: loading /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart
+00:00 +0: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: real empty list stays empty and does not become sample data
+00:00 +1: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: real empty list stays empty and does not become sample data
+00:00 +2: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/repository_test.dart: real empty list stays empty and does not become sample data
+00:00 +3: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form
+00:00 +4: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form
+00:00 +5: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form
+00:00 +6: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form
+00:00 +7: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form
+00:00 +8: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form
+00:00 +9: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form
+00:00 +10: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form
+00:00 +11: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form
+00:00 +12: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form
+00:00 +13: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form
+00:00 +14: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form
+00:00 +15: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form
+00:00 +16: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form
+00:00 +17: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form
+00:00 +18: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form
+00:00 +19: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form
+00:00 +20: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form
+
+Warning: A call to tap() with finder "Found 1 widget with text "发布报价": [
+  Text("发布报价", dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery, _ScrollableScope]),
+]" derived an Offset (Offset(92.2, 928.0)) that would not hit test on the specified widget.
+Maybe the widget is actually off-screen, or another widget is obscuring it, or the widget cannot receive pointer events.
+The finder corresponds to this RenderBox: RenderParagraph#ba640 relayoutBoundary=up27
+The hit test result at that offset is: HitTestResult(RenderPointerListener#6ae36@Offset(92.2, 8.0), RenderSemanticsAnnotations#36fda@Offset(92.2, 8.0), RenderMouseRegion#c92a1@Offset(92.2, 8.0), RenderSemanticsAnnotations#7490d@Offset(92.2, 8.0), RenderMouseRegion#98895@Offset(92.2, 8.0), RenderSemanticsAnnotations#d9010@Offset(92.2, 8.0), RenderPointerListener#03477@Offset(92.2, 8.0), _RenderExclusiveMouseRegion#3714c@Offset(92.2, 8.0), RenderSemanticsAnnotations#39d4b@Offset(92.2, 8.0), _RenderLayoutSurrogateProxyBox#e0bce@Offset(92.2, 8.0), RenderStack#1d928@Offset(92.2, 8.0), RenderSemanticsAnnotations#a13de@Offset(92.2, 8.0), RenderSemanticsAnnotations#4cbfe@Offset(92.2, 8.0), RenderMergeSemantics#d19f7@Offset(92.2, 8.0), RenderFlex#7d680@Offset(92.2, 8.0), RenderConstrainedBox#bde96@Offset(92.2, 8.0), RenderSemanticsAnnotations#2d09e@Offset(92.2, 8.0), RenderPadding#24948@Offset(92.2, 8.0), _RenderInkFeatures#5d699@Offset(92.2, 8.0), RenderPhysicalModel#5348a@Offset(92.2, 8.0), RenderCustomMultiChildLayoutBox#c18c2@Offset(92.2, 928.0), _RenderInkFeatures#52a39@Offset(92.2, 928.0), RenderPhysicalModel#441fd@Offset(92.2, 928.0), _RenderLayoutBuilder#16573@Offset(92.2, 928.0), RenderPadding#56a06@Offset(92.2, 928.0), RenderSemanticsAnnotations#1858d@Offset(92.2, 928.0), RenderRepaintBoundary#02d7c@Offset(92.2, 928.0), RenderIgnorePointer#401d2@Offset(92.2, 928.0), RenderAnimatedOpacity#eca0c@Offset(92.2, 928.0), RenderAnimatedOpacity#f19fa@Offset(92.2, 928.0), _RenderColoredBox#e8c33@Offset(92.2, 928.0), RenderAnimatedOpacity#4291e@Offset(92.2, 928.0), RenderIgnorePointer#07320@Offset(92.2, 928.0), RenderAnimatedOpacity#f3504@Offset(92.2, 928.0), RenderRepaintBoundary#17084@Offset(92.2, 928.0), RenderSemanticsAnnotations#92307@Offset(92.2, 928.0), RenderOffstage#35897@Offset(92.2, 928.0), RenderSemanticsAnnotations#7a28b@Offset(92.2, 928.0), _RenderTheater#17b34@Offset(92.2, 928.0), RenderAbsorbPointer#b44a3@Offset(92.2, 928.0), RenderPointerListener#0652a@Offset(92.2, 928.0), RenderSemanticsAnnotations#249ab@Offset(92.2, 928.0), RenderSemanticsAnnotations#ee2d6@Offset(92.2, 928.0), RenderSemanticsAnnotations#179e9@Offset(92.2, 928.0), RenderSemanticsAnnotations#2e19b@Offset(92.2, 928.0), RenderTapRegionSurface#4227f@Offset(92.2, 928.0), RenderSemanticsAnnotations#8d651@Offset(92.2, 928.0), RenderSemanticsAnnotations#8f062@Offset(92.2, 928.0), HitTestEntry<HitTestTarget>#28b72(_ReusableRenderView#d83c9), HitTestEntry<HitTestTarget>#5a09a(<AutomatedTestWidgetsFlutterBinding>))
+#0      WidgetController._getElementPoint (package:flutter_test/src/controller.dart:2165:25)
+#1      WidgetController.getCenter (package:flutter_test/src/controller.dart:1947:12)
+#2      WidgetController.tap (package:flutter_test/src/controller.dart:1080:7)
+#3      main.<anonymous closure> (file:///Users/jobs/Desktop/%E5%AD%A6%E6%9C%AF%E6%9C%8D%E5%8A%A1%E5%B9%B3%E5%8F%B0%EF%BC%88%E5%85%A8%E7%AB%AF%E5%B7%A5%E7%A8%8B%EF%BC%89/clients/flutter/test/widget_test.dart:102:22)
+<asynchronous suspension>
+#4      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#5      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#6      StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+To silence this warning, pass "warnIfMissed: false" to "tap()".
+To make this warning fatal, set WidgetController.hitTestWarningShouldBeFatal to true.
+
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TypeWidgetFinder:<Found 0 widgets with type "AlertDialog": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Users/jobs/Desktop/%E5%AD%A6%E6%9C%AF%E6%9C%8D%E5%8A%A1%E5%B9%B3%E5%8F%B0%EF%BC%88%E5%85%A8%E7%AB%AF%E5%B7%A5%E7%A8%8B%EF%BC%89/clients/flutter/test/widget_test.dart:104:9)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Users/jobs/Desktop/%E5%AD%A6%E6%9C%AF%E6%9C%8D%E5%8A%A1%E5%B9%B3%E5%8F%B0%EF%BC%88%E5%85%A8%E7%AB%AF%E5%B7%A5%E7%A8%8B%EF%BC%89/clients/flutter/test/widget_test.dart line 104
+The test description was:
+  responsive manager at width 390.0 can open and close quote form
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +20 -1: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form [E]
+  Test failed. See exception logs above.
+  The test description was: responsive manager at width 390.0 can open and close quote form
+  
+00:00 +20 -1: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 1200.0 can open and close quote form
+00:00 +21 -1: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: public API service information does not claim local demo
+00:01 +22 -1: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: graduation form only asks relevant required fields and allows optional blanks
+00:01 +23 -1: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: journal form only asks relevant required fields and allows optional blanks
+00:01 +24 -1: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: editing form only asks relevant required fields and allows optional blanks
+00:01 +25 -1: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(320.0, 640.0)
+00:01 +26 -1: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(390.0, 844.0)
+00:01 +27 -1: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(678.0, 467.0)
+00:01 +28 -1: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(934.0, 678.0)
+00:01 +29 -1: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive service page Size(1440.0, 900.0)
+00:01 +30 -1: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: large text empty workspace has reload and login entry
+00:01 +31 -1: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: theme semantic foreground/background contrast >=4.5
+00:01 +32 -1: Some tests failed.
+
+Failing tests:
+  /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/test/widget_test.dart: responsive manager at width 390.0 can open and close quote form

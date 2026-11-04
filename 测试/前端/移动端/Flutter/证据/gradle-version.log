@@ -1,0 +1,27 @@
+Unzipping /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/.runtime/gradle/wrapper/dists/gradle-9.8.2-bin/8wepis63pzuhrlfaiy04bagwu/gradle-9.8.2-bin.zip to /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/.runtime/gradle/wrapper/dists/gradle-9.8.2-bin/8wepis63pzuhrlfaiy04bagwu
+Set executable permissions for: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/.runtime/gradle/wrapper/dists/gradle-9.8.2-bin/8wepis63pzuhrlfaiy04bagwu/gradle-9.8.2/bin/gradle
+
+Welcome to Gradle 9.8.2!
+
+Here are the highlights of this release:
+ - Java 27 support
+ - Maven mirror settings reuse
+ - Linked problem locations in build output
+
+For more details see https://docs.gradle.org/9.8.2/release-notes.html
+
+
+------------------------------------------------------------
+Gradle 9.8.2
+------------------------------------------------------------
+
+Build time:    2026-10-19 16:29:26 UTC
+Revision:      8de7bcf76e785507ad92f0741ab9235a430c95e6
+
+Kotlin:        2.4.10
+Groovy:        4.0.33
+Ant:           Apache Ant(TM) version 1.10.17 compiled on April 6 2026
+Launcher JVM:  21.0.13.0.3 (Homebrew 21.0.13.0.3)
+Daemon JVM:    /opt/homebrew/Cellar/openjdk@21/21.0.13.0.3/libexec/openjdk.jdk/Contents/Home (no Daemon JVM specified, using current Java home)
+OS:            Mac OS X 27.0.1 aarch64
+

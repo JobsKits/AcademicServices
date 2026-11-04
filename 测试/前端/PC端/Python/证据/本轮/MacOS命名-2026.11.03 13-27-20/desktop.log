@@ -1,0 +1,53 @@
+test_windows_bootstrap_returns_only_python_path (test_bootstrap.BootstrapTests.test_windows_bootstrap_returns_only_python_path) ... ok
+test_cancellation_and_change_use_offered_contract (test_gui.GuiTests.test_cancellation_and_change_use_offered_contract) ... qt.qpa.fonts: Populating font family aliases took 91 ms. Replace uses of missing font family "Sans Serif" with one that exists to avoid this cost. 
+ok
+test_home_has_exactly_three_services (test_gui.GuiTests.test_home_has_exactly_three_services) ... ok
+test_light_dark_text_contrast (test_gui.GuiTests.test_light_dark_text_contrast) ... ok
+test_quote_offer_has_customer_accept_action (test_gui.GuiTests.test_quote_offer_has_customer_accept_action) ... ok
+test_real_empty_workspace_has_reload_and_new_request (test_gui.GuiTests.test_real_empty_workspace_has_reload_and_new_request) ... ok
+test_service_form_only_shows_relevant_required_fields (test_gui.GuiTests.test_service_form_only_shows_relevant_required_fields) ... ok
+test_system_theme_changes_are_live_manual_is_stable (test_gui.GuiTests.test_system_theme_changes_are_live_manual_is_stable) ... ok
+test_theme_three_modes_and_restart_persistence (test_gui.GuiTests.test_theme_three_modes_and_restart_persistence) ... ok
+test_window_layout_and_theme_render (test_gui.GuiTests.test_window_layout_and_theme_render) ... ok
+test_eof_and_any_nonempty_input_cancel (test_packaging.BuildSafetyTests.test_eof_and_any_nonempty_input_cancel) ... ok
+test_foreign_shortcut_refused (test_packaging.BuildSafetyTests.test_foreign_shortcut_refused) ... ok
+test_owned_dist_cleanup_does_not_touch_source (test_packaging.BuildSafetyTests.test_owned_dist_cleanup_does_not_touch_source) ... ok
+test_owned_relative_shortcuts_removed (test_packaging.BuildSafetyTests.test_owned_relative_shortcuts_removed) ... ok
+test_real_same_name_shortcut_refused (test_packaging.BuildSafetyTests.test_real_same_name_shortcut_refused) ... ok
+test_symlink_dist_refused_before_deleting_anything (test_packaging.BuildSafetyTests.test_symlink_dist_refused_before_deleting_anything) ... ok
+test_wrong_platform_cannot_start_cleaning (test_packaging.BuildSafetyTests.test_wrong_platform_cannot_start_cleaning) ... ok
+test_bad_200_response_is_not_success (test_repository.HttpTests.test_bad_200_response_is_not_success) ... ok
+test_real_http_401_not_offline (test_repository.HttpTests.test_real_http_401_not_offline) ... ok
+test_real_http_503_is_offline (test_repository.HttpTests.test_real_http_503_is_offline) ... ok
+test_real_http_authorization_header (test_repository.HttpTests.test_real_http_authorization_header) ... ok
+test_redirect_does_not_forward_token (test_repository.HttpTests.test_redirect_does_not_forward_token) ... ok
+test_422_is_not_demo_success (test_repository.RepositoryTest.test_422_is_not_demo_success) ... ok
+test_bad_case_description_falls_back_before_qt_render (test_repository.RepositoryTest.test_bad_case_description_falls_back_before_qt_render) ... ok
+test_bad_password_never_becomes_demo (test_repository.RepositoryTest.test_bad_password_never_becomes_demo) ... ok
+test_committed_unknown_write_reconciles_without_replay (test_repository.RepositoryTest.test_committed_unknown_write_reconciles_without_replay) ... ok
+test_demo_recovery_never_syncs_demo_writes (test_repository.RepositoryTest.test_demo_recovery_never_syncs_demo_writes) ... ok
+test_direct_reconcile_auth_failure_clears_private_state (test_repository.RepositoryTest.test_direct_reconcile_auth_failure_clears_private_state) ... ok
+test_download_auth_failure_clears_private_state (test_repository.RepositoryTest.test_download_auth_failure_clears_private_state) ... ok
+test_failed_auth_write_removes_definite_pending_record (test_repository.RepositoryTest.test_failed_auth_write_removes_definite_pending_record) ... ok
+test_logout_does_not_keep_private_data (test_repository.RepositoryTest.test_logout_does_not_keep_private_data) ... ok
+test_malformed_case_falls_to_isolated_demo (test_repository.RepositoryTest.test_malformed_case_falls_to_isolated_demo) ... ok
+test_missing_operation_retains_pending (test_repository.RepositoryTest.test_missing_operation_retains_pending) ... ok
+test_nested_bad_quote_and_message_fall_back (test_repository.RepositoryTest.test_nested_bad_quote_and_message_fall_back) ... ok
+test_nested_bad_service_falls_back_without_crash (test_repository.RepositoryTest.test_nested_bad_service_falls_back_without_crash) ... ok
+test_offline_login_and_demo_write_attempts_api_first (test_repository.RepositoryTest.test_offline_login_and_demo_write_attempts_api_first) ... ok
+test_other_account_cannot_use_demo (test_repository.RepositoryTest.test_other_account_cannot_use_demo) ... ok
+test_private_401_revokes_and_clears_state (test_repository.RepositoryTest.test_private_401_revokes_and_clears_state) ... ok
+test_private_403_revokes (test_repository.RepositoryTest.test_private_403_revokes) ... ok
+test_read_fallback_isolates_private_cases_and_auto_recovers (test_repository.RepositoryTest.test_read_fallback_isolates_private_cases_and_auto_recovers) ... ok
+test_real_login_and_empty_list_is_not_demo (test_repository.RepositoryTest.test_real_login_and_empty_list_is_not_demo) ... ok
+test_settings_never_persist_credentials (test_repository.RepositoryTest.test_settings_never_persist_credentials) ... ok
+test_unknown_write_keeps_key_durable_and_blocks_another (test_repository.RepositoryTest.test_unknown_write_keeps_key_durable_and_blocks_another) ... ok
+test_upload_over_backend_limit_is_rejected_before_read_or_send (test_repository.RepositoryTest.test_upload_over_backend_limit_is_rejected_before_read_or_send) ... ok
+test_upload_refuses_offline_before_reading_file (test_repository.RepositoryTest.test_upload_refuses_offline_before_reading_file) ... ok
+test_url_policy (test_repository.RepositoryTest.test_url_policy) ... ok
+test_wrong_owner_response_rejected (test_repository.RepositoryTest.test_wrong_owner_response_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 47 tests in 11.125s
+
+OK

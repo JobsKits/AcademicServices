@@ -1,0 +1,20 @@
+{
+  "pages": [
+    "Pages/Home/index",
+    "Pages/Login/index",
+    "Pages/Create/index",
+    "Pages/Workspace/index",
+    "Pages/Detail/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "知序",
+    "navigationBarBackgroundColor": "#f6f7f3",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f6f7f3"
+  },
+  "style": "v2",
+  "usingComponents": {
+    "empty-state": "/Components/EmptyState/index"
+  },
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,26 @@
+{
+  "checked": {
+    "dart_internal_imports": 18,
+    "mini_local_requires": 3,
+    "mini_page_routes": 12,
+    "mini_components": 1,
+    "harmony_internal_imports": 1,
+    "harmony_page_routes": 2,
+    "mini_javascript_syntax": 9,
+    "python_syntax": 2
+  },
+  "errors": [],
+  "runtime_tests": {
+    "mini": {
+      "passed": 20,
+      "failed": 0
+    },
+    "harmony": {
+      "passed": 4,
+      "failed": 0
+    }
+  },
+  "limitations": [
+    "Flutter dependency resolution/build and Harmony SDK build were not run."
+  ]
+}

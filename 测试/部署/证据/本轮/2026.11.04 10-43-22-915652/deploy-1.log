@@ -1,0 +1,18 @@
+test_01_shell_syntax (__main__.DeploymentTests.test_01_shell_syntax) ... ok
+test_02_powershell_parse (__main__.DeploymentTests.test_02_powershell_parse) ... ok
+test_03_no_hardcoded_developer_paths (__main__.DeploymentTests.test_03_no_hardcoded_developer_paths) ... ok
+test_04_mac_check_relocated_from_unrelated_cwd (__main__.DeploymentTests.test_04_mac_check_relocated_from_unrelated_cwd) ... ok
+test_05_eof_cancels_without_writes (__main__.DeploymentTests.test_05_eof_cancels_without_writes) ... ok
+test_06_healthy_go_reused_no_download (__main__.DeploymentTests.test_06_healthy_go_reused_no_download) ... ok
+test_07_bad_selector_stops_before_go (__main__.DeploymentTests.test_07_bad_selector_stops_before_go) ... ok
+test_08_corrupt_archive_rejected (__main__.DeploymentTests.test_08_corrupt_archive_rejected) ... ok
+test_09_script_main_has_first_intro (__main__.DeploymentTests.test_09_script_main_has_first_intro) ... ok
+test_10_dangling_config_symlink_cannot_write_outside (__main__.DeploymentTests.test_10_dangling_config_symlink_cannot_write_outside) ... ok
+test_11_runtime_symlink_rejected_before_log_creation (__main__.DeploymentTests.test_11_runtime_symlink_rejected_before_log_creation) ... ok
+test_12_sdk_download_failure_stops (__main__.DeploymentTests.test_12_sdk_download_failure_stops) ... ok
+test_13_installed_sdk_recheck_failure_stops (__main__.DeploymentTests.test_13_installed_sdk_recheck_failure_stops) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 2.821s
+
+OK

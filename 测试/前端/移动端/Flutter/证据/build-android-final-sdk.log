@@ -1,0 +1,96 @@
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by net.rubygrapefruit.platform.internal.NativeLibraryLoader in an unnamed module (file:/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/.runtime/gradle/wrapper/dists/gradle-9.8.2-bin/8wepis63pzuhrlfaiy04bagwu/gradle-9.8.2/lib/native-platform-0.22-milestone-29.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :gradle:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle:compileKotlin UP-TO-DATE
+> Task :gradle:compileJava NO-SOURCE
+> Task :gradle:compileGroovy NO-SOURCE
+> Task :gradle:pluginDescriptors UP-TO-DATE
+> Task :gradle:processResources UP-TO-DATE
+> Task :gradle:classes UP-TO-DATE
+> Task :gradle:jar UP-TO-DATE
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+A problem occurred configuring root project 'android'.
+> Could not resolve all artifacts for configuration 'classpath'.
+   > Could not resolve org.jetbrains.kotlin:kotlin-gradle-plugin-api:2.4.21.
+     Required by:
+         buildscript of root project 'android' > org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.21 > org.jetbrains.kotlin:kotlin-gradle-plugins-bom:2.4.21
+         buildscript of root project 'android' > org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.21
+      > Could not resolve org.jetbrains.kotlin:kotlin-gradle-plugin-api:2.4.21.
+         > Could not get resource 'https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-api/2.4.21/kotlin-gradle-plugin-api-2.4.21.pom'.
+            > Could not GET 'https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-api/2.4.21/kotlin-gradle-plugin-api-2.4.21.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+   > Could not resolve org.jetbrains.kotlin:fus-statistics-gradle-plugin:2.4.21.
+     Required by:
+         buildscript of root project 'android' > org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.21 > org.jetbrains.kotlin:kotlin-gradle-plugins-bom:2.4.21
+         buildscript of root project 'android' > org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.21
+      > Could not resolve org.jetbrains.kotlin:fus-statistics-gradle-plugin:2.4.21.
+         > Could not get resource 'https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/fus-statistics-gradle-plugin/2.4.21/fus-statistics-gradle-plugin-2.4.21.pom'.
+            > Could not GET 'https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/fus-statistics-gradle-plugin/2.4.21/fus-statistics-gradle-plugin-2.4.21.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+   > Could not resolve org.jetbrains.kotlin:kotlin-gradle-plugin-idea:2.4.21.
+     Required by:
+         buildscript of root project 'android' > org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.21
+      > Could not resolve org.jetbrains.kotlin:kotlin-gradle-plugin-idea:2.4.21.
+         > Could not get resource 'https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-idea/2.4.21/kotlin-gradle-plugin-idea-2.4.21.pom'.
+            > Could not GET 'https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-idea/2.4.21/kotlin-gradle-plugin-idea-2.4.21.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+   > Could not resolve org.jetbrains.kotlin:kotlin-gradle-plugin-idea-proto:2.4.21.
+     Required by:
+         buildscript of root project 'android' > org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.21
+      > Could not resolve org.jetbrains.kotlin:kotlin-gradle-plugin-idea-proto:2.4.21.
+         > Could not get resource 'https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-idea-proto/2.4.21/kotlin-gradle-plugin-idea-proto-2.4.21.pom'.
+            > Could not GET 'https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-idea-proto/2.4.21/kotlin-gradle-plugin-idea-proto-2.4.21.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+   > Could not resolve org.jetbrains.kotlin:kotlin-klib-commonizer-api:2.4.21.
+     Required by:
+         buildscript of root project 'android' > org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.21
+      > Could not resolve org.jetbrains.kotlin:kotlin-klib-commonizer-api:2.4.21.
+         > Could not get resource 'https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-klib-commonizer-api/2.4.21/kotlin-klib-commonizer-api-2.4.21.pom'.
+            > Could not GET 'https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-klib-commonizer-api/2.4.21/kotlin-klib-commonizer-api-2.4.21.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+   > Could not resolve org.jetbrains.kotlin:kotlin-build-statistics:2.4.21.
+     Required by:
+         buildscript of root project 'android' > org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.21
+      > Could not resolve org.jetbrains.kotlin:kotlin-build-statistics:2.4.21.
+         > Could not get resource 'https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-build-statistics/2.4.21/kotlin-build-statistics-2.4.21.pom'.
+            > Could not GET 'https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-build-statistics/2.4.21/kotlin-build-statistics-2.4.21.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+   > Could not resolve org.jetbrains.kotlin:kotlin-util-klib-metadata:2.4.21.
+     Required by:
+         buildscript of root project 'android' > org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.21
+      > Could not resolve org.jetbrains.kotlin:kotlin-util-klib-metadata:2.4.21.
+         > Could not get resource 'https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-util-klib-metadata/2.4.21/kotlin-util-klib-metadata-2.4.21.pom'.
+            > Could not GET 'https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-util-klib-metadata/2.4.21/kotlin-util-klib-metadata-2.4.21.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+   > Could not resolve org.jetbrains.kotlin:kotlin-compiler-runner:2.4.21.
+     Required by:
+         buildscript of root project 'android' > org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.21
+      > Could not resolve org.jetbrains.kotlin:kotlin-compiler-runner:2.4.21.
+         > Could not get resource 'https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-compiler-runner/2.4.21/kotlin-compiler-runner-2.4.21.pom'.
+            > Could not GET 'https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-compiler-runner/2.4.21/kotlin-compiler-runner-2.4.21.pom'.
+               > The server may not support the client's requested TLS protocol versions: (TLSv1.2, TLSv1.3). You may need to configure the client to allow other protocols to be used. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/build_environment.html#sec:gradle_system_properties in the Gradle documentation.
+                  > Remote host terminated the handshake
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 42s
+4 actionable tasks: 4 up-to-date

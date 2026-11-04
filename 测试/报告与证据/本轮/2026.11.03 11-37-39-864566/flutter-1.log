@@ -1,0 +1,173 @@
+00:00 +0: loading /Users/jobs/Documents/Github/学术服务平台/测试/移动端/repository_test.dart
+../../%E6%B5%8B%E8%AF%95/%E7%A7%BB%E5%8A%A8%E7%AB%AF/repository_test.dart:7:8: Error: Error when reading '../../../../../.pub-cache/hosted/pub.dev/shared_preferences-2.5.6/lib/shared_preferences.dart': No such file or directory
+import 'package:shared_preferences/shared_preferences.dart';
+       ^
+lib/data/repository.dart:7:8: Error: Error when reading '../../../../../.pub-cache/hosted/pub.dev/shared_preferences-2.5.6/lib/shared_preferences.dart': No such file or directory
+import 'package:shared_preferences/shared_preferences.dart';
+       ^
+../../%E6%B5%8B%E8%AF%95/%E7%A7%BB%E5%8A%A8%E7%AB%AF/repository_test.dart:19:15: Error: Undefined name 'SharedPreferences'.
+  setUp(() => SharedPreferences.setMockInitialValues({}));
+              ^^^^^^^^^^^^^^^^^
+lib/data/repository.dart:389:27: Error: The getter 'SharedPreferences' isn't defined for the type 'WorkspaceRepository'.
+ - 'WorkspaceRepository' is from 'package:zhixu/data/repository.dart' ('lib/data/repository.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'SharedPreferences'.
+      final prefs = await SharedPreferences.getInstance();
+                          ^^^^^^^^^^^^^^^^^
+lib/data/repository.dart:413:27: Error: The getter 'SharedPreferences' isn't defined for the type 'WorkspaceRepository'.
+ - 'WorkspaceRepository' is from 'package:zhixu/data/repository.dart' ('lib/data/repository.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'SharedPreferences'.
+      final prefs = await SharedPreferences.getInstance();
+                          ^^^^^^^^^^^^^^^^^
+00:00 +0 -1: loading /Users/jobs/Documents/Github/学术服务平台/测试/移动端/repository_test.dart [E]
+  Failed to load "/Users/jobs/Documents/Github/学术服务平台/测试/移动端/repository_test.dart":
+  Compilation failed for testPath=/Users/jobs/Documents/Github/学术服务平台/测试/移动端/repository_test.dart: ../../%E6%B5%8B%E8%AF%95/%E7%A7%BB%E5%8A%A8%E7%AB%AF/repository_test.dart:7:8: Error: Error when reading '../../../../../.pub-cache/hosted/pub.dev/shared_preferences-2.5.6/lib/shared_preferences.dart': No such file or directory
+  import 'package:shared_preferences/shared_preferences.dart';
+         ^
+  lib/data/repository.dart:7:8: Error: Error when reading '../../../../../.pub-cache/hosted/pub.dev/shared_preferences-2.5.6/lib/shared_preferences.dart': No such file or directory
+  import 'package:shared_preferences/shared_preferences.dart';
+         ^
+  ../../%E6%B5%8B%E8%AF%95/%E7%A7%BB%E5%8A%A8%E7%AB%AF/repository_test.dart:19:15: Error: Undefined name 'SharedPreferences'.
+    setUp(() => SharedPreferences.setMockInitialValues({}));
+                ^^^^^^^^^^^^^^^^^
+  lib/data/repository.dart:389:27: Error: The getter 'SharedPreferences' isn't defined for the type 'WorkspaceRepository'.
+   - 'WorkspaceRepository' is from 'package:zhixu/data/repository.dart' ('lib/data/repository.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'SharedPreferences'.
+        final prefs = await SharedPreferences.getInstance();
+                            ^^^^^^^^^^^^^^^^^
+  lib/data/repository.dart:413:27: Error: The getter 'SharedPreferences' isn't defined for the type 'WorkspaceRepository'.
+   - 'WorkspaceRepository' is from 'package:zhixu/data/repository.dart' ('lib/data/repository.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'SharedPreferences'.
+        final prefs = await SharedPreferences.getInstance();
+                            ^^^^^^^^^^^^^^^^^
+  .
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 1024:11   DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 816:35                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 810:35                      _CustomZone.run
+  dart:async/zone.dart 702:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 743:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 193:5      _RawReceivePort._handleMessage
+  
+../../%E6%B5%8B%E8%AF%95/%E7%A7%BB%E5%8A%A8%E7%AB%AF/widget_test.dart:8:8: Error: Error when reading '../../../../../.pub-cache/hosted/pub.dev/shared_preferences-2.5.6/lib/shared_preferences.dart': No such file or directory
+import 'package:shared_preferences/shared_preferences.dart';
+       ^
+lib/data/repository.dart:7:8: Error: Error when reading '../../../../../.pub-cache/hosted/pub.dev/shared_preferences-2.5.6/lib/shared_preferences.dart': No such file or directory
+import 'package:shared_preferences/shared_preferences.dart';
+       ^
+lib/ui/app.dart:6:8: Error: Error when reading '../../../../../.pub-cache/hosted/pub.dev/shared_preferences-2.5.6/lib/shared_preferences.dart': No such file or directory
+import 'package:shared_preferences/shared_preferences.dart';
+       ^
+../../%E6%B5%8B%E8%AF%95/%E7%A7%BB%E5%8A%A8%E7%AB%AF/widget_test.dart:19:5: Error: Undefined name 'SharedPreferences'.
+    SharedPreferences.setMockInitialValues({});
+    ^^^^^^^^^^^^^^^^^
+../../%E6%B5%8B%E8%AF%95/%E7%A7%BB%E5%8A%A8%E7%AB%AF/widget_test.dart:100:9: Error: Undefined name 'SharedPreferences'.
+        SharedPreferences.setMockInitialValues({});
+        ^^^^^^^^^^^^^^^^^
+../../%E6%B5%8B%E8%AF%95/%E7%A7%BB%E5%8A%A8%E7%AB%AF/widget_test.dart:152:5: Error: Undefined name 'SharedPreferences'.
+    SharedPreferences.setMockInitialValues({});
+    ^^^^^^^^^^^^^^^^^
+../../%E6%B5%8B%E8%AF%95/%E7%A7%BB%E5%8A%A8%E7%AB%AF/widget_test.dart:173:9: Error: Undefined name 'SharedPreferences'.
+        SharedPreferences.setMockInitialValues({});
+        ^^^^^^^^^^^^^^^^^
+../../%E6%B5%8B%E8%AF%95/%E7%A7%BB%E5%8A%A8%E7%AB%AF/widget_test.dart:262:7: Error: Undefined name 'SharedPreferences'.
+      SharedPreferences.setMockInitialValues({});
+      ^^^^^^^^^^^^^^^^^
+../../%E6%B5%8B%E8%AF%95/%E7%A7%BB%E5%8A%A8%E7%AB%AF/widget_test.dart:289:5: Error: Undefined name 'SharedPreferences'.
+    SharedPreferences.setMockInitialValues({});
+    ^^^^^^^^^^^^^^^^^
+lib/data/repository.dart:389:27: Error: The getter 'SharedPreferences' isn't defined for the type 'WorkspaceRepository'.
+ - 'WorkspaceRepository' is from 'package:zhixu/data/repository.dart' ('lib/data/repository.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'SharedPreferences'.
+      final prefs = await SharedPreferences.getInstance();
+                          ^^^^^^^^^^^^^^^^^
+lib/data/repository.dart:413:27: Error: The getter 'SharedPreferences' isn't defined for the type 'WorkspaceRepository'.
+ - 'WorkspaceRepository' is from 'package:zhixu/data/repository.dart' ('lib/data/repository.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'SharedPreferences'.
+      final prefs = await SharedPreferences.getInstance();
+                          ^^^^^^^^^^^^^^^^^
+lib/ui/app.dart:46:27: Error: The getter 'SharedPreferences' isn't defined for the type '_ZhixuAppState'.
+ - '_ZhixuAppState' is from 'package:zhixu/ui/app.dart' ('lib/ui/app.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'SharedPreferences'.
+      final prefs = await SharedPreferences.getInstance();
+                          ^^^^^^^^^^^^^^^^^
+lib/ui/app.dart:71:14: Error: The getter 'SharedPreferences' isn't defined for the type '_ZhixuAppState'.
+ - '_ZhixuAppState' is from 'package:zhixu/ui/app.dart' ('lib/ui/app.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'SharedPreferences'.
+      (await SharedPreferences.getInstance()).setString('theme', value.name);
+             ^^^^^^^^^^^^^^^^^
+lib/ui/app.dart:535:24: Error: The getter 'SharedPreferences' isn't defined for the type '_WorkspaceState'.
+ - '_WorkspaceState' is from 'package:zhixu/ui/app.dart' ('lib/ui/app.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'SharedPreferences'.
+          await (await SharedPreferences.getInstance()).setString(
+                       ^^^^^^^^^^^^^^^^^
+00:00 +0 -2: loading /Users/jobs/Documents/Github/学术服务平台/测试/移动端/widget_test.dart [E]
+  Failed to load "/Users/jobs/Documents/Github/学术服务平台/测试/移动端/widget_test.dart":
+  Compilation failed for testPath=/Users/jobs/Documents/Github/学术服务平台/测试/移动端/widget_test.dart: ../../%E6%B5%8B%E8%AF%95/%E7%A7%BB%E5%8A%A8%E7%AB%AF/widget_test.dart:8:8: Error: Error when reading '../../../../../.pub-cache/hosted/pub.dev/shared_preferences-2.5.6/lib/shared_preferences.dart': No such file or directory
+  import 'package:shared_preferences/shared_preferences.dart';
+         ^
+  lib/data/repository.dart:7:8: Error: Error when reading '../../../../../.pub-cache/hosted/pub.dev/shared_preferences-2.5.6/lib/shared_preferences.dart': No such file or directory
+  import 'package:shared_preferences/shared_preferences.dart';
+         ^
+  lib/ui/app.dart:6:8: Error: Error when reading '../../../../../.pub-cache/hosted/pub.dev/shared_preferences-2.5.6/lib/shared_preferences.dart': No such file or directory
+  import 'package:shared_preferences/shared_preferences.dart';
+         ^
+  ../../%E6%B5%8B%E8%AF%95/%E7%A7%BB%E5%8A%A8%E7%AB%AF/widget_test.dart:19:5: Error: Undefined name 'SharedPreferences'.
+      SharedPreferences.setMockInitialValues({});
+      ^^^^^^^^^^^^^^^^^
+  ../../%E6%B5%8B%E8%AF%95/%E7%A7%BB%E5%8A%A8%E7%AB%AF/widget_test.dart:100:9: Error: Undefined name 'SharedPreferences'.
+          SharedPreferences.setMockInitialValues({});
+          ^^^^^^^^^^^^^^^^^
+  ../../%E6%B5%8B%E8%AF%95/%E7%A7%BB%E5%8A%A8%E7%AB%AF/widget_test.dart:152:5: Error: Undefined name 'SharedPreferences'.
+      SharedPreferences.setMockInitialValues({});
+      ^^^^^^^^^^^^^^^^^
+  ../../%E6%B5%8B%E8%AF%95/%E7%A7%BB%E5%8A%A8%E7%AB%AF/widget_test.dart:173:9: Error: Undefined name 'SharedPreferences'.
+          SharedPreferences.setMockInitialValues({});
+          ^^^^^^^^^^^^^^^^^
+  ../../%E6%B5%8B%E8%AF%95/%E7%A7%BB%E5%8A%A8%E7%AB%AF/widget_test.dart:262:7: Error: Undefined name 'SharedPreferences'.
+        SharedPreferences.setMockInitialValues({});
+        ^^^^^^^^^^^^^^^^^
+  ../../%E6%B5%8B%E8%AF%95/%E7%A7%BB%E5%8A%A8%E7%AB%AF/widget_test.dart:289:5: Error: Undefined name 'SharedPreferences'.
+      SharedPreferences.setMockInitialValues({});
+      ^^^^^^^^^^^^^^^^^
+  lib/data/repository.dart:389:27: Error: The getter 'SharedPreferences' isn't defined for the type 'WorkspaceRepository'.
+   - 'WorkspaceRepository' is from 'package:zhixu/data/repository.dart' ('lib/data/repository.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'SharedPreferences'.
+        final prefs = await SharedPreferences.getInstance();
+                            ^^^^^^^^^^^^^^^^^
+  lib/data/repository.dart:413:27: Error: The getter 'SharedPreferences' isn't defined for the type 'WorkspaceRepository'.
+   - 'WorkspaceRepository' is from 'package:zhixu/data/repository.dart' ('lib/data/repository.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'SharedPreferences'.
+        final prefs = await SharedPreferences.getInstance();
+                            ^^^^^^^^^^^^^^^^^
+  lib/ui/app.dart:46:27: Error: The getter 'SharedPreferences' isn't defined for the type '_ZhixuAppState'.
+   - '_ZhixuAppState' is from 'package:zhixu/ui/app.dart' ('lib/ui/app.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'SharedPreferences'.
+        final prefs = await SharedPreferences.getInstance();
+                            ^^^^^^^^^^^^^^^^^
+  lib/ui/app.dart:71:14: Error: The getter 'SharedPreferences' isn't defined for the type '_ZhixuAppState'.
+   - '_ZhixuAppState' is from 'package:zhixu/ui/app.dart' ('lib/ui/app.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'SharedPreferences'.
+        (await SharedPreferences.getInstance()).setString('theme', value.name);
+               ^^^^^^^^^^^^^^^^^
+  lib/ui/app.dart:535:24: Error: The getter 'SharedPreferences' isn't defined for the type '_WorkspaceState'.
+   - '_WorkspaceState' is from 'package:zhixu/ui/app.dart' ('lib/ui/app.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'SharedPreferences'.
+            await (await SharedPreferences.getInstance()).setString(
+                         ^^^^^^^^^^^^^^^^^
+  .
+00:00 +0 -2: Some tests failed.
+
+Failing tests:
+  /Users/jobs/Documents/Github/学术服务平台/测试/移动端/repository_test.dart: loading /Users/jobs/Documents/Github/学术服务平台/测试/移动端/repository_test.dart
+  /Users/jobs/Documents/Github/学术服务平台/测试/移动端/widget_test.dart: loading /Users/jobs/Documents/Github/学术服务平台/测试/移动端/widget_test.dart

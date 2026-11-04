@@ -1,0 +1,300 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>技术方案与实现范围</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f5f6f1;color:#1c362c;font:16px/1.85 system-ui,sans-serif}main{max-width:1180px;margin:auto;padding:42px 28px}header{border-bottom:1px solid #d5ded3;padding:12px 0 26px;display:flex;gap:18px;align-items:center}header img{width:64px;height:64px;border-radius:14px}h1{font-size:36px;line-height:1.3;margin:6px 0}h2{font-size:25px;border-top:1px solid #d5ded3;margin:44px 0 20px;padding-top:24px}h3{font-size:20px;margin-top:32px}h2 a,h3 a{font-size:15px!important;text-decoration:none}a{color:#145f44;text-underline-offset:3px}small{font-size:13px;color:#50675b}.toc{background:#e7ede3;padding:14px 20px;margin:24px 0;border-radius:12px}.toc summary{cursor:pointer;font-weight:650}.toc ul{list-style:none;padding:0;columns:2}.toc li{break-inside:avoid;padding:3px 0}.toc .l3{padding-left:16px;font-size:14px}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;background:white;font-size:14px;margin:20px 0}td,th{border:1px solid #d1dcd0;padding:10px 13px;text-align:left;min-width:90px;vertical-align:top}th{background:#e6eee1;font-weight:650}p code,li code,td code{font-size:.88em;background:#e9eee4;padding:2px 4px;border-radius:4px;overflow-wrap:anywhere}pre{overflow:auto;background:#e8eee3;padding:18px;border-radius:12px;line-height:1.65}code{font-family:ui-monospace,monospace}blockquote{margin:20px 0;padding:8px 20px;border-left:3px solid #68866d;background:#edf0e7;overflow-wrap:anywhere}.mermaid{background:white;text-align:center}svg{max-width:100%;height:auto}footer{margin:42px 0 0;border-top:1px solid #d5ded3;padding:20px 0;font-size:13px;color:#50675b}body>svg{display:none}@media(max-width:650px){main{padding:20px 14px}h1{font-size:28px}h2{font-size:22px}header img{width:44px;height:44px}.toc ul{columns:1}table{font-size:13px}}@media print{.toc,header small{display:none}body{background:white}main{max-width:none}}</style></head><body><main><header><img src="../../代码/工程资源/icon.png" alt="项目图标"><div><small>学术服务平台 · 文档阅读</small><h1>技术方案与实现范围</h1><small>原始结论日期以正文为准 · <a href="技术方案与实现范围.md">Markdown 原稿</a> · <a href="../../README.md">根目录说明</a></small></div></header><details class="toc"><summary>章节目录</summary><nav aria-label="章节"><ul><li class="l2"><a href="#前言">前言</a></li><li class="l2"><a href="#section-1">一、架构与实现取舍</a></li><li class="l2"><a href="#section-2">二、模块依赖</a></li><li class="l2"><a href="#section-3">三、核心流程</a></li><li class="l2"><a href="#section-4">四、需求验收口径</a></li><li class="l2"><a href="#section-5">五、继续产品化的具体事项</a></li></ul></nav></details>
+<hr>
+<h2>🔥 <span id="前言">前言</span></h2>
+<p>用户2026-10-30明确要求桌面Python、移动Flutter、Go后端、Flutter响应式后台、分平台部署、零基础说明与多轮回归。本版将既有V0.3需求落实为可运行MVP；原需求文件保存在 <code>requirements/</code>，原桌面需求文件夹不改动。未确认的收费、品牌和服务细则使用可编辑报价与暂定文案，不视为商业规则已定稿。</p>
+<h2><span id="section-1">一、架构与实现取舍</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>选择</th>
+<th>当前边界</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>桌面</td>
+<td>Python / PySide6</td>
+<td>Windows与MacOS共享源码；本机已生成ARM64 APP/DMG，Windows须本机打包与验收</td>
+</tr>
+<tr>
+<td>用户移动端</td>
+<td>Flutter</td>
+<td>iOS/Android项目及用户Web同一业务代码，按窗口宽度调整布局</td>
+</tr>
+<tr>
+<td>管理端</td>
+<td>Flutter Web</td>
+<td>独立入口后台 lib/main.dart，共用数据仓库与动作表单，手机/平板/PC可访问</td>
+</tr>
+<tr>
+<td>鸿蒙</td>
+<td>ArkWeb宿主＋Flutter Web</td>
+<td>通过HTTPS加载用户页面；DevEco/HAP/签名设备验收尚未完成，未交付原生Flutter OH引擎</td>
+</tr>
+<tr>
+<td>微信小程序</td>
+<td>微信官方原生 WXML／WXSS／JavaScript／JSON</td>
+<td>本期必交付的独立前端，沿用 <code>代码/前端/微信小程序/</code>，共用业务 API；真实微信身份与平台发布待接入，工具和真机分别验收</td>
+</tr>
+<tr>
+<td>后端</td>
+<td>Go单份源码</td>
+<td>标准HTTP与事务业务层，人工资金核验，不调用真实收付款渠道</td>
+</tr>
+<tr>
+<td>当前数据库</td>
+<td>文件原子快照 / 可选PostgreSQL JSONB聚合</td>
+<td>原29表关系模型仍作为参考，尚未逐表映射，不宣称关系迁移完成</td>
+</tr>
+</tbody></table>
+<p><a href="https://www.postgresql.org/"><strong>PostgreSQL</strong></a> 聚合事务锁与文件模式业务锁实现同一状态机，业务、幂等、审计和待发送通知一起提交。当前全状态聚合适合联调，历史/附件增长会放大读写成本；未做生产容量验收。后续关系化迁移需保留稳定提交键、资金记录、版本快照与所有权约束。</p>
+<h2><span id="section-2">二、模块依赖</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<pre class="mermaid">flowchart LR
+    A[Python src/zhixu/app.py] --&gt; API[Go cmd/server/main.go]
+    B[Flutter lib/main.dart] --&gt; API
+    C[后台管理端 Flutter lib/main.dart] --&gt; API
+    D[小程序 app.js] --&gt; API
+    E[鸿蒙 Index.ets] --&gt; B
+    API --&gt; H[http.go 鉴权与私有文件网关]
+    H --&gt; W[engine.go 状态与资金约束]
+    W --&gt; F[store.go 文件原子快照]
+    W --&gt; P[store.go PG聚合事务]
+    P --&gt; DB[(academic_runtime_state JSONB)]
+</pre>
+<h2><span id="section-3">三、核心流程</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<pre class="mermaid">flowchart TD
+    A[客户提交三类需求] --&gt; B[运营审核或要求补料]
+    B --&gt; C[版本化人工报价]
+    C --&gt; D{客户确认当前有效版本}
+    D --&gt;|接受| E[原子生成唯一订单]
+    D --&gt;|拒绝或撤回| X[关闭需求并留痕]
+    E --&gt; F{已核实启动款满足约定}
+    F --&gt; G[开工 可多原因暂停恢复]
+    G --&gt; H[发布分组正式交付]
+    H --&gt; I{客户反馈}
+    I --&gt;|受理修改| G
+    I --&gt;|确认最新版本| J[主订单完成]
+    J --&gt; K[独立售后与交付组]
+    E --&gt; L[协商取消最终结算]
+    G --&gt; L
+    L --&gt; M[客户确认取消]
+    M --&gt; N[原收款关联退款申请]
+    N --&gt; O[批准占用 核对原流水后记成功或失败]
+</pre>
+<h2><span id="section-4">四、需求验收口径</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>下表是实现追踪，不把文档原有39项自动改为“全部通过”。“自动化覆盖”仅代表对应软件场景已有可复跑证据；生产渠道、关系数据库、全套原生设备和完整运营组织仍需另验。详见<a href="../../测试/回归测试报告/回归测试报告阅读版.html">回归报告</a>。</p>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>原验收项</th>
+<th>本版实现/证据范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T01</td>
+<td>首页范围</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T02</td>
+<td>简洁与原创表达</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T03</td>
+<td>游客浏览</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T04</td>
+<td>三类表单</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T05</td>
+<td>上传恢复</td>
+<td>部分：上传/未知保护已实现，逐文件进度与断点恢复未完整实现</td>
+</tr>
+<tr>
+<td>T06</td>
+<td>重复与超时</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T07</td>
+<td>提交与补充</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T08</td>
+<td>完整报价</td>
+<td>部分：完整范围自由文本；结构化条款待产品定稿</td>
+</tr>
+<tr>
+<td>T09</td>
+<td>报价一致性</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T10</td>
+<td>启动与进度</td>
+<td>部分：启动款与状态已测，服务周期/下一步规则待细化</td>
+</tr>
+<tr>
+<td>T11</td>
+<td>普刊状态</td>
+<td>待实现：普刊外部来源/日期独立模型</td>
+</tr>
+<tr>
+<td>T12</td>
+<td>交付与修改</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T13</td>
+<td>需求变更</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T14</td>
+<td>取消与售后</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T15</td>
+<td>资金真实</td>
+<td>方案A人工核验已测；方案B渠道未接入</td>
+</tr>
+<tr>
+<td>T16</td>
+<td>空态与恢复</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T17</td>
+<td>演示回退</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T18</td>
+<td>本人权限</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T19</td>
+<td>员工权限</td>
+<td>待实现：细分员工授权与撤派</td>
+</tr>
+<tr>
+<td>T20</td>
+<td>真机与可读性</td>
+<td>待设备验收：已有窗口/大字/主题测试</td>
+</tr>
+<tr>
+<td>T21</td>
+<td>后台闭环</td>
+<td>MVP闭环可操作；员工分派/内容发布未完整</td>
+</tr>
+<tr>
+<td>T22</td>
+<td>端到端</td>
+<td>多服务提交及整单联调已测；完整各端三服务验收待执行</td>
+</tr>
+<tr>
+<td>T23</td>
+<td>并发接受与重报价</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T24</td>
+<td>迟到或重复收款结果</td>
+<td>部分：人工凭据去重/终态保护已测，渠道回调未接入</td>
+</tr>
+<tr>
+<td>T25</td>
+<td>退款聚合</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T26</td>
+<td>完成后返修</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T27</td>
+<td>文件归属及撤派</td>
+<td>部分：文件归属与版本保护已测，员工撤派未实现</td>
+</tr>
+<tr>
+<td>T28</td>
+<td>演示与账号隔离</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T29</td>
+<td>业务与通知重试</td>
+<td>部分：事务outbox已测；真正通知投递器未实现</td>
+</tr>
+<tr>
+<td>T30</td>
+<td>下架与历史条款</td>
+<td>部分：业务层快照/下架已测，无运营发布入口</td>
+</tr>
+<tr>
+<td>T31</td>
+<td>阶段动作一致</td>
+<td>部分：阶段动作已测；付款方案B未接入</td>
+</tr>
+<tr>
+<td>T32</td>
+<td>验收与取消冲突</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T33</td>
+<td>响应缓存过期后的重试</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T34</td>
+<td>修改中取消</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T35</td>
+<td>未知资金结果与动作</td>
+<td>方案A退款未知保护已测；方案B未接入</td>
+</tr>
+<tr>
+<td>T36</td>
+<td>暂停、恢复与交期</td>
+<td>暂停原因/恢复/交期变更已测；自动时钟策略未实现</td>
+</tr>
+<tr>
+<td>T37</td>
+<td>修改轮次与额度</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T38</td>
+<td>取消结算</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+<tr>
+<td>T39</td>
+<td>交付分组与草稿</td>
+<td>已实现并有自动化覆盖；完整终端/生产验收待执行</td>
+</tr>
+</tbody></table>
+<h2><span id="section-5">五、继续产品化的具体事项</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<ul>
+<li>身份：真实微信登录、客户注册与找回、员工角色、订单分派/撤派、凭据安全存储与账户生命周期。</li>
+<li>服务运营：品牌/主体/协议定稿、结构化报价条款、服务内容发布与上下架入口、普刊外部反馈来源与日期字段。</li>
+<li>数据：29表逐表映射、对象存储/扫描、数据保留与删除、文件大规模传输、备份恢复和原生PG容量/故障验收。</li>
+<li>外部能力：真实支付/退款与对账、通知投递器与送达重试、正式域名HTTPS/运维常驻、商店签名与提审。</li>
+<li>原生终端：Windows成品、Android最新工具链实际结果、鸿蒙HAP和文件能力、iPhone Duo姿态/窗口/键盘/大字/真机附件验收。</li>
+</ul>
+<p>这些是当前实现边界；不得用“源码可编译”代替真实渠道或目标设备验收。</p>
+<p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
+<footer>离线阅读版由当前文档生成。测试、构建、设备业务和正式验收按各自证据登记。</footer></main><script src="../阅读资源/mermaid.min.js"></script><script>window.__diagramErrors=[];mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeVariables:{fontFamily:'system-ui',primaryColor:'#e6eee1',primaryTextColor:'#1c362c',lineColor:'#526e5d'}});mermaid.run({querySelector:'.mermaid'}).then(()=>{window.__renderDone=true}).catch(e=>{window.__diagramErrors.push(String(e));window.__renderDone=true});</script></body></html>

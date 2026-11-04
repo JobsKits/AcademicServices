@@ -1,0 +1,27 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Settings file '/Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/android/settings.gradle.kts' line: 20
+
+* What went wrong:
+Error resolving plugin [id: 'dev.flutter.flutter-plugin-loader', version: '1.0.0']
+> A problem occurred configuring project ':gradle'.
+   > Could not resolve all artifacts for configuration 'classpath'.
+      > Could not resolve org.gradle.kotlin:gradle-kotlin-dsl-plugins:6.7.6.
+        Required by:
+            buildscript of project ':gradle' > org.gradle.kotlin.kotlin-dsl:org.gradle.kotlin.kotlin-dsl.gradle.plugin:6.7.6
+         > Could not resolve org.gradle.kotlin:gradle-kotlin-dsl-plugins:6.7.6.
+            > Could not get resource 'https://plugins.gradle.org/m2/org/gradle/kotlin/gradle-kotlin-dsl-plugins/6.7.6/gradle-kotlin-dsl-plugins-6.7.6.pom'.
+               > Could not GET 'https://plugins-artifacts.gradle.org/org.gradle.kotlin/gradle-kotlin-dsl-plugins/6.7.6/7e0193fdeb5c5d9261fe31d877b4955ddcd86039a5f04466386c9befe063b8f1/gradle-kotlin-dsl-plugins-6.7.6.pom'.
+                  > Remote host terminated the handshake
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 16s

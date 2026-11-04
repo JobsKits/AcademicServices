@@ -1,0 +1,4 @@
+Flutter: /opt/homebrew/bin/flutter
+API origin: https://service.example
+Hosted page: https://service.example/client/?host=harmony
+Config: /Users/jobs/Desktop/学术服务平台（全端工程）/clients/flutter/harmony/entry/src/main/ets/config/Endpoint.ets

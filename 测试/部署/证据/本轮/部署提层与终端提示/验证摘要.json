@@ -1,0 +1,19 @@
+{
+  "deployment_baseline_tests": {
+    "passed": 13,
+    "failed": 0
+  },
+  "deployment_mode_tests": {
+    "passed": 10,
+    "failed": 0
+  },
+  "path_and_display_checks": {
+    "passed": 40,
+    "failed": 0
+  },
+  "preserved_macos_functions": 8,
+  "network_downloads": false,
+  "real_deployment": false,
+  "native_windows_linux_freebsd_lifecycle": "未执行；各平台路径与显示函数在本机解释器隔离验证，原生系统运行另验",
+  "existing_live_processes": "未操作"
+}

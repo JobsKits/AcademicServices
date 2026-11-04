@@ -1,0 +1,54 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Debian 部署代码地图</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f5f6f1;color:#1c362c;font:16px/1.85 system-ui,sans-serif}main{max-width:1180px;margin:auto;padding:42px 28px}header{border-bottom:1px solid #d5ded3;padding:12px 0 26px;display:flex;gap:18px;align-items:center}header img{width:64px;height:64px;border-radius:14px}h1{font-size:36px;line-height:1.3;margin:6px 0}h2{font-size:25px;border-top:1px solid #d5ded3;margin:44px 0 20px;padding-top:24px}h3{font-size:20px;margin-top:32px}h2 a,h3 a{font-size:15px!important;text-decoration:none}a{color:#145f44;text-underline-offset:3px}small{font-size:13px;color:#50675b}.toc{background:#e7ede3;padding:14px 20px;margin:24px 0;border-radius:12px}.toc summary{cursor:pointer;font-weight:650}.toc ul{list-style:none;padding:0;columns:2}.toc li{break-inside:avoid;padding:3px 0}.toc .l3{padding-left:16px;font-size:14px}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;background:white;font-size:14px;margin:20px 0}td,th{border:1px solid #d1dcd0;padding:10px 13px;text-align:left;min-width:90px;vertical-align:top}th{background:#e6eee1;font-weight:650}p code,li code,td code{font-size:.88em;background:#e9eee4;padding:2px 4px;border-radius:4px;overflow-wrap:anywhere}pre{overflow:auto;background:#e8eee3;padding:18px;border-radius:12px;line-height:1.65}code{font-family:ui-monospace,monospace}blockquote{margin:20px 0;padding:8px 20px;border-left:3px solid #68866d;background:#edf0e7;overflow-wrap:anywhere}.mermaid{background:white;text-align:center}svg{max-width:100%;height:auto}footer{margin:42px 0 0;border-top:1px solid #d5ded3;padding:20px 0;font-size:13px;color:#50675b}body>svg{display:none}@media(max-width:650px){main{padding:20px 14px}h1{font-size:28px}h2{font-size:22px}header img{width:44px;height:44px}.toc ul{columns:1}table{font-size:13px}}@media print{.toc,header small{display:none}body{background:white}main{max-width:none}}</style></head><body><main><header><img src="../../../代码/工程资源/icon.png" alt="项目图标"><div><small>学术服务平台 · 文档阅读</small><h1>Debian 部署代码地图</h1><small>原始结论日期以正文为准 · <a href="代码地图.md">Markdown 原稿</a> · <a href="../../../README.md">根目录说明</a></small></div></header><details class="toc"><summary>章节目录</summary><nav aria-label="章节"><ul><li class="l2"><a href="#前言">前言</a></li><li class="l2"><a href="#modules">入口与模块职责</a></li><li class="l2"><a href="#local-flow">本单元关系</a></li><li class="l2"><a href="#dependencies">共享源与外部依赖</a></li><li class="l2"><a href="#tests">外置测试与验证边界</a></li></ul></nav></details>
+<hr>
+<h2>🔥 <span id="前言">前言</span></h2>
+<p>本图只定位 Debian 部署单元；其它系统入口分别维护，不以本系统结果推定其它系统可用。本图标明平台目录内的快捷入口、脚本包内的唯一部署实现及各自职责；运行行为与验证状态以就近使用说明为准。路径均从当前文档相对指向源码；跨单元内容只通过链接引用。</p>
+<p>本平台部署与反部署脚本分别内嵌生命周期核心，独立运行不依赖外部生命周期函数库。<a href="../../README.md#lifecycle-protocol">原点与恢复协议</a>说明原点、互斥、备份和恢复边界。</p>
+<h2>一、<span id="modules">入口与模块职责</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<table>
+<thead>
+<tr>
+<th>本单元路径</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="../【Linux】部署.sh/【Linux】部署.sh">【Linux】部署.sh/【Linux】部署.sh</a></td>
+<td>真实 Debian Shell 实施入口。</td>
+</tr>
+<tr>
+<td><a href="../双击部署（快捷入口）.desktop">双击部署（快捷入口）.desktop</a></td>
+<td>图形桌面快捷方式，直接调用上面的规范脚本。</td>
+</tr>
+<tr><td><a href="../【Linux】反部署.sh/【Linux】反部署.sh">【Linux】反部署.sh</a></td><td>反部署唯一入口，内嵌原点核验、备份和精确恢复函数。</td></tr><tr><td><a href="../双击反部署（快捷入口）.desktop">双击反部署（快捷入口）.desktop</a></td><td>独立反部署快捷入口。</td></tr><tr><td><a href="../【Linux】反部署.sh/【Linux】反部署.sh">反部署脚本内嵌生命周期</a></td><td>原点、互斥、进程核验、备份与精确恢复由本脚本内置；资源后改或身份不明时保留并停止。</td></tr></tbody></table>
+<h2>二、<span id="local-flow">本单元关系</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<pre class="mermaid">flowchart LR
+    Wrapper[桌面快捷方式] --&gt; Script[本系统实施脚本]
+    Script --&gt; Check[路径与平台检查]
+    Script --&gt; Mode[模式选择]
+    Mode --&gt; Server[服务器模式]
+    Mode --&gt; Local[本地部署与穿透模式]
+    Script --&gt; State[部署脚本内嵌原点记录]
+    Undo[反部署入口] --&gt; Restore[反部署脚本内嵌恢复函数]
+    State --&gt; Restore
+</pre>
+<h2>三、<span id="dependencies">共享源与外部依赖</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<ul>
+<li><a href="../../../代码/后端/后端代码/代码地图/代码地图阅读版.html">Go 后端实现地图</a>：脚本按自身位置解析后端；分发时保持根目录的代码与部署并列，后端留在代码/后端/后端代码</li>
+<li><a href="../../deploy-tools.lock.tsv">部署工具锁清单</a>：fzf 与隧道工具的公共唯一清单</li>
+<li><a href="../../toolchains.json">工具链声明</a>：按目标系统／架构核对，不能把其它机器环境当作本机已准备</li>
+<li><a href="../../README.md">部署公共说明</a>：本系统操作、依赖与验证状态仍以就近说明及现有报告为准</li>
+</ul>
+<h2>四、<span id="tests">外置测试与验证边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<ul>
+<li><p><a href="../../../测试/部署/test_deploy.py">test_deploy.py</a>：分系统入口、平台与安全隔离夹具</p>
+</li>
+<li><p><a href="../../../测试/部署/【测试】部署双模式.py/【测试】部署双模式.py">【测试】部署双模式.py</a>：本地／服务器模式隔离检查</p>
+</li>
+<li><p><a href="../README.md">本单元使用说明</a>：运行、构建及当前限制</p>
+</li>
+<li><p><a href="../../../测试/README.md">统一测试说明</a>：各职责的执行入口与证据位置</p>
+</li>
+</ul>
+<p>地图核对文档与源码位置，不代表完成构建、设备业务或正式发布验收。已有验证状态保留原记录，未执行的目标不写成通过。</p>
+<p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
+<footer>离线阅读版由当前文档生成。测试、构建、设备业务和正式验收按各自证据登记。</footer></main><script src="../../../需求/阅读资源/mermaid.min.js"></script><script>window.__diagramErrors=[];mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeVariables:{fontFamily:'system-ui',primaryColor:'#e6eee1',primaryTextColor:'#1c362c',lineColor:'#526e5d'}});mermaid.run({querySelector:'.mermaid'}).then(()=>{window.__renderDone=true}).catch(e=>{window.__diagramErrors.push(String(e));window.__renderDone=true});</script></body></html>

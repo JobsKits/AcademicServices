@@ -1,0 +1,145 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>知序｜从第一次打开开始</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f5f6f1;color:#1c362c;font:16px/1.85 system-ui,sans-serif}main{max-width:1180px;margin:auto;padding:42px 28px}header{border-bottom:1px solid #d5ded3;padding:12px 0 26px;display:flex;gap:18px;align-items:center}header img{width:64px;height:64px;border-radius:14px}h1{font-size:36px;line-height:1.3;margin:6px 0}h2{font-size:25px;border-top:1px solid #d5ded3;margin:44px 0 20px;padding-top:24px}h3{font-size:20px;margin-top:32px}h2 a,h3 a{font-size:15px!important;text-decoration:none}a{color:#145f44;text-underline-offset:3px}small{font-size:13px;color:#50675b}.toc{background:#e7ede3;padding:14px 20px;margin:24px 0;border-radius:12px}.toc summary{cursor:pointer;font-weight:650}.toc ul{list-style:none;padding:0;columns:2}.toc li{break-inside:avoid;padding:3px 0}.toc .l3{padding-left:16px;font-size:14px}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;background:white;font-size:14px;margin:20px 0}td,th{border:1px solid #d1dcd0;padding:10px 13px;text-align:left;min-width:90px;vertical-align:top}th{background:#e6eee1;font-weight:650}p code,li code,td code{font-size:.88em;background:#e9eee4;padding:2px 4px;border-radius:4px;overflow-wrap:anywhere}pre{overflow:auto;background:#e8eee3;padding:18px;border-radius:12px;line-height:1.65}code{font-family:ui-monospace,monospace}blockquote{margin:20px 0;padding:8px 20px;border-left:3px solid #68866d;background:#edf0e7;overflow-wrap:anywhere}.mermaid{background:white;text-align:center}svg{max-width:100%;height:auto}footer{margin:42px 0 0;border-top:1px solid #d5ded3;padding:20px 0;font-size:13px;color:#50675b}body>svg{display:none}@media(max-width:650px){main{padding:20px 14px}h1{font-size:28px}h2{font-size:22px}header img{width:44px;height:44px}.toc ul{columns:1}table{font-size:13px}}@media print{.toc,header small{display:none}body{background:white}main{max-width:none}}</style></head><body><main><header><img src="../工程资源/icon.png" alt="项目图标"><div><small>学术服务平台 · 文档阅读</small><h1>知序｜从第一次打开开始</h1><small>原始结论日期以正文为准 · <a href="使用说明.md">Markdown 原稿</a> · <a href="../../README.md">根目录说明</a></small></div></header><details class="toc"><summary>章节目录</summary><nav aria-label="章节"><ul><li class="l2"><a href="#前言">前言</a></li><li class="l2"><a href="#section-1">一、最快体验完整流程</a></li><li class="l2"><a href="#section-2">二、只想先看桌面软件</a></li><li class="l2"><a href="#section-3">三、手机和小程序怎样打开</a></li><li class="l2"><a href="#section-4">四、看到这些状态时怎样处理</a></li><li class="l2"><a href="#section-5">五、取消、退款和售后例子</a></li><li class="l2"><a href="#section-6">六、常见启动问题</a></li><li class="l2"><a href="#local-tunnel">本地部署＋内网穿透</a></li></ul></nav></details>
+<hr>
+<h2>🔥 <span id="前言">前言</span></h2>
+<p>本工程是覆盖前后端的可运行联调版，品牌暂称“知序”。普通操作者先用浏览器或已生成的桌面应用体验；开发者再看<a href="../工程总览/工程总览阅读版.html">工程总览</a>。本轮不要求操作者手写代码。正式客户注册、微信身份接入、员工细分权限与收付款渠道仍需继续开发。</p>
+<h2><span id="section-1">一、最快体验完整流程</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p><strong>后端最低机器配置：</strong> 正常部署脚本包含源码编译，准备 64 位 2 核 / vCPU、4 GiB 可用内存、20 GiB 空闲 SSD；MacOS / Windows 图形机器整机至少 8 GiB 内存并满足可用余量。只运行匹配系统 / 架构的预编译程序、少量数据文件演示，可按 2 核 / 2 GiB 可用内存 / 10 GiB 空闲 SSD 预算；该预算不能用于正常脚本编译。以上为工程估算，未做下限硬件压测或生产容量验收。 系统版本、网络、数据库同机与扩容边界见<a href="../../部署/README.md#minimum-machine">部署最低机器配置</a>。</p>
+<p>1、打开工程中的 <code>部署</code>，选择当前操作系统的文件夹，直接双击本级标有“快捷入口”的文件：MacOS 用 <code>../../部署/MacOS/【MacOS】双击部署（快捷入口）.command</code>，Windows 用 <code>../../部署/Windows/【Windows】双击部署（快捷入口）.cmd</code>，Linux／FreeBSD 用对应系统目录内的 <code>双击部署（快捷入口）.desktop</code>。Linux／FreeBSD 须有图形桌面和终端模拟器，按文件管理器要求由操作者允许启动；无桌面服务器使用下章命令运行规范脚本。</p>
+<p>2、阅读终端自述并回车。缺少 <a href="https://go.dev/"><strong>Go</strong></a> 时，脚本显示官方下载地址和目标位置，回车安装到工程内；输入其它字符取消。已有健康环境直接复用。初次下载需联网，网络不通会停止并给日志位置。</p>
+<p>3、监听地址先直接回车，采用 <code>127.0.0.1:8080</code>，只允许本机访问。分别设置管理员和客户密码，各至少12个字符，二者不能相同。密码输入时不显示字符属于正常行为。数据库连接串直接回车，使用本机文件存储。</p>
+<p>4、看到“academic service ready”后保留终端窗口。浏览器打开 <a href="http://127.0.0.1:8080/client/">客户页面</a> 和 <a href="http://127.0.0.1:8080/admin/">管理后台</a>。在客户页用 <code>customer</code> 和刚设置的客户密码登录，在管理页用 <code>admin</code> 和管理员密码登录。页面给出的开发演示密码不适用于这个生产配置入口。</p>
+<p>5、客户选择毕业论文、普刊或编译，填写需求并提交。管理员刷新列表、打开同一需求，先补材料或创建报价。报价中的范围须写清交付内容、周期、修改及取消规则；界面金额输入框使用“元”，输入 <code>100</code> 为100元；接口内部自动换算为整数分。</p>
+<p>6、客户确认报价后生成订单。若报价约定启动款，管理员先核对实际收款凭据再登记，达到门槛才能开工。没有接入银行或微信自动扣款，点击“登记收款”只记录已核实事实。</p>
+<p>7、管理员上传交付附件并发布正式交付。客户可绑定该版本提交修改意见；管理员受理时选计次0或1、确认轮次，再发布新版本。客户确认最新正式版后订单完成。完成后另建售后，保留原订单完成记录。</p>
+<p>8、结束体验，在服务终端按 <code>Ctrl+C</code>。数据保存在 <code>../后端/后端代码/data</code>，再次运行原脚本会保留配置与数据。先退出再复制整个数据目录做备份；保留配置文件，避免恢复后不知道账户密码。</p>
+<h2><span id="section-2">二、只想先看桌面软件</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p><a href="https://www.apple.com/macos/"><strong>MacOS</strong></a> 本机成品在 <code>../前端/PC端/Python/知序.app</code>，安装包入口为 <code>知序.dmg</code>。将完整桌面目录一起移动可保持相对快捷入口；发给其他人只需实际APP或DMG。该包包含Python和依赖，普通使用不必另装Python。当前成品为Apple Silicon版本，Intel需要在对应Mac重新构建。</p>
+<p><a href="https://www.microsoft.com/windows"><strong>Windows</strong></a> 需要在Windows本机双击 <code>../前端/PC端/Python/【Windows】📦生成exe.bat</code>，成功后使用生成的EXE目录或ZIP；当前没有经过Windows本机验证的EXE成品。源码体验可运行同目录 <code>【Windows】启动知序.bat</code>，Mac也有对应启动入口，缺失依赖会在确认后准备。</p>
+<p>打开桌面应用，在设置中填写完整API地址。与后端同一电脑使用 <code>http://127.0.0.1:8080/api/v1</code>；其它电脑需要可访问的服务器HTTPS地址。使用相同customer账户，各端看到同一份后端记录。白天、黑夜、跟随系统可在设置切换。</p>
+<h2><span id="section-3">三、手机和小程序怎样打开</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<table>
+<thead>
+<tr>
+<th>目标</th>
+<th>当前入口与操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>iOS / iPhone Duo</td>
+<td><code>../前端/移动端/Flutter/ios</code>，用自己的Apple团队签名后安装；无签名Release构建已验证，未做Duo实机验收</td>
+</tr>
+<tr>
+<td>Android</td>
+<td><code>../前端/移动端/Flutter/android</code>，按模块README构建APK或AAB；发布须配置自己的keystore，最新SDK构建结果见回归报告</td>
+</tr>
+<tr>
+<td>鸿蒙</td>
+<td><code>../前端/移动端/鸿蒙</code>，ArkWeb宿主加载HTTPS Flutter用户页面；使用DevEco与自己的签名构建HAP/APP，当前尚未实编</td>
+</tr>
+<tr>
+<td>微信小程序（本期独立前端交付）</td>
+<td>微信开发者工具导入 <code>微信小程序</code>；<code>touristappid</code> 仅供开发预览，正式接入填写自有 AppID 并配置 HTTPS 合法域名；工具编译、真机、体验版、提审与发布分别验收</td>
+</tr>
+<tr>
+<td>手机浏览器体验</td>
+<td>部署好HTTPS服务器后打开 <code>/client/</code>；管理人员打开 <code>/admin/</code>，窄屏会调整导航与详情布局</td>
+</tr>
+</tbody></table>
+<p>微信小程序的“账户与连接”可填写完整 API 地址及 500—10000 毫秒请求超时，默认 2500 毫秒；更改设置后重新登录。API 成功使用真数据，失败才回退隔离演示；列表空态的“重新加载”会再次请求服务。开发预览成功不能替代真机业务或正式发布。</p>
+<p>手机的 <code>127.0.0.1</code> 指手机自身。电脑启动的服务必须通过手机可访问的服务器域名连接；正式HTTPS、域名、证书和签名不是一个源码包能自动取得的账户资料，需部署方提供。iOS、Android原生包必须在构建时使用正式API地址，详见<a href="../前端/移动端/Flutter/Flutter说明阅读版.html">Flutter说明</a>。</p>
+<h2><span id="section-4">四、看到这些状态时怎样处理</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<table>
+<thead>
+<tr>
+<th>页面提示</th>
+<th>应做的事</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>服务端 / 已连接</td>
+<td>此次成功响应来自后端，查看记录编号与版本</td>
+</tr>
+<tr>
+<td>本地演示</td>
+<td>当前数据仅用于体验，不视为真实提交、到账、上传或退款；样例不会自动上传</td>
+</tr>
+<tr>
+<td>结果待确认 / 待核对</td>
+<td>保留原操作，点击“查询原操作”；仍未查到时稍后再查，或按原键原正文重试。不要重新创建同一资金动作</td>
+</tr>
+<tr>
+<td>401 / 登录失效</td>
+<td>重新登录；旧账户的私有资料会清除</td>
+</tr>
+<tr>
+<td>403</td>
+<td>当前账户无权办理，切换有权限的账户</td>
+</tr>
+<tr>
+<td>409 / 版本冲突</td>
+<td>重新加载最新状态后核对，不能用旧界面覆盖别人的操作</td>
+</tr>
+<tr>
+<td>422</td>
+<td>按提示补齐或修正输入</td>
+</tr>
+<tr>
+<td>暂无需求 / 暂无文件</td>
+<td>当前真实列表为空，可重新加载；不会用假订单填充</td>
+</tr>
+<tr>
+<td>退款待审核 / 已批准 / 待核对</td>
+<td>钱尚未记为已退回；管理员核实原流水后才登记成功</td>
+</tr>
+</tbody></table>
+<p>读取失败时客户端可展示隔离演示，后续成功响应自动替换为真数据。真实写入超时不当作失败重做。Flutter和桌面会按账户与服务器保存待核对正文与原键；本地记录不含密码或令牌，仍应保护共享电脑。小程序保留待核对记录并提供查询入口。</p>
+<h2><span id="section-5">五、取消、退款和售后例子</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>订单原价1000元，已收300元，双方同意取消后的最终应收100元。管理员提出取消结算100元，客户确认后订单取消。管理员关联原收款申请退款200元，批准后先占用额度；核实退款成功再登记凭据，净收款为100元。原价与结算价都保留，不能继续按原价催收900元。</p>
+<p>退款未知时先核对原流水；不要直接标失败再换号退款。完成或取消的订单可新开售后，退款义务与结算差额未清时，后台会阻止关闭售后。</p>
+<h2><span id="section-6">六、常见启动问题</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<ul>
+<li>端口已占用：先停止正在使用同一端口的服务，或把 <code>.runtime/config.env</code> 中的 <code>LISTEN_ADDR</code> 改为其它本机端口。浏览器地址相应修改。</li>
+<li>数据目录已锁定：先确认旧服务确实停止，备份数据目录，再处理 <code>.server-lock</code>。不要删除 <code>state.json</code>，不要让两个文件模式实例共用目录。</li>
+<li>下载失败：保留日志，确认服务器能访问官方Go下载和模块源后重试；脚本不更改代理或关闭证书校验。</li>
+<li>后台文件缺失：复制根目录的 <code>代码/</code> 与 <code>部署/</code> 并保留原相对层级，包括 <code>admin-web</code> 与 <code>client-web</code>；只复制Go源代码不会自动生成Flutter页面。</li>
+<li>Mac提示来源未识别：当前包尚未开发者签名与公证。正式分发应完成签名公证；不要自动关闭系统安全机制。</li>
+<li>小程序真机连不上：核对AppID、服务器HTTPS域名、开发者工具/微信版本和基础库；不以关闭合法域名校验当作发布方案。</li>
+<li>脚本执行位在拷贝时丢失：Mac/Linux在终端显式运行 <code>zsh '../../部署/MacOS/【MacOS】部署.command/【MacOS】部署.command'</code> 或 <code>bash '../../部署/Ubuntu/【Linux】部署.sh/【Linux】部署.sh'</code>；路径可拖进终端，保留完整引号。</li>
+</ul>
+<h2>七、<span id="local-tunnel">本地部署＋内网穿透</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2><p><strong style="color:#c62828;">关闭此运行终端，服务将结束</strong>。本地临时模式在确认公开前及地址生成后的日志中单独提示；终端支持颜色时为红色加粗，纯文本终端及日志保留原文。当前窗口管理本次后端和隧道，关闭终端或按 Ctrl+C 结束本次临时服务，数据与配置保留。</p>
+<p>前期少量联调可复用现有电脑，不必先租云主机。选择一台常开主机，复制根目录的 <code>代码/</code> 与 <code>部署/</code> 并保留原相对层级；默认 <code>127.0.0.1:8080</code> 与文件模式即可运行学术服务，维修项目使用另一个 <code>127.0.0.1:8098</code>。隧道由同一主机发起连接，回环监听可以保留。</p>
+<p>1、在本说明所在目录按主机类型运行一个入口，阅读确认后通过fzf选“本地部署＋内网穿透”或“服务器部署”；Esc、空选或选择器错误不启动业务。初次设置两组不同的非默认密码，数据库连接串留空：</p>
+<table>
+<thead>
+<tr>
+<th>系统</th>
+<th>本地启动命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MacOS</td>
+<td><code>zsh &#39;../../部署/MacOS/【MacOS】部署.command/【MacOS】部署.command&#39;</code></td>
+</tr>
+<tr>
+<td>Windows PowerShell</td>
+<td><code>..\..\部署\Windows\【Windows】部署.cmd\【Windows】部署.cmd</code></td>
+</tr>
+<tr>
+<td>Ubuntu示例</td>
+<td><code>bash &#39;../../部署/Ubuntu/【Linux】部署.sh/【Linux】部署.sh&#39;</code></td>
+</tr>
+<tr>
+<td>其它Linux / FreeBSD</td>
+<td>选择部署目录中与本系统同名的入口，不套用其它系统的包管理器</td>
+</tr>
+</tbody></table>
+<p>2、本地模式按锁清单自动准备缺少的工程内fzf/Go/cloudflared（官方固定资产+SHA256，健康现有工具复用，不改全局PATH）；确认公网后先启动后端，健康成功再生成Cloudflare Quick免费随机HTTPS。无需账号/域名/付费；45秒无地址即回收本次进程并显示排查入口。保持窗口，另开终端访问 <code>http://127.0.0.1:8080/healthz</code>，并确认 <code>/client/</code>、<code>/admin/</code> 的真实API可用。网页显示本地演示只表示UI可体验，不能证明部署成功。</p>
+<p>自动Quick通过本次工程内空YAML显式指定 --config，保留个人cloudflared配置，实际子进程隔离TUNNEL_*且不污染父环境；fzf探针和菜单局部隔离默认选项。</p>
+<p>3、若大陆网络不可达或需要固定地址，先Ctrl+C停止自动本地模式，重新选择服务器部署，再按本平台原生包安装 <a href="https://www.cpolar.com/download"><strong>cpolar</strong></a>，或使用 <a href="https://developers.cloudflare.com/tunnel/downloads/"><strong>Cloudflare Tunnel</strong></a> 备选。Mac/Windows/常规Linux/Alpine/FreeBSD的包、架构、CLI和常驻方式分别见<a href="../../部署/README.md#local-tunnel-start">各平台本地穿透步骤</a>，不要直接复制其它系统的安装命令。</p>
+<p>4、同机两个项目在一份私有配置里定义 <code>academic → 127.0.0.1:8080</code> 和 <code>repair → 127.0.0.1:8098</code>；使用一个cpolar进程显式运行这两个名字，避免基础版进程额度冲突，也不顺带启动SSH样例。Token存工程外，不粘贴到日志/截图/仓库。免费随机地址适合验通；<a href="https://www.cpolar.com/pricing">官方价格</a>当前基础版99元/年含3个保留子域名、8条隧道，数量上覆盖同机两个项目；专业版149元/年支持自定义域名等，费用和带宽不作永久承诺。</p>
+<p>5、每项目一个HTTPS主机名整站转发，保留公网 <code>Host</code>；本项目浏览器Origin必须匹配Host或明确允许来源。学术浏览器打开 <code>https://实际域名/client/</code>、<code>/admin/</code>，桌面/移动客户端使用 <code>https://实际域名/api/v1</code>，手机不能填电脑的127.0.0.1。不要把页面、API和附件拆到不同随机域名。</p>
+<p>6、让手机关闭Wi-Fi走移动网络，检查公网健康、客户创建合成需求后刷新重读、管理端同编号、未登录私有请求拒绝以及附件权限。当前单文件8MB；低带宽隧道与应用上传上限都需核对。正式小程序的域名/AppID等发布条件另验。</p>
+<p>7、电脑睡眠、合盖、断电或宽带中断会影响访问。首次仅前台运行，不默认改变电源策略或注册服务。自动本地模式Ctrl+C同时回收本次后端和隧道；手动模式先停隧道再停后端。用外部新请求确认入口失效，再备份 <code>data</code> 和有效配置；缓存演示页面仍显示不能证明隧道在线。固定域名不用时在后台撤销对应路由。</p>
+<p>详细私有YAML、平台命令、固定子域名与Cloudflare备选、日志/停止/排查见<a href="../../部署/README.md#local-tunnel">各平台本地穿透步骤</a>。这些是操作说明，当前未安装或建立公网隧道，也未完成双项目同机/公网读写/容量验收。</p>
+<p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
+<footer>离线阅读版由当前文档生成。测试、构建、设备业务和正式验收按各自证据登记。</footer></main><script src="../../需求/阅读资源/mermaid.min.js"></script><script>window.__diagramErrors=[];mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeVariables:{fontFamily:'system-ui',primaryColor:'#e6eee1',primaryTextColor:'#1c362c',lineColor:'#526e5d'}});mermaid.run({querySelector:'.mermaid'}).then(()=>{window.__renderDone=true}).catch(e=>{window.__diagramErrors.push(String(e));window.__renderDone=true});</script></body></html>

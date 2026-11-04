@@ -1,0 +1,15 @@
+test_01_read_only_check_and_plan (__main__.ModeTests.test_01_read_only_check_and_plan) ... ok
+test_02_cancel_empty_unknown_multiline_and_failure (__main__.ModeTests.test_02_cancel_empty_unknown_multiline_and_failure) ... ok
+test_03_local_health_then_url_and_interrupt_cleanup (__main__.ModeTests.test_03_local_health_then_url_and_interrupt_cleanup) ... ok
+test_04_occupied_non_http_port_never_published (__main__.ModeTests.test_04_occupied_non_http_port_never_published) ... ok
+test_05_url_timeout_reaps_children (__main__.ModeTests.test_05_url_timeout_reaps_children) ... ok
+test_06_tunnel_exit_reaps_backend (__main__.ModeTests.test_06_tunnel_exit_reaps_backend) ... ok
+test_07_backend_exit_never_starts_tunnel (__main__.ModeTests.test_07_backend_exit_never_starts_tunnel) ... ok
+test_08_ignored_term_has_bounded_cleanup (__main__.ModeTests.test_08_ignored_term_has_bounded_cleanup) ... ok
+test_09_server_mode_never_starts_tunnel (__main__.ModeTests.test_09_server_mode_never_starts_tunnel) ... ok
+test_10_quick_child_isolates_environment_parent_retained (__main__.ModeTests.test_10_quick_child_isolates_environment_parent_retained) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 32.085s
+
+OK

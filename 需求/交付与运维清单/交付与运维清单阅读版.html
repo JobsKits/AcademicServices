@@ -1,0 +1,445 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>学术服务平台｜交付与运维清单</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f5f6f1;color:#1c362c;font:16px/1.85 system-ui,sans-serif}main{max-width:1180px;margin:auto;padding:42px 28px}header{border-bottom:1px solid #d5ded3;padding:12px 0 26px;display:flex;gap:18px;align-items:center}header img{width:64px;height:64px;border-radius:14px}h1{font-size:36px;line-height:1.3;margin:6px 0}h2{font-size:25px;border-top:1px solid #d5ded3;margin:44px 0 20px;padding-top:24px}h3{font-size:20px;margin-top:32px}h2 a,h3 a{font-size:15px!important;text-decoration:none}a{color:#145f44;text-underline-offset:3px}small{font-size:13px;color:#50675b}.toc{background:#e7ede3;padding:14px 20px;margin:24px 0;border-radius:12px}.toc summary{cursor:pointer;font-weight:650}.toc ul{list-style:none;padding:0;columns:2}.toc li{break-inside:avoid;padding:3px 0}.toc .l3{padding-left:16px;font-size:14px}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;background:white;font-size:14px;margin:20px 0}td,th{border:1px solid #d1dcd0;padding:10px 13px;text-align:left;min-width:90px;vertical-align:top}th{background:#e6eee1;font-weight:650}p code,li code,td code{font-size:.88em;background:#e9eee4;padding:2px 4px;border-radius:4px;overflow-wrap:anywhere}pre{overflow:auto;background:#e8eee3;padding:18px;border-radius:12px;line-height:1.65}code{font-family:ui-monospace,monospace}blockquote{margin:20px 0;padding:8px 20px;border-left:3px solid #68866d;background:#edf0e7;overflow-wrap:anywhere}.mermaid{background:white;text-align:center}svg{max-width:100%;height:auto}footer{margin:42px 0 0;border-top:1px solid #d5ded3;padding:20px 0;font-size:13px;color:#50675b}body>svg{display:none}@media(max-width:650px){main{padding:20px 14px}h1{font-size:28px}h2{font-size:22px}header img{width:44px;height:44px}.toc ul{columns:1}table{font-size:13px}}@media print{.toc,header small{display:none}body{background:white}main{max-width:none}}</style></head><body><main><header><img src="../../代码/工程资源/icon.png" alt="项目图标"><div><small>学术服务平台 · 文档阅读</small><h1>学术服务平台｜交付与运维清单</h1><small>原始结论日期以正文为准 · <a href="交付与运维清单.md">Markdown 原稿</a> · <a href="../../README.md">根目录说明</a></small></div></header><details class="toc"><summary>章节目录</summary><nav aria-label="章节"><ul><li class="l2"><a href="#前言">前言</a></li><li class="l2"><a href="#delivery">源码、产物与资料交接</a></li><li class="l2"><a href="#deployment">部署系统、入口与资源基线</a></li><li class="l2"><a href="#lifecycle">运行模式、升级与恢复</a></li><li class="l2"><a href="#operations-cases">部署与运维验收用例</a></li><li class="l2"><a href="#assets">资产、账号、责任与持续费用</a></li><li class="l2"><a href="#gaps">已知缺口、例外与放行条件</a></li></ul></nav></details>
+<hr>
+<h2>🔥 <span id="前言">前言</span></h2>
+<p>本册依据 Jobs“软件项目从零到一”规范整理当前交付边界，与<a href="../项目需求与开发评审/项目需求与开发评审阅读版.html">项目需求与开发评审</a>、<a href="../../测试/测试与分级验收/测试与分级验收阅读版.html">测试与分级验收</a>配套。编制日期为 2026-11-03；既有能力和历史证据按原日期保留，未提供的版本、责任、排期、费用及性能承诺留白。当前仍是可运行联调 MVP，未完成正式商用签收。</p>
+<h2>一、<span id="delivery">源码、产物与资料交接</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<table>
+<thead>
+<tr>
+<th>交付项</th>
+<th>当前位置／内容</th>
+<th>当前证据边界</th>
+<th>交付人／接收人／签收</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>需求与评审</td>
+<td>本目录的原需求、数据库设计、主评审及本册</td>
+<td>原 C／F／R／T 保留；商业规则与本期范围尚有 Q 项</td>
+<td></td>
+</tr>
+<tr>
+<td>后端源码</td>
+<td><a href="../../代码/后端/后端代码/后端说明阅读版.html">后端</a>、迁移目录及配置说明</td>
+<td><a href="https://go.dev/"><strong>Go</strong></a> 单服务，文件或 PG 聚合；不是 29 表已投产</td>
+<td></td>
+</tr>
+<tr>
+<td>桌面源码与成品</td>
+<td><a href="../../代码/前端/PC端/Python/桌面说明阅读版.html">桌面端</a></td>
+<td><a href="https://www.python.org"><strong>Python</strong></a>／<a href="https://doc.qt.io/qtforpython/"><strong>PySide6</strong></a>；历史 Mac ARM64 APP／DMG 启动；Windows 成品与目标机另验</td>
+<td></td>
+</tr>
+<tr>
+<td>移动与管理源码</td>
+<td><a href="../../代码/前端/移动端/Flutter/Flutter说明阅读版.html">移动端与管理端</a></td>
+<td><a href="https://flutter.dev/"><strong>Flutter</strong></a> 用户端、响应式后台及 Web；iOS 无签名构建，Android 产物未完成</td>
+<td></td>
+</tr>
+<tr>
+<td>鸿蒙宿主</td>
+<td>独立 <code>代码/前端/移动端/鸿蒙/</code> 工程 与生成工具</td>
+<td><a href="https://developer.huawei.com/consumer/cn/"><strong>HarmonyOS</strong></a> ArkWeb 加载同源 HTTPS，不是 Flutter OH 引擎；HAP、签名、设备未验</td>
+<td></td>
+</tr>
+<tr>
+<td>微信小程序（本期必交付）</td>
+<td><a href="../../代码/前端/微信小程序/小程序说明阅读版.html">微信小程序</a>，官方原生源码、依赖／配置及运行说明；与 Web 分开交接</td>
+<td>已有 5 页原生工程和仓库校验；真实微信身份、AppID、开发者工具、真机业务、体验版、提审与正式发布分别待验</td>
+<td></td>
+</tr>
+<tr>
+<td>接口契约</td>
+<td><a href="../../代码/后端/接口契约/api.json">唯一接口契约</a></td>
+<td>JSON 说明契约；接口与实现需同步，不是完整 OpenAPI</td>
+<td></td>
+</tr>
+<tr>
+<td>测试与验收</td>
+<td>平级 <code>测试/</code>，包含源码、计划、报告及证据</td>
+<td>旧结果不自动覆盖当前目录和源码版本</td>
+<td></td>
+</tr>
+<tr>
+<td>用户操作资料</td>
+<td><a href="../../代码/工程总览/工程总览阅读版.html">代码总说明</a>及各端使用说明</td>
+<td>启动、真实／演示、未知写核对与停止步骤</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>构建包、SDK、依赖缓存、运行配置与业务数据按现有忽略规则不入库。干净克隆只取得已纳入版本管理的源码；<code>后端/后端代码/admin-web</code>、<code>client-web</code> 与本机桌面 APP／DMG 等发布资源须另行构建或随正式发布包交接。不能把本机目录中可见的产物视为 Git 克隆已携带。</p>
+<p>候选源码版本、未提交差异摘要、构建时间、目标系统／架构、资源清单、签名及包哈希：</p>
+<h2>二、<span id="deployment">部署系统、入口与资源基线</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>当前八类系统有独立说明和入口，具体操作以<a href="../../部署/README.md">部署总说明</a>及本系统文档为准。表中是已有验证的边界，具体系统版本与架构的本期签收矩阵仍需填写。</p>
+<table>
+<thead>
+<tr>
+<th>系统</th>
+<th>入口／本系统说明</th>
+<th>已有验证与限制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://www.apple.com/macos/"><strong>MacOS</strong></a></td>
+<td><code>../../部署/MacOS/【MacOS】部署.command/【MacOS】部署.command</code>；<a href="../../部署/MacOS/【MacOS】双击部署（快捷入口）.command">快捷入口</a>；<a href="../../部署/MacOS/README.md">说明</a></td>
+<td>历史 ARM64 迁移目录配置、构建、启动及停止；Intel 待目标机</td>
+</tr>
+<tr>
+<td><a href="https://www.microsoft.com/windows"><strong>Windows</strong></a></td>
+<td><code>../../部署/Windows/【Windows】部署.cmd/【Windows】部署.cmd</code>；<a href="../../部署/Windows/【Windows】双击部署（快捷入口）.cmd">快捷入口</a>；<a href="../../部署/Windows/README.md">说明</a></td>
+<td><a href="https://learn.microsoft.com/powershell/"><strong>PowerShell</strong></a> 解析／路径检查；原生部署与服务常驻未验</td>
+</tr>
+<tr>
+<td><a href="https://ubuntu.com/"><strong>Ubuntu</strong></a></td>
+<td><code>../../部署/Ubuntu/【Linux】部署.sh/【Linux】部署.sh</code>／桌面入口；<a href="../../部署/Ubuntu/双击部署（快捷入口）.desktop">快捷入口</a>；<a href="../../部署/Ubuntu/README.md">说明</a></td>
+<td>语法／静态／夹具，目标机待验</td>
+</tr>
+<tr>
+<td><a href="https://www.debian.org/"><strong>Debian</strong></a></td>
+<td><code>../../部署/Debian/【Linux】部署.sh/【Linux】部署.sh</code>／桌面入口；<a href="../../部署/Debian/双击部署（快捷入口）.desktop">快捷入口</a>；<a href="../../部署/Debian/README.md">说明</a></td>
+<td>同上</td>
+</tr>
+<tr>
+<td><a href="https://rockylinux.org/"><strong>Rocky Linux</strong></a></td>
+<td><code>../../部署/RockyLinux/【Linux】部署.sh/【Linux】部署.sh</code>／桌面入口；<a href="../../部署/RockyLinux/双击部署（快捷入口）.desktop">快捷入口</a>；<a href="../../部署/RockyLinux/README.md">说明</a></td>
+<td>同上，不作为 <a href="https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux"><strong>RHEL</strong></a> 或 <a href="https://www.centos.org/"><strong>CentOS</strong></a> 的替代验收</td>
+</tr>
+<tr>
+<td><a href="https://www.alibabacloud.com/help/en/alinux/"><strong>Alibaba Cloud Linux</strong></a></td>
+<td><code>../../部署/AlibabaCloudLinux/【Linux】部署.sh/【Linux】部署.sh</code>／桌面入口；<a href="../../部署/AlibabaCloudLinux/双击部署（快捷入口）.desktop">快捷入口</a>；<a href="../../部署/AlibabaCloudLinux/README.md">说明</a></td>
+<td>同上</td>
+</tr>
+<tr>
+<td><a href="https://alpinelinux.org/"><strong>Alpine</strong></a></td>
+<td><code>../../部署/Alpine/【Linux】部署.sh/【Linux】部署.sh</code>；<a href="../../部署/Alpine/双击部署（快捷入口）.desktop">快捷入口</a>；<a href="../../部署/Alpine/README.md">说明</a></td>
+<td>sh／静态保护，目标机待验；桌面入口有额外环境条件</td>
+</tr>
+<tr>
+<td><a href="https://www.freebsd.org/"><strong>FreeBSD</strong></a></td>
+<td><code>../../部署/FreeBSD/【FreeBSD】部署.sh/【FreeBSD】部署.sh</code>；<a href="../../部署/FreeBSD/双击部署（快捷入口）.desktop">快捷入口</a>；<a href="../../部署/FreeBSD/README.md">说明</a></td>
+<td>sh／静态，目标机待验</td>
+</tr>
+</tbody></table>
+<p><span style="color:#d32f2f;">【不确定 Q-008】通用规范的 RHEL／CentOS Stream 10 与项目现有入口范围不一致。补齐独立入口与目标系统验证，或形成经确认的范围例外；现有 RockyLinux 脚本不能证明兼容。</span>具体系统版本、生命周期、CPU 能力与依赖在实施时核验，本轮不声明最新平台支持。</p>
+<p>以下数字转录自现有<a href="../../部署/README.md#minimum-machine">最低机器配置</a>，是单实例少量数据的工程预算，未经下限硬件压测或生产容量验收。</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>CPU／可用内存／空闲 SSD</th>
+<th>使用限制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>正常源码脚本部署</td>
+<td>64 位 2 核／4 GiB／20 GiB</td>
+<td>需下载工具链、依赖并编译；不含移动端 SDK 构建</td>
+</tr>
+<tr>
+<td>仅运行匹配的预编译二进制</td>
+<td>64 位 2 核／2 GiB／10 GiB</td>
+<td>本机不编译；不能作为正常部署入口预算</td>
+</tr>
+<tr>
+<td>数据库及 HTTPS 反代同机建议</td>
+<td>64 位 4 核／8 GiB／40 GiB</td>
+<td>仅作低负载规划，非已验收运营配置</td>
+</tr>
+</tbody></table>
+<p>桌面宿主整机预算至少 8 GiB 内存，仍需保留脚本所需可用余量。业务附件、历史、日志、原子写临时副本与备份另占空间；切换 PG 不消除全状态聚合的增长成本。带宽、负载、最低硬件实测、推荐配置及验收环境：</p>
+<h2>三、<span id="lifecycle">运行模式、升级与恢复</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>部署入口先自述并等待确认，通过 <a href="https://formulae.brew.sh/formula/fzf"><strong>fzf</strong></a> 选择本地部署＋内网穿透或服务器部署。当前正常路线在工程内准备缺少的工具、配置账户、编译并前台启动，不自动注册系统服务或打开防火墙。模式取消、空选及选择器错误不应启动业务；完整副作用与按键以各系统说明为准。</p>
+<table>
+<thead>
+<tr>
+<th>环节</th>
+<th>当前能力或需落实的方案</th>
+<th>成功检查／恢复边界</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>健康与启动</td>
+<td>检查依赖、账户配置、源码与监听地址；单实例启动</td>
+<td><code>/healthz</code> 仅是入口检查，还须真实创建后刷新重读、私有附件授权及重启持久化</td>
+</tr>
+<tr>
+<td>本地穿透</td>
+<td>可选临时 HTTPS 隧道，整站转发同一后端；随机地址用于短期联调</td>
+<td>手机关闭 Wi-Fi，核对真实读写与文件权限；网页演示仍显示不证明服务或隧道在线</td>
+</tr>
+<tr>
+<td>停止与重启</td>
+<td>前台 Ctrl+C 回收本次进程并保留数据；重复运行复用有效配置</td>
+<td>外部新请求确认入口失效；不能把关闭页面当停止服务</td>
+</tr>
+<tr>
+<td>常驻、状态与告警</td>
+<td>无统一已验收的常驻、状态、重启和告警入口</td>
+<td>由运维确定系统机制、权限、启动目录、脱敏日志与恢复步骤并在目标机验证</td>
+</tr>
+<tr>
+<td>升级／回滚</td>
+<td>尚无统一菜单；需先备份，再在独立发布目录验证候选包，安排切换窗口</td>
+<td>应用包回退与数据恢复分别设计；不可逆迁移先明确恢复点、停机与数据损失条件</td>
+</tr>
+<tr>
+<td>文件存储备份／恢复</td>
+<td>现有说明为正常停服后保存整个 <code>data</code> 与有效配置；恢复前保留原副本</td>
+<td>仅复制不是恢复通过；在隔离目录启动，核对案件、金额、附件、交付及操作收据</td>
+</tr>
+<tr>
+<td>PG 备份／恢复</td>
+<td><code>academic_runtime_state</code> JSONB 聚合；数据库备份、配置与恢复方案仍需落实</td>
+<td>专用隔离数据库演练一致快照和恢复；改 <code>DATABASE_URL</code> 不会自动迁移文件数据</td>
+</tr>
+<tr>
+<td>卸载与迁移</td>
+<td>程序、配置、数据、隧道路由和第三方账号分别处理</td>
+<td>默认保留业务数据；删除应展示准确对象并单独确认；正式迁移核对域名、回调、备份及回退</td>
+</tr>
+</tbody></table>
+<p><span style="color:#d32f2f;">【不确定 Q-009】当前以源码编译／前台运行为主，未提供通用规范要求的预构建优先及全生命周期入口；隧道超时或退出会清理已启动的后端，与“穿透失败保留健康本地服务”的规范不同。</span>这是现状差异，尚无已确认例外；不得写为符合全部部署要求。是否调整行为及实现范围在主评审收口。</p>
+<p>客户端仍按 API 优先和隔离演示合同工作；失败回退不代表后端可用，演示写不补发正式环境。列表空态、重载和本地素材兜底按 AC-11／AC-12 检查。完整工具链及 Web 资源就绪后才能离线预览；鸿蒙在线宿主离线首启不能加载页面。</p>
+<h2>四、<span id="operations-cases">部署与运维验收用例</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>OP 是正式目标环境验收场景组，与<a href="../../测试/测试与分级验收/测试与分级验收阅读版.html#cases">业务 AC 用例</a>共享候选版本。下表未执行，预期不是已实现声明；若能力缺失，执行时记录失败或阻塞及对应 GAP，不能修改预期绕过规范。</p>
+<table>
+<thead>
+<tr>
+<th>用例／需求</th>
+<th>前置与步骤</th>
+<th>预期结果</th>
+<th>状态</th>
+<th>实际证据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OP-01；GOV-02，本地隔离部署</td>
+<td>完整发布资源／合成数据；复制至中文空格目录，从无关工作目录运行→取消／选择模式→首次配置→启动重读→停止→复用</td>
+<td>路径可迁移；取消无业务；正确配置与持久化；停止不损坏数据，不影响其它实例</td>
+<td>未执行</td>
+<td></td>
+</tr>
+<tr>
+<td>OP-02；GOV-02，真实公网穿透</td>
+<td>已确认暴露范围与账号；本地业务健康后建隧道→手机移动网络访问→提交后重读／下载／越权→关闭</td>
+<td>实际地址与访问条件清楚；真实读写一致，拒绝未授权文件；停止后公网入口失效</td>
+<td>未执行</td>
+<td></td>
+</tr>
+<tr>
+<td>OP-03；升级与回滚</td>
+<td>已确认候选包、旧包、备份及窗口；隔离验证→切换→核心检查→模拟失败→回退</td>
+<td>包与数据版本对应，能恢复旧版本；不可逆迁移按已确认方案处理，不覆盖唯一备份</td>
+<td>未执行</td>
+<td></td>
+</tr>
+<tr>
+<td>OP-04；备份与恢复</td>
+<td>文件／PG 各自专用环境；生成数据与附件→备份→在独立目标恢复→对账</td>
+<td>业务、资金、附件、交付组与幂等收据完整；实测恢复耗时并与 RPO／RTO 比较</td>
+<td>未执行</td>
+<td></td>
+</tr>
+<tr>
+<td>OP-05；故障、重连与停止</td>
+<td>健康本地实例；模拟隧道失败／断网／睡眠恢复→诊断／重试→终止</td>
+<td>本地与公网状态分明；按规范保留健康本地服务并可关闭；当前行为差异 Q-009 必须记录</td>
+<td>未执行</td>
+<td></td>
+</tr>
+<tr>
+<td>OP-06；目标系统与资源</td>
+<td>按本期系统、架构、依赖、硬件与负载矩阵逐项部署／持续运行</td>
+<td>每个承诺组合具目标机证据，达到事先确定的资源、容量、响应及稳定性指标</td>
+<td>未执行</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>执行编号、日期、环境、操作人、日志、截图、缺陷和复验按<a href="../../测试/测试与分级验收/测试与分级验收阅读版.html#evidence">统一证据表</a>登记。沙盒部署检查不替代 OP-02 的真实公网或 OP-06 的系统容量验收。</p>
+<h2>五、<span id="assets">资产、账号、责任与持续费用</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>文档只记录归属、权限交接与恢复办法，不记录密码、Token、私钥或完整含认证连接串。免费软件许可、免费额度与长期服务费用分别核验；没有核验的服务价格不写成采购承诺。</p>
+<table>
+<thead>
+<tr>
+<th>资产／服务</th>
+<th>归属／管理员／交接方式</th>
+<th>正式／沙箱、能力及配额</th>
+<th>费用／付款／续费责任</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>源码与业务数据</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>域名、HTTPS 证书、反向代理</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>宿主电脑／服务器、网络与电力</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>数据库、备份及存储</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>穿透服务／固定域名</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>微信小程序、商户及消息能力</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Apple／Android／鸿蒙发布账号与签名</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>客服、支付、通知及其它第三方</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>运维事项</th>
+<th>频率／保留／阈值／服务约定</th>
+<th>执行人／告警接收人</th>
+<th>检查与演练证据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>健康、错误率、响应与资源监控</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>日志脱敏、轮转、查询与保留</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>备份、加密、异地保留和恢复</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>质保起止、支持时段及响应恢复</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>依赖／系统更新、证书续期与退役</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>第三方库、字体与素材按既有依赖和许可清单交接，Qt 分发声明及打包工具例外随包保留；源码公开状态不自动等于全部商业分发条件已完成。</p>
+<h2>六、<span id="gaps">已知缺口、例外与放行条件</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>已核实差距／影响</th>
+<th>关联需求与处理方向</th>
+<th>负责人／期限／确认结论</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GAP-01</td>
+<td>固定 admin/customer；真实客户身份、员工分派撤派与账号生命周期未完成</td>
+<td>F02／F10、Q-006；按本期角色完成服务端权限及 AC-02／AC-03</td>
+<td></td>
+</tr>
+<tr>
+<td>GAP-02</td>
+<td>文件／PG 单行 JSONB 与 29 表参考模型并存；无自动互转、关系化迁移或原生 PG 容量恢复证据</td>
+<td>Q-004；先确认数据路线，再作迁移映射及 OP-04／OP-06</td>
+<td></td>
+</tr>
+<tr>
+<td>GAP-03</td>
+<td>人工收退款台账，无真实支付／对账及通知投递；outbox 仅通知意图</td>
+<td>Q-003／Q-006；资金与送达单独确认，AC-10／AC-13</td>
+<td></td>
+</tr>
+<tr>
+<td>GAP-04</td>
+<td>微信小程序已确认本期必交付，但工具、真机、体验版及发布未验；Windows、Android、鸿蒙、Duo 等目标也未完整验收</td>
+<td>GOV-03／AC-15；Q-007 剩余分期边界；各端独立登记构建、安装、业务与渠道证据</td>
+<td></td>
+</tr>
+<tr>
+<td>GAP-05</td>
+<td>Flutter 详情消息／售后／进度为空时仍是单行文字；演示写先 GET 探测再本地执行；小程序超时已支持 500—10000ms、默认 2500ms</td>
+<td>统一前端合同、AC-11；Flutter 完整空态与写请求边界仍需落实；小程序超时配置已定向复核，详情动态列表已补完整空态及重载，工具和真机表现仍待验</td>
+<td></td>
+</tr>
+<tr>
+<td>GAP-06</td>
+<td>契约规则笼统称除登录外写入均需幂等键，实际 logout 不要求；workspace 无分页</td>
+<td>接口评审；明确例外，同步唯一契约；规模确定后定义分页与上限</td>
+<td></td>
+</tr>
+<tr>
+<td>GAP-07</td>
+<td>RHEL／CentOS Stream 10 无本项目独立部署入口与证据</td>
+<td>Q-008；补齐或确认范围例外，不能套用其它系统通过结论</td>
+<td></td>
+</tr>
+<tr>
+<td>GAP-08</td>
+<td>源码构建／前台为主；无统一生命周期入口，隧道失败终止健康后端</td>
+<td>Q-009；实施方案与例外确认，OP-03—OP-05 复验</td>
+<td></td>
+</tr>
+<tr>
+<td>GAP-09</td>
+<td>主体与商业条款、性能容量、正式域名资质、监控、恢复及维护责任未收口</td>
+<td>Q-001／Q-002／Q-005；补填约定与签收条件，不补造数值</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>工程存储和前端差距依据当前 <code>代码/后端/internal/platform/</code>、<code>代码/移动端与管理端/lib/</code>、<code>代码/微信小程序/utils/api.js</code> 静态核对；历史平台证据见<a href="../../测试/回归测试报告/回归测试报告阅读版.html">回归报告</a>。已知缺口不自动成为允许遗留项，是否影响本期放行由确认范围和验收等级判断。</p>
+<p>例外确认记录：</p>
+<table>
+<thead>
+<tr>
+<th>例外／GAP</th>
+<th>原规范、原因与影响</th>
+<th>替代措施／剩余风险</th>
+<th>确认人／日期／到期复查</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>正式交付窗口、资产接收结果与允许遗留：</p>
+<p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
+<footer>离线阅读版由当前文档生成。测试、构建、设备业务和正式验收按各自证据登记。</footer></main><script src="../阅读资源/mermaid.min.js"></script><script>window.__diagramErrors=[];mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeVariables:{fontFamily:'system-ui',primaryColor:'#e6eee1',primaryTextColor:'#1c362c',lineColor:'#526e5d'}});mermaid.run({querySelector:'.mermaid'}).then(()=>{window.__renderDone=true}).catch(e=>{window.__diagramErrors.push(String(e));window.__renderDone=true});</script></body></html>

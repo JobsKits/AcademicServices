@@ -1,0 +1,20 @@
+[
+  {
+    "path": "需求/学术服务小程序需求分析/需求分析阅读版.html",
+    "errors": [],
+    "diagrams": 1,
+    "brokenImages": 0
+  },
+  {
+    "path": "需求/数据库设计/数据库设计阅读版.html",
+    "errors": [],
+    "diagrams": 3,
+    "brokenImages": 0
+  },
+  {
+    "path": "需求/需求回归报告/需求回归报告阅读版.html",
+    "errors": [],
+    "diagrams": 0,
+    "brokenImages": 0
+  }
+]

@@ -1,0 +1,33 @@
+Resolving dependencies...
+Downloading packages...
+  cross_file 0.3.5+5 (0.4.0 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  petitparser 7.0.2 (7.1.0 available)
+  shared_preferences_foundation 2.5.7 (2.6.1 available)
+  test_api 0.7.12 (0.7.15 available)
+  vector_math 2.4.0 (2.4.4 available)
+  xml 7.0.1 (7.1.0 available)
+Got dependencies!
+8 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+Running Gradle task 'assembleRelease'...                        
+Exception in thread "main" java.util.zip.ZipException: zip END header not found
+	at java.base/java.util.zip.ZipFile$Source.findEND(Unknown Source)
+	at java.base/java.util.zip.ZipFile$Source.initCEN(Unknown Source)
+	at java.base/java.util.zip.ZipFile$Source.<init>(Unknown Source)
+	at java.base/java.util.zip.ZipFile$Source.get(Unknown Source)
+	at java.base/java.util.zip.ZipFile$CleanableResource.<init>(Unknown Source)
+	at java.base/java.util.zip.ZipFile.<init>(Unknown Source)
+	at java.base/java.util.zip.ZipFile.<init>(Unknown Source)
+	at java.base/java.util.zip.ZipFile.<init>(Unknown Source)
+	at org.gradle.wrapper.Install.unzip(Install.java:214)
+	at org.gradle.wrapper.Install.access$600(Install.java:27)
+	at org.gradle.wrapper.Install$1.call(Install.java:74)
+	at org.gradle.wrapper.Install$1.call(Install.java:48)
+	at org.gradle.wrapper.ExclusiveFileAccessManager.access(ExclusiveFileAccessManager.java:65)
+	at org.gradle.wrapper.Install.createDist(Install.java:48)
+	at org.gradle.wrapper.WrapperExecutor.execute(WrapperExecutor.java:128)
+	at org.gradle.wrapper.GradleWrapperMain.main(GradleWrapperMain.java:61)
+Running Gradle task 'assembleRelease'...                           35.3s
+Gradle task assembleRelease failed with exit code 1

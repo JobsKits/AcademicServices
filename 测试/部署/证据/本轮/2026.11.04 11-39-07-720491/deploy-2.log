@@ -1,0 +1,141 @@
+test_01_read_only_check_and_plan (__main__.ModeTests.test_01_read_only_check_and_plan) ... ok
+test_02_cancel_empty_unknown_multiline_and_failure (__main__.ModeTests.test_02_cancel_empty_unknown_multiline_and_failure) ... ok
+test_03_local_health_then_url_and_interrupt_cleanup (__main__.ModeTests.test_03_local_health_then_url_and_interrupt_cleanup) ... ok
+test_04_occupied_non_http_port_never_published (__main__.ModeTests.test_04_occupied_non_http_port_never_published) ... FAIL
+test_05_url_timeout_reaps_children (__main__.ModeTests.test_05_url_timeout_reaps_children) ... FAIL
+test_06_tunnel_exit_reaps_backend (__main__.ModeTests.test_06_tunnel_exit_reaps_backend) ... FAIL
+test_07_backend_exit_never_starts_tunnel (__main__.ModeTests.test_07_backend_exit_never_starts_tunnel) ... ok
+test_08_ignored_term_has_bounded_cleanup (__main__.ModeTests.test_08_ignored_term_has_bounded_cleanup) ... ok
+test_09_server_mode_never_starts_tunnel (__main__.ModeTests.test_09_server_mode_never_starts_tunnel) ... ok
+test_10_quick_child_isolates_environment_parent_retained (__main__.ModeTests.test_10_quick_child_isolates_environment_parent_retained) ... ERROR
+test_local_hangup_reaps_children (__main__.ModeTests.test_local_hangup_reaps_children) ... ok
+
+======================================================================
+ERROR: test_10_quick_child_isolates_environment_parent_retained (__main__.ModeTests.test_10_quick_child_isolates_environment_parent_retained)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Documents/Github/学术服务平台/测试/部署/【测试】部署双模式.py/【测试】部署双模式.py", line 247, in test_10_quick_child_isolates_environment_parent_retained
+    result = subprocess.run(['zsh', str(script)], env={**self.env, 'FIXTURE_TUNNEL_EXIT': '1', 'QUICK_CONFIG': str(config)}, capture_output=True, text=True, timeout=5)
+  File "/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/lib/python3.15/subprocess.py", line 671, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/lib/python3.15/subprocess.py", line 1395, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/lib/python3.15/subprocess.py", line 2424, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        skip_check_and_raise=True)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.15/3.15.2/Frameworks/Python.framework/Versions/3.15/lib/python3.15/subprocess.py", line 1434, in _check_timeout
+    raise TimeoutExpired(
+    ...<2 lines>...
+            stderr=b''.join(stderr_seq) if stderr_seq else None)
+subprocess.TimeoutExpired: Command '['zsh', '/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/知序 双模式 测试 uaee8le9/中文 空格 工程/代码/后端/后端代码/child-env-fixture.zsh']' timed out after 5 seconds
+
+======================================================================
+FAIL: test_04_occupied_non_http_port_never_published (__main__.ModeTests.test_04_occupied_non_http_port_never_published)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Documents/Github/学术服务平台/测试/部署/【测试】部署双模式.py/【测试】部署双模式.py", line 186, in test_04_occupied_non_http_port_never_published
+    self.start(); self.read_until(timeout=8)
+                  ~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/jobs/Documents/Github/学术服务平台/测试/部署/【测试】部署双模式.py/【测试】部署双模式.py", line 129, in read_until
+    if self.process.poll() is None: self.fail('Process timeout\n' + self.output)
+                                    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Process timeout
+
+
+
+知序服务｜MacOS 部署
+1、配置本工程账户和监听地址，必要时下载官方Go SDK并校验SHA256。
+2、回车后用fzf选择本地部署＋内网穿透或服务器部署；Esc取消。
+本地调试密码至少4字符，服务器部署至少12字符；两账户密码不同，输入不合规会重问。
+本地模式会创建公网临时HTTPS，先配置非默认密码；服务器模式不启动隧道。
+缺少fzf/cloudflared时按锁清单自动准备工程内工具并显示来源；不改全局PATH、系统服务或防火墙。
+3、仅后端代码目录的 .tools、.runtime、data 产生文件；已有配置与业务数据保留。
+4、Go模块默认使用goproxy.cn镜像，失败回退官方源；可用GOPROXY覆盖，仅当前进程生效。
+源码：/private/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/知序 双模式 测试 1i7xx3ri/中文 空格 工程/代码/后端/后端代码
+日志：/private/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/知序 双模式 测试 1i7xx3ri/中文 空格 工程/代码/后端/后端代码/.runtime/logs/deploy-20261104-114142.log
+按回车继续；输入任意字符取消：部署模式｜local
+
+本地模式将创建可公网访问的临时HTTPS入口；使用刚配置的非默认密码，仅安排指定测试者和合成数据。
+不改系统代理/全局PATH/防火墙/电源/自启；网址会变，关闭本窗口或Ctrl+C撤回本次入口。
+关闭此运行终端，服务将结束
+确认发布本次临时入口，直接回车继续；其它输入取消：来源｜Go依赖｜https://goproxy.cn|https://proxy.golang.org|direct｜版本按go.mod/go.sum锁定｜缓存 /private/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/知序 双模式 测试 1i7xx3ri/中文 空格 工程/代码/后端/后端代码/.tools/gomodcache
+构建｜go version go1.27.3 darwin/arm64｜/private/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/知序 双模式 测试 1i7xx3ri/中文 空格 工程/代码/后端/后端代码
+编译通过。
+
+
+======================================================================
+FAIL: test_05_url_timeout_reaps_children (__main__.ModeTests.test_05_url_timeout_reaps_children)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Documents/Github/学术服务平台/测试/部署/【测试】部署双模式.py/【测试】部署双模式.py", line 193, in test_05_url_timeout_reaps_children
+    self.start(NO_URL='1', TUNNEL_START_TIMEOUT='2'); self.read_until(timeout=12)
+                                                      ~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/jobs/Documents/Github/学术服务平台/测试/部署/【测试】部署双模式.py/【测试】部署双模式.py", line 129, in read_until
+    if self.process.poll() is None: self.fail('Process timeout\n' + self.output)
+                                    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Process timeout
+
+
+
+知序服务｜MacOS 部署
+1、配置本工程账户和监听地址，必要时下载官方Go SDK并校验SHA256。
+2、回车后用fzf选择本地部署＋内网穿透或服务器部署；Esc取消。
+本地调试密码至少4字符，服务器部署至少12字符；两账户密码不同，输入不合规会重问。
+本地模式会创建公网临时HTTPS，先配置非默认密码；服务器模式不启动隧道。
+缺少fzf/cloudflared时按锁清单自动准备工程内工具并显示来源；不改全局PATH、系统服务或防火墙。
+3、仅后端代码目录的 .tools、.runtime、data 产生文件；已有配置与业务数据保留。
+4、Go模块默认使用goproxy.cn镜像，失败回退官方源；可用GOPROXY覆盖，仅当前进程生效。
+源码：/private/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/知序 双模式 测试 3svnuoad/中文 空格 工程/代码/后端/后端代码
+日志：/private/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/知序 双模式 测试 3svnuoad/中文 空格 工程/代码/后端/后端代码/.runtime/logs/deploy-20261104-114151.log
+按回车继续；输入任意字符取消：部署模式｜local
+
+本地模式将创建可公网访问的临时HTTPS入口；使用刚配置的非默认密码，仅安排指定测试者和合成数据。
+不改系统代理/全局PATH/防火墙/电源/自启；网址会变，关闭本窗口或Ctrl+C撤回本次入口。
+关闭此运行终端，服务将结束
+确认发布本次临时入口，直接回车继续；其它输入取消：来源｜Go依赖｜https://goproxy.cn|https://proxy.golang.org|direct｜版本按go.mod/go.sum锁定｜缓存 /private/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/知序 双模式 测试 3svnuoad/中文 空格 工程/代码/后端/后端代码/.tools/gomodcache
+构建｜go version go1.27.3 darwin/arm64｜/private/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/知序 双模式 测试 3svnuoad/中文 空格 工程/代码/后端/后端代码
+编译通过。
+
+
+======================================================================
+FAIL: test_06_tunnel_exit_reaps_backend (__main__.ModeTests.test_06_tunnel_exit_reaps_backend)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jobs/Documents/Github/学术服务平台/测试/部署/【测试】部署双模式.py/【测试】部署双模式.py", line 198, in test_06_tunnel_exit_reaps_backend
+    self.start(FIXTURE_TUNNEL_EXIT='1'); self.read_until(timeout=12)
+                                         ~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/jobs/Documents/Github/学术服务平台/测试/部署/【测试】部署双模式.py/【测试】部署双模式.py", line 129, in read_until
+    if self.process.poll() is None: self.fail('Process timeout\n' + self.output)
+                                    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Process timeout
+
+
+
+知序服务｜MacOS 部署
+1、配置本工程账户和监听地址，必要时下载官方Go SDK并校验SHA256。
+2、回车后用fzf选择本地部署＋内网穿透或服务器部署；Esc取消。
+本地调试密码至少4字符，服务器部署至少12字符；两账户密码不同，输入不合规会重问。
+本地模式会创建公网临时HTTPS，先配置非默认密码；服务器模式不启动隧道。
+缺少fzf/cloudflared时按锁清单自动准备工程内工具并显示来源；不改全局PATH、系统服务或防火墙。
+3、仅后端代码目录的 .tools、.runtime、data 产生文件；已有配置与业务数据保留。
+4、Go模块默认使用goproxy.cn镜像，失败回退官方源；可用GOPROXY覆盖，仅当前进程生效。
+源码：/private/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/知序 双模式 测试 6okhu8vb/中文 空格 工程/代码/后端/后端代码
+日志：/private/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/知序 双模式 测试 6okhu8vb/中文 空格 工程/代码/后端/后端代码/.runtime/logs/deploy-20261104-114204.log
+按回车继续；输入任意字符取消：部署模式｜local
+
+本地模式将创建可公网访问的临时HTTPS入口；使用刚配置的非默认密码，仅安排指定测试者和合成数据。
+不改系统代理/全局PATH/防火墙/电源/自启；网址会变，关闭本窗口或Ctrl+C撤回本次入口。
+关闭此运行终端，服务将结束
+确认发布本次临时入口，直接回车继续；其它输入取消：来源｜Go依赖｜https://goproxy.cn|https://proxy.golang.org|direct｜版本按go.mod/go.sum锁定｜缓存 /private/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/知序 双模式 测试 6okhu8vb/中文 空格 工程/代码/后端/后端代码/.tools/gomodcache
+构建｜go version go1.27.3 darwin/arm64｜/private/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/知序 双模式 测试 6okhu8vb/中文 空格 工程/代码/后端/后端代码
+编译通过。
+
+
+----------------------------------------------------------------------
+Ran 11 tests in 153.669s
+
+FAILED (failures=3, errors=1)

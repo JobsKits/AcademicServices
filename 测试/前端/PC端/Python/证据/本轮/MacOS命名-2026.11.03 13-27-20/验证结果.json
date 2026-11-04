@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/Users/jobs/Documents/Github/学术服务平台/代码/前端/PC端/Python/Zhixu/.build-venv/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "/Users/jobs/Documents/Github/学术服务平台/测试/前端/PC端/Python",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "cwd": "/",
+  "returncode": 0,
+  "log": "测试/前端/PC端/Python/证据/本轮/MacOS命名-2026.11.03 13-27-20/desktop.log"
+}

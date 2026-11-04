@@ -1,2 +1,0 @@
-此目录由 tool/prepare_harmony.py 将 Flutter Web 完整构建复制到这里。
-没有 index.html 时不能交付 HAP。请先按 README 构建，并由 DevEco 签名与原生验证。

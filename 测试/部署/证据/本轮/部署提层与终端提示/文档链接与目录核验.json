@@ -1,0 +1,3898 @@
+{
+  "checked_on": "2026-11-03",
+  "scope": "部署提升至Git根后的当前自维护文档、代码地图、阅读版与导航；保留历史原始来源和证据",
+  "layout": [
+    "代码/",
+    "测试/",
+    "需求/",
+    "部署/"
+  ],
+  "summary": {
+    "changed_documents": 64,
+    "cross_file_local_references": 690,
+    "missing_local_targets": 0,
+    "missing_explicit_cross_file_fragments": 0,
+    "screenshots_visually_checked": 3
+  },
+  "method": "按移动前文档位置解析原相对目标，映射部署位置，再从新文档位置重算路径；核对当前Markdown链接和HTML href/src本地目标及显式跨文档锚点。页面内目录锚点、外部URL和API运行时路由不计为跨文件引用；未联网检查外部URL。",
+  "historical_items_retained": [
+    {
+      "path": "需求/工程资料/交付清单.json",
+      "reason": "checked_at=2026-10-30，794文件的历史size/sha256快照；原path与原哈希配套，不伪装为当前文件清单。"
+    },
+    {
+      "path": "需求/工程资料/源码统计.json",
+      "reason": "checked_at=2026-10-30，86文件的统计路径与原行数配套；README保留其原日期与口径，不改为本轮重新统计。"
+    },
+    {
+      "path": "需求/工程资料/交付状态.json",
+      "reason": "checked_at=2026-10-30，历史构建/测试状态汇总，没有当前部署定位字段。"
+    },
+    {
+      "path": "需求/工程资料/*目录映射.json、目录迁移映射.json、目录命名映射.json",
+      "reason": "历史分步迁移映射保留原日期与当时路径，不机械改写。"
+    },
+    {
+      "path": "测试/代码分层验证/代码分层验证.md及各历史证据目录",
+      "reason": "历史过程与结果保留当时的代码/部署路径；当前使用入口已在根README、工程总览及各单元地图更新。"
+    },
+    {
+      "path": "需求/项目需求与开发评审/项目需求与开发评审.md的用户原始引文",
+      "reason": "原引文作为需求来源保留；当前工程约定已更新为四个并列根目录。"
+    }
+  ],
+  "visual_preview": {
+    "tool": "已安装Google Chrome headless",
+    "network": "仅file://本地页面，独立临时profile；禁用后台联网并阻止域名解析，未安装依赖。",
+    "checked": [
+      "工程总览桌面.png",
+      "部署阅读版桌面.png",
+      "MacOS部署地图桌面.png"
+    ],
+    "result": "标题、图标、表格和MacOS地图流程图显示正常；未发现本轮路径变化造成的资源缺失。"
+  },
+  "limitations": [
+    "未验证外部URL可达性。",
+    "浏览器抽查不替代真实部署、手机公网业务或目标OS运行验收。"
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "local_reference_count": 18,
+      "sha256_before": "076517af83291c31f520114bfba89e9b95f495b3166d3514ec954a2c4587f3a4",
+      "sha256_after": "a7160902bcb30f2e8a617807397a3549f8c971d200f641e34048e4339fc4ef12"
+    },
+    {
+      "path": "代码/README.md",
+      "local_reference_count": 24,
+      "sha256_before": "fe412a1dd4e56c294713c8c7d4f42dbc6bf7d0ad95a8079faccdc60ba6436318",
+      "sha256_after": "20aa6a1bc8e952edc3be3c239e3fddad2dc4434d26b63dbf906ab691ccd03326"
+    },
+    {
+      "path": "代码/工程总览/README.md",
+      "local_reference_count": 28,
+      "sha256_before": "89e783fc690c7bccb44d86fb360f21d2eded2d41b67ddb1e2d2e9f789b654187",
+      "sha256_after": "a947fa080d6f7bdf22ce68dfe4b75027cfaa17f3be63c5022e5654f1b80fbcd7"
+    },
+    {
+      "path": "代码/工程总览/工程总览阅读版.html",
+      "local_reference_count": 28,
+      "sha256_before": "99da70a0b145fed0ad470aeabef41e758ab5828d6fe5d67aa3206522517f0660",
+      "sha256_after": "a91692a3152f1c02fec45d60d7bc68d0632678a89474249303623e9844851524"
+    },
+    {
+      "path": "代码/工程总览/单元导航阅读版.html",
+      "local_reference_count": 32,
+      "sha256_before": "4bd15d3732b1237bdf7fe5ea171d72bbb4cdd5a5cf746fe90669e9d0bb36b069",
+      "sha256_after": "06815b603f1a424ad0d4518ca07acfa0d540be73adf52a99b3ab6d53ca4f0d35"
+    },
+    {
+      "path": "代码/使用指南/使用说明阅读版.html",
+      "local_reference_count": 9,
+      "sha256_before": "506647537cbc9e7ba566dfb19c691d32a26f5c6f6d53d751f58e11de2724563e",
+      "sha256_after": "049d50cd623b952479f49fb099c4160f07e7ec97564f260595410c928d9cd2a6"
+    },
+    {
+      "path": "代码/使用指南/使用说明.md",
+      "local_reference_count": 5,
+      "sha256_before": "cf0792ad3103a07814d5a4e174472c6b6c90bb026b8633c83d48d161cfd0664b",
+      "sha256_after": "2d720518b46a4ad644d617bbe593c259b71aa6a5b926e479b0607197001f20e6"
+    },
+    {
+      "path": "代码/使用指南/开始使用.html",
+      "local_reference_count": 9,
+      "sha256_before": "178fdc457222418e84def24656b5ce6ba32f32540581823fb8b20a38426947da",
+      "sha256_after": "f9a0adc5aa0b2b859bac58823f60aacc25382a7e24ecb405dcd58101eb891166"
+    },
+    {
+      "path": "代码/后端/README.md",
+      "local_reference_count": 5,
+      "sha256_before": "e5d03fbb60d2dae0e6bbc09a57fea10b19689121ade4606a3b1edd973d4a90e0",
+      "sha256_after": "b091427b57b8d8616253f1f0ebd959cb6430d7d270e429294a424c3ad78008d0"
+    },
+    {
+      "path": "代码/前端/README.md",
+      "local_reference_count": 13,
+      "sha256_before": "eeba7ce7034c46f4cfc9ad7fa16f6eb4e2f848fe47a947aa21e22eaecc56e0e6",
+      "sha256_after": "e154722c982669068132c877836016cdea80634802881a55caf6cb62098e2941"
+    },
+    {
+      "path": "代码/后端/后端代码/后端说明阅读版.html",
+      "local_reference_count": 13,
+      "sha256_before": "589ea02cb4a7451c4c62b176ac85063de04da5d3ed0e32ff130b218c3224e599",
+      "sha256_after": "6a8640ac60d1c020683ae326452eb2a066c96c0afb7c953cbea4ae80a49b735a"
+    },
+    {
+      "path": "代码/后端/后端代码/README.md",
+      "local_reference_count": 9,
+      "sha256_before": "9a8d5ea2ec58b93e9e06d8b60309303e0734406a6bb62c35c1940dcf0002364e",
+      "sha256_after": "d9a8821783c30b0192fbd9f3998fce4f98e7f0bd3bfe4b9beabd0f2740dc503d"
+    },
+    {
+      "path": "代码/后端/后端代码/代码地图/代码地图.md",
+      "local_reference_count": 16,
+      "sha256_before": "65d7438259a11aa5af6645f11f97a46c22bf6da81e31dd5eacbbd1a421232550",
+      "sha256_after": "bc5559462da96af848206b5b7e4bc7ad64083ddf479646ee6d0502236129ba5e"
+    },
+    {
+      "path": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "local_reference_count": 20,
+      "sha256_before": "d0b21c3f124b6b089074fe71ce4545bb902acc6fc84e445db99d4e86b8a0c99d",
+      "sha256_after": "1133db7efae10c0a62c9cfcc7a6870ef71a8cc4c3332ffd35b1894a470885744"
+    },
+    {
+      "path": "部署/部署说明阅读版.html",
+      "local_reference_count": 22,
+      "sha256_before": "f73f420366202d196829ecdcc0561c9abc464211a0add3e4890273ad38b3c347",
+      "sha256_after": "7f8b88129388a25056292d522bc8bea50b869f3909f848bcdac9d17b44154fbb"
+    },
+    {
+      "path": "部署/README.md",
+      "local_reference_count": 18,
+      "sha256_before": "817a9a197aeb1276cf896c7506ff7c96d3cc19ffbabaf68ddc927b4b2e27b9b6",
+      "sha256_after": "2c9b290a2bc0aef07777aa89437fff3b73c212f0ea48080113265a2d42ac9916"
+    },
+    {
+      "path": "部署/Alpine/README.md",
+      "local_reference_count": 5,
+      "sha256_before": "5a1271ad889d24d291394264d791303066978dc3e8aeb31e9024fefddcfbfa9a",
+      "sha256_after": "9e1829b21e677a29c3c9da20090c70e75717d547682934aacd191a5a11900d8f"
+    },
+    {
+      "path": "部署/MacOS/README.md",
+      "local_reference_count": 5,
+      "sha256_before": "e15edd483c0f7ed773ce5c0bd3f0884018e67d2c895e1fb5ce845f96ffe7e4a3",
+      "sha256_after": "02044301bf557fe87d60a24b9bf9d1d2f6c2ba45db634b3b44f8e220fd5c8313"
+    },
+    {
+      "path": "部署/Debian/README.md",
+      "local_reference_count": 5,
+      "sha256_before": "2511fbd2e48a84452e90da223ae6398e984d6c5102e5cb4dc26208cddfcbdd79",
+      "sha256_after": "57f8f6a9b66f1fbbd7fe2ae1f4c8e6a1bd37044dd705a1ac63151aa5214961c0"
+    },
+    {
+      "path": "部署/RockyLinux/README.md",
+      "local_reference_count": 5,
+      "sha256_before": "c245552f93a2c004fae2e3553eb2fdfa2c977a1e13033cc4c698c6cf309221cf",
+      "sha256_after": "ec1c93a1bdb09f954c0089d542c9784157d24e42f9f44f30a5b5f3c54d19546d"
+    },
+    {
+      "path": "部署/FreeBSD/README.md",
+      "local_reference_count": 5,
+      "sha256_before": "03dd70147c987a820c2db57935c7fa004569d1a017428904a18bac8e0b68ce12",
+      "sha256_after": "5213b154c98f7b794f6a5d0748e5472b955039c003c6a256d8dbb3fc533fe073"
+    },
+    {
+      "path": "部署/AlibabaCloudLinux/README.md",
+      "local_reference_count": 5,
+      "sha256_before": "bfc34eda3c619ff16a5dcd912ea7593ea2b38144d9fe231c1a94b314948d0a79",
+      "sha256_after": "069f0ed1875d9c25e3efeed7c9a84c3e3aacd700258ee165aa37a62143333ea7"
+    },
+    {
+      "path": "部署/Windows/README.md",
+      "local_reference_count": 5,
+      "sha256_before": "38fad1851ae8ebdd4204a1281a266166e88656e3b15d16fead9dfc0ffe1b56ab",
+      "sha256_after": "05644d75cd31682afc644eb0bb964f3fe45993d43a828cbe7824f894941dc101"
+    },
+    {
+      "path": "部署/Ubuntu/README.md",
+      "local_reference_count": 5,
+      "sha256_before": "028164bccb1ccf78edede89faa1a943d8539d099ee67685a1fc60ec4ca14154a",
+      "sha256_after": "ce3f7467489607fee13a17d53dc6eee6cfa77ecd32ab08b0197f20332d09fe94"
+    },
+    {
+      "path": "部署/Ubuntu/【Linux】部署.sh/README.md",
+      "local_reference_count": 1,
+      "sha256_before": "17dce0f47e80562e598a8480976753e329851d2410aae58358d0c7e0dd934fcc",
+      "sha256_after": "65af3ee79d6f62f9162e77594eafc0dd7fd79d8b3f01644cae8714d563e958c2"
+    },
+    {
+      "path": "部署/Ubuntu/代码地图/代码地图.md",
+      "local_reference_count": 10,
+      "sha256_before": "13b42b39c667142f0d65135cd94ff47d68c21d525d0546a47a5b26cc3ce21162",
+      "sha256_after": "7e83f8111312e95a0047a7ce194cb7e910a0372ad46bf7f23211bf4a5aea60ab"
+    },
+    {
+      "path": "部署/Ubuntu/代码地图/代码地图阅读版.html",
+      "local_reference_count": 14,
+      "sha256_before": "18140cf304fb7d09b3bc185765fbea53c5c8820a43fbc55ee8e2ae371cca9087",
+      "sha256_after": "0a42fa26d8b2e92717a7020e4a2441153e9a11f9f3e809a93e4cb9ecc0ff8db0"
+    },
+    {
+      "path": "部署/Ubuntu/代码地图/README.md",
+      "local_reference_count": 4,
+      "sha256_before": "d5188e01af41672301242b242a9ccdae53a3a1fd9bb493f7891d5b729cb4538e",
+      "sha256_after": "dcdabe40d88c3dce2346a63609eea6e1b2f7a9ec6d69eb069e8d61dcb191998d"
+    },
+    {
+      "path": "部署/Windows/【Windows】部署.ps1/README.md",
+      "local_reference_count": 1,
+      "sha256_before": "93a5226a35ed96bc164db9e196867a3711b037eb5243fba6c30b619d14964c9c",
+      "sha256_after": "02e24a9df7cdb52bc31291d021d164cb5055bbe6f9b840c9ae8f7f727e274563"
+    },
+    {
+      "path": "部署/Windows/【Windows】部署.cmd/README.md",
+      "local_reference_count": 1,
+      "sha256_before": "200cd6ef434b90b0cbe559338606755bacbf9055be180554f5c89ff9d38a58bc",
+      "sha256_after": "d48de7b88df97ba0b2bf31f55469c4fb2a9e61311e16b4d40621e519fbd96206"
+    },
+    {
+      "path": "部署/Windows/代码地图/代码地图.md",
+      "local_reference_count": 12,
+      "sha256_before": "ecd18f6f967018e4550630a7a47aeb63b46ee616be4196a07ce92f84fd975c8d",
+      "sha256_after": "1584679eafaeed1db50d4353c1c1e68de5322cd82921fae23b79dcb4082c1aef"
+    },
+    {
+      "path": "部署/Windows/代码地图/代码地图阅读版.html",
+      "local_reference_count": 16,
+      "sha256_before": "4e2fa9b80b372c1c35c0633269918323e746a33620987effa55b7f4a407fa8ce",
+      "sha256_after": "e12d0f39c36a29c2ccad17eb75ce7eb0b48578f7cebce5fd0bdd4027a0c6c5db"
+    },
+    {
+      "path": "部署/Windows/代码地图/README.md",
+      "local_reference_count": 4,
+      "sha256_before": "c60606c5889f30f2d861933d2e29aad3d3376f9c33849045b887552042cf51f3",
+      "sha256_after": "8054e593e4b0bc1513652f1793a1e63d6d30c48c1aace0ac311b33025971f8f6"
+    },
+    {
+      "path": "部署/AlibabaCloudLinux/【Linux】部署.sh/README.md",
+      "local_reference_count": 1,
+      "sha256_before": "1bf541671d14ddfe076a5e9090270e799bfc9a97fc8f83354e9cfc77337ed3af",
+      "sha256_after": "be778f4dc544b98bb75d0f1ea7c256a6b8de514e8a6e58ada7fc9c19ba6d3e7a"
+    },
+    {
+      "path": "部署/AlibabaCloudLinux/代码地图/代码地图.md",
+      "local_reference_count": 10,
+      "sha256_before": "617e2adf45946139c1ffc8fa1fe332275c98166d09b67753969bd2d6543bb58d",
+      "sha256_after": "531ce0cd29c262c40ae3eee0925fdcb277cf249cf4f6cb4bbb05cb5f37829ab0"
+    },
+    {
+      "path": "部署/AlibabaCloudLinux/代码地图/代码地图阅读版.html",
+      "local_reference_count": 14,
+      "sha256_before": "b1f49740d263bca226dfc806e4feaf65996601bc9775c4ca3dd7cfd27d520248",
+      "sha256_after": "69eedcfeb0eacc6c2754f4766125d80f26ebeb57dd6ffbb09c37c9568644ada0"
+    },
+    {
+      "path": "部署/AlibabaCloudLinux/代码地图/README.md",
+      "local_reference_count": 4,
+      "sha256_before": "f8f860acf1a975e5b16850d563df833a8ad7db057dcfa6e624a8d1c1e14f1198",
+      "sha256_after": "630b7d41f71bdcfe9b62d256a5a418c0cd2d310cdf9b80debd782310073945da"
+    },
+    {
+      "path": "部署/FreeBSD/代码地图/代码地图.md",
+      "local_reference_count": 10,
+      "sha256_before": "aac2cc8f0de58893d69ba3c7467f1edf7a0450089f6dc0523e0a762b84051941",
+      "sha256_after": "e8e8b3ef50cc1e3cb978890d65aa04b12d0f2f45c854c8fd2017da4e95bc8c1d"
+    },
+    {
+      "path": "部署/FreeBSD/代码地图/代码地图阅读版.html",
+      "local_reference_count": 14,
+      "sha256_before": "09129bab839a608b91cc489ab50774d9a63e05bcf92f706bfad9fc6783ae0fde",
+      "sha256_after": "9d1f25f2a4115d2c296a8292000097dbcfe376556b154e3f1982a79492b25019"
+    },
+    {
+      "path": "部署/FreeBSD/代码地图/README.md",
+      "local_reference_count": 4,
+      "sha256_before": "42370139884a9db949f0fbe52a7a797d04207170b5b85a3a3d151d73024e2a0b",
+      "sha256_after": "6f054f27d6cc0a36ef0cc6cdf8772fbe7d7ac71560e79a29779ca5ee076a41ec"
+    },
+    {
+      "path": "部署/FreeBSD/【FreeBSD】部署.sh/README.md",
+      "local_reference_count": 1,
+      "sha256_before": "159a51ce34ef39ec6e0c326416442c46df8de6764051925f69c038b8221e5801",
+      "sha256_after": "c0c203dc4a749c75313e581606ad3d9f5da98deaedc5dcdbcb034157062e6e09"
+    },
+    {
+      "path": "部署/RockyLinux/【Linux】部署.sh/README.md",
+      "local_reference_count": 1,
+      "sha256_before": "22a69f7006cb5373627b7e02cdf5e777d6ba8f935298f5aee3136ed30ba9e10d",
+      "sha256_after": "25caf795e11d950458ee241e903d957e77e00b351c64d4c0bf1e820a638de6bb"
+    },
+    {
+      "path": "部署/RockyLinux/代码地图/代码地图.md",
+      "local_reference_count": 10,
+      "sha256_before": "0d179c933621e0ba2c64f2fa1b83d70465fb1e15d14ca23607c254c8e3242ea5",
+      "sha256_after": "2c9391d1b6e750ea562b79779737f9fa6f3500cae21b1aa1677696d3d88e8617"
+    },
+    {
+      "path": "部署/RockyLinux/代码地图/代码地图阅读版.html",
+      "local_reference_count": 14,
+      "sha256_before": "74f3cd53f8deb3feb8ada5eb998d4d741c5b08c3bac3a0dae8d528a94b9458e0",
+      "sha256_after": "4396cd8b29daf809a71a26daa45158b410b34dfd3cbdf640e9789df8d7c9abfb"
+    },
+    {
+      "path": "部署/RockyLinux/代码地图/README.md",
+      "local_reference_count": 4,
+      "sha256_before": "e3354ee108672847e9b804ebb3998e50ce2b03501c32dd5d03a7fba4e935a758",
+      "sha256_after": "410d811ec49fb20a4b6205d7879dbde43f3a7ca87d9631e05d17aab56bde1d6a"
+    },
+    {
+      "path": "部署/Debian/【Linux】部署.sh/README.md",
+      "local_reference_count": 1,
+      "sha256_before": "f38caedb7817fde9e4f5860277ade4c2942016d02d056e57b9450a1cb371f2c0",
+      "sha256_after": "2a484a1ded1b68da700c8b3c0b47e957be44b9973e0a220fedc0ef48123c85fb"
+    },
+    {
+      "path": "部署/Debian/代码地图/代码地图.md",
+      "local_reference_count": 10,
+      "sha256_before": "5e6653d667d315bbd426b292630bbe27808f4ae9b6af58a2db819fb169f6a7ef",
+      "sha256_after": "1d84c561d2b8a180c3a8e1f3e569517759176871923741a73df1b4e534cf99a1"
+    },
+    {
+      "path": "部署/Debian/代码地图/代码地图阅读版.html",
+      "local_reference_count": 14,
+      "sha256_before": "c835e123ef833f0c439258372e65c5631c16c8565d14a20fc93dba8f19de942f",
+      "sha256_after": "b31fd9f35db8816bf9dfe06f0aeb7b09572fc9471d65d4eecad95f05e90f0e48"
+    },
+    {
+      "path": "部署/Debian/代码地图/README.md",
+      "local_reference_count": 4,
+      "sha256_before": "179b3b659251fe15b9e7f74f074129224c98c6749e812acd61f179824acaf0da",
+      "sha256_after": "2a90604e7ae6f04aed2dd679764e5e1a3803e6f0be0a9b7dea0b22030f387e76"
+    },
+    {
+      "path": "部署/MacOS/【MacOS】部署.command/README.md",
+      "local_reference_count": 1,
+      "sha256_before": "386f2e41c15c1e9eb07d509dea70e6533308a5491b6d1715632f572ecd37e5ea",
+      "sha256_after": "66573c379f4165bea9d73053d9b5ec761b0f4740d1f185e5c51a326b42f91c80"
+    },
+    {
+      "path": "部署/MacOS/代码地图/代码地图.md",
+      "local_reference_count": 10,
+      "sha256_before": "cad8cb2bb79c23caeabef29efd55ffccc28613a4208008a6463580c670c95393",
+      "sha256_after": "e1d0ca612aa79a0dd31c27c19b755d5e25d8f67c638a8bd4d23d5e7f9d9e91ce"
+    },
+    {
+      "path": "部署/MacOS/代码地图/代码地图阅读版.html",
+      "local_reference_count": 14,
+      "sha256_before": "d43ebfe8035e67f55f9dd99f4e74d09927eebb0fc6ec4d204952b41065d694f1",
+      "sha256_after": "079c29448921ef25a7779e8ec33e92ce1f461e884313d53f411289ede02a7a03"
+    },
+    {
+      "path": "部署/MacOS/代码地图/README.md",
+      "local_reference_count": 4,
+      "sha256_before": "aee6ac72c3acf6b3487e4e8ee3601f25fdf13b889683ac44e5d71880a6801cb5",
+      "sha256_after": "fbf0e52a421de612722f4b227e07e9b0f6f607ff16651cf77ee8c238008f4f70"
+    },
+    {
+      "path": "部署/Alpine/【Linux】部署.sh/README.md",
+      "local_reference_count": 1,
+      "sha256_before": "323f567d45864fcf13ef40ed293fd38eb58a2811f73ec47b2f384b28b1a417f1",
+      "sha256_after": "8a5dc48eebfa8b1d84d0a4be46ed6301b62c4b5dd4b656da1c726f6b4441c6da"
+    },
+    {
+      "path": "部署/Alpine/代码地图/代码地图.md",
+      "local_reference_count": 10,
+      "sha256_before": "8e4a221afc0f44bdcbd94a60e2e21f4a7fc1c4cd83e05b7cc76016d4ff2fade2",
+      "sha256_after": "8744f0ee2e13b58261054a8674d5f90508f5098070593eae38c9f8f6cbcb1a5f"
+    },
+    {
+      "path": "部署/Alpine/代码地图/代码地图阅读版.html",
+      "local_reference_count": 14,
+      "sha256_before": "1261ebe72bd06cd9eb73494ecf435a1bc7192358e8b9115ce4ebdc49370acb48",
+      "sha256_after": "fa8ce98ec6788c80fcde5e82f894758c06c90f42ba4792b43bd7f835009d47fc"
+    },
+    {
+      "path": "部署/Alpine/代码地图/README.md",
+      "local_reference_count": 4,
+      "sha256_before": "8f32d9307bc771718fe72dbc38f3729480925f63f05a25aa10519f5df05756c9",
+      "sha256_after": "34ee12602b8967432ecf7a7bfb243103ea5d77e4b1b595b2ee7c383ebf207548"
+    },
+    {
+      "path": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "local_reference_count": 25,
+      "sha256_before": "f9fe268be304e45956e636df8b794a086c40f1e8a0e5b4d6fa0efcf08200875b",
+      "sha256_after": "2de3ecbb1d6408628daac4de889a2c4ee7245eb6c91a0593007dc31026ac10f2"
+    },
+    {
+      "path": "需求/交付与运维清单/交付与运维清单.md",
+      "local_reference_count": 21,
+      "sha256_before": "4be0708f8bf4ed7f2aea4708dd78712927a68992d75221e5c644a1ce323e46d0",
+      "sha256_after": "a26a56d97c4503a759d16dd4f41652ea6a02d5b768dc963907d730e79dcf29e2"
+    },
+    {
+      "path": "测试/部署/README.md",
+      "local_reference_count": 1,
+      "sha256_before": "5f8e362ffe9fe3f8bff37e18c96304b8d7b9d08327830884ca0ba70f371ffc2f",
+      "sha256_after": "aef06f591ac4dde52fc7ceda402d81e23bd28a7f0b34ca85ecdc7aadc5e80bcc"
+    },
+    {
+      "path": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "local_reference_count": 35,
+      "sha256_before": "94c2b0abc6e0de1e9f58763c2bcbf4c84680f8bb9d915ac85102b204d9a45028",
+      "sha256_after": "7109e344d450408068c58acc1431b61c07365d89cc4204283bff309f221ce63b"
+    },
+    {
+      "path": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "local_reference_count": 39,
+      "sha256_before": "f158af8b60a41a0c1b2bb800f78e20b01ce228cc3e2f53459d297ab447b1926f",
+      "sha256_after": "e3a049941b818c13633d89a1e5a139978f8ed05002e12e95e4ca671371f57073"
+    },
+    {
+      "path": "需求/README.md",
+      "local_reference_count": 11,
+      "sha256_before": "be5d170a77a9dcca9292403481a4c04886568139eb7b5a8c5b3380d86976ebc4",
+      "sha256_after": "b8f8dff93063704db335676e7ec9c55064cc676285a34d18e81de3f30eb8996c"
+    },
+    {
+      "path": "测试/README.md",
+      "local_reference_count": 12,
+      "sha256_before": "357652f7c56e8906d9d2ab393c08e5f6c7d047f4444e33a8da6da3177a3be798",
+      "sha256_after": "48c098d68a729b53af6f6afd69f7f734dee59095f0344eb07871f4f825c1c1e6"
+    }
+  ],
+  "missing_targets": [],
+  "missing_fragments": [],
+  "local_reference_checks": [
+    {
+      "source": "README.md",
+      "target": "./需求/项目需求与开发评审/项目需求与开发评审.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "./需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "./测试/测试与分级验收/测试与分级验收.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "./需求/交付与运维清单/交付与运维清单.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "./部署/README.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "./代码/README.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "./代码/使用指南/开始使用.html",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "./代码/使用指南/使用说明.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "./代码/前端/微信小程序/README.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "./测试/目录命名验证/目录命名验证.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "./代码/工程总览/README.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "./部署/README.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "./测试/测试与分级验收/测试与分级验收.md#execution",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "./测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "./代码/README.md#section-6",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "./代码/README.md#section-5",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "./需求/工程资料/源码统计.json",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "./需求/项目需求与开发评审/项目需求与开发评审.md#engineering",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "./使用指南/开始使用.html",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "./使用指南/使用说明.md",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "../需求/项目需求与开发评审/项目需求与开发评审.md",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "../需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "../测试/测试与分级验收/测试与分级验收.md",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "../需求/交付与运维清单/交付与运维清单.md",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "./后端/后端代码/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "./前端/PC端/Python/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "./前端/移动端/Flutter/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "./后端/后端代码/admin-web/index.html",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "./前端/移动端/鸿蒙",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "./前端/微信小程序/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "../部署/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "./使用指南/使用说明.md",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "../测试/回归测试报告/回归测试报告.md",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "../部署/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "../部署/部署说明阅读版.html#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "../需求/技术方案与实现范围/技术方案与实现范围.md",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "./工程总览/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "./工程总览/README.md#shared-navigation",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "../需求/工程资料/源码统计.json",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "./前端/移动端/Flutter/依赖状态.json",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "../部署/deploy-tools.lock.tsv",
+      "exists": true
+    },
+    {
+      "source": "代码/README.md",
+      "target": "../测试/回归测试报告/回归测试报告.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../前端/PC端/Python/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../前端/移动端/Flutter/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../前端/移动端/鸿蒙/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../前端/后台管理端/Flutter/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../前端/微信小程序/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../后端/后端代码/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../../部署/MacOS/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../../部署/Windows/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../../部署/Ubuntu/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../../部署/Debian/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../../部署/RockyLinux/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../../部署/AlibabaCloudLinux/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../../部署/Alpine/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../../部署/FreeBSD/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../前端/移动端/Flutter/代码地图/代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../前端/后台管理端/Flutter/代码地图/代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../前端/移动端/鸿蒙/代码地图/代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../前端/PC端/Python/代码地图/代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../前端/移动端/Flutter/代码地图/代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../前端/后台管理端/Flutter/代码地图/代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../前端/微信小程序/代码地图/代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../后端/接口契约/api.json",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../后端/后端代码/代码地图/代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../../部署/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "单元导航阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/README.md",
+      "target": "工程总览阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../工程资源/icon.png",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../../README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../使用指南/开始使用.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../使用指南/使用说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../../需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../../需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../../测试/测试与分级验收/测试与分级验收阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../../需求/交付与运维清单/交付与运维清单阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../后端/后端代码/后端说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../前端/PC端/Python/桌面说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../前端/移动端/Flutter/Flutter说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../后端/后端代码/admin-web/index.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../前端/移动端/鸿蒙",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../前端/微信小程序/小程序说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../../部署/部署说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../使用指南/使用说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../../测试/回归测试报告/回归测试报告阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../../部署/部署说明阅读版.html#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../../部署/部署说明阅读版.html#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../../需求/技术方案与实现范围/技术方案阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "单元导航阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "单元导航阅读版.html#shared-navigation",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../../需求/工程资料/源码统计.json",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../前端/移动端/Flutter/依赖状态.json",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../../部署/deploy-tools.lock.tsv",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../../测试/回归测试报告/回归测试报告阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/工程总览阅读版.html",
+      "target": "../../需求/阅读资源/mermaid.min.js",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../工程资源/icon.png",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../../README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../前端/PC端/Python/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../前端/移动端/Flutter/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../前端/移动端/鸿蒙/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../前端/后台管理端/Flutter/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../前端/微信小程序/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../后端/后端代码/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../../部署/MacOS/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../../部署/Windows/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../../部署/Ubuntu/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../../部署/Debian/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../../部署/RockyLinux/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../../部署/AlibabaCloudLinux/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../../部署/Alpine/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../../部署/FreeBSD/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../前端/移动端/Flutter/代码地图/代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../前端/后台管理端/Flutter/代码地图/代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../前端/移动端/鸿蒙/代码地图/代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../前端/PC端/Python/代码地图/代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../前端/移动端/Flutter/代码地图/代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../前端/后台管理端/Flutter/代码地图/代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../前端/微信小程序/代码地图/代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../后端/接口契约/api.json",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../后端/后端代码/代码地图/代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../../部署/部署说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "单元导航阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "工程总览阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "工程总览阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/工程总览/单元导航阅读版.html",
+      "target": "../../需求/阅读资源/mermaid.min.js",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/使用说明阅读版.html",
+      "target": "../工程资源/icon.png",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/使用说明阅读版.html",
+      "target": "使用说明.md",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/使用说明阅读版.html",
+      "target": "../../README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/使用说明阅读版.html",
+      "target": "../工程总览/工程总览阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/使用说明阅读版.html",
+      "target": "../../部署/部署说明阅读版.html#minimum-machine",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/使用说明阅读版.html",
+      "target": "../前端/移动端/Flutter/Flutter说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/使用说明阅读版.html",
+      "target": "../../部署/部署说明阅读版.html#local-tunnel-start",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/使用说明阅读版.html",
+      "target": "../../部署/部署说明阅读版.html#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/使用说明阅读版.html",
+      "target": "../../需求/阅读资源/mermaid.min.js",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/使用说明.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/使用说明.md",
+      "target": "../../部署/README.md#minimum-machine",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/使用说明.md",
+      "target": "../前端/移动端/Flutter/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/使用说明.md",
+      "target": "../../部署/README.md#local-tunnel-start",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/使用说明.md",
+      "target": "../../部署/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/开始使用.html",
+      "target": "../../部署/部署说明阅读版.html#minimum-machine",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/开始使用.html",
+      "target": "../../部署/部署说明阅读版.html#local-tunnel-start",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/开始使用.html",
+      "target": "../../部署/部署说明阅读版.html#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/开始使用.html",
+      "target": "./使用说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/开始使用.html",
+      "target": "../工程总览/工程总览阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/开始使用.html",
+      "target": "../../部署/部署说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/开始使用.html",
+      "target": "../../需求/技术方案与实现范围/技术方案阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/开始使用.html",
+      "target": "../../测试/回归测试报告/回归测试报告阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/使用指南/开始使用.html",
+      "target": "../../需求/学术服务小程序需求分析/需求分析阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/README.md",
+      "target": "./接口契约/api.json",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/README.md",
+      "target": "./后端代码/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/README.md",
+      "target": "../../部署/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/README.md",
+      "target": "../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/README.md",
+      "target": "后端代码/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/前端/README.md",
+      "target": "./PC端/Python/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/前端/README.md",
+      "target": "./移动端/Flutter/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/前端/README.md",
+      "target": "./移动端/鸿蒙/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/前端/README.md",
+      "target": "./后台管理端/Flutter/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/前端/README.md",
+      "target": "./微信小程序/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/前端/README.md",
+      "target": "../后端/接口契约/api.json",
+      "exists": true
+    },
+    {
+      "source": "代码/前端/README.md",
+      "target": "../后端/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/前端/README.md",
+      "target": "../../部署/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/前端/README.md",
+      "target": "PC端/Python/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/前端/README.md",
+      "target": "移动端/Flutter/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/前端/README.md",
+      "target": "移动端/鸿蒙/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/前端/README.md",
+      "target": "后台管理端/Flutter/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/前端/README.md",
+      "target": "微信小程序/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/后端说明阅读版.html",
+      "target": "../../工程资源/icon.png",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/后端说明阅读版.html",
+      "target": "README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/后端说明阅读版.html",
+      "target": "../../../README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/后端说明阅读版.html",
+      "target": "../../../部署/部署说明阅读版.html#minimum-machine",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/后端说明阅读版.html",
+      "target": ".env.example",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/后端说明阅读版.html",
+      "target": "../接口契约/api.json",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/后端说明阅读版.html",
+      "target": "Migrations/001_runtime.sql",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/后端说明阅读版.html",
+      "target": "../../../需求/数据库设计/数据库结构.sql",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/后端说明阅读版.html",
+      "target": "../../../测试/回归测试报告/回归测试报告阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/后端说明阅读版.html",
+      "target": "../../../部署/部署说明阅读版.html#local-tunnel-start",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/后端说明阅读版.html",
+      "target": "../../../部署/部署说明阅读版.html#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/后端说明阅读版.html",
+      "target": "代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/后端说明阅读版.html",
+      "target": "../../../需求/阅读资源/mermaid.min.js",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/README.md",
+      "target": "../../../部署/README.md#minimum-machine",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/README.md",
+      "target": ".env.example",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/README.md",
+      "target": "../接口契约/api.json",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/README.md",
+      "target": "./Migrations/001_runtime.sql",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/README.md",
+      "target": "../../../需求/数据库设计/数据库结构.sql",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/README.md",
+      "target": "../../../测试/回归测试报告/回归测试报告.md",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/README.md",
+      "target": "../../../部署/README.md#local-tunnel-start",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/README.md",
+      "target": "../../../部署/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/README.md",
+      "target": "代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图.md",
+      "target": "../cmd/server/main.go",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图.md",
+      "target": "../internal/platform/http.go",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图.md",
+      "target": "../internal/platform/engine.go",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图.md",
+      "target": "../internal/platform/model.go",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图.md",
+      "target": "../internal/platform/store.go",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图.md",
+      "target": "../Migrations/001_runtime.sql",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图.md",
+      "target": "../go.mod",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图.md",
+      "target": "../../接口契约/api.json",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图.md",
+      "target": "../../../../部署/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图.md",
+      "target": "../../../前端/后台管理端/Flutter/代码地图/代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图.md",
+      "target": "../../../前端/移动端/Flutter/代码地图/代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图.md",
+      "target": "../../../../测试/后端/engine_test.go",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图.md",
+      "target": "../../../../测试/后端/http_test.go",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图.md",
+      "target": "../../../../测试/后端/接口/test_http.py",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图.md",
+      "target": "../../../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../../../工程资源/icon.png",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../../../../README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../cmd/server/main.go",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../internal/platform/http.go",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../internal/platform/engine.go",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../internal/platform/model.go",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../internal/platform/store.go",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../Migrations/001_runtime.sql",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../go.mod",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../../接口契约/api.json",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../../../../部署/部署说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../../../前端/后台管理端/Flutter/代码地图/代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../../../前端/移动端/Flutter/代码地图/代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../../../../测试/后端/engine_test.go",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../../../../测试/后端/http_test.go",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../../../../测试/后端/接口/test_http.py",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../后端说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../../../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "target": "../../../../需求/阅读资源/mermaid.min.js",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "../代码/工程资源/icon.png",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "toolchains.json",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "../代码/后端/后端代码/后端说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "MacOS/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "Windows/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "Ubuntu/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "Debian/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "RockyLinux/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "AlibabaCloudLinux/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "Alpine/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "FreeBSD/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "MacOS/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "Windows/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "Ubuntu/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "Debian/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "RockyLinux/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "AlibabaCloudLinux/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "Alpine/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "FreeBSD/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/部署说明阅读版.html",
+      "target": "../需求/阅读资源/mermaid.min.js",
+      "exists": true
+    },
+    {
+      "source": "部署/README.md",
+      "target": "./toolchains.json",
+      "exists": true
+    },
+    {
+      "source": "部署/README.md",
+      "target": "../代码/后端/后端代码/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/README.md",
+      "target": "./MacOS/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/README.md",
+      "target": "./Windows/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/README.md",
+      "target": "./Ubuntu/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/README.md",
+      "target": "./Debian/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/README.md",
+      "target": "./RockyLinux/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/README.md",
+      "target": "./AlibabaCloudLinux/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/README.md",
+      "target": "./Alpine/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/README.md",
+      "target": "./FreeBSD/README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/README.md",
+      "target": "MacOS/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/README.md",
+      "target": "Windows/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/README.md",
+      "target": "Ubuntu/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/README.md",
+      "target": "Debian/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/README.md",
+      "target": "RockyLinux/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/README.md",
+      "target": "AlibabaCloudLinux/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/README.md",
+      "target": "Alpine/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/README.md",
+      "target": "FreeBSD/代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/README.md",
+      "target": "./deploy.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/README.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/README.md",
+      "target": "../README.md#minimum-machine",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/README.md",
+      "target": "../README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/README.md",
+      "target": "代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/README.md",
+      "target": "./部署.command",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/README.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/README.md",
+      "target": "../README.md#minimum-machine",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/README.md",
+      "target": "../README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/README.md",
+      "target": "代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/README.md",
+      "target": "./deploy.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/README.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/README.md",
+      "target": "../README.md#minimum-machine",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/README.md",
+      "target": "../README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/README.md",
+      "target": "代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/README.md",
+      "target": "./deploy.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/README.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/README.md",
+      "target": "../README.md#minimum-machine",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/README.md",
+      "target": "../README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/README.md",
+      "target": "代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/README.md",
+      "target": "./deploy.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/README.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/README.md",
+      "target": "../README.md#minimum-machine",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/README.md",
+      "target": "../README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/README.md",
+      "target": "代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/README.md",
+      "target": "./deploy.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/README.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/README.md",
+      "target": "../README.md#minimum-machine",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/README.md",
+      "target": "../README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/README.md",
+      "target": "代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/README.md",
+      "target": "./部署.cmd",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/README.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/README.md",
+      "target": "../README.md#minimum-machine",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/README.md",
+      "target": "../README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/README.md",
+      "target": "代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/README.md",
+      "target": "./deploy.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/README.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/README.md",
+      "target": "../README.md#minimum-machine",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/README.md",
+      "target": "../README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/README.md",
+      "target": "代码地图/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/【Linux】部署.sh/README.md",
+      "target": "../README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图.md",
+      "target": "../deploy.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图.md",
+      "target": "../【Linux】部署.sh/【Linux】部署.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图.md",
+      "target": "../../../代码/后端/后端代码/代码地图/代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图.md",
+      "target": "../../deploy-tools.lock.tsv",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图.md",
+      "target": "../../toolchains.json",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图.md",
+      "target": "../../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图.md",
+      "target": "../../../测试/部署/test_deploy.py",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图.md",
+      "target": "../../../测试/部署/【测试】部署双模式.py/【测试】部署双模式.py",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图.md",
+      "target": "../../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图阅读版.html",
+      "target": "../../../代码/工程资源/icon.png",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图阅读版.html",
+      "target": "代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图阅读版.html",
+      "target": "../../../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图阅读版.html",
+      "target": "../deploy.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图阅读版.html",
+      "target": "../【Linux】部署.sh/【Linux】部署.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图阅读版.html",
+      "target": "../../../代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图阅读版.html",
+      "target": "../../deploy-tools.lock.tsv",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图阅读版.html",
+      "target": "../../toolchains.json",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图阅读版.html",
+      "target": "../../部署说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/部署/test_deploy.py",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/部署/【测试】部署双模式.py/【测试】部署双模式.py",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图阅读版.html",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/代码地图阅读版.html",
+      "target": "../../../需求/阅读资源/mermaid.min.js",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/README.md",
+      "target": "代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/README.md",
+      "target": "代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/README.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Ubuntu/代码地图/README.md",
+      "target": "../../../代码/工程总览/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/【Windows】部署.ps1/README.md",
+      "target": "../README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/【Windows】部署.cmd/README.md",
+      "target": "../README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图.md",
+      "target": "../部署.cmd",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图.md",
+      "target": "../deploy.ps1",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图.md",
+      "target": "../【Windows】部署.cmd/【Windows】部署.cmd",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图.md",
+      "target": "../【Windows】部署.ps1/【Windows】部署.ps1",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图.md",
+      "target": "../../../代码/后端/后端代码/代码地图/代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图.md",
+      "target": "../../deploy-tools.lock.tsv",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图.md",
+      "target": "../../toolchains.json",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图.md",
+      "target": "../../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图.md",
+      "target": "../../../测试/部署/test_deploy.py",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图.md",
+      "target": "../../../测试/部署/【测试】部署双模式.py/【测试】部署双模式.py",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图.md",
+      "target": "../../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图阅读版.html",
+      "target": "../../../代码/工程资源/icon.png",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图阅读版.html",
+      "target": "代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图阅读版.html",
+      "target": "../../../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图阅读版.html",
+      "target": "../部署.cmd",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图阅读版.html",
+      "target": "../deploy.ps1",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图阅读版.html",
+      "target": "../【Windows】部署.cmd/【Windows】部署.cmd",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图阅读版.html",
+      "target": "../【Windows】部署.ps1/【Windows】部署.ps1",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图阅读版.html",
+      "target": "../../../代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图阅读版.html",
+      "target": "../../deploy-tools.lock.tsv",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图阅读版.html",
+      "target": "../../toolchains.json",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图阅读版.html",
+      "target": "../../部署说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/部署/test_deploy.py",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/部署/【测试】部署双模式.py/【测试】部署双模式.py",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图阅读版.html",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/代码地图阅读版.html",
+      "target": "../../../需求/阅读资源/mermaid.min.js",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/README.md",
+      "target": "代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/README.md",
+      "target": "代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/README.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Windows/代码地图/README.md",
+      "target": "../../../代码/工程总览/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/【Linux】部署.sh/README.md",
+      "target": "../README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图.md",
+      "target": "../deploy.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图.md",
+      "target": "../【Linux】部署.sh/【Linux】部署.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图.md",
+      "target": "../../../代码/后端/后端代码/代码地图/代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图.md",
+      "target": "../../deploy-tools.lock.tsv",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图.md",
+      "target": "../../toolchains.json",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图.md",
+      "target": "../../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图.md",
+      "target": "../../../测试/部署/test_deploy.py",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图.md",
+      "target": "../../../测试/部署/【测试】部署双模式.py/【测试】部署双模式.py",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图.md",
+      "target": "../../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图阅读版.html",
+      "target": "../../../代码/工程资源/icon.png",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图阅读版.html",
+      "target": "代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图阅读版.html",
+      "target": "../../../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图阅读版.html",
+      "target": "../deploy.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图阅读版.html",
+      "target": "../【Linux】部署.sh/【Linux】部署.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图阅读版.html",
+      "target": "../../../代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图阅读版.html",
+      "target": "../../deploy-tools.lock.tsv",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图阅读版.html",
+      "target": "../../toolchains.json",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图阅读版.html",
+      "target": "../../部署说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/部署/test_deploy.py",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/部署/【测试】部署双模式.py/【测试】部署双模式.py",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图阅读版.html",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/代码地图阅读版.html",
+      "target": "../../../需求/阅读资源/mermaid.min.js",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/README.md",
+      "target": "代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/README.md",
+      "target": "代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/README.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/AlibabaCloudLinux/代码地图/README.md",
+      "target": "../../../代码/工程总览/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图.md",
+      "target": "../deploy.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图.md",
+      "target": "../【FreeBSD】部署.sh/【FreeBSD】部署.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图.md",
+      "target": "../../../代码/后端/后端代码/代码地图/代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图.md",
+      "target": "../../deploy-tools.lock.tsv",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图.md",
+      "target": "../../toolchains.json",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图.md",
+      "target": "../../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图.md",
+      "target": "../../../测试/部署/test_deploy.py",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图.md",
+      "target": "../../../测试/部署/【测试】部署双模式.py/【测试】部署双模式.py",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图.md",
+      "target": "../../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图阅读版.html",
+      "target": "../../../代码/工程资源/icon.png",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图阅读版.html",
+      "target": "代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图阅读版.html",
+      "target": "../../../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图阅读版.html",
+      "target": "../deploy.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图阅读版.html",
+      "target": "../【FreeBSD】部署.sh/【FreeBSD】部署.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图阅读版.html",
+      "target": "../../../代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图阅读版.html",
+      "target": "../../deploy-tools.lock.tsv",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图阅读版.html",
+      "target": "../../toolchains.json",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图阅读版.html",
+      "target": "../../部署说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/部署/test_deploy.py",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/部署/【测试】部署双模式.py/【测试】部署双模式.py",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图阅读版.html",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/代码地图阅读版.html",
+      "target": "../../../需求/阅读资源/mermaid.min.js",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/README.md",
+      "target": "代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/README.md",
+      "target": "代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/README.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/代码地图/README.md",
+      "target": "../../../代码/工程总览/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/FreeBSD/【FreeBSD】部署.sh/README.md",
+      "target": "../README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/【Linux】部署.sh/README.md",
+      "target": "../README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图.md",
+      "target": "../deploy.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图.md",
+      "target": "../【Linux】部署.sh/【Linux】部署.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图.md",
+      "target": "../../../代码/后端/后端代码/代码地图/代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图.md",
+      "target": "../../deploy-tools.lock.tsv",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图.md",
+      "target": "../../toolchains.json",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图.md",
+      "target": "../../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图.md",
+      "target": "../../../测试/部署/test_deploy.py",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图.md",
+      "target": "../../../测试/部署/【测试】部署双模式.py/【测试】部署双模式.py",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图.md",
+      "target": "../../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图阅读版.html",
+      "target": "../../../代码/工程资源/icon.png",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图阅读版.html",
+      "target": "代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图阅读版.html",
+      "target": "../../../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图阅读版.html",
+      "target": "../deploy.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图阅读版.html",
+      "target": "../【Linux】部署.sh/【Linux】部署.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图阅读版.html",
+      "target": "../../../代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图阅读版.html",
+      "target": "../../deploy-tools.lock.tsv",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图阅读版.html",
+      "target": "../../toolchains.json",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图阅读版.html",
+      "target": "../../部署说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/部署/test_deploy.py",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/部署/【测试】部署双模式.py/【测试】部署双模式.py",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图阅读版.html",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/代码地图阅读版.html",
+      "target": "../../../需求/阅读资源/mermaid.min.js",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/README.md",
+      "target": "代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/README.md",
+      "target": "代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/README.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/RockyLinux/代码地图/README.md",
+      "target": "../../../代码/工程总览/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/【Linux】部署.sh/README.md",
+      "target": "../README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图.md",
+      "target": "../deploy.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图.md",
+      "target": "../【Linux】部署.sh/【Linux】部署.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图.md",
+      "target": "../../../代码/后端/后端代码/代码地图/代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图.md",
+      "target": "../../deploy-tools.lock.tsv",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图.md",
+      "target": "../../toolchains.json",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图.md",
+      "target": "../../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图.md",
+      "target": "../../../测试/部署/test_deploy.py",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图.md",
+      "target": "../../../测试/部署/【测试】部署双模式.py/【测试】部署双模式.py",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图.md",
+      "target": "../../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图阅读版.html",
+      "target": "../../../代码/工程资源/icon.png",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图阅读版.html",
+      "target": "代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图阅读版.html",
+      "target": "../../../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图阅读版.html",
+      "target": "../deploy.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图阅读版.html",
+      "target": "../【Linux】部署.sh/【Linux】部署.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图阅读版.html",
+      "target": "../../../代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图阅读版.html",
+      "target": "../../deploy-tools.lock.tsv",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图阅读版.html",
+      "target": "../../toolchains.json",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图阅读版.html",
+      "target": "../../部署说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/部署/test_deploy.py",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/部署/【测试】部署双模式.py/【测试】部署双模式.py",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图阅读版.html",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/代码地图阅读版.html",
+      "target": "../../../需求/阅读资源/mermaid.min.js",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/README.md",
+      "target": "代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/README.md",
+      "target": "代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/README.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Debian/代码地图/README.md",
+      "target": "../../../代码/工程总览/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/【MacOS】部署.command/README.md",
+      "target": "../README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图.md",
+      "target": "../部署.command",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图.md",
+      "target": "../【MacOS】部署.command/【MacOS】部署.command",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图.md",
+      "target": "../../../代码/后端/后端代码/代码地图/代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图.md",
+      "target": "../../deploy-tools.lock.tsv",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图.md",
+      "target": "../../toolchains.json",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图.md",
+      "target": "../../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图.md",
+      "target": "../../../测试/部署/test_deploy.py",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图.md",
+      "target": "../../../测试/部署/【测试】部署双模式.py/【测试】部署双模式.py",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图.md",
+      "target": "../../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图阅读版.html",
+      "target": "../../../代码/工程资源/icon.png",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图阅读版.html",
+      "target": "代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图阅读版.html",
+      "target": "../../../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图阅读版.html",
+      "target": "../部署.command",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图阅读版.html",
+      "target": "../【MacOS】部署.command/【MacOS】部署.command",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图阅读版.html",
+      "target": "../../../代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图阅读版.html",
+      "target": "../../deploy-tools.lock.tsv",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图阅读版.html",
+      "target": "../../toolchains.json",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图阅读版.html",
+      "target": "../../部署说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/部署/test_deploy.py",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/部署/【测试】部署双模式.py/【测试】部署双模式.py",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图阅读版.html",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/代码地图阅读版.html",
+      "target": "../../../需求/阅读资源/mermaid.min.js",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/README.md",
+      "target": "代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/README.md",
+      "target": "代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/README.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/MacOS/代码地图/README.md",
+      "target": "../../../代码/工程总览/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/【Linux】部署.sh/README.md",
+      "target": "../README.md#local-tunnel",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图.md",
+      "target": "../deploy.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图.md",
+      "target": "../【Linux】部署.sh/【Linux】部署.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图.md",
+      "target": "../../../代码/后端/后端代码/代码地图/代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图.md",
+      "target": "../../deploy-tools.lock.tsv",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图.md",
+      "target": "../../toolchains.json",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图.md",
+      "target": "../../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图.md",
+      "target": "../../../测试/部署/test_deploy.py",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图.md",
+      "target": "../../../测试/部署/【测试】部署双模式.py/【测试】部署双模式.py",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图.md",
+      "target": "../../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图阅读版.html",
+      "target": "../../../代码/工程资源/icon.png",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图阅读版.html",
+      "target": "代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图阅读版.html",
+      "target": "../../../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图阅读版.html",
+      "target": "../deploy.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图阅读版.html",
+      "target": "../【Linux】部署.sh/【Linux】部署.sh",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图阅读版.html",
+      "target": "../../../代码/后端/后端代码/代码地图/代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图阅读版.html",
+      "target": "../../deploy-tools.lock.tsv",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图阅读版.html",
+      "target": "../../toolchains.json",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图阅读版.html",
+      "target": "../../部署说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/部署/test_deploy.py",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/部署/【测试】部署双模式.py/【测试】部署双模式.py",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图阅读版.html",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图阅读版.html",
+      "target": "../../../测试/README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/代码地图阅读版.html",
+      "target": "../../../需求/阅读资源/mermaid.min.js",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/README.md",
+      "target": "代码地图.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/README.md",
+      "target": "代码地图阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/README.md",
+      "target": "../README.md",
+      "exists": true
+    },
+    {
+      "source": "部署/Alpine/代码地图/README.md",
+      "target": "../../../代码/工程总览/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../代码/工程资源/icon.png",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "交付与运维清单.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../测试/测试与分级验收/测试与分级验收阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../代码/后端/后端代码/后端说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../代码/前端/PC端/Python/桌面说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../代码/前端/移动端/Flutter/Flutter说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../代码/前端/微信小程序/小程序说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../代码/后端/接口契约/api.json",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../代码/工程总览/工程总览阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../部署/部署说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../部署/MacOS/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../部署/Windows/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../部署/Ubuntu/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../部署/Debian/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../部署/RockyLinux/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../部署/AlibabaCloudLinux/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../部署/Alpine/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../部署/FreeBSD/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../部署/部署说明阅读版.html#minimum-machine",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../测试/测试与分级验收/测试与分级验收阅读版.html#cases",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../测试/测试与分级验收/测试与分级验收阅读版.html#evidence",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../../测试/回归测试报告/回归测试报告阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单阅读版.html",
+      "target": "../阅读资源/mermaid.min.js",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../项目需求与开发评审/项目需求与开发评审.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../测试/测试与分级验收/测试与分级验收.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../代码/后端/后端代码/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../代码/前端/PC端/Python/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../代码/前端/移动端/Flutter/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../代码/前端/微信小程序/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../代码/后端/接口契约/api.json",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../代码/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../部署/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../部署/MacOS/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../部署/Windows/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../部署/Ubuntu/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../部署/Debian/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../部署/RockyLinux/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../部署/AlibabaCloudLinux/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../部署/Alpine/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../部署/FreeBSD/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../部署/README.md#minimum-machine",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../测试/测试与分级验收/测试与分级验收.md#cases",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../测试/测试与分级验收/测试与分级验收.md#evidence",
+      "exists": true
+    },
+    {
+      "source": "需求/交付与运维清单/交付与运维清单.md",
+      "target": "../../测试/回归测试报告/回归测试报告.md",
+      "exists": true
+    },
+    {
+      "source": "测试/部署/README.md",
+      "target": "./【测试】部署双模式.py/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../学术服务小程序需求分析/学术服务小程序需求分析.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../技术方案与实现范围/技术方案与实现范围.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../../测试/回归测试报告/回归测试报告.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "./项目需求与开发评审阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../../测试/测试与分级验收/测试与分级验收.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../交付与运维清单/交付与运维清单.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../学术服务小程序需求分析/学术服务小程序需求分析.md#confirmed-input",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../技术方案与实现范围/技术方案与实现范围.md#前言",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../学术服务小程序需求分析/学术服务小程序需求分析.md#regression",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../../代码/后端/接口契约/api.json",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../../代码/后端/后端代码/internal/platform/store.go",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../../测试/回归测试报告/回归测试报告.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../参考截图",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../学术服务小程序需求分析/学术服务小程序需求分析.md#excluded",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../技术方案与实现范围/技术方案与实现范围.md#section-4",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../../测试/测试与分级验收/测试与分级验收.md#evidence",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../../代码/前端/PC端/Python/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../../代码/前端/移动端/Flutter/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../../测试/测试与分级验收/测试与分级验收.md#evidence",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../交付与运维清单/交付与运维清单.md#gaps",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../../代码/工程总览/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../../代码/README.md#section-5",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../../代码/后端/后端代码/internal/platform/store.go",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../../代码/后端/后端代码/internal/platform/model.go",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../数据库设计/数据库设计.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../数据库设计/数据库结构.sql",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../../代码/后端/后端代码/Migrations/001_runtime.sql",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../../代码/后端/接口契约/api.json",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../交付与运维清单/交付与运维清单.md#gaps",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../交付与运维清单/交付与运维清单.md#assets",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../../测试/测试与分级验收/测试与分级验收.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../交付与运维清单/交付与运维清单.md#deployment",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../../测试/目录命名验证/目录命名验证.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../../代码/工程总览/README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审.md",
+      "target": "../交付与运维清单/交付与运维清单.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../代码/工程资源/icon.png",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "项目需求与开发评审.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../README.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../学术服务小程序需求分析/学术服务小程序需求分析.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../技术方案与实现范围/技术方案阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../测试/回归测试报告/回归测试报告阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "项目需求与开发评审阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../测试/测试与分级验收/测试与分级验收阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../交付与运维清单/交付与运维清单阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../学术服务小程序需求分析/学术服务小程序需求分析.md#confirmed-input",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../技术方案与实现范围/技术方案阅读版.html#%E5%89%8D%E8%A8%80",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../学术服务小程序需求分析/学术服务小程序需求分析.md#regression",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../代码/后端/接口契约/api.json",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../代码/后端/后端代码/internal/platform/store.go",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../测试/回归测试报告/回归测试报告阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../参考截图",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../学术服务小程序需求分析/学术服务小程序需求分析.md#excluded",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../技术方案与实现范围/技术方案阅读版.html#section-4",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../测试/测试与分级验收/测试与分级验收阅读版.html#evidence",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../代码/前端/PC端/Python/桌面说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../代码/前端/移动端/Flutter/Flutter说明阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../测试/测试与分级验收/测试与分级验收阅读版.html#evidence",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../交付与运维清单/交付与运维清单阅读版.html#gaps",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../代码/工程总览/单元导航阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../代码/工程总览/工程总览阅读版.html#section-5",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../代码/后端/后端代码/internal/platform/store.go",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../代码/后端/后端代码/internal/platform/model.go",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../数据库设计/数据库设计.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../数据库设计/数据库结构.sql",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../代码/后端/后端代码/Migrations/001_runtime.sql",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../代码/后端/接口契约/api.json",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../交付与运维清单/交付与运维清单阅读版.html#gaps",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../交付与运维清单/交付与运维清单阅读版.html#assets",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../测试/测试与分级验收/测试与分级验收阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../交付与运维清单/交付与运维清单阅读版.html#deployment",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../测试/目录命名验证/目录命名验证.md",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../../代码/工程总览/单元导航阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../交付与运维清单/交付与运维清单阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "target": "../阅读资源/mermaid.min.js",
+      "exists": true
+    },
+    {
+      "source": "需求/README.md",
+      "target": "./项目需求与开发评审/项目需求与开发评审.md",
+      "exists": true
+    },
+    {
+      "source": "需求/README.md",
+      "target": "./项目需求与开发评审/项目需求与开发评审阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/README.md",
+      "target": "./技术方案与实现范围/技术方案与实现范围.md",
+      "exists": true
+    },
+    {
+      "source": "需求/README.md",
+      "target": "./交付与运维清单/交付与运维清单.md",
+      "exists": true
+    },
+    {
+      "source": "需求/README.md",
+      "target": "../测试/测试与分级验收/测试与分级验收.md",
+      "exists": true
+    },
+    {
+      "source": "需求/README.md",
+      "target": "./学术服务小程序需求分析/学术服务小程序需求分析.md",
+      "exists": true
+    },
+    {
+      "source": "需求/README.md",
+      "target": "./学术服务小程序需求分析/需求分析阅读版.html",
+      "exists": true
+    },
+    {
+      "source": "需求/README.md",
+      "target": "./需求回归报告/需求回归报告.md",
+      "exists": true
+    },
+    {
+      "source": "需求/README.md",
+      "target": "./数据库设计/数据库设计.md",
+      "exists": true
+    },
+    {
+      "source": "需求/README.md",
+      "target": "./数据库设计/数据库结构.sql",
+      "exists": true
+    },
+    {
+      "source": "需求/README.md",
+      "target": "./工程资料/目录迁移映射.json",
+      "exists": true
+    },
+    {
+      "source": "测试/README.md",
+      "target": "./运行测试.py/README.md",
+      "exists": true
+    },
+    {
+      "source": "测试/README.md",
+      "target": "./运行测试.py/README.md",
+      "exists": true
+    },
+    {
+      "source": "测试/README.md",
+      "target": "./前端/README.md",
+      "exists": true
+    },
+    {
+      "source": "测试/README.md",
+      "target": "./后端/README.md",
+      "exists": true
+    },
+    {
+      "source": "测试/README.md",
+      "target": "./部署/README.md",
+      "exists": true
+    },
+    {
+      "source": "测试/README.md",
+      "target": "./测试与分级验收/测试与分级验收.md",
+      "exists": true
+    },
+    {
+      "source": "测试/README.md",
+      "target": "./代码分层验证/代码分层验证.md",
+      "exists": true
+    },
+    {
+      "source": "测试/README.md",
+      "target": "./目录迁移验证/目录迁移验证.md",
+      "exists": true
+    },
+    {
+      "source": "测试/README.md",
+      "target": "./回归测试报告/回归测试报告.md",
+      "exists": true
+    },
+    {
+      "source": "测试/README.md",
+      "target": "../需求",
+      "exists": true
+    },
+    {
+      "source": "测试/README.md",
+      "target": "../需求/项目需求与开发评审/项目需求与开发评审.md",
+      "exists": true
+    },
+    {
+      "source": "测试/README.md",
+      "target": "./目录命名验证/目录命名验证.md",
+      "exists": true
+    }
+  ]
+}

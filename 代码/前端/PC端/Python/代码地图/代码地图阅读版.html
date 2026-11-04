@@ -1,0 +1,74 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PC端 · Python代码地图</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f5f6f1;color:#1c362c;font:16px/1.85 system-ui,sans-serif}main{max-width:1180px;margin:auto;padding:42px 28px}header{border-bottom:1px solid #d5ded3;padding:12px 0 26px;display:flex;gap:18px;align-items:center}header img{width:64px;height:64px;border-radius:14px}h1{font-size:36px;line-height:1.3;margin:6px 0}h2{font-size:25px;border-top:1px solid #d5ded3;margin:44px 0 20px;padding-top:24px}h3{font-size:20px;margin-top:32px}h2 a,h3 a{font-size:15px!important;text-decoration:none}a{color:#145f44;text-underline-offset:3px}small{font-size:13px;color:#50675b}.toc{background:#e7ede3;padding:14px 20px;margin:24px 0;border-radius:12px}.toc summary{cursor:pointer;font-weight:650}.toc ul{list-style:none;padding:0;columns:2}.toc li{break-inside:avoid;padding:3px 0}.toc .l3{padding-left:16px;font-size:14px}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;background:white;font-size:14px;margin:20px 0}td,th{border:1px solid #d1dcd0;padding:10px 13px;text-align:left;min-width:90px;vertical-align:top}th{background:#e6eee1;font-weight:650}p code,li code,td code{font-size:.88em;background:#e9eee4;padding:2px 4px;border-radius:4px;overflow-wrap:anywhere}pre{overflow:auto;background:#e8eee3;padding:18px;border-radius:12px;line-height:1.65}code{font-family:ui-monospace,monospace}blockquote{margin:20px 0;padding:8px 20px;border-left:3px solid #68866d;background:#edf0e7;overflow-wrap:anywhere}.mermaid{background:white;text-align:center}svg{max-width:100%;height:auto}footer{margin:42px 0 0;border-top:1px solid #d5ded3;padding:20px 0;font-size:13px;color:#50675b}body>svg{display:none}@media(max-width:650px){main{padding:20px 14px}h1{font-size:28px}h2{font-size:22px}header img{width:44px;height:44px}.toc ul{columns:1}table{font-size:13px}}@media print{.toc,header small{display:none}body{background:white}main{max-width:none}}</style></head><body><main><header><img src="../../../../工程资源/icon.png" alt="项目图标"><div><small>学术服务平台 · 文档阅读</small><h1>PC端 · Python代码地图</h1><small>原始结论日期以正文为准 · <a href="代码地图.md">Markdown 原稿</a> · <a href="../../../../../README.md">根目录说明</a></small></div></header><details class="toc"><summary>章节目录</summary><nav aria-label="章节"><ul><li class="l2"><a href="#前言">前言</a></li><li class="l2"><a href="#modules">入口与模块职责</a></li><li class="l2"><a href="#local-flow">本单元关系</a></li><li class="l2"><a href="#dependencies">共享源与外部依赖</a></li><li class="l2"><a href="#tests">外置测试与验证边界</a></li></ul></nav></details>
+<hr>
+<h2>🔥 <span id="前言">前言</span></h2>
+<p>本图只定位 Python 桌面独立工程；工程在本单元的 <code>Zhixu/</code>，Python 包身份仍为 <code>src/zhixu</code>。Windows／MacOS 使用同一份业务源码，分别在目标系统构建。路径均从当前文档相对指向源码；跨单元内容只通过链接引用。</p>
+<h2>一、<span id="modules">入口与模块职责</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<table>
+<thead>
+<tr>
+<th>本单元路径</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="../Zhixu/src/entry.py">Zhixu/src/entry.py</a></td>
+<td>冻结程序的入口。</td>
+</tr>
+<tr>
+<td><a href="../Zhixu/src/zhixu/app.py">Zhixu/src/zhixu/app.py</a></td>
+<td>Python 图形界面、主窗口、服务表单、动作与主题呈现。</td>
+</tr>
+<tr>
+<td><a href="../Zhixu/src/zhixu/repository.py">Zhixu/src/zhixu/repository.py</a></td>
+<td>同一后端的 HTTP 请求与演示／未知结果保护。</td>
+</tr>
+<tr>
+<td><a href="../Zhixu/src/zhixu/settings.py">Zhixu/src/zhixu/settings.py</a></td>
+<td>连接及主题偏好、用户数据位置。</td>
+</tr>
+<tr>
+<td><a href="../Zhixu/Scripts/manage.py">Zhixu/Scripts/manage.py</a></td>
+<td>环境准备、本机打包、产物安全检查及冻结包首屏验证。</td>
+</tr>
+<tr>
+<td><a href="../Zhixu/Scripts/bootstrap.ps1">Zhixu/Scripts/bootstrap.ps1</a></td>
+<td>Windows 环境准备与运行／打包入口的承接。</td>
+</tr>
+<tr>
+<td><a href="../Zhixu/pyproject.toml">Zhixu/pyproject.toml</a></td>
+<td>包身份、依赖声明、命令入口与资源清单。</td>
+</tr>
+</tbody></table>
+<h2>二、<span id="local-flow">本单元关系</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<pre class="mermaid">flowchart LR
+    Entry[entry.py] --&gt; App[zhixu/app.py 图形界面]
+    App --&gt; Repository[zhixu/repository.py]
+    App --&gt; Settings[zhixu/settings.py]
+    Manage[Scripts/manage.py] --&gt; Entry
+    Bootstrap[Scripts/bootstrap.ps1] --&gt; Manage
+</pre>
+<h2>三、<span id="dependencies">共享源与外部依赖</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<ul>
+<li><a href="../../../../后端/接口契约/api.json">唯一接口契约</a>：通过 HTTP 使用 Go API</li>
+<li><a href="../../../../后端/后端代码/代码地图/代码地图阅读版.html">Go 后端地图</a>：后端实现由后端单元维护</li>
+</ul>
+<h2>四、<span id="tests">外置测试与验证边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<ul>
+<li><p><a href="../../../../../测试/前端/PC端/Python/test_gui.py">test_gui.py</a>：界面、布局及主题</p>
+</li>
+<li><p><a href="../../../../../测试/前端/PC端/Python/test_repository.py">test_repository.py</a>：HTTP 与状态保护</p>
+</li>
+<li><p><a href="../../../../../测试/前端/PC端/Python/test_packaging.py">test_packaging.py</a>：产物清理和快捷方式安全夹具</p>
+</li>
+<li><p><a href="../../../../../测试/前端/PC端/Python/test_bootstrap.py">test_bootstrap.py</a>：Windows 引导器隔离 SDK 夹具</p>
+</li>
+<li><p><a href="../../../../../测试/前端/PC端/Python/verify_package.py">verify_package.py</a>：冻结 APP 的独立复制与资源验证；不在核心 Scripts 内复制</p>
+</li>
+<li><p><a href="../桌面说明阅读版.html">本单元使用说明</a>：运行、构建及当前限制</p>
+</li>
+<li><p><a href="../../../../../测试/README.md">统一测试说明</a>：各职责的执行入口与证据位置</p>
+</li>
+</ul>
+<p>本次拆图核对文档与源码位置，不代表重新完成构建、设备业务或正式发布验收。已有验证状态保留原记录，未执行的目标不写成通过。</p>
+<p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
+<footer>离线阅读版由当前文档生成。测试、构建、设备业务和正式验收按各自证据登记。</footer></main><script src="../../../../../需求/阅读资源/mermaid.min.js"></script><script>window.__diagramErrors=[];mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeVariables:{fontFamily:'system-ui',primaryColor:'#e6eee1',primaryTextColor:'#1c362c',lineColor:'#526e5d'}});mermaid.run({querySelector:'.mermaid'}).then(()=>{window.__renderDone=true}).catch(e=>{window.__diagramErrors.push(String(e));window.__renderDone=true});</script></body></html>
