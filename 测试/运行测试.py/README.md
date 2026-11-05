@@ -30,12 +30,12 @@ python3 './测试/运行测试.py/运行测试.py' \
 
 | 分组 | 实际动作 | 条件与边界 |
 | --- | --- | --- |
-| `go` | 临时 overlay 映射外层两份 Go 同包测试，运行 race 回归与 vet | 需要现有 [**Go**](https://go.dev/) 及模块缓存；PG 用例需要专用空库 `TEST_DATABASE_URL`，未配置会在原测试中明确跳过 |
+| `go` | 临时 overlay 映射外层 Go 同包测试（含商城），运行 race 回归与 vet | 需要现有 [**Go**](https://go.dev/) 及模块缓存；PG 用例需要专用空库 `TEST_DATABASE_URL`，未配置会在原测试中明确跳过 |
 | `desktop` | `unittest discover` 运行外层桌面测试，GUI 使用离屏平台 | 需要已有 [**PySide6**](https://doc.qt.io/qtforpython/)；打包测试只操作隔离夹具，不生成安装包 |
 | `http` | 编译临时 Go 服务，使用动态回环端口执行真实 HTTP 与重启检查 | 不连接正式业务实例；临时目录、数据与进程由测试清理 |
 | `deploy` | 顺序运行基础部署与双模式夹具 | 检查脚本、假工具、回环和 PTY；不准备系统依赖、不建立公网隧道；PowerShell 缺失等跳过以日志为准 |
-| `mini` | 通过 [**Node.js**](https://nodejs.org) 测试微信客户端仓库逻辑 | 不代表开发者工具、真机、微信身份或发布验收 |
-| `flutter` | 从代码端工作目录运行外层移动端与后台三份 [**Flutter**](https://flutter.dev/) 测试，带 `--no-pub` | 必须已有 SDK、包配置与依赖；不运行 pub get，不构建移动安装包 |
+| `mini` | 通过 [**Node.js**](https://nodejs.org) 测试微信HTTP仓库与商城页面／订单逻辑（test_mini.cjs、test_shop.cjs） | 不代表开发者工具、真机、微信身份或发布验收 |
+| `flutter` | 从代码端工作目录运行外层移动端与后台四份 [**Flutter**](https://flutter.dev/) 测试，含商城 `shop_test.dart`，带 `--no-pub` | 必须已有 SDK、包配置与依赖；不运行 pub get，不构建移动安装包 |
 | `harmony` | 检查鸿蒙生成器与 HTTPS 宿主合同 | 不调用 DevEco，不生成 HAP，不证明真机文件能力 |
 
 ## 二、<span id="tools">参数与工具定位</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>

@@ -1,22 +1,37 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>微信小程序入口</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f5f6f1;color:#1c362c;font:16px/1.85 system-ui,sans-serif}main{max-width:1180px;margin:auto;padding:42px 28px}header{border-bottom:1px solid #d5ded3;padding:12px 0 26px;display:flex;gap:18px;align-items:center}header img{width:64px;height:64px;border-radius:14px}h1{font-size:36px;line-height:1.3;margin:6px 0}h2{font-size:25px;border-top:1px solid #d5ded3;margin:44px 0 20px;padding-top:24px}h3{font-size:20px;margin-top:32px}h2 a,h3 a{font-size:15px!important;text-decoration:none}a{color:#145f44;text-underline-offset:3px}small{font-size:13px;color:#50675b}.toc{background:#e7ede3;padding:14px 20px;margin:24px 0;border-radius:12px}.toc summary{cursor:pointer;font-weight:650}.toc ul{list-style:none;padding:0;columns:2}.toc li{break-inside:avoid;padding:3px 0}.toc .l3{padding-left:16px;font-size:14px}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;background:white;font-size:14px;margin:20px 0}td,th{border:1px solid #d1dcd0;padding:10px 13px;text-align:left;min-width:90px;vertical-align:top}th{background:#e6eee1;font-weight:650}p code,li code,td code{font-size:.88em;background:#e9eee4;padding:2px 4px;border-radius:4px;overflow-wrap:anywhere}pre{overflow:auto;background:#e8eee3;padding:18px;border-radius:12px;line-height:1.65}code{font-family:ui-monospace,monospace}blockquote{margin:20px 0;padding:8px 20px;border-left:3px solid #68866d;background:#edf0e7;overflow-wrap:anywhere}.mermaid{background:white;text-align:center}svg{max-width:100%;height:auto}footer{margin:42px 0 0;border-top:1px solid #d5ded3;padding:20px 0;font-size:13px;color:#50675b}body>svg{display:none}@media(max-width:650px){main{padding:20px 14px}h1{font-size:28px}h2{font-size:22px}header img{width:44px;height:44px}.toc ul{columns:1}table{font-size:13px}}@media print{.toc,header small{display:none}body{background:white}main{max-width:none}}</style></head><body><main><header><img src="../../工程资源/icon.png" alt="项目图标"><div><small>学术服务平台 · 文档阅读</small><h1>微信小程序入口</h1><small>原始结论日期以正文为准 · <a href="README.md">Markdown 原稿</a> · <a href="../../../README.md">根目录说明</a></small></div></header><details class="toc"><summary>章节目录</summary><nav aria-label="章节"><ul><li class="l2"><a href="#前言">前言</a></li><li class="l2"><a href="#section-1">一、打开和连接</a></li><li class="l2"><a href="#section-2">二、业务和恢复</a></li><li class="l2"><a href="#section-3">三、验证与限制</a></li><li class="l2"><a href="#code-map">本单元代码地图</a></li></ul></nav></details>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>微信小程序商城</title><style>
+ :root{color-scheme:light dark}body{font:16px/1.75 system-ui,-apple-system,sans-serif;background:#faf5ec;color:#392b22;max-width:1100px;margin:36px auto;padding:0 24px}h1{font-size:32px}h2{margin-top:38px;border-bottom:1px solid #dbcdbb;padding-bottom:10px}h3{margin-top:28px}a{color:#805334}img{max-width:100%;max-height:280px;object-fit:cover;border-radius:12px}table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow:auto}th,td{border:1px solid #d4c4b2;padding:10px 13px;vertical-align:top}th{background:#eee0cd}blockquote{margin:16px 0;padding:10px 20px;border-left:4px solid #b98b5e;background:#f1e7d8}pre{padding:18px;background:#efe5d6;overflow:auto;border-radius:8px}code{font-size:.9em}nav{background:#f3eadc;padding:16px;border-radius:12px}.level3{margin-left:18px}li{margin:4px 0}.mermaid{background:transparent}@media(prefers-color-scheme:dark){body{background:#211c18;color:#f5e9dc}a{color:#e4b187}th,nav,blockquote,pre{background:#352b22}td,th,h2{border-color:#806c59}}@media print{body{max-width:none;margin:0;color:#222;background:white}nav{display:none}h2,h3{break-after:avoid}tr{break-inside:avoid}}</style></head><body><h1>微信小程序商城</h1>
+<p><img src="https://picsum.photos/1500/400" alt="Jobs出品，必属精品"></p>
+<nav aria-label="章节目录"><details open><summary>目录</summary><ul><li class="level2"><a href="#前言">🔥 前言</a></li><li class="level2"><a href="#open">一、打开与连接</a></li><li class="level2"><a href="#purchase">二、购买、付款及订单</a></li><li class="level2"><a href="#recovery">三、服务优先与写入恢复</a></li><li class="level2"><a href="#preferences">四、语言与主题</a></li><li class="level2"><a href="#validation">五、验证及限制</a></li></ul></details></nav>
 <hr>
-<h2>🔥 <span id="前言">前言</span></h2>
-<p>本项目已确认必须交付独立的<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/"><strong>微信小程序</strong></a>前端。沿用现有官方原生 WXML／WXSS／JavaScript／JSON 工程，零第三方运行依赖，与 Web／H5 分别交付。和其它客户端共用 Go API，覆盖三服务浏览、账户登录、提交、需求详情、报价确认、文件、消息、交付反馈／验收、取消结算确认与售后。</p>
-<h2><span id="section-1">一、打开和连接</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
-<p>微信开发者工具导入本目录。<code>project.config.json</code> 使用 <code>touristappid</code> 便于开发预览，基础库 <code>latest</code> 由开发者工具解析；本机尚未运行开发者工具验证具体基础库版本。正式发布填写自己的AppID，使用最新稳定开发者工具，并在管理后台配置API的HTTPS合法域名。</p>
-<p>“账户与连接”中填写完整API地址。本机工具可连接 <code>http://127.0.0.1:8080/api/v1</code>；真机必须使用可访问的HTTPS服务器域名，不能用电脑的loopback地址。开发账户按钮会尝试真实customer演示账户，密码被正式配置替换后须手动输入自己的密码。</p>
-<p>同页可配置请求超时，范围 500—10000 毫秒，默认 2500 毫秒；设置与 API 地址保存在本机，普通请求、上传和下载共用此值。未部署服务时可快速进入隔离演示，恢复后的成功响应自动采用真数据；切换连接设置会清空现有会话，需重新登录。</p>
-<h2><span id="section-2">二、业务和恢复</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
-<p>游客可读三服务，提交前登录。毕业论文要求专业/学历，普刊要求专业，编译要求语种，所有需求要求标题、说明与处理授权。附件从聊天文件选择，每次上传新文件，服务端限制8MB。通过授权下载接口预览文件，当前格式无法打开时提示改用桌面下载。</p>
-<p>真实提交与演示共用必填和材料处理授权校验，字数只接受非负整数。服务、需求列表以及详情的暂停、待确认变更、交付、附件和沟通记录均提供空态与重新加载；重复刷新时忽略较早请求的迟到结果，防止真数据被旧响应或旧演示覆盖。</p>
-<p>读失败回退隔离演示，真实空列表不填假数据。401撤销会话并清私有缓存；403/409/422显示真实拒绝。未知真实写入保留原键与正文、阻止重复写，列表提供核对入口；404尚未找到收据不视为在途请求已经失败。本地待核对资料按API地址与账户分开保存，不保存密码/会话Token；设备使用者仍应保护应用存储。</p>
-<p>离线演示仅支持新建、留言、补说明与撤回，复杂资金及正式文件动作须连接后端。样例不自动上传。全量管理动作由Flutter管理后台提供，小程序不作为管理员入口。</p>
-<h2><span id="section-3">三、验证与限制</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
-<p>仓库逻辑可在工程根运行：</p>
-<pre><code class="language-shell">node --test &#39;./测试/前端/微信小程序/test_mini.cjs&#39;
+<h2 id="前言-heading">🔥 <span id="前言">前言</span></h2>
+<p>采用<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/"><strong>微信小程序</strong></a>官方原生 JavaScript／WXML／WXSS／JSON，零第三方运行依赖，与其它客户端共用商城 API。唯一首页为商城；毕业论文、普刊、编译三分类含九个课程／服务商品及独立详情，课程与服务均为虚拟商品。</p>
+<h2 id="open-heading">一、<span id="open">打开与连接</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<ul>
+<li>微信开发者工具导入本目录。配置使用 touristappid 供开发预览；正式项目填写自己的 AppID 并配置 HTTPS 合法域名。当前没有执行开发者工具编译，基础库的实际解析版本需在工具中核验。</li>
+<li>设置页维护完整 API 地址（含 /api/v1）和请求超时（500—10000 毫秒，默认2500）。开发者工具可用 <a href="http://127.0.0.1:8080/api/v1%EF%BC%8C%E6%89%8B%E6%9C%BA%E5%BF%85%E9%A1%BB%E4%BD%BF%E7%94%A8%E6%89%8B%E6%9C%BA%E5%8F%AF%E8%BE%BE%E7%9A%84">http://127.0.0.1:8080/api/v1，手机必须使用手机可达的</a> HTTPS 地址；更改连接会退出当前会话。</li>
+<li>账户页登录 customer 测试账户；“本地演示”按钮仍先请求开发账户的真实登录。网络异常才进入隔离演示，密码错误／权限拒绝不会变成成功。正式配置替换开发密码后使用自己的账户密码，密码和 token 不写本地永久存储。</li>
+</ul>
+<h2 id="purchase-heading">二、<span id="purchase">购买、付款及订单</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<ul>
+<li>分类页和详情展示名称、价格、简介、详情分节和库存；已下架或缺货无法新购。下单传商品版本，金额以服务端快照为准，历史订单不随后台改价变化。</li>
+<li>下单后进入待付款订单，弹出支付宝／微信渠道收银台；关闭不付款，主动点击确认才模拟成功。收银台明确提示不会扣款，订单保留渠道、金额与 MOCK 标记。无商户 Key 时不生成官方支付单，不声称已唤起有效官方付款流程。</li>
+<li>订单支持全部、待付款、待完成、待评价、已完成筛选。未付订单可取消；站方通过管理端开始服务和提交交付，买方在已交付后确认完成，再评分／填写评价。不存在物流及签收流程，小程序不提供站方履约权限。</li>
+<li>商品、订单和详情失败态均提供完整无数据组件和重载。商品图先展示打包品牌图，再覆盖后台商品图；异步图失败保留品牌图，重载后允许再次加载。品牌资源复用仓库自有 icon.png，未下载或冒用参考站宣传素材。</li>
+</ul>
+<h2 id="recovery-heading">三、<span id="recovery">服务优先与写入恢复</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<ul>
+<li>每次进入、重载与写操作均请求 API；网络、超时或响应无法解析时使用隔离演示数据。后续成功响应自动回真实数据，真实空列表保持空态。</li>
+<li>本地演示的订单仅保存在当前会话，不自动上传；退出清除私有缓存。服务恢复后如演示身份尚无真实 token，需正常登录才能读取真实私有订单。</li>
+<li>真实写请求结果未知时，不报告本地付款成功：保存原提交键与正文，阻止再次下单，订单页可按原键核对收据或重试；404 未查到收据不解除阻塞。待核对记录按 API 与用户隔离保存，不含密码／token。</li>
+<li>401 清会话和私有显示；403／409／422显示拒绝，版本冲突需重载后确认。仓库写锁防止并发双下单，旧请求不能覆盖新会话或更新版本。</li>
+</ul>
+<h2 id="preferences-heading">四、<span id="preferences">语言与主题</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>设置页支持简体中文、繁体中文、藏文、英文、日文、法文、西班牙文、德文、俄罗斯文、韩文，支付与订单文案同步切换；后台输入的动态商品与交付内容保持原输入语言。白天、黑夜、跟随系统三主题可用，系统模式监听主题变化；偏好保存在设备本地。主界面使用米白、暖棕和低饱和卡片，深色保留暖深底与易读对比。</p>
+<h2 id="validation-heading">五、<span id="validation">验证及限制</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>在仓库根运行：</p>
+<pre><code class="language-shell">node --test ./测试/前端/微信小程序/test_shop.cjs ./测试/前端/微信小程序/test_mini.cjs
 </code></pre>
-<p>包含空结果、网络恢复、鉴权清缓存、真实未知写入核对、换号与同账户迟到响应、短超时设置和表单校验等保护。WXML／JS 自动检查不等于微信开发者工具编译或真机验收；当前未做微信登录、手机号授权、在线支付、订阅消息或平台提审。交付时分别登记源码导入与工具编译、iOS／Android 微信真机业务、体验版、提审与正式发布的结果；所选基础库、AppID、账号主体和 HTTPS 合法域名仍须实际验证。</p>
-<h2>一、<span id="code-map">本单元代码地图</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
-<p>定位入口见<a href="代码地图/README.md">代码地图目录</a>，包含本工程的主地图与离线阅读版；共享源只通过原归属引用。</p>
+<p>当前仓库逻辑测试44项通过（商城24项、HTTP及幂等20项）；源码语法和页面资源检查通过。未执行微信开发者工具编译、iOS／Android微信真机、微信身份／手机号授权、外部真实支付、订阅消息、体验版、提审和发布，不能用 Node 测试代替设备验收。真机需验证布局、暗色、十语言字体与键盘、网络恢复和模拟购买闭环。</p>
+<p>定位见<a href="./%E4%BB%A3%E7%A0%81%E5%9C%B0%E5%9B%BE/%E4%BB%A3%E7%A0%81%E5%9C%B0%E5%9B%BE.md">代码地图</a>，业务基线见<a href="../../../%E9%9C%80%E6%B1%82/%E5%95%86%E5%9F%8E%E9%9C%80%E6%B1%82%E4%B8%8E%E8%AE%BE%E8%AE%A1/README.md">商城需求与设计</a>，测试说明见<a href="../../../%E6%B5%8B%E8%AF%95/%E5%89%8D%E7%AB%AF/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/README.md">小程序测试</a>。</p>
 <p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
-<footer>离线阅读版由当前文档生成。测试、构建、设备业务和正式验收按各自证据登记。</footer></main><script src="../../../需求/阅读资源/mermaid.min.js"></script><script>window.__diagramErrors=[];mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeVariables:{fontFamily:'system-ui',primaryColor:'#e6eee1',primaryTextColor:'#1c362c',lineColor:'#526e5d'}});mermaid.run({querySelector:'.mermaid'}).then(()=>{window.__renderDone=true}).catch(e=>{window.__diagramErrors.push(String(e));window.__renderDone=true});</script></body></html>
+<script src="../../../需求/阅读资源/mermaid.min.js"></script><script>if(window.mermaid)mermaid.initialize({startOnLoad:true,securityLevel:'strict'});</script></body></html>

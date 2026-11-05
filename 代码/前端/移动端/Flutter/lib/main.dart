@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
-import 'Ui/app.dart';
+import 'Shop/app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const ZhixuApp());
+  runApp(const ShopApp());
 }

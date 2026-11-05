@@ -1,0 +1,111 @@
+{
+  "checked_at": "2026-11-05",
+  "timezone": "Asia/Shanghai",
+  "method": "HTTP GET for each public page and same-origin public product API; no login or transactions",
+  "pages": [
+    {
+      "id": 2,
+      "url": "https://www.keyan.asia/goodsdetail/2",
+      "page_http": 200,
+      "api_code": 200,
+      "title": "论文提纲",
+      "category": "毕业论文",
+      "price": "498.00",
+      "detail_images": 4,
+      "content_summary": "论文框架与参考文献梳理"
+    },
+    {
+      "id": 4,
+      "url": "https://www.keyan.asia/goodsdetail/4",
+      "page_http": 200,
+      "api_code": 200,
+      "title": "开题指导报告课",
+      "category": "毕业论文",
+      "price": "0.01",
+      "detail_images": 4,
+      "content_summary": "开题方案的指导课程"
+    },
+    {
+      "id": 6,
+      "url": "https://www.keyan.asia/goodsdetail/6",
+      "page_http": 200,
+      "api_code": 200,
+      "title": "毕业论文一对一",
+      "category": "毕业论文",
+      "price": "50.00",
+      "detail_images": 4,
+      "content_summary": "选题、写作、实验与答辩的一对一指导"
+    },
+    {
+      "id": 9,
+      "url": "https://www.keyan.asia/goodsdetail/9",
+      "page_http": 200,
+      "api_code": 200,
+      "title": "审测投稿",
+      "category": "普刊",
+      "price": "咨询",
+      "detail_images": 4,
+      "content_summary": "稿件测评与期刊推荐"
+    },
+    {
+      "id": 10,
+      "url": "https://www.keyan.asia/goodsdetail/10",
+      "page_http": 200,
+      "api_code": 200,
+      "title": "普刊论文一对一",
+      "category": "普刊",
+      "price": "200.00",
+      "detail_images": 4,
+      "content_summary": "按稿件需求提供一对一辅导"
+    },
+    {
+      "id": 11,
+      "url": "https://www.keyan.asia/goodsdetail/11",
+      "page_http": 200,
+      "api_code": 200,
+      "title": "论文专业测评",
+      "category": "普刊",
+      "price": "600.00",
+      "detail_images": 4,
+      "content_summary": "稿件质量专业评估"
+    },
+    {
+      "id": 31,
+      "url": "https://www.keyan.asia/goodsdetail/31",
+      "page_http": 200,
+      "api_code": 200,
+      "title": "普刊训练营",
+      "category": "普刊",
+      "price": "2199.00",
+      "detail_images": 4,
+      "content_summary": "围绕普刊写作的互动训练课程"
+    },
+    {
+      "id": 23,
+      "url": "https://www.keyan.asia/goodsdetail/23",
+      "page_http": 200,
+      "api_code": 200,
+      "title": "学术翻译",
+      "category": "编译",
+      "price": "咨询",
+      "detail_images": 4,
+      "content_summary": "学术稿件语言翻译与校对"
+    },
+    {
+      "id": 24,
+      "url": "https://www.keyan.asia/goodsdetail/24",
+      "page_http": 200,
+      "api_code": 200,
+      "title": "学术润色",
+      "category": "编译",
+      "price": "咨询",
+      "detail_images": 4,
+      "content_summary": "稿件语言表达和文章质量润色"
+    }
+  ],
+  "visual_review": [
+    "https://www.keyan.asia/productService/",
+    "https://www.keyan.asia/goodsdetail/2"
+  ],
+  "complete_long_image_visual_review": false
+}

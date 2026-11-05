@@ -143,6 +143,8 @@ class Client {
       this.pending = saved && typeof saved.key === "string" ? saved : null;
       return r.user;
     } catch (e) {
+      if (generation !== this.generation)
+        throw new ApiError("账户已变化，请重试", 409);
       if (allowDemo && (!e.status || e.status >= 500)) {
         this.user = { id: "demo", name: "本地演示", role: "customer" };
         this.mode = "demo";

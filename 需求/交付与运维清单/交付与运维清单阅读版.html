@@ -1,8 +1,11 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>学术服务平台｜交付与运维清单</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f5f6f1;color:#1c362c;font:16px/1.85 system-ui,sans-serif}main{max-width:1180px;margin:auto;padding:42px 28px}header{border-bottom:1px solid #d5ded3;padding:12px 0 26px;display:flex;gap:18px;align-items:center}header img{width:64px;height:64px;border-radius:14px}h1{font-size:36px;line-height:1.3;margin:6px 0}h2{font-size:25px;border-top:1px solid #d5ded3;margin:44px 0 20px;padding-top:24px}h3{font-size:20px;margin-top:32px}h2 a,h3 a{font-size:15px!important;text-decoration:none}a{color:#145f44;text-underline-offset:3px}small{font-size:13px;color:#50675b}.toc{background:#e7ede3;padding:14px 20px;margin:24px 0;border-radius:12px}.toc summary{cursor:pointer;font-weight:650}.toc ul{list-style:none;padding:0;columns:2}.toc li{break-inside:avoid;padding:3px 0}.toc .l3{padding-left:16px;font-size:14px}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;background:white;font-size:14px;margin:20px 0}td,th{border:1px solid #d1dcd0;padding:10px 13px;text-align:left;min-width:90px;vertical-align:top}th{background:#e6eee1;font-weight:650}p code,li code,td code{font-size:.88em;background:#e9eee4;padding:2px 4px;border-radius:4px;overflow-wrap:anywhere}pre{overflow:auto;background:#e8eee3;padding:18px;border-radius:12px;line-height:1.65}code{font-family:ui-monospace,monospace}blockquote{margin:20px 0;padding:8px 20px;border-left:3px solid #68866d;background:#edf0e7;overflow-wrap:anywhere}.mermaid{background:white;text-align:center}svg{max-width:100%;height:auto}footer{margin:42px 0 0;border-top:1px solid #d5ded3;padding:20px 0;font-size:13px;color:#50675b}body>svg{display:none}@media(max-width:650px){main{padding:20px 14px}h1{font-size:28px}h2{font-size:22px}header img{width:44px;height:44px}.toc ul{columns:1}table{font-size:13px}}@media print{.toc,header small{display:none}body{background:white}main{max-width:none}}</style></head><body><main><header><img src="../../代码/工程资源/icon.png" alt="项目图标"><div><small>学术服务平台 · 文档阅读</small><h1>学术服务平台｜交付与运维清单</h1><small>原始结论日期以正文为准 · <a href="交付与运维清单.md">Markdown 原稿</a> · <a href="../../README.md">根目录说明</a></small></div></header><details class="toc"><summary>章节目录</summary><nav aria-label="章节"><ul><li class="l2"><a href="#前言">前言</a></li><li class="l2"><a href="#delivery">源码、产物与资料交接</a></li><li class="l2"><a href="#deployment">部署系统、入口与资源基线</a></li><li class="l2"><a href="#lifecycle">运行模式、升级与恢复</a></li><li class="l2"><a href="#operations-cases">部署与运维验收用例</a></li><li class="l2"><a href="#assets">资产、账号、责任与持续费用</a></li><li class="l2"><a href="#gaps">已知缺口、例外与放行条件</a></li></ul></nav></details>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>学术服务平台｜交付与运维清单</title><style>
+ :root{color-scheme:light dark}body{font:16px/1.75 system-ui,-apple-system,sans-serif;background:#faf5ec;color:#392b22;max-width:1100px;margin:36px auto;padding:0 24px}h1{font-size:32px}h2{margin-top:38px;border-bottom:1px solid #dbcdbb;padding-bottom:10px}h3{margin-top:28px}a{color:#805334}img{max-width:100%;max-height:280px;object-fit:cover;border-radius:12px}table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow:auto}th,td{border:1px solid #d4c4b2;padding:10px 13px;vertical-align:top}th{background:#eee0cd}blockquote{margin:16px 0;padding:10px 20px;border-left:4px solid #b98b5e;background:#f1e7d8}pre{padding:18px;background:#efe5d6;overflow:auto;border-radius:8px}code{font-size:.9em}nav{background:#f3eadc;padding:16px;border-radius:12px}.level3{margin-left:18px}li{margin:4px 0}.mermaid{background:transparent}@media(prefers-color-scheme:dark){body{background:#211c18;color:#f5e9dc}a{color:#e4b187}th,nav,blockquote,pre{background:#352b22}td,th,h2{border-color:#806c59}}@media print{body{max-width:none;margin:0;color:#222;background:white}nav{display:none}h2,h3{break-after:avoid}tr{break-inside:avoid}}</style></head><body><h1>学术服务平台｜交付与运维清单</h1>
+<p><img src="https://picsum.photos/1500/400" alt="Jobs出品，必属精品"></p>
+<nav aria-label="章节目录"><details open><summary>目录</summary><ul><li class="level2"><a href="#前言">🔥 前言</a></li><li class="level2"><a href="#delivery">一、源码、产物与资料交接</a></li><li class="level2"><a href="#deployment">二、部署系统、入口与资源基线</a></li><li class="level2"><a href="#lifecycle">三、运行模式、升级与恢复</a></li><li class="level2"><a href="#operations-cases">四、部署与运维验收用例</a></li><li class="level2"><a href="#assets">五、资产、账号、责任与持续费用</a></li><li class="level2"><a href="#gaps">六、已知缺口、例外与放行条件</a></li></ul></details></nav>
 <hr>
-<h2>🔥 <span id="前言">前言</span></h2>
-<p>本册依据 Jobs“软件项目从零到一”规范整理当前交付边界，与<a href="../项目需求与开发评审/项目需求与开发评审阅读版.html">项目需求与开发评审</a>、<a href="../../测试/测试与分级验收/测试与分级验收阅读版.html">测试与分级验收</a>配套。编制日期为 2026-11-03；既有能力和历史证据按原日期保留，未提供的版本、责任、排期、费用及性能承诺留白。当前仍是可运行联调 MVP，未完成正式商用签收。</p>
-<h2>一、<span id="delivery">源码、产物与资料交接</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<h2 id="前言-heading">🔥 <span id="前言">前言</span></h2>
+<p>本册依据 Jobs“软件项目从零到一”规范整理当前交付边界，与<a href="../%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E4%B8%8E%E5%BC%80%E5%8F%91%E8%AF%84%E5%AE%A1/%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E4%B8%8E%E5%BC%80%E5%8F%91%E8%AF%84%E5%AE%A1.md">项目需求与开发评审</a>、<a href="../../%E6%B5%8B%E8%AF%95/%E6%B5%8B%E8%AF%95%E4%B8%8E%E5%88%86%E7%BA%A7%E9%AA%8C%E6%94%B6/%E6%B5%8B%E8%AF%95%E4%B8%8E%E5%88%86%E7%BA%A7%E9%AA%8C%E6%94%B6.md">测试与分级验收</a>配套。编制日期为 2026-11-03；既有能力和历史证据按原日期保留，未提供的版本、责任、排期、费用及性能承诺留白。当前仍是可运行联调 MVP，未完成正式商用签收。</p>
+<h2 id="delivery-heading">一、<span id="delivery">源码、产物与资料交接</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <table>
 <thead>
 <tr>
@@ -15,24 +18,24 @@
 <tbody><tr>
 <td>需求与评审</td>
 <td>本目录的原需求、数据库设计、主评审及本册</td>
-<td>原 C／F／R／T 保留；商业规则与本期范围尚有 Q 项</td>
+<td>当前MALL需求与MC验收，实际价格及外部资料仍由经营方填写</td>
 <td></td>
 </tr>
 <tr>
 <td>后端源码</td>
-<td><a href="../../代码/后端/后端代码/后端说明阅读版.html">后端</a>、迁移目录及配置说明</td>
-<td><a href="https://go.dev/"><strong>Go</strong></a> 单服务，文件或 PG 聚合；不是 29 表已投产</td>
+<td><a href="../../%E4%BB%A3%E7%A0%81/%E5%90%8E%E7%AB%AF/%E5%90%8E%E7%AB%AF%E4%BB%A3%E7%A0%81/README.md">后端</a>、迁移目录及配置说明</td>
+<td><a href="https://go.dev/"><strong>Go</strong></a> 单服务，文件或 PG 聚合；当前商品／订单／支付／评价聚合事务</td>
 <td></td>
 </tr>
 <tr>
 <td>桌面源码与成品</td>
-<td><a href="../../代码/前端/PC端/Python/桌面说明阅读版.html">桌面端</a></td>
+<td><a href="../../%E4%BB%A3%E7%A0%81/%E5%89%8D%E7%AB%AF/PC%E7%AB%AF/Python/README.md">桌面端</a></td>
 <td><a href="https://www.python.org"><strong>Python</strong></a>／<a href="https://doc.qt.io/qtforpython/"><strong>PySide6</strong></a>；历史 Mac ARM64 APP／DMG 启动；Windows 成品与目标机另验</td>
 <td></td>
 </tr>
 <tr>
 <td>移动与管理源码</td>
-<td><a href="../../代码/前端/移动端/Flutter/Flutter说明阅读版.html">移动端与管理端</a></td>
+<td><a href="../../%E4%BB%A3%E7%A0%81/%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/Flutter/README.md">移动端与管理端</a></td>
 <td><a href="https://flutter.dev/"><strong>Flutter</strong></a> 用户端、响应式后台及 Web；iOS 无签名构建，Android 产物未完成</td>
 <td></td>
 </tr>
@@ -44,33 +47,33 @@
 </tr>
 <tr>
 <td>微信小程序（本期必交付）</td>
-<td><a href="../../代码/前端/微信小程序/小程序说明阅读版.html">微信小程序</a>，官方原生源码、依赖／配置及运行说明；与 Web 分开交接</td>
-<td>已有 5 页原生工程和仓库校验；真实微信身份、AppID、开发者工具、真机业务、体验版、提审与正式发布分别待验</td>
+<td><a href="../../%E4%BB%A3%E7%A0%81/%E5%89%8D%E7%AB%AF/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/README.md">微信小程序</a>，官方原生源码、依赖／配置及运行说明；与 Web 分开交接</td>
+<td>原生商城页面与仓库校验；真实微信身份、AppID、开发者工具、真机业务、体验版、提审与正式发布分别待验</td>
 <td></td>
 </tr>
 <tr>
 <td>接口契约</td>
-<td><a href="../../代码/后端/接口契约/api.json">唯一接口契约</a></td>
+<td><a href="../../%E4%BB%A3%E7%A0%81/%E5%90%8E%E7%AB%AF/%E6%8E%A5%E5%8F%A3%E5%A5%91%E7%BA%A6/api.json">唯一接口契约</a></td>
 <td>JSON 说明契约；接口与实现需同步，不是完整 OpenAPI</td>
 <td></td>
 </tr>
 <tr>
 <td>测试与验收</td>
 <td>平级 <code>测试/</code>，包含源码、计划、报告及证据</td>
-<td>旧结果不自动覆盖当前目录和源码版本</td>
+<td>当前验证结论见商城回归，设备与渠道另验</td>
 <td></td>
 </tr>
 <tr>
 <td>用户操作资料</td>
-<td><a href="../../代码/工程总览/工程总览阅读版.html">代码总说明</a>及各端使用说明</td>
+<td><a href="../../%E4%BB%A3%E7%A0%81/README.md">代码总说明</a>及各端使用说明</td>
 <td>启动、真实／演示、未知写核对与停止步骤</td>
 <td></td>
 </tr>
 </tbody></table>
 <p>构建包、SDK、依赖缓存、运行配置与业务数据按现有忽略规则不入库。干净克隆只取得已纳入版本管理的源码；<code>后端/后端代码/admin-web</code>、<code>client-web</code> 与本机桌面 APP／DMG 等发布资源须另行构建或随正式发布包交接。不能把本机目录中可见的产物视为 Git 克隆已携带。</p>
 <p>候选源码版本、未提交差异摘要、构建时间、目标系统／架构、资源清单、签名及包哈希：</p>
-<h2>二、<span id="deployment">部署系统、入口与资源基线</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
-<p>当前八类系统有独立说明和入口，具体操作以<a href="../../部署/README.md">部署总说明</a>及本系统文档为准。表中是已有验证的边界，具体系统版本与架构的本期签收矩阵仍需填写。</p>
+<h2 id="deployment-heading">二、<span id="deployment">部署系统、入口与资源基线</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>当前八类系统有独立说明和入口，具体操作以<a href="../../%E9%83%A8%E7%BD%B2/README.md">部署总说明</a>及本系统文档为准。表中是已有验证的边界，具体系统版本与架构的本期签收矩阵仍需填写。</p>
 <table>
 <thead>
 <tr>
@@ -81,47 +84,47 @@
 </thead>
 <tbody><tr>
 <td><a href="https://www.apple.com/macos/"><strong>MacOS</strong></a></td>
-<td><code>../../部署/MacOS/【MacOS】部署.command/【MacOS】部署.command</code>；<a href="../../部署/MacOS/【MacOS】双击部署（快捷入口）.command">快捷入口</a>；<a href="../../部署/MacOS/README.md">说明</a></td>
+<td><code>../../部署/MacOS/【MacOS】部署.command/【MacOS】部署.command</code>；<a href="../../%E9%83%A8%E7%BD%B2/MacOS/%E3%80%90MacOS%E3%80%91%E5%8F%8C%E5%87%BB%E9%83%A8%E7%BD%B2%EF%BC%88%E5%BF%AB%E6%8D%B7%E5%85%A5%E5%8F%A3%EF%BC%89.command">快捷入口</a>；<a href="../../%E9%83%A8%E7%BD%B2/MacOS/README.md">说明</a></td>
 <td>历史 ARM64 迁移目录配置、构建、启动及停止；Intel 待目标机</td>
 </tr>
 <tr>
 <td><a href="https://www.microsoft.com/windows"><strong>Windows</strong></a></td>
-<td><code>../../部署/Windows/【Windows】部署.cmd/【Windows】部署.cmd</code>；<a href="../../部署/Windows/【Windows】双击部署（快捷入口）.cmd">快捷入口</a>；<a href="../../部署/Windows/README.md">说明</a></td>
+<td><code>../../部署/Windows/【Windows】部署.cmd/【Windows】部署.cmd</code>；<a href="../../%E9%83%A8%E7%BD%B2/Windows/%E3%80%90Windows%E3%80%91%E5%8F%8C%E5%87%BB%E9%83%A8%E7%BD%B2%EF%BC%88%E5%BF%AB%E6%8D%B7%E5%85%A5%E5%8F%A3%EF%BC%89.cmd">快捷入口</a>；<a href="../../%E9%83%A8%E7%BD%B2/Windows/README.md">说明</a></td>
 <td><a href="https://learn.microsoft.com/powershell/"><strong>PowerShell</strong></a> 解析／路径检查；原生部署与服务常驻未验</td>
 </tr>
 <tr>
 <td><a href="https://ubuntu.com/"><strong>Ubuntu</strong></a></td>
-<td><code>../../部署/Ubuntu/【Linux】部署.sh/【Linux】部署.sh</code>／桌面入口；<a href="../../部署/Ubuntu/双击部署（快捷入口）.desktop">快捷入口</a>；<a href="../../部署/Ubuntu/README.md">说明</a></td>
+<td><code>../../部署/Ubuntu/【Linux】部署.sh/【Linux】部署.sh</code>／桌面入口；<a href="../../%E9%83%A8%E7%BD%B2/Ubuntu/%E5%8F%8C%E5%87%BB%E9%83%A8%E7%BD%B2%EF%BC%88%E5%BF%AB%E6%8D%B7%E5%85%A5%E5%8F%A3%EF%BC%89.desktop">快捷入口</a>；<a href="../../%E9%83%A8%E7%BD%B2/Ubuntu/README.md">说明</a></td>
 <td>语法／静态／夹具，目标机待验</td>
 </tr>
 <tr>
 <td><a href="https://www.debian.org/"><strong>Debian</strong></a></td>
-<td><code>../../部署/Debian/【Linux】部署.sh/【Linux】部署.sh</code>／桌面入口；<a href="../../部署/Debian/双击部署（快捷入口）.desktop">快捷入口</a>；<a href="../../部署/Debian/README.md">说明</a></td>
+<td><code>../../部署/Debian/【Linux】部署.sh/【Linux】部署.sh</code>／桌面入口；<a href="../../%E9%83%A8%E7%BD%B2/Debian/%E5%8F%8C%E5%87%BB%E9%83%A8%E7%BD%B2%EF%BC%88%E5%BF%AB%E6%8D%B7%E5%85%A5%E5%8F%A3%EF%BC%89.desktop">快捷入口</a>；<a href="../../%E9%83%A8%E7%BD%B2/Debian/README.md">说明</a></td>
 <td>同上</td>
 </tr>
 <tr>
 <td><a href="https://rockylinux.org/"><strong>Rocky Linux</strong></a></td>
-<td><code>../../部署/RockyLinux/【Linux】部署.sh/【Linux】部署.sh</code>／桌面入口；<a href="../../部署/RockyLinux/双击部署（快捷入口）.desktop">快捷入口</a>；<a href="../../部署/RockyLinux/README.md">说明</a></td>
+<td><code>../../部署/RockyLinux/【Linux】部署.sh/【Linux】部署.sh</code>／桌面入口；<a href="../../%E9%83%A8%E7%BD%B2/RockyLinux/%E5%8F%8C%E5%87%BB%E9%83%A8%E7%BD%B2%EF%BC%88%E5%BF%AB%E6%8D%B7%E5%85%A5%E5%8F%A3%EF%BC%89.desktop">快捷入口</a>；<a href="../../%E9%83%A8%E7%BD%B2/RockyLinux/README.md">说明</a></td>
 <td>同上，不作为 <a href="https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux"><strong>RHEL</strong></a> 或 <a href="https://www.centos.org/"><strong>CentOS</strong></a> 的替代验收</td>
 </tr>
 <tr>
 <td><a href="https://www.alibabacloud.com/help/en/alinux/"><strong>Alibaba Cloud Linux</strong></a></td>
-<td><code>../../部署/AlibabaCloudLinux/【Linux】部署.sh/【Linux】部署.sh</code>／桌面入口；<a href="../../部署/AlibabaCloudLinux/双击部署（快捷入口）.desktop">快捷入口</a>；<a href="../../部署/AlibabaCloudLinux/README.md">说明</a></td>
+<td><code>../../部署/AlibabaCloudLinux/【Linux】部署.sh/【Linux】部署.sh</code>／桌面入口；<a href="../../%E9%83%A8%E7%BD%B2/AlibabaCloudLinux/%E5%8F%8C%E5%87%BB%E9%83%A8%E7%BD%B2%EF%BC%88%E5%BF%AB%E6%8D%B7%E5%85%A5%E5%8F%A3%EF%BC%89.desktop">快捷入口</a>；<a href="../../%E9%83%A8%E7%BD%B2/AlibabaCloudLinux/README.md">说明</a></td>
 <td>同上</td>
 </tr>
 <tr>
 <td><a href="https://alpinelinux.org/"><strong>Alpine</strong></a></td>
-<td><code>../../部署/Alpine/【Linux】部署.sh/【Linux】部署.sh</code>；<a href="../../部署/Alpine/双击部署（快捷入口）.desktop">快捷入口</a>；<a href="../../部署/Alpine/README.md">说明</a></td>
+<td><code>../../部署/Alpine/【Linux】部署.sh/【Linux】部署.sh</code>；<a href="../../%E9%83%A8%E7%BD%B2/Alpine/%E5%8F%8C%E5%87%BB%E9%83%A8%E7%BD%B2%EF%BC%88%E5%BF%AB%E6%8D%B7%E5%85%A5%E5%8F%A3%EF%BC%89.desktop">快捷入口</a>；<a href="../../%E9%83%A8%E7%BD%B2/Alpine/README.md">说明</a></td>
 <td>sh／静态保护，目标机待验；桌面入口有额外环境条件</td>
 </tr>
 <tr>
 <td><a href="https://www.freebsd.org/"><strong>FreeBSD</strong></a></td>
-<td><code>../../部署/FreeBSD/【FreeBSD】部署.sh/【FreeBSD】部署.sh</code>；<a href="../../部署/FreeBSD/双击部署（快捷入口）.desktop">快捷入口</a>；<a href="../../部署/FreeBSD/README.md">说明</a></td>
+<td><code>../../部署/FreeBSD/【FreeBSD】部署.sh/【FreeBSD】部署.sh</code>；<a href="../../%E9%83%A8%E7%BD%B2/FreeBSD/%E5%8F%8C%E5%87%BB%E9%83%A8%E7%BD%B2%EF%BC%88%E5%BF%AB%E6%8D%B7%E5%85%A5%E5%8F%A3%EF%BC%89.desktop">快捷入口</a>；<a href="../../%E9%83%A8%E7%BD%B2/FreeBSD/README.md">说明</a></td>
 <td>sh／静态，目标机待验</td>
 </tr>
 </tbody></table>
 <p><span style="color:#d32f2f;">【不确定 Q-008】通用规范的 RHEL／CentOS Stream 10 与项目现有入口范围不一致。补齐独立入口与目标系统验证，或形成经确认的范围例外；现有 RockyLinux 脚本不能证明兼容。</span>具体系统版本、生命周期、CPU 能力与依赖在实施时核验，本轮不声明最新平台支持。</p>
-<p>以下数字转录自现有<a href="../../部署/README.md#minimum-machine">最低机器配置</a>，是单实例少量数据的工程预算，未经下限硬件压测或生产容量验收。</p>
+<p>以下数字转录自现有<a href="../../%E9%83%A8%E7%BD%B2/README.md#minimum-machine">最低机器配置</a>，是单实例少量数据的工程预算，未经下限硬件压测或生产容量验收。</p>
 <table>
 <thead>
 <tr>
@@ -147,7 +150,7 @@
 </tr>
 </tbody></table>
 <p>桌面宿主整机预算至少 8 GiB 内存，仍需保留脚本所需可用余量。业务附件、历史、日志、原子写临时副本与备份另占空间；切换 PG 不消除全状态聚合的增长成本。带宽、负载、最低硬件实测、推荐配置及验收环境：</p>
-<h2>三、<span id="lifecycle">运行模式、升级与恢复</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<h2 id="lifecycle-heading">三、<span id="lifecycle">运行模式、升级与恢复</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <p>部署入口先自述并等待确认，通过 <a href="https://formulae.brew.sh/formula/fzf"><strong>fzf</strong></a> 选择本地部署＋内网穿透或服务器部署。当前正常路线在工程内准备缺少的工具、配置账户、编译并前台启动，不自动注册系统服务或打开防火墙。模式取消、空选及选择器错误不应启动业务；完整副作用与按键以各系统说明为准。</p>
 <table>
 <thead>
@@ -200,8 +203,8 @@
 </tbody></table>
 <p><span style="color:#d32f2f;">【不确定 Q-009】当前以源码编译／前台运行为主，未提供通用规范要求的预构建优先及全生命周期入口；隧道超时或退出会清理已启动的后端，与“穿透失败保留健康本地服务”的规范不同。</span>这是现状差异，尚无已确认例外；不得写为符合全部部署要求。是否调整行为及实现范围在主评审收口。</p>
 <p>客户端仍按 API 优先和隔离演示合同工作；失败回退不代表后端可用，演示写不补发正式环境。列表空态、重载和本地素材兜底按 AC-11／AC-12 检查。完整工具链及 Web 资源就绪后才能离线预览；鸿蒙在线宿主离线首启不能加载页面。</p>
-<h2>四、<span id="operations-cases">部署与运维验收用例</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
-<p>OP 是正式目标环境验收场景组，与<a href="../../测试/测试与分级验收/测试与分级验收阅读版.html#cases">业务 AC 用例</a>共享候选版本。下表未执行，预期不是已实现声明；若能力缺失，执行时记录失败或阻塞及对应 GAP，不能修改预期绕过规范。</p>
+<h2 id="operations-cases-heading">四、<span id="operations-cases">部署与运维验收用例</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>OP 是正式目标环境验收场景组，与<a href="../../%E6%B5%8B%E8%AF%95/%E6%B5%8B%E8%AF%95%E4%B8%8E%E5%88%86%E7%BA%A7%E9%AA%8C%E6%94%B6/%E6%B5%8B%E8%AF%95%E4%B8%8E%E5%88%86%E7%BA%A7%E9%AA%8C%E6%94%B6.md#cases">业务 AC 用例</a>共享候选版本。下表未执行，预期不是已实现声明；若能力缺失，执行时记录失败或阻塞及对应 GAP，不能修改预期绕过规范。</p>
 <table>
 <thead>
 <tr>
@@ -255,8 +258,8 @@
 <td></td>
 </tr>
 </tbody></table>
-<p>执行编号、日期、环境、操作人、日志、截图、缺陷和复验按<a href="../../测试/测试与分级验收/测试与分级验收阅读版.html#evidence">统一证据表</a>登记。沙盒部署检查不替代 OP-02 的真实公网或 OP-06 的系统容量验收。</p>
-<h2>五、<span id="assets">资产、账号、责任与持续费用</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>执行编号、日期、环境、操作人、日志、截图、缺陷和复验按<a href="../../%E6%B5%8B%E8%AF%95/%E6%B5%8B%E8%AF%95%E4%B8%8E%E5%88%86%E7%BA%A7%E9%AA%8C%E6%94%B6/%E6%B5%8B%E8%AF%95%E4%B8%8E%E5%88%86%E7%BA%A7%E9%AA%8C%E6%94%B6.md#evidence">统一证据表</a>登记。沙盒部署检查不替代 OP-02 的真实公网或 OP-06 的系统容量验收。</p>
+<h2 id="assets-heading">五、<span id="assets">资产、账号、责任与持续费用</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <p>文档只记录归属、权限交接与恢复办法，不记录密码、Token、私钥或完整含认证连接串。免费软件许可、免费额度与长期服务费用分别核验；没有核验的服务价格不写成采购承诺。</p>
 <table>
 <thead>
@@ -357,7 +360,7 @@
 </tr>
 </tbody></table>
 <p>第三方库、字体与素材按既有依赖和许可清单交接，Qt 分发声明及打包工具例外随包保留；源码公开状态不自动等于全部商业分发条件已完成。</p>
-<h2>六、<span id="gaps">已知缺口、例外与放行条件</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<h2 id="gaps-heading">六、<span id="gaps">已知缺口、例外与放行条件</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <table>
 <thead>
 <tr>
@@ -422,7 +425,7 @@
 <td></td>
 </tr>
 </tbody></table>
-<p>工程存储和前端差距依据当前 <code>代码/后端/internal/platform/</code>、<code>代码/移动端与管理端/lib/</code>、<code>代码/微信小程序/utils/api.js</code> 静态核对；历史平台证据见<a href="../../测试/回归测试报告/回归测试报告阅读版.html">回归报告</a>。已知缺口不自动成为允许遗留项，是否影响本期放行由确认范围和验收等级判断。</p>
+<p>工程存储和前端差距依据当前 <code>代码/后端/internal/platform/</code>、<code>代码/移动端与管理端/lib/</code>、<code>代码/微信小程序/utils/api.js</code> 静态核对；历史平台证据见<a href="../../%E6%B5%8B%E8%AF%95/%E5%9B%9E%E5%BD%92%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/%E5%9B%9E%E5%BD%92%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A.md">回归报告</a>。已知缺口不自动成为允许遗留项，是否影响本期放行由确认范围和验收等级判断。</p>
 <p>例外确认记录：</p>
 <table>
 <thead>
@@ -442,4 +445,4 @@
 </tbody></table>
 <p>正式交付窗口、资产接收结果与允许遗留：</p>
 <p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
-<footer>离线阅读版由当前文档生成。测试、构建、设备业务和正式验收按各自证据登记。</footer></main><script src="../阅读资源/mermaid.min.js"></script><script>window.__diagramErrors=[];mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeVariables:{fontFamily:'system-ui',primaryColor:'#e6eee1',primaryTextColor:'#1c362c',lineColor:'#526e5d'}});mermaid.run({querySelector:'.mermaid'}).then(()=>{window.__renderDone=true}).catch(e=>{window.__diagramErrors.push(String(e));window.__renderDone=true});</script></body></html>
+<script src="../阅读资源/mermaid.min.js"></script><script>if(window.mermaid)mermaid.initialize({startOnLoad:true,securityLevel:'strict'});</script></body></html>

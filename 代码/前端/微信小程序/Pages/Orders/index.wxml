@@ -1,0 +1,9 @@
+<view class="app {{theme}}"><view class="page">
+  <view class="row"><view class="hero product-title">{{t.orders}}</view><button class="small secondary" bindtap="shop">{{t.shop}}</button></view>
+  <scroll-view scroll-x class="filters"><view class="filter-list"><button class="small {{!filter?'selected':'secondary'}}" data-id="" bindtap="filter">{{t.all}}</button><button wx:for="{{states}}" wx:key="*this" class="small {{filter===item?'selected':'secondary'}}" data-id="{{item}}" bindtap="filter">{{t[item]}}</button></view></scroll-view>
+  <view class="source">{{source==='demo'?t.offline:t.online}}</view><view wx:if="{{error}}" class="error">{{error}}</view>
+  <view class="demo" wx:if="{{pending}}"><view>{{t.pendingWrite}}</view><button disabled="{{busy}}" bindtap="reconcile">{{t.reconcile}}</button><button disabled="{{busy}}" class="secondary" bindtap="retry">{{t.retry}}</button></view>
+  <empty-state wx:if="{{!visibleOrders.length}}" title="{{t.emptyOrders}}" description="{{t.emptyHint}}" reload-label="{{t.reload}}" bind:reload="reload"/>
+  <view class="card" wx:for="{{visibleOrders}}" wx:key="id" data-id="{{item.id}}" bindtap="detail"><view class="row"><view class="title">{{item.product_snapshot.name}}</view><view class="badge">{{t[item.status]}}</view></view><view class="small muted line">{{item.id}}</view><view class="sub">{{t[item.fulfillment_status]}}</view><view class="price">{{item.amount}}</view><button class="secondary">{{t.details}}</button></view>
+  <button class="secondary" bindtap="reload">{{t.reload}}</button><button wx:if="{{!user}}" bindtap="login">{{t.login}}</button>
+</view></view>

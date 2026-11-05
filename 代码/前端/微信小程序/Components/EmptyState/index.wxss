@@ -1,5 +1,1 @@
-.empty-state { padding: 32rpx 20rpx; text-align: center; }
-.empty-title { color: #182f2b; font-size: 30rpx; font-weight: 600; }
-.empty-description { margin-top: 16rpx; color: #53665f; font-size: 26rpx; line-height: 1.7; }
-button { margin-top: 24rpx; color: #244b3e; background: #e7ede6; border-radius: 16rpx; font-size: 28rpx; }
-button::after { border: 0; }
+.empty-state{padding:42rpx 24rpx;text-align:center;border:1rpx dashed var(--border,#ded1c3);border-radius:22rpx;background:var(--surface,#fffdf9);margin:24rpx 0}.empty-title{color:var(--text,#35271f);font-size:32rpx;font-weight:600}.empty-description{margin:16rpx 0;color:var(--muted,#6f5b4d);font-size:26rpx;line-height:1.7}button{margin-top:24rpx;color:var(--text,#35271f);background:var(--soft,#eee0d0);border-radius:16rpx;font-size:28rpx;white-space:normal}button::after{border:0}

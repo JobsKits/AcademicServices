@@ -35,10 +35,15 @@ type Config struct {
 	Origins          []string
 	AdminPassword    string
 	CustomerPassword string
+	PaymentMode      string
 }
 
 func LoadConfig() (Config, error) {
 	c := Config{Environment: env("APP_ENV", "development"), Listen: env("LISTEN_ADDR", "127.0.0.1:8080"), DataDir: env("DATA_DIR", "./data"), DatabaseURL: os.Getenv("DATABASE_URL"), AdminStaticDir: env("ADMIN_STATIC_DIR", "./admin-web"), ClientStaticDir: env("CLIENT_STATIC_DIR", "./client-web"), AdminPassword: env("ADMIN_PASSWORD", "demo-admin-change-me"), CustomerPassword: env("DEMO_CUSTOMER_PASSWORD", "demo-customer")}
+	c.PaymentMode = env("PAYMENT_MODE", "mock")
+	if c.PaymentMode != "mock" && c.PaymentMode != "real" {
+		return c, errors.New("PAYMENT_MODE must be mock or real")
+	}
 	for _, s := range strings.Split(os.Getenv("CORS_ORIGINS"), ",") {
 		if strings.TrimSpace(s) != "" {
 			c.Origins = append(c.Origins, strings.TrimSpace(s))
@@ -101,6 +106,9 @@ type API struct {
 }
 
 func NewAPI(engine *Engine, c Config) *API {
+	if c.PaymentMode != "" {
+		engine.PaymentMode = c.PaymentMode
+	}
 	a := &API{engine: engine, config: c, credentials: map[string]credential{}, sessions: map[string]session{}, rates: map[string]loginRate{}}
 	a.addUser("admin", c.AdminPassword, User{"admin", "运营管理员", "admin"})
 	a.addUser("customer", c.CustomerPassword, User{"customer", "客户", "customer"})
@@ -301,7 +309,7 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", origin)
 		w.Header().Add("Vary", "Origin")
 		w.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type, Idempotency-Key")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS")
 	}
 	if r.Method == "OPTIONS" {
 		w.WriteHeader(204)
@@ -314,7 +322,7 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			fail(w, err)
 			return
 		}
-		respond(w, 200, map[string]any{"status": "ok", "version": "0.1.0", "environment": a.config.Environment, "payment_mode": "manual_ledger"})
+		respond(w, 200, map[string]any{"status": "ok", "version": "0.2.0", "environment": a.config.Environment, "payment_mode": a.engine.PaymentMode})
 		return
 	}
 	if r.URL.Path == "/" && r.Method == "GET" {
@@ -358,6 +366,9 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		respond(w, 200, map[string]any{"services": s})
 		return
 	}
+	if a.publicShop(w, r) {
+		return
+	}
 	u, err := a.authenticate(r)
 	if err != nil {
 		fail(w, err)
@@ -365,6 +376,9 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	ctx, cancel := context.WithTimeout(r.Context(), 15*time.Second)
 	defer cancel()
+	if a.privateShop(w, r, ctx, u) {
+		return
+	}
 	if r.URL.Path == "/api/v1/auth/logout" && r.Method == "POST" {
 		a.mu.Lock()
 		delete(a.sessions, strings.TrimPrefix(r.Header.Get("Authorization"), "Bearer "))

@@ -26,11 +26,12 @@ func denied() error                 { return &Problem{403, "forbidden", "无权�
 func missing() error                { return &Problem{404, "not_found", "记录不存在或无权访问"} }
 
 type Engine struct {
-	Store Store
-	Now   func() time.Time
+	Store       Store
+	Now         func() time.Time
+	PaymentMode string
 }
 
-func NewEngine(store Store) *Engine { return &Engine{store, time.Now} }
+func NewEngine(store Store) *Engine { return &Engine{Store: store, Now: time.Now, PaymentMode: "mock"} }
 func (e *Engine) Services(ctx context.Context) ([]Service, error) {
 	var out []Service
 	err := e.Store.View(ctx, func(s *State) error { out = slices.Clone(s.Services); return nil })

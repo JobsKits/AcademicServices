@@ -1,11 +1,11 @@
 {
-    "name": "zhixu",
-    "short_name": "zhixu",
+    "name": "知序 · 学术商城",
+    "short_name": "知序商城",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#fff9f0",
+    "theme_color": "#85533b",
+    "description": "知序学术商城，课程与服务价格清楚，交付可追踪。",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

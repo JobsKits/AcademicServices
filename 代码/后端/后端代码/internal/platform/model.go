@@ -207,16 +207,20 @@ type Notice struct {
 	Created   string `json:"created_at"`
 }
 type State struct {
-	Schema   int                `json:"schema"`
-	Services []Service          `json:"services"`
-	Cases    map[string]*Case   `json:"cases"`
-	Receipts map[string]Receipt `json:"receipts"`
-	Audit    []Event            `json:"audit"`
-	Outbox   []Notice           `json:"outbox"`
+	Schema       int                    `json:"schema"`
+	Services     []Service              `json:"services"`
+	Cases        map[string]*Case       `json:"cases"`
+	Receipts     map[string]Receipt     `json:"receipts"`
+	Audit        []Event                `json:"audit"`
+	Outbox       []Notice               `json:"outbox"`
+	Products     map[string]*Product    `json:"products"`
+	ShopOrders   map[string]*ShopOrder  `json:"shop_orders"`
+	ShopReceipts map[string]ShopReceipt `json:"shop_receipts"`
+	ShopAudit    []ShopEvent            `json:"shop_audit"`
 }
 
 func initialState() *State {
-	return &State{1, defaultServices(), map[string]*Case{}, map[string]Receipt{}, []Event{}, []Notice{}}
+	return &State{Schema: 2, Services: defaultServices(), Cases: map[string]*Case{}, Receipts: map[string]Receipt{}, Audit: []Event{}, Outbox: []Notice{}, Products: defaultProducts(), ShopOrders: map[string]*ShopOrder{}, ShopReceipts: map[string]ShopReceipt{}, ShopAudit: []ShopEvent{}}
 }
 func cloneState(s *State) (*State, error) {
 	b, e := json.Marshal(s)

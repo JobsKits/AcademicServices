@@ -16,3 +16,14 @@ dev_dependencies:
   flutter_lints: 6.0.0
 flutter:
   uses-material-design: true
+  assets:
+    - Assets/shop-brand.png
+    - Assets/Fonts/OFL.txt
+    - Assets/Fonts/OFL-CJK.txt
+  fonts:
+    - family: NotoSerifTibetan
+      fonts:
+        - asset: Assets/Fonts/NotoSerifTibetan.ttf
+    - family: NotoSansCJKsc
+      fonts:
+        - asset: Assets/Fonts/NotoSansCJKsc-Regular.otf

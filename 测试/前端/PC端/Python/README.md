@@ -10,6 +10,8 @@
 
 这里保存 [**Python**](https://www.python.org) 桌面客户端的自动回归与构建证据，统计日期为2026-10-30。当前结论为MacOS Apple Silicon本机验证通过，Windows源码与打包入口已提供，尚未执行Windows原生构建与设备验收。
 
+商城专项测试 `test_shop.py` 随本目录unittest发现执行，覆盖双渠道模拟订单状态、真实写未知保护、API错误、恢复覆盖、十语言完整性与持久化、三主题、详情及空态。完整证据见[商城回归](../../../商城回归/README.md)。
+
 ## 一、<span id="run-tests">运行测试</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 在仓库根目录运行以下命令，测试源码位于外层 `测试/前端/PC端/Python/`。GUI测试使用 [**PySide6**](https://pypi.org/project/PySide6/6.12.0/) 6.12.0的离屏平台，测试只操作临时用户目录与本机HTTP夹具。

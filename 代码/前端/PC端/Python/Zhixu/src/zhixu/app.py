@@ -558,7 +558,8 @@ def main():
     app.setApplicationName("Zhixu")
     app.setOrganizationName("Jobs")
     app.setStyle("Fusion")
-    window = MainWindow()
+    from .shop import ShopWindow
+    window = ShopWindow()
     window.show()
     if args.screenshot:
         def capture():

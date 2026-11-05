@@ -1,83 +1,44 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>知序桌面客户端</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f5f6f1;color:#1c362c;font:16px/1.85 system-ui,sans-serif}main{max-width:1180px;margin:auto;padding:42px 28px}header{border-bottom:1px solid #d5ded3;padding:12px 0 26px;display:flex;gap:18px;align-items:center}header img{width:64px;height:64px;border-radius:14px}h1{font-size:36px;line-height:1.3;margin:6px 0}h2{font-size:25px;border-top:1px solid #d5ded3;margin:44px 0 20px;padding-top:24px}h3{font-size:20px;margin-top:32px}h2 a,h3 a{font-size:15px!important;text-decoration:none}a{color:#145f44;text-underline-offset:3px}small{font-size:13px;color:#50675b}.toc{background:#e7ede3;padding:14px 20px;margin:24px 0;border-radius:12px}.toc summary{cursor:pointer;font-weight:650}.toc ul{list-style:none;padding:0;columns:2}.toc li{break-inside:avoid;padding:3px 0}.toc .l3{padding-left:16px;font-size:14px}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;background:white;font-size:14px;margin:20px 0}td,th{border:1px solid #d1dcd0;padding:10px 13px;text-align:left;min-width:90px;vertical-align:top}th{background:#e6eee1;font-weight:650}p code,li code,td code{font-size:.88em;background:#e9eee4;padding:2px 4px;border-radius:4px;overflow-wrap:anywhere}pre{overflow:auto;background:#e8eee3;padding:18px;border-radius:12px;line-height:1.65}code{font-family:ui-monospace,monospace}blockquote{margin:20px 0;padding:8px 20px;border-left:3px solid #68866d;background:#edf0e7;overflow-wrap:anywhere}.mermaid{background:white;text-align:center}svg{max-width:100%;height:auto}footer{margin:42px 0 0;border-top:1px solid #d5ded3;padding:20px 0;font-size:13px;color:#50675b}body>svg{display:none}@media(max-width:650px){main{padding:20px 14px}h1{font-size:28px}h2{font-size:22px}header img{width:44px;height:44px}.toc ul{columns:1}table{font-size:13px}}@media print{.toc,header small{display:none}body{background:white}main{max-width:none}}</style></head><body><main><header><img src="../../../工程资源/icon.png" alt="项目图标"><div><small>学术服务平台 · 文档阅读</small><h1>知序桌面客户端</h1><small>原始结论日期以正文为准 · <a href="README.md">Markdown 原稿</a> · <a href="../../../../README.md">根目录说明</a></small></div></header><details class="toc"><summary>章节目录</summary><nav aria-label="章节"><ul><li class="l2"><a href="#前言">前言</a></li><li class="l2"><a href="#quick-start">第一次使用</a></li><li class="l2"><a href="#features">现在能够做什么</a></li><li class="l2"><a href="#data-source">真实数据、演示与待核对</a></li><li class="l2"><a href="#scripts-build">双击入口与打包</a></li><li class="l2"><a href="#structure-dependencies">工程与依赖</a></li><li class="l2"><a href="#verification">测试与回归</a></li><li class="l2"><a href="#code-map">本单元代码地图</a></li></ul></nav></details>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>知序桌面客户端</title><style>
+ :root{color-scheme:light dark}body{font:16px/1.75 system-ui,-apple-system,sans-serif;background:#faf5ec;color:#392b22;max-width:1100px;margin:36px auto;padding:0 24px}h1{font-size:32px}h2{margin-top:38px;border-bottom:1px solid #dbcdbb;padding-bottom:10px}h3{margin-top:28px}a{color:#805334}img{max-width:100%;max-height:280px;object-fit:cover;border-radius:12px}table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow:auto}th,td{border:1px solid #d4c4b2;padding:10px 13px;vertical-align:top}th{background:#eee0cd}blockquote{margin:16px 0;padding:10px 20px;border-left:4px solid #b98b5e;background:#f1e7d8}pre{padding:18px;background:#efe5d6;overflow:auto;border-radius:8px}code{font-size:.9em}nav{background:#f3eadc;padding:16px;border-radius:12px}.level3{margin-left:18px}li{margin:4px 0}.mermaid{background:transparent}@media(prefers-color-scheme:dark){body{background:#211c18;color:#f5e9dc}a{color:#e4b187}th,nav,blockquote,pre{background:#352b22}td,th,h2{border-color:#806c59}}@media print{body{max-width:none;margin:0;color:#222;background:white}nav{display:none}h2,h3{break-after:avoid}tr{break-inside:avoid}}</style></head><body><h1>知序桌面客户端</h1>
+<p><img src="https://picsum.photos/1500/400" alt="Jobs出品，必属精品"></p>
+<nav aria-label="章节目录"><details open><summary>目录</summary><ul><li class="level2"><a href="#前言">🔥 前言</a></li><li class="level2"><a href="#quick-start">一、打开与使用</a></li><li class="level2"><a href="#features">二、功能与设置</a></li><li class="level2"><a href="#data-source">三、数据、模拟支付与验证</a></li><li class="level2"><a href="#scripts-build">四、双击入口与打包</a></li><li class="level2"><a href="#structure-dependencies">五、工程与依赖</a></li><li class="level2"><a href="#verification">六、测试与回归</a></li><li class="level2"><a href="#code-map">一、本单元代码地图</a></li></ul></details></nav>
 <hr>
-<h2>🔥 <span id="前言">前言</span></h2>
+<h2 id="前言-heading">🔥 <span id="前言">前言</span></h2>
 <p>这是面向客户的 <a href="https://www.python.org"><strong>Python</strong></a> 桌面用户端，由 Jobs 维护，当前为可运行的首版工程。只提供毕业论文、普刊、编译三项服务，与 <a href="https://go.dev/"><strong>Go</strong></a> 后端共用同一套接口和业务数据；运营人员使用工程中的 <a href="https://flutter.dev/"><strong>Flutter</strong></a> 管理后台。</p>
-<h2>一、<span id="quick-start">第一次使用</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
-<p>1、在本机 <a href="https://www.apple.com/macos/"><strong>MacOS</strong></a> 上，直接双击本文件夹里的 <code>知序.app</code> 快捷入口即可打开已生成的应用。<code>知序.dmg</code> 用于分发同一份应用，普通使用者运行成品不需要安装 Python。</p>
-<p>2、在 <a href="https://www.microsoft.com/windows"><strong>Windows</strong></a> 上，先双击 <code>【Windows】启动知序.bat</code> 从源码运行。窗口会说明用途；直接回车继续，任意字符或 <code>Ctrl+C</code> 取消。缺少 Python 时在工程内下载私有运行时，缺少依赖时再次说明来源并等待回车安装。需要可分发的成品时，在 Windows 本机双击 <code>【Windows】📦生成exe.bat</code>。</p>
-<p>3、管理员先按<a href="../../../工程总览/工程总览阅读版.html">平台总说明</a>启动后端。客户端默认连接 <code>http://127.0.0.1:8080/api/v1</code>；远程服务器请在“连接设置”里填写管理员提供的 HTTPS 地址。更换地址会退出当前登录。</p>
-<p>4、点击右上角“登录”，使用客户账号。开发环境样例账号为 <code>customer</code>，口令为 <code>demo-customer</code>；正式环境以管理员实际配置的口令为准。后台账号不能登录这个客户端。</p>
-<p>5、从“服务首页”选择一项服务，填写带 * 的必填项；毕业论文填写专业与学历，普刊填写专业方向，编译填写源语言与目标语言，字数、日期与联系说明选填，确认有权使用材料后提交。成功后在“我的需求与订单”上传材料。</p>
-<p>6、收到报价后核对范围、价格、启动款、有效期和修改额度，再确认生成订单。服务中可以留言；交付后可以下载文件、反馈修改、确认验收或发起售后。</p>
-<p>首次双击 MacOS 来源未公证的应用时，按系统提供的正常“打开”流程处理；本工程不会自动关闭 Gatekeeper 或清除隔离属性。当前安装包为本机 Apple Silicon 构建，Intel Mac 请在对应机器重新生成。</p>
-<h2>二、<span id="features">现在能够做什么</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<h2 id="quick-start-heading">一、<span id="quick-start">打开与使用</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>在对应系统运行本目录启动入口，或使用已针对目标系统重新构建的安装包。首页直接进入课程／服务商城，选择毕业论文、普刊、编译分类，查看商品详情和价格。使用customer账号登录后立即购买，在订单中打开支付宝／微信渠道收银台，确认模拟付款，不会扣款。</p>
+<p>订单待完成时可查看站方交付；站方在响应式后台开始服务并提交交付后，买方确认完成，进入待评价，提交评分和文字后成为已完成。每个列表均提供空态与重新加载。</p>
+<h2 id="features-heading">二、<span id="features">功能与设置</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <table>
 <thead>
 <tr>
 <th>页面</th>
-<th>可以操作的内容</th>
+<th>功能</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>服务首页</td>
-<td>三服务说明与提交入口；服务下架时禁用提交；真实空目录有重载入口</td>
+<td>商品</td>
+<td>三主分类、9个参考子服务、商品图及本地品牌兜底、详情分节、价格和缺货状态</td>
 </tr>
 <tr>
-<td>需求表单</td>
-<td>按服务显示填写提示；授权确认；提交后上传独立材料版本</td>
+<td>订单</td>
+<td>待付款、待完成、待评价、已完成筛选，未付款取消，模拟支付、交付查看、确认及评价</td>
 </tr>
 <tr>
-<td>需求详情</td>
-<td>查看说明、版本与进度；补充未成交需求、撤回需求、发送留言</td>
+<td>设置</td>
+<td>API地址、500—10000毫秒超时；白天／黑夜／跟随系统；十语言选择并保存</td>
 </tr>
 <tr>
-<td>报价与订单</td>
-<td>核对当前报价、确认 / 拒绝报价；查看已收、已退、处理中退款与凭据</td>
-</tr>
-<tr>
-<td>交付与售后</td>
-<td>私有文件下载、反馈修改、验收最新主交付 / 对应售后交付、申请售后</td>
-</tr>
-<tr>
-<td>协商方案</td>
-<td>确认 / 拒绝取消结算方案；确认 / 拒绝价格、期限和范围变更</td>
-</tr>
-<tr>
-<td>连接与外观</td>
-<td>设置 API 地址与1.5 / 2.5 / 5 / 10秒超时；白天 / 黑夜 / 跟随系统主题</td>
+<td>管理操作</td>
+<td>商品维护与站方交付通过独立响应式后台进行，桌面为买方客户端</td>
 </tr>
 </tbody></table>
-<p>附件最大8MB；较大文件可在连接设置选择10秒超时。下载目标已存在时不会覆盖，请选择新文件名。权限、费用、过期报价、并发版本、修改轮次及取消结算由服务器最终校验。客户端没有收取真实款项的支付 SDK，金额仅展示后端人工核实台账。</p>
-<h2>三、<span id="data-source">真实数据、演示与待核对</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
-<ul>
-<li>进入页面、定时刷新和写操作都会请求 API。请求成功后自动用服务器数据替换当前展示；返回空列表时显示真实空态。</li>
-<li>无法连接、超时、5xx或响应格式错误时，读操作显示隔离的本地演示资料。顶部始终标明来源；不会把之前账号的私人缓存当作演示资料。</li>
-<li>离线登录仅允许 <code>customer</code> 样例，演示支持需求提交、补充说明与留言，数据仅在当前会话保留。报价、资金、验收与复杂售后需要真实服务端。网络恢复后重新登录即可进入真实账号，演示写入不会上传。</li>
-<li>真实会话中的写操作超时，可能已经在服务器完成。客户端保存原请求键、路径和正文，禁止继续发起另一笔写入；先点“重新核对”。未查到记录仍可能在途，可继续核对或点“使用原请求键重试”。重试保留完整原请求和原键，由服务器幂等处理。</li>
-<li>401 / 403 清除当前授权和私人界面；其它4xx显示服务器原因，不能变成演示成功。请求禁止重定向，远程地址必须HTTPS。</li>
-</ul>
-<p>口令与令牌仅在进程内使用。主题、地址、超时与按服务器 / 账号隔离的待核对记录保存在目标机器的用户目录；待核对记录可能包含业务材料，因此不要公开分享该目录：</p>
-<table>
-<thead>
-<tr>
-<th>系统</th>
-<th>用户数据目录</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>MacOS</td>
-<td><code>~/Library/Application Support/Zhixu</code></td>
-</tr>
-<tr>
-<td>Windows</td>
-<td><code>%LOCALAPPDATA%\Zhixu</code></td>
-</tr>
-<tr>
-<td>开发隔离测试</td>
-<td>可用 <code>ZHIXU_DATA_DIR</code> 指定临时目录</td>
-</tr>
-</tbody></table>
-<h2>四、<span id="scripts-build">双击入口与打包</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>界面支持简体中文、繁体中文、藏文、英文、日文、法文、西班牙文、德文、俄罗斯文、韩文；商品名称和详情按后台配置原文显示。主题采用暖米白及暖深色，跟随系统可响应系统外观变化。</p>
+<h2 id="data-source-heading">三、<span id="data-source">数据、模拟支付与验证</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>进入、刷新及写操作先请求API，服务不可用时使用隔离演示，后续成功响应自动替换真数据。演示订单不上传为真实订单；真实订单请求超时保留原幂等键，可恢复网络后重试。401／403保留真实错误并清理授权数据。</p>
+<p>当前支付记录mode为mock，渠道为alipay或wechat，确认后显示待完成；该记录不代表实际扣款。真实支付SDK、签名与回调随商户资料接入。商品图先显示随包品牌图，图片加载失败保留兜底。</p>
+<p>源码入口为 <code>Zhixu/src/zhixu/shop.py</code>，数据仓库为 <code>shop_repository.py</code>，十语言资源为 <code>Assets/shop_strings.json</code>；配置保存主题、语言、API和超时，不保存登录口令或会话。源码与Qt离屏测试见<a href="../../../../%E6%B5%8B%E8%AF%95/%E5%89%8D%E7%AB%AF/PC%E7%AB%AF/Python/README.md">测试说明</a>，完整订单HTTP回归与未验证设备见<a href="../../../../%E6%B5%8B%E8%AF%95/%E5%95%86%E5%9F%8E%E5%9B%9E%E5%BD%92/README.md">商城回归</a>。本次源码变化须重新构建安装包才能进入成品，不把磁盘现有成品当作当前源码产物。</p>
+<h2 id="scripts-build-heading">四、<span id="scripts-build">双击入口与打包</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <table>
 <thead>
 <tr>
@@ -105,7 +66,7 @@
 <p>所有入口先展示内置自述并等待回车；缺少必须依赖时“直接回车安装，任意字符取消”，安装失败停止。依赖健康时复用，不升级系统全局环境。下载 <a href="https://docs.astral.sh/uv/"><strong>uv</strong></a> 0.13.6 时使用其官方 Release，并校验同源 SHA256；Python 私有运行时放 <code>Zhixu/.tools</code>，应用 / 构建依赖放 <code>Zhixu/.build-venv</code>。</p>
 <p>打包将清理本应用固定的 <code>Dist</code> 旧包，拒绝符号链接和异常目录。每次产物放在 <code>Dist/YYYY.MM.DD HH-mm-ss/</code>；APP / DMG或EXE / ZIP共用一次构建时间。成功后先打开磁盘位置，再启动本次软件。失败不会启动旧包或发布无效快捷入口。请将需要保留的历史安装包先复制到别处。</p>
 <p>日志为 <code>Zhixu/.build/session.log</code>；直接调用内层构建器也保留日志。源码、构建器、Hook输入与资源均相对本工程定位，可以整体复制改名。成品从包内读取资源，不依赖开发机源码位置。MacOS与Windows安装包必须分别在对应系统构建，MacOS不能直接生成Windows EXE。</p>
-<h2>五、<span id="structure-dependencies">工程与依赖</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<h2 id="structure-dependencies-heading">五、<span id="structure-dependencies">工程与依赖</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <pre><code class="language-text">desktop/
 ├── README.md
 ├── 【MacOS】启动知序.command
@@ -148,14 +109,14 @@
 </tr>
 </tbody></table>
 <p>当前测试 Python 为3.15.2；源码要求3.10—3.15。PySide6 6.12.0 官方MacOS轮子要求14.0及以上；本次ARM64成品只在MacOS27.0.1实际验证，其它系统版本、Intel与Windows需在目标环境复测。商业分发前须履行所选Qt许可义务；原文和来源已随资源打包，见 <code>src/zhixu/Assets/THIRD_PARTY_NOTICES.txt</code>。</p>
-<h2>六、<span id="verification">测试与回归</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<h2 id="verification-heading">六、<span id="verification">测试与回归</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <p>在仓库根目录运行统一入口，自动设置源码路径与离屏环境：</p>
 <pre><code class="language-shell">python3 ./测试/运行测试.py/运行测试.py --group desktop
 </code></pre>
 <p>测试文件与执行证据位于外层 <code>测试/前端/PC端/Python/</code>，不要求在核心代码目录建立测试副本。仅检查源码与打包环境时，在本端的 <code>Zhixu</code> 目录运行 <code>python3 Scripts/manage.py check</code>；该检查不生成安装包。</p>
-<p><a href="../../../../测试/前端/PC端/Python/README.md">测试与验证说明</a>记录各轮结果、冻结应用、独立复制与真实后端闭环证据。GUI离屏测试覆盖三服务、空态、主题、系统外观信号、报价 / 取消 / 变更按钮、两种窗口尺寸与文字对比；系统外观信号采用Qt信号夹具，不等同Windows或另一台Mac的真实系统外观切换。</p>
-<p>开发者只对独立本机开发实例运行 <a href="../../../../测试/前端/PC端/Python/live_smoke.py">桌面真实接口冒烟脚本</a>；它会创建测试需求与金额台账，请勿连接业务运行数据。该脚本覆盖真实客户 / 管理员接口、三服务需求、私有附件、报价、资金记录、开工、暂停恢复、修改、验收、售后和取消退款。</p>
-<h2>一、<span id="code-map">本单元代码地图</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
-<p>定位入口见<a href="代码地图/README.md">代码地图目录</a>，包含本工程的主地图与离线阅读版；共享源只通过原归属引用。</p>
+<p><a href="../../../../%E6%B5%8B%E8%AF%95/%E5%89%8D%E7%AB%AF/PC%E7%AB%AF/Python/README.md">测试与验证说明</a>记录各轮结果、冻结应用、独立复制与真实后端闭环证据。GUI离屏测试覆盖三服务、空态、主题、系统外观信号、报价 / 取消 / 变更按钮、两种窗口尺寸与文字对比；系统外观信号采用Qt信号夹具，不等同Windows或另一台Mac的真实系统外观切换。</p>
+<p>开发者只对独立本机开发实例运行 <a href="../../../../%E6%B5%8B%E8%AF%95/%E5%89%8D%E7%AB%AF/PC%E7%AB%AF/Python/live_smoke.py">桌面真实接口冒烟脚本</a>；它会创建测试需求与金额台账，请勿连接业务运行数据。该脚本覆盖真实客户 / 管理员接口、三服务需求、私有附件、报价、资金记录、开工、暂停恢复、修改、验收、售后和取消退款。</p>
+<h2 id="code-map-heading">一、<span id="code-map">本单元代码地图</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>定位入口见<a href="%E4%BB%A3%E7%A0%81%E5%9C%B0%E5%9B%BE/README.md">代码地图目录</a>，包含本工程的主地图与离线阅读版；共享源只通过原归属引用。</p>
 <p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
-<footer>离线阅读版由当前文档生成。测试、构建、设备业务和正式验收按各自证据登记。</footer></main><script src="../../../../需求/阅读资源/mermaid.min.js"></script><script>window.__diagramErrors=[];mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeVariables:{fontFamily:'system-ui',primaryColor:'#e6eee1',primaryTextColor:'#1c362c',lineColor:'#526e5d'}});mermaid.run({querySelector:'.mermaid'}).then(()=>{window.__renderDone=true}).catch(e=>{window.__diagramErrors.push(String(e));window.__renderDone=true});</script></body></html>
+<script src="../../../../需求/阅读资源/mermaid.min.js"></script><script>if(window.mermaid)mermaid.initialize({startOnLoad:true,securityLevel:'strict'});</script></body></html>

@@ -20,7 +20,7 @@ class Settings:
     def __init__(self, root=None):
         self.root = Path(root) if root else data_root()
         self.path = self.root / "settings.json"
-        self.values = {"theme": "system", "api": "http://127.0.0.1:8080/api/v1", "timeout": 2.5}
+        self.values = {"theme": "system", "language": "zh", "api": "http://127.0.0.1:8080/api/v1", "timeout": 2.5}
         if self.path.exists():
             try:
                 loaded = json.loads(self.path.read_text(encoding="utf-8"))

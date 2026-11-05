@@ -15,6 +15,7 @@
 | 位置 | 作用与执行组 |
 | --- | --- |
 | `engine_test.go`、`http_test.go` | 状态、资金、幂等、存储与 HTTP 单元／并发测试，`--group go`；临时 overlay 保留同包访问 |
+| `shop_test.go` | 商品后台与版本、下架／缺货、商品快照、双渠道mock、买卖双方交付评价、幂等／并发／写失败回滚、文件重启和商城真实回环HTTP；同属go组 |
 | `file_store_lock_darwin_test.go` | MacOS 文件锁：真实子进程互斥、强制退出后遗锁恢复与数据保留、活旧进程及不明锁拒绝、guard文件保留；同属 `--group go`，其它系统不执行 |
 | `接口/test_http.py` | 启动临时 Go 服务，验证真实回环 HTTP 业务及重启读回，`--group http` |
 | `证据/` | 历史后端记录及新的后端命令日志 |

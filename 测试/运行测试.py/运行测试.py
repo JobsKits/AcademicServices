@@ -102,11 +102,11 @@ def command_plan(group: str, options: argparse.Namespace, overlay: Path, evidenc
             ([sys.executable, str(TEST_ROOT / "部署/【测试】反部署.py/【测试】反部署.py")], ROOT, env),
         ]
     if group == "mini":
-        return [([executable(None, [], "node"), "--test", str(TEST_ROOT / "前端/微信小程序/test_mini.cjs")], ROOT, env)]
+        return [([executable(None, [], "node"), "--test", str(TEST_ROOT / "前端/微信小程序/test_mini.cjs"), str(TEST_ROOT / "前端/微信小程序/test_shop.cjs")], ROOT, env)]
     if group == "flutter":
         flutter = executable(options.flutter_bin, [], "flutter")
         env["CI"] = "true"
-        return [([flutter, "test", "--no-pub", str(TEST_ROOT / "前端/移动端/Flutter/repository_test.dart"), str(TEST_ROOT / "前端/移动端/Flutter/widget_test.dart"), str(TEST_ROOT / "前端/后台管理端/Flutter/admin_widget_test.dart")], FLUTTER, env)]
+        return [([flutter, "test", "--no-pub", str(TEST_ROOT / "前端/移动端/Flutter/repository_test.dart"), str(TEST_ROOT / "前端/移动端/Flutter/widget_test.dart"), str(TEST_ROOT / "前端/后台管理端/Flutter/admin_widget_test.dart"), str(TEST_ROOT / "前端/移动端/Flutter/shop_test.dart")], FLUTTER, env)]
     return [([sys.executable, str(TEST_ROOT / "前端/移动端/鸿蒙/test_prepare_harmony.py")], ROOT, env)]
 
 

@@ -1,43 +1,9 @@
-Page({
-  data: { base: "", timeoutMs: 2500, account: "customer", password: "", error: "" },
-  onLoad() {
-    this.setData({ base: getApp().api.base, timeoutMs: getApp().api.timeoutMs });
-  },
-  input(e) {
-    this.setData({ [e.currentTarget.dataset.field]: e.detail.value });
-  },
-  async submit(e) {
-    try {
-      const api = getApp().api;
-      if (this.data.base !== api.base || Number(this.data.timeoutMs) !== api.timeoutMs)
-        api.configure(this.data.base, this.data.timeoutMs);
-      await api.login(
-        this.data.account,
-        this.data.password,
-        e.currentTarget.dataset.demo === true,
-      );
-      wx.showToast({
-        title: api.mode === "demo" ? "已进入本地演示" : "已登录",
-      });
-      wx.navigateBack();
-    } catch (err) {
-      this.setData({ error: err.message });
-    }
-  },
-  async demo() {
-    try {
-      const api = getApp().api;
-      if (this.data.base !== api.base || Number(this.data.timeoutMs) !== api.timeoutMs)
-        api.configure(this.data.base, this.data.timeoutMs);
-      await api.login("customer", "demo-customer", true);
-      wx.navigateBack();
-    } catch (e) {
-      this.setData({ error: e.message });
-    }
-  },
-  logout() {
-    getApp().api.logout();
-    this.setData({ password: "" });
-    wx.showToast({ title: "已退出" });
-  },
-});
+// Created by Jobs. Password rejection stays a server error; offline demo is isolated.
+const {definePage}=require('../../Utils/ui');
+Page(definePage('account',{account:'customer',password:''},{
+  input(e){this.setData({[e.currentTarget.dataset.field]:e.detail.value});},
+  async submit(){return this.authenticate(this.data.account,this.data.password);},
+  async demo(){return this.authenticate('customer','demo-customer');},
+  async authenticate(account,password){if(this.data.busy)return;this.setData({busy:true,error:''});try{await getApp().api.login(account,password,true);this.setData({password:''});wx.navigateBack();}catch(e){this.fail(e);}finally{this.setData({busy:false});}},
+  logout(){getApp().api.logout();this.setData({password:'',error:''});this.applyAppearance();},
+}));

@@ -1,0 +1,28 @@
+00:00 +0: loading /Users/jobs/Documents/Github/学术服务平台/测试/前端/移动端/Flutter/shop_test.dart
+00:00 +0: ten locales cover every shop interaction
+00:00 +1: price parsing accepts free products and exact cents within API bounds
+00:00 +2: real empty response stays empty; failure and recovery replace demo automatically
+00:00 +3: 401 never becomes a demo login or purchase
+00:00 +4: offline full order cycle separates buyer and seller and preserves snapshot
+00:00 +5: real write timeout keeps one key and retry body without creating a local success
+00:00 +6: product update sends only editable fields and version, preserving strict API decoding
+00:00 +7: concurrent checkout is blocked before two keys can be submitted
+00:00 +8: mall category and detail responsive at 320.0
+00:00 +9: mall category and detail responsive at 390.0
+00:00 +10: mall category and detail responsive at 934.0
+00:00 +11: mall category and detail responsive at 1440.0
+00:00 +12: checkout close does not pay, explicit channel confirmation pays once
+00:01 +13: admin opens product editor with all required inventory controls
+00:01 +14: editing zero price and multiline section preserves content
+00:01 +15: locale zh and dark appearance restore
+00:01 +16: locale zh-Hant and dark appearance restore
+00:01 +17: locale bo and dark appearance restore
+00:01 +18: locale en and dark appearance restore
+00:01 +19: locale ja and dark appearance restore
+00:01 +20: locale fr and dark appearance restore
+00:02 +21: locale es and dark appearance restore
+00:02 +22: locale de and dark appearance restore
+00:02 +23: locale ru and dark appearance restore
+00:02 +24: locale ko and dark appearance restore
+00:02 +25: warm light and dark main/subtitle text passes 4.5 contrast
+00:02 +26: All tests passed!

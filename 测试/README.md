@@ -12,6 +12,8 @@
 
 代码、测试、需求三个资料主目录的一级仅保留 `README.md` 与子目录；文档原稿、同主题阅读版及附件按职责或标题集中，入口由本页导航。
 
+当前商城执行证据及MC场景见[商城回归](./商城回归/README.md)，包含商品管理、双渠道模拟支付、交付确认评价、权限并发及各端界面。
+
 ## 一、<span id="entry">测试入口与范围</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 在仓库根目录运行：

@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "base_path": "/api/v1",
   "rules": [
     "Bearer session token",
@@ -9,7 +9,9 @@
     "timestamps RFC3339 UTC",
     "401/403/409/422 never become demo successes",
     "network/5xx fallback to isolated local demo; unknown real writes retain original key and reconcile by reload; never replay demo writes",
-    "Success is final 2xx; redirects are not success. File size limit 8 MiB. Production supports fixed admin/customer only in current MVP."
+    "Success is final 2xx; redirects are not success. File size limit 8 MiB. Production supports fixed admin/customer only in current MVP.",
+    "Shop products and orders use current schema 2; shop writes require stable Idempotency-Key and optimistic expected_version for edits/actions.",
+    "PAYMENT_MODE defaults to mock; real rejects pay until a verified gateway is implemented. No client-success assertion marks a real order paid."
   ],
   "login": {
     "method": "POST",
@@ -415,5 +417,248 @@
       "status": "ok",
       "version": "0.1.0"
     }
+  },
+  "shop": {
+    "payment_mode": "mock",
+    "product_shape": {
+      "id": "stable string",
+      "category_id": "graduation|journal|editing",
+      "kind": "course|service",
+      "name": "string",
+      "summary": "string",
+      "description": "string",
+      "price_minor": "nonnegative integer CNY fen",
+      "currency": "CNY",
+      "image": "HTTPS, packaged relative path, raster image data URL, or empty",
+      "sections": [
+        {
+          "title": "string",
+          "body": "string"
+        }
+      ],
+      "active": true,
+      "in_stock": true,
+      "version": 1,
+      "is_demo": true,
+      "reference_price": "reference-site fact; not operating price",
+      "created_at": "RFC3339 UTC",
+      "updated_at": "RFC3339 UTC"
+    },
+    "product_input": {
+      "category_id": "graduation",
+      "kind": "course",
+      "name": "课程名称",
+      "summary": "简介",
+      "description": "详情",
+      "price_minor": 100,
+      "currency": "CNY",
+      "image": "",
+      "sections": [
+        {
+          "title": "交付",
+          "body": "课程说明"
+        }
+      ],
+      "active": true,
+      "in_stock": true,
+      "is_demo": true,
+      "reference_price": "",
+      "expected_version": 1
+    },
+    "order_shape": {
+      "id": "UUID",
+      "owner_id": "server authenticated user ID",
+      "product_snapshot": "immutable Product",
+      "quantity": 1,
+      "amount_minor": "server Product price at purchase",
+      "currency": "CNY",
+      "status": "pending_payment|pending_completion|pending_review|completed|cancelled",
+      "fulfillment_status": "pending|in_progress|delivered",
+      "seller_status": "awaiting_payment|pending_delivery|in_progress|awaiting_confirmation|awaiting_review|completed|cancelled",
+      "version": 1,
+      "created_at": "RFC3339 UTC",
+      "updated_at": "RFC3339 UTC",
+      "paid_at": "RFC3339 UTC optional",
+      "delivered_at": "RFC3339 UTC optional",
+      "completed_at": "buyer acceptance time; optional",
+      "delivery_text": "string",
+      "payment": null,
+      "review": null,
+      "events": []
+    },
+    "payment_shape": {
+      "id": "UUID",
+      "mode": "mock",
+      "channel": "alipay|wechat",
+      "status": "succeeded",
+      "amount_minor": "server order amount",
+      "currency": "CNY",
+      "reference": "MOCK-UUID; not provider transaction ID",
+      "created_at": "RFC3339 UTC"
+    },
+    "review_shape": {
+      "rating": "integer 1..5",
+      "text": "nonblank string",
+      "created_at": "RFC3339 UTC"
+    },
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/products?category_id=graduation",
+        "auth": "public",
+        "response": {
+          "products": [
+            "Product"
+          ],
+          "payment_mode": "mock|real"
+        },
+        "note": "Only active products; out-of-stock listings remain visible"
+      },
+      {
+        "method": "GET",
+        "path": "/products/{id}",
+        "auth": "public",
+        "response": {
+          "product": "Product"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/admin/products",
+        "auth": "admin",
+        "response": {
+          "products": [
+            "Product"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/admin/products",
+        "auth": "admin",
+        "body": "product_input without required expected_version",
+        "response": {
+          "product": "Product"
+        },
+        "status": 201
+      },
+      {
+        "method": "PUT",
+        "path": "/admin/products/{id}",
+        "auth": "admin",
+        "body": "complete product_input including expected_version",
+        "response": {
+          "product": "Product"
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/shop-orders",
+        "auth": "customer",
+        "body": {
+          "product_id": "Product.id",
+          "product_version": 1
+        },
+        "response": {
+          "order": "ShopOrder"
+        },
+        "status": 201
+      },
+      {
+        "method": "GET",
+        "path": "/shop-orders",
+        "auth": "customer own/admin all",
+        "response": {
+          "orders": [
+            "ShopOrder"
+          ],
+          "payment_mode": "mock|real"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/shop-orders/{id}",
+        "auth": "customer own/admin",
+        "response": {
+          "order": "ShopOrder"
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/shop-orders/{id}/actions",
+        "auth": "action-dependent role and order owner",
+        "body": {
+          "action": "pay|start|deliver|accept|review|cancel",
+          "expected_version": 1,
+          "channel": "alipay|wechat; pay only",
+          "text": "delivery/review text",
+          "rating": "1..5 for review"
+        },
+        "response": {
+          "order": "ShopOrder"
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/shop-operations/{key}",
+        "auth": "current actor",
+        "response": {
+          "operation": {
+            "status": "succeeded",
+            "resource_type": "product|order",
+            "resource_id": "UUID",
+            "action": "string",
+            "created_at": "RFC3339 UTC"
+          },
+          "order": "latest ShopOrder when resource_type=order",
+          "product": "latest Product when resource_type=product"
+        },
+        "note": "404 is no committed receipt, not proof an in-flight request failed."
+      }
+    ],
+    "actions": {
+      "pay": {
+        "role": "customer",
+        "from": "pending_payment",
+        "to": "pending_completion",
+        "fields": [
+          "channel"
+        ],
+        "note": "mock success; no real charge; channel validated"
+      },
+      "start": {
+        "role": "admin",
+        "from": "pending_completion/pending",
+        "to": "pending_completion/in_progress"
+      },
+      "deliver": {
+        "role": "admin",
+        "from": "pending_completion and not delivered",
+        "to": "pending_completion/delivered",
+        "fields": [
+          "text"
+        ]
+      },
+      "accept": {
+        "role": "customer",
+        "from": "pending_completion/delivered",
+        "to": "pending_review"
+      },
+      "review": {
+        "role": "customer",
+        "from": "pending_review",
+        "to": "completed",
+        "fields": [
+          "text",
+          "rating"
+        ]
+      },
+      "cancel": {
+        "role": "customer",
+        "from": "pending_payment",
+        "to": "cancelled"
+      }
+    },
+    "consistency": "All shop writes atomically persist mutation, audit and receipt; replay receipt before version validation; same key different request returns 409; purchase checks current product version, active and in_stock; existing pending order pays its immutable snapshot."
   }
 }

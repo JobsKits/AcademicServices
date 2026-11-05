@@ -10,8 +10,10 @@ import shutil
 import signal
 import socket
 import subprocess
+import sys
 import tempfile
 import time
+from types import SimpleNamespace
 import unittest
 import urllib.error
 import urllib.request
@@ -33,7 +35,7 @@ class HTTPRegression(unittest.TestCase):
             sock.bind(('127.0.0.1',0)); cls.port = sock.getsockname()[1]
         cls.base = f'http://127.0.0.1:{cls.port}/api/v1'
         cls.log = (cls.runtime/'server.log').open('wb')
-        cls.env = {**os.environ, 'APP_ENV':'test', 'LISTEN_ADDR':f'127.0.0.1:{cls.port}', 'DATA_DIR':str(cls.runtime/'data'), 'DATABASE_URL':'', 'CORS_ORIGINS':'', 'ADMIN_PASSWORD':'demo-admin-change-me', 'DEMO_CUSTOMER_PASSWORD':'demo-customer'}
+        cls.env = {**os.environ, 'APP_ENV':'test', 'LISTEN_ADDR':f'127.0.0.1:{cls.port}', 'DATA_DIR':str(cls.runtime/'data'), 'DATABASE_URL':'', 'CORS_ORIGINS':'', 'ADMIN_PASSWORD':'demo-admin-change-me', 'DEMO_CUSTOMER_PASSWORD':'demo-customer', 'PAYMENT_MODE':'mock'}
         cls.start()
     @classmethod
     def start(cls):
@@ -56,13 +58,13 @@ class HTTPRegression(unittest.TestCase):
         if not hasattr(type(self), '_tokens'):
             type(self)._tokens=(self.login('customer','demo-customer'),self.login('customer2','demo-customer'),self.login('admin','demo-admin-change-me'))
         self.customer,self.other,self.admin=type(self)._tokens
-    def req(self,path,token=None,body=None,*,key=None,expected=200,raw=False):
+    def req(self,path,token=None,body=None,*,key=None,expected=200,raw=False,method=None):
         data=body if raw else (json.dumps(body,ensure_ascii=False).encode() if body is not None else None)
         headers={'Content-Type':'application/json'}
         if token: headers['Authorization']='Bearer '+token
         if body is not None: headers['Idempotency-Key']=key or str(uuid.uuid4())
         if raw: headers['Content-Type']='multipart/form-data; boundary=zhixu-test-boundary'
-        request=urllib.request.Request(self.base+path,data=data,headers=headers)
+        request=urllib.request.Request(self.base+path,data=data,headers=headers,method=method)
         try:
             with urllib.request.urlopen(request,timeout=8) as r: code,payload=r.status,r.read()
         except urllib.error.HTTPError as e:
@@ -152,6 +154,142 @@ class HTTPRegression(unittest.TestCase):
         self.act(c,'accept_quote',self.customer,quote_id=old,expected=409)
     def test_13_readiness_and_session_no_cache(self):
         self.req('/health');self.req('/operations/does-not-exist',self.customer,expected=404)
+    def shop_new(self, product_id='editing-translation', key=None):
+        product = self.req('/products/' + product_id)['product']
+        return self.req('/shop-orders', self.customer, {'product_id': product_id, 'product_version': product['version']}, key=key, expected=201)['order']
+    def shop_action(self, order, action, token=None, **fields):
+        return self.req('/shop-orders/' + order['id'] + '/actions', token or self.customer,
+                        {'action': action, 'expected_version': order['version'], **fields})['order']
+    def product_body(self, product):
+        fields = ('category_id', 'kind', 'name', 'summary', 'description', 'price_minor', 'currency', 'image', 'sections', 'active', 'in_stock', 'is_demo', 'reference_price')
+        return {**{field: product[field] for field in fields}, 'expected_version': product['version']}
+    def test_20_shop_catalog_category_and_details(self):
+        products = self.req('/products')['products']
+        self.assertGreaterEqual(len(products), 9)
+        for category in ('graduation', 'journal', 'editing'):
+            rows = self.req('/products?category_id=' + category)['products']
+            self.assertTrue(rows)
+            self.assertTrue(all(x['category_id'] == category for x in rows))
+            self.assertEqual(self.req('/products/' + rows[0]['id'])['product'], rows[0])
+        self.req('/products/missing-product', expected=404)
+        self.assertEqual(self.req('/health')['payment_mode'], 'mock')
+    def test_21_shop_admin_edit_stock_and_versions(self):
+        product = self.req('/products/editing-polish')['product']
+        body = self.product_body(product)
+        body.update(name='接口联调课程', kind='course', price_minor=12345, description='后台完整编辑商品详情',
+                    image='https://example.org/product.png', sections=[{'title': '课程介绍', 'body': '线上课程交付'}], active=True, in_stock=False)
+        key = str(uuid.uuid4())
+        created = self.req('/admin/products', self.admin, body, expected=201, key=key)['product']
+        self.assertEqual(self.req('/admin/products', self.admin, body, expected=201, key=key)['product']['id'], created['id'])
+        self.req('/shop-orders', self.customer, {'product_id': created['id'], 'product_version': 1}, expected=409)
+        self.req('/admin/products', self.customer, body, expected=403)
+        body = self.product_body(created)
+        body.update(in_stock=True, price_minor=54321, name='后台修改后的课程')
+        updated = self.req('/admin/products/' + created['id'], self.admin, body, method='PUT')['product']
+        self.assertEqual((updated['version'], updated['price_minor'], updated['sections'][0]['body']), (2, 54321, '线上课程交付'))
+        self.req('/admin/products/' + created['id'], self.admin, body, method='PUT', expected=409)
+        self.req('/shop-orders', self.customer, {'product_id': created['id'], 'product_version': 1}, expected=409)
+        sold = self.shop_new(created['id'])
+        body = self.product_body(updated)
+        body.update(active=False, price_minor=1)
+        self.req('/admin/products/' + created['id'], self.admin, body, method='PUT')
+        self.req('/products/' + created['id'], expected=404)
+        snapshot = self.req('/shop-orders/' + sold['id'], self.customer)['order']
+        self.assertEqual((snapshot['amount_minor'], snapshot['product_snapshot']['name']), (54321, '后台修改后的课程'))
+    def test_22_shop_both_payment_channels_and_full_fulfillment(self):
+        for channel in ('alipay', 'wechat'):
+            with self.subTest(channel=channel):
+                key = str(uuid.uuid4())
+                product = self.req('/products/graduation-proposal')['product']
+                body = {'product_id': product['id'], 'product_version': product['version']}
+                order = self.req('/shop-orders', self.customer, body, key=key, expected=201)['order']
+                duplicate = self.req('/shop-orders', self.customer, body, key=key, expected=201)['order']
+                self.assertEqual(order['id'], duplicate['id'])
+                self.req('/shop-orders', self.customer, {**body, 'product_id': 'editing-translation'}, key=key, expected=409)
+                pay_key = str(uuid.uuid4())
+                pay_body = {'action': 'pay', 'expected_version': order['version'], 'channel': channel}
+                paid = self.req('/shop-orders/' + order['id'] + '/actions', self.customer, pay_body, key=pay_key)['order']
+                repeated = self.req('/shop-orders/' + order['id'] + '/actions', self.customer, pay_body, key=pay_key)['order']
+                self.assertEqual(repeated['payment']['id'], paid['payment']['id'])
+                self.assertEqual((paid['payment']['mode'], paid['payment']['channel'], paid['payment']['amount_minor']), ('mock', channel, order['amount_minor']))
+                self.assertEqual(self.req('/shop-operations/' + pay_key, self.customer)['order']['id'], order['id'])
+                order = self.shop_action(paid, 'start', self.admin)
+                self.assertEqual(order['seller_status'], 'in_progress')
+                order = self.shop_action(order, 'deliver', self.admin, text='在线课程与服务资料已交付')
+                self.assertEqual(order['seller_status'], 'awaiting_confirmation')
+                order = self.shop_action(order, 'accept')
+                self.assertEqual(order['status'], 'pending_review')
+                completed_at = order['completed_at']
+                order = self.shop_action(order, 'review', rating=5, text='课程内容清楚，交付及时')
+                self.assertEqual((order['status'], order['review']['rating'], order['completed_at']), ('completed', 5, completed_at))
+    def test_23_shop_concurrent_payment(self):
+        order = self.shop_new()
+        body = {'action': 'pay', 'expected_version': order['version'], 'channel': 'wechat'}
+        def send(_):
+            request = urllib.request.Request(self.base + '/shop-orders/' + order['id'] + '/actions', data=json.dumps(body).encode(), headers={
+                'Content-Type': 'application/json', 'Authorization': 'Bearer ' + self.customer, 'Idempotency-Key': str(uuid.uuid4())})
+            try:
+                with urllib.request.urlopen(request, timeout=8) as response:
+                    return response.status
+            except urllib.error.HTTPError as error:
+                with error:
+                    return error.code
+        with concurrent.futures.ThreadPoolExecutor(4) as pool:
+            codes = list(pool.map(send, range(4)))
+        self.assertEqual(sorted(codes), [200, 409, 409, 409])
+        restored = self.req('/shop-orders/' + order['id'], self.customer)['order']
+        self.assertEqual(len([x for x in restored['events'] if x['action'] == 'pay']), 1)
+    def test_24_shop_roles_owner_and_price_forgery(self):
+        order = self.shop_new()
+        path = '/shop-orders/' + order['id']
+        self.req(path, self.other, expected=404)
+        self.req(path + '/actions', self.other, {'action': 'pay', 'expected_version': 1, 'channel': 'alipay'}, expected=404)
+        self.req(path + '/actions', self.admin, {'action': 'pay', 'expected_version': 1, 'channel': 'alipay'}, expected=403)
+        self.req(path + '/actions', self.customer, {'action': 'deliver', 'expected_version': 1, 'text': '越权交付'}, expected=403)
+        self.req(path + '/actions', self.customer, {'action': 'accept', 'expected_version': 1}, expected=409)
+        self.req('/shop-orders', self.customer, {'product_id': 'editing-translation', 'product_version': 1, 'amount_minor': 1}, expected=422)
+        cancelled = self.shop_action(order, 'cancel')
+        self.assertEqual(cancelled['status'], 'cancelled')
+        self.req(path + '/actions', self.customer, {'action': 'pay', 'expected_version': cancelled['version'], 'channel': 'wechat'}, expected=409)
+    def test_25_python_shop_repository_real_service_contract(self):
+        source = ROOT / '代码/前端/PC端/Python/Zhixu/src'
+        sys.path.insert(0, str(source))
+        try:
+            from zhixu.shop_repository import ShopRepository
+            repo = ShopRepository(SimpleNamespace(values={'api': self.base, 'timeout': 3.0}))
+            state = repo.login('customer', 'demo-customer')
+            self.assertEqual(state['source'], 'live')
+            product = next(x for x in state['products'] if x['id'] == 'journal-training')
+            order = repo.buy(product)
+            self.assertFalse(order['id'].startswith('demo-'))
+            paid = repo.action(order, 'pay', channel='alipay')
+            self.assertEqual((repo.source, paid['payment']['mode']), ('live', 'mock'))
+            order = self.shop_action(paid, 'start', self.admin)
+            order = self.shop_action(order, 'deliver', self.admin, text='真实接口联调的训练营交付')
+            refreshed = repo.refresh()
+            order = next(x for x in refreshed['orders'] if x['id'] == order['id'])
+            order = repo.action(order, 'accept')
+            completed = repo.action(order, 'review', rating=5, text='Python数据仓库与Go契约闭环')
+            self.assertEqual((completed['status'], completed['owner_id'], repo.source), ('completed', 'customer', 'live'))
+            self.assertEqual(repo.pending, {})
+        finally:
+            sys.path.remove(str(source))
+    def test_26_shop_restart_preserves_payment_review_and_receipt(self):
+        order = self.shop_new('journal-mentoring')
+        key = str(uuid.uuid4())
+        order = self.req('/shop-orders/' + order['id'] + '/actions', self.customer,
+                         {'action': 'pay', 'expected_version': order['version'], 'channel': 'wechat'}, key=key)['order']
+        order = self.shop_action(order, 'deliver', self.admin, text='重启验证的服务交付')
+        order = self.shop_action(order, 'accept')
+        order = self.shop_action(order, 'review', rating=4, text='重启后仍可查询')
+        self.stop()
+        self.start()
+        self.req('/shop-orders', self.customer, expected=401)
+        del type(self)._tokens
+        self.setUp()
+        restored = self.req('/shop-orders/' + order['id'], self.customer)['order']
+        self.assertEqual(restored, order)
+        self.assertEqual(self.req('/shop-operations/' + key, self.customer)['order']['payment']['id'], order['payment']['id'])
     @unittest.skipUnless(hasattr(signal, 'SIGHUP'), 'Requires Unix hangup signal')
     def test_98_hangup_releases_lock_and_preserves_business(self):
         c=self.new()

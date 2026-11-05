@@ -8,7 +8,7 @@
 
 ## 🔥 <span id="前言">前言</span>
 
-本目录是独立 [**HarmonyOS**](https://developer.huawei.com/consumer/cn/) ArkTS／ArkWeb 宿主，归入前端的移动端，与 Flutter 技术目录并列。当前通过同源 HTTPS 加载 Flutter 用户页面，不是 Flutter OH 引擎；品牌仍为暂名，正式签收范围见[项目评审 Q-007](../../../../需求/项目需求与开发评审/项目需求与开发评审.md#uncertainties)。
+本目录是独立 [**HarmonyOS**](https://developer.huawei.com/consumer/cn/) ArkTS／ArkWeb 宿主，归入前端的移动端，与 Flutter 技术目录并列。当前通过同源 HTTPS 加载 Flutter 用户页面，不是 Flutter OH 引擎；品牌仍为暂名，正式签收范围见[项目评审](../../../../需求/项目需求与开发评审/项目需求与开发评审.md#open-items)。
 
 ## 一、<span id="entry">当前能力与入口</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 

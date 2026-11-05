@@ -1,10 +1,10 @@
 {
-  "name": "知序 · 管理工作台",
+  "name": "知序 · 商城管理",
   "short_name": "知序后台",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#f4f5ef",
-  "theme_color": "#183d32",
-  "description": "知序学术服务后台管理工作台",
+  "background_color": "#fff9f0",
+  "theme_color": "#85533b",
+  "description": "知序学术商城商品与订单交付管理",
   "prefer_related_applications": false
 }

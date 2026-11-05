@@ -1,0 +1,54 @@
+{
+  "checked_at": "2026-11-05T00:57:30.484060+08:00",
+  "font_codepoints": {
+    "NotoSerifTibetan.ttf": 552,
+    "NotoSansCJKsc-Regular.otf": 44810
+  },
+  "locale_checks": {
+    "zh": {
+      "unique_codepoints": 224,
+      "missing": []
+    },
+    "zh-Hant": {
+      "unique_codepoints": 221,
+      "missing": []
+    },
+    "bo": {
+      "unique_codepoints": 65,
+      "missing": []
+    },
+    "en": {
+      "unique_codepoints": 57,
+      "missing": []
+    },
+    "ja": {
+      "unique_codepoints": 236,
+      "missing": []
+    },
+    "fr": {
+      "unique_codepoints": 64,
+      "missing": []
+    },
+    "es": {
+      "unique_codepoints": 58,
+      "missing": []
+    },
+    "de": {
+      "unique_codepoints": 65,
+      "missing": []
+    },
+    "ru": {
+      "unique_codepoints": 78,
+      "missing": []
+    },
+    "ko": {
+      "unique_codepoints": 201,
+      "missing": []
+    }
+  },
+  "source": "ten-locale shop interaction strings plus default product text",
+  "product_text": {
+    "unique_codepoints": 227,
+    "missing": []
+  }
+}

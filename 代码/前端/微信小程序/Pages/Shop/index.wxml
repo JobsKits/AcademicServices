@@ -1,0 +1,14 @@
+<view class="app {{theme}}"><view class="page">
+  <view class="row nav"><view class="wordmark">知序</view><view class="nav-actions"><button class="small secondary" bindtap="orders">{{t.orders}}</button><button class="small secondary" bindtap="settings">{{t.settings}}</button></view></view>
+  <view class="hero-panel"><view class="eyebrow">{{t.shop}}</view><view class="hero">{{category ? t[category] : t.hero}}</view><view class="sub">{{t.intro}}</view><image class="hero-brand" src="/Assets/brand.png" mode="aspectFit"/></view>
+  <view class="categories"><button wx:for="{{categories}}" wx:key="*this" class="category {{category===item?'selected':''}}" data-id="{{item}}" bindtap="category">{{t[item]}}</button></view>
+  <view class="row"><view class="section">{{category ? t[category] : t.products}}</view><button class="small secondary" bindtap="reload">{{t.reload}}</button></view>
+  <view class="source">{{source==='demo'?t.offline:t.online}}</view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+  <empty-state wx:if="{{!products.length}}" title="{{t.emptyProducts}}" description="{{t.emptyHint}}" reload-label="{{t.reload}}" bind:reload="reload"/>
+  <view class="product-grid"><view wx:for="{{products}}" wx:key="id" class="product-card" data-id="{{item.id}}" bindtap="product">
+    <view class="product-image"><image src="/Assets/brand.png" mode="aspectFit"/><image wx:if="{{item.image &amp;&amp; !failedImages[item.id]}}" class="remote-image" src="{{item.image}}" mode="aspectFill" data-id="{{item.id}}" binderror="imageError"/><view class="image-category">{{t[item.category_id]}}</view></view>
+    <view class="product-body"><view class="badge">{{t[item.kind]}}</view><view class="title">{{item.name}}</view><view class="sub small">{{item.summary}}</view><view class="price">{{item.amount}}</view><view class="small muted" wx:if="{{item.is_demo}}">{{t.demoGoods}}</view><view class="stock" wx:if="{{!item.in_stock}}">{{t.outOfStock}}</view><button size="mini">{{t.details}}</button></view>
+  </view></view>
+  <button class="secondary" bindtap="login">{{user ? t.account : t.login}}</button>
+</view></view>

@@ -1,7 +1,10 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>学术服务平台｜测试与分级验收</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f5f6f1;color:#1c362c;font:16px/1.85 system-ui,sans-serif}main{max-width:1180px;margin:auto;padding:42px 28px}header{border-bottom:1px solid #d5ded3;padding:12px 0 26px;display:flex;gap:18px;align-items:center}header img{width:64px;height:64px;border-radius:14px}h1{font-size:36px;line-height:1.3;margin:6px 0}h2{font-size:25px;border-top:1px solid #d5ded3;margin:44px 0 20px;padding-top:24px}h3{font-size:20px;margin-top:32px}h2 a,h3 a{font-size:15px!important;text-decoration:none}a{color:#145f44;text-underline-offset:3px}small{font-size:13px;color:#50675b}.toc{background:#e7ede3;padding:14px 20px;margin:24px 0;border-radius:12px}.toc summary{cursor:pointer;font-weight:650}.toc ul{list-style:none;padding:0;columns:2}.toc li{break-inside:avoid;padding:3px 0}.toc .l3{padding-left:16px;font-size:14px}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;background:white;font-size:14px;margin:20px 0}td,th{border:1px solid #d1dcd0;padding:10px 13px;text-align:left;min-width:90px;vertical-align:top}th{background:#e6eee1;font-weight:650}p code,li code,td code{font-size:.88em;background:#e9eee4;padding:2px 4px;border-radius:4px;overflow-wrap:anywhere}pre{overflow:auto;background:#e8eee3;padding:18px;border-radius:12px;line-height:1.65}code{font-family:ui-monospace,monospace}blockquote{margin:20px 0;padding:8px 20px;border-left:3px solid #68866d;background:#edf0e7;overflow-wrap:anywhere}.mermaid{background:white;text-align:center}svg{max-width:100%;height:auto}footer{margin:42px 0 0;border-top:1px solid #d5ded3;padding:20px 0;font-size:13px;color:#50675b}body>svg{display:none}@media(max-width:650px){main{padding:20px 14px}h1{font-size:28px}h2{font-size:22px}header img{width:44px;height:44px}.toc ul{columns:1}table{font-size:13px}}@media print{.toc,header small{display:none}body{background:white}main{max-width:none}}</style></head><body><main><header><img src="../../代码/工程资源/icon.png" alt="项目图标"><div><small>学术服务平台 · 文档阅读</small><h1>学术服务平台｜测试与分级验收</h1><small>原始结论日期以正文为准 · <a href="测试与分级验收.md">Markdown 原稿</a> · <a href="../../README.md">根目录说明</a></small></div></header><details class="toc"><summary>章节目录</summary><nav aria-label="章节"><ul><li class="l2"><a href="#前言">前言</a></li><li class="l2"><a href="#levels">三级准入与结论规则</a></li><li class="l2"><a href="#metrics">环境、数据与非功能指标</a></li><li class="l2"><a href="#cases">业务用例与追溯</a></li><li class="l2"><a href="#execution">目录、复跑与执行边界</a></li><li class="l2"><a href="#evidence">执行证据与历史基线</a></li><li class="l2"><a href="#acceptance-record">缺陷、复验与签收</a></li></ul></nav></details>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>学术服务平台｜测试与分级验收</title><style>
+ :root{color-scheme:light dark}body{font:16px/1.75 system-ui,-apple-system,sans-serif;background:#faf5ec;color:#392b22;max-width:1100px;margin:36px auto;padding:0 24px}h1{font-size:32px}h2{margin-top:38px;border-bottom:1px solid #dbcdbb;padding-bottom:10px}h3{margin-top:28px}a{color:#805334}img{max-width:100%;max-height:280px;object-fit:cover;border-radius:12px}table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow:auto}th,td{border:1px solid #d4c4b2;padding:10px 13px;vertical-align:top}th{background:#eee0cd}blockquote{margin:16px 0;padding:10px 20px;border-left:4px solid #b98b5e;background:#f1e7d8}pre{padding:18px;background:#efe5d6;overflow:auto;border-radius:8px}code{font-size:.9em}nav{background:#f3eadc;padding:16px;border-radius:12px}.level3{margin-left:18px}li{margin:4px 0}.mermaid{background:transparent}@media(prefers-color-scheme:dark){body{background:#211c18;color:#f5e9dc}a{color:#e4b187}th,nav,blockquote,pre{background:#352b22}td,th,h2{border-color:#806c59}}@media print{body{max-width:none;margin:0;color:#222;background:white}nav{display:none}h2,h3{break-after:avoid}tr{break-inside:avoid}}</style></head><body><h1>学术服务平台｜测试与分级验收</h1>
+<p><img src="https://picsum.photos/1500/400" alt="Jobs出品，必属精品"></p>
+<nav aria-label="章节目录"><details open><summary>目录</summary><ul><li class="level2"><a href="#前言">🔥 前言</a></li><li class="level2"><a href="#levels">一、三级准入与结论规则</a></li><li class="level2"><a href="#metrics">二、环境、数据与非功能指标</a></li><li class="level2"><a href="#cases">三、业务用例与追溯</a></li><li class="level2"><a href="#execution">四、目录、复跑与执行边界</a></li><li class="level2"><a href="#evidence">五、执行证据与历史基线</a></li><li class="level2"><a href="#acceptance-record">六、缺陷、复验与签收</a></li></ul></details></nav>
 <hr>
-<h2>🔥 <span id="前言">前言</span></h2>
-<p>本册按 Jobs“软件项目从零到一”规范建立可执行的验收计划，与<a href="../../需求/项目需求与开发评审/项目需求与开发评审阅读版.html">项目需求与开发评审</a>和<a href="../../需求/交付与运维清单/交付与运维清单阅读版.html">交付与运维清单</a>共同使用。原需求 C／F／R／T 编号保留；AC 是本册业务用例编号，OP 是部署运维用例编号。用例存在、历史通过及当前候选版本通过分别记录。</p>
+<h2 id="前言-heading">🔥 <span id="前言">前言</span></h2>
+<p>本册按 Jobs“软件项目从零到一”规范建立可执行的验收计划，与<a href="../../%E9%9C%80%E6%B1%82/%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E4%B8%8E%E5%BC%80%E5%8F%91%E8%AF%84%E5%AE%A1/%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E4%B8%8E%E5%BC%80%E5%8F%91%E8%AF%84%E5%AE%A1.md">项目需求与开发评审</a>和<a href="../../%E9%9C%80%E6%B1%82/%E4%BA%A4%E4%BB%98%E4%B8%8E%E8%BF%90%E7%BB%B4%E6%B8%85%E5%8D%95/%E4%BA%A4%E4%BB%98%E4%B8%8E%E8%BF%90%E7%BB%B4%E6%B8%85%E5%8D%95.md">交付与运维清单</a>共同使用。原需求 C／F／R／T 编号保留；AC 是本册业务用例编号，OP 是部署运维用例编号。用例存在、历史通过及当前候选版本通过分别记录。</p>
 <table>
 <thead>
 <tr>
@@ -34,7 +37,7 @@
 <td></td>
 </tr>
 </tbody></table>
-<h2>一、<span id="levels">三级准入与结论规则</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<h2 id="levels-heading">一、<span id="levels">三级准入与结论规则</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <table>
 <thead>
 <tr>
@@ -61,7 +64,7 @@
 </tbody></table>
 <p>崩溃、流程阻断、越权、关键计算错误、数据损坏或交易错误属于对应范围的阻断条件。遮挡关键动作、不可读或无法完成操作也不能按轻微视觉问题放行。其它缺陷等级、允许数量和时限在执行前填写，不由本册虚构数值。</p>
 <p>验收结论由约定验收人给出“通过／有条件通过／不通过”。有条件通过须列明非阻断遗留、责任人和期限；缺失输入或未执行用例不得计入通过。状态仅使用“通过、失败、未执行、阻塞、不适用”，阻塞与不适用均写依据。</p>
-<h2>二、<span id="metrics">环境、数据与非功能指标</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<h2 id="metrics-heading">二、<span id="metrics">环境、数据与非功能指标</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <table>
 <thead>
 <tr>
@@ -112,143 +115,50 @@
 </tr>
 </tbody></table>
 <p>仅使用合成数据和专用临时目录／空测试库。账户、凭据、附件不得复用生产数据；真实资金不作为自动化输入。切换文件／PG 存储是切换数据源，不能当迁移；PG 用例须显式准备专用空库，不能指向已有业务库。</p>
-<h2>三、<span id="cases">业务用例与追溯</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
-<p>以下是验收执行合同，包含尚未实现的能力；“预期”不是当前完成声明。优先级与目标环境由本期范围确定，未给定的字段留白。AC 为场景组，执行时将正常、异常和边界分为子用例并保留原组号，不能用一次成功操作代表整组通过。</p>
+<h2 id="cases-heading">三、<span id="cases">业务用例与追溯</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>当前业务用例以<a href="../../%E9%9C%80%E6%B1%82/%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E4%B8%8E%E5%BC%80%E5%8F%91%E8%AF%84%E5%AE%A1/%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E4%B8%8E%E5%BC%80%E5%8F%91%E8%AF%84%E5%AE%A1.md">商城需求</a>及<a href="../%E5%95%86%E5%9F%8E%E5%9B%9E%E5%BD%92/README.md">商城回归</a>为准；源码、真实HTTP、Web构建、设备与正式渠道验收分别记录。</p>
 <table>
 <thead>
 <tr>
-<th>用例／需求</th>
-<th>前置条件与数据</th>
-<th>操作步骤</th>
-<th>预期结果</th>
-<th>状态</th>
-<th>实际结果／证据</th>
+<th>用例</th>
+<th>操作与预期</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>AC-01；F01／F09，T01—T03／T30</td>
-<td>可售及下架服务样例，已确认品牌与内容</td>
-<td>游客浏览三服务→查看详情→下架后新建与历史查阅→核对主体、授权内容</td>
-<td>仅三项业务；下一步清楚；下架阻止新承接，历史约定稳定；不展示未授权案例</td>
-<td>未执行</td>
-<td></td>
+<td>MC-01 商品与子页</td>
+<td>三分类→分类列表→9子商品详情→返回，页面层级及内容分节可达</td>
 </tr>
 <tr>
-<td>AC-02；F02，T03／T18／T27—T28</td>
-<td>至少两个隔离客户、管理员、过期会话及私有附件</td>
-<td>未登录访问→换号→跨案件／附件／操作键请求→登出／重启后重用旧会话</td>
-<td>私有请求拒绝；仅本人或授权管理员可见；换号不泄露缓存；旧会话失效</td>
-<td>未执行</td>
-<td></td>
+<td>MC-02 后台商品</td>
+<td>新建编辑名称、内容、整数分价格、图片、分节、上下架与缺货；非法角色和过期版本拒绝</td>
 </tr>
 <tr>
-<td>AC-03；F02／F10，T19／T21／T27</td>
-<td>已确认员工角色、分派与撤派方案</td>
-<td>分派案件→各角色操作与读材料→撤派→再用旧会话请求</td>
-<td>服务端按角色和数据范围授权，撤派后立即失去相应材料权限；未实现不记通过</td>
-<td>未执行</td>
-<td></td>
+<td>MC-03 交易快照</td>
+<td>下架／缺货不能新购，改价与下单并发需重确认，订单快照保持</td>
 </tr>
 <tr>
-<td>AC-04；F03／F04，T04／T07</td>
-<td>三服务必填与选填数据、同意／拒绝材料处理、补料样例</td>
-<td>分别提交→核对编号→运营要求补料→客户补充→重新读取</td>
-<td>按服务校验；同意范围明确；补料与版本可追溯；后台读到同一真实编号</td>
-<td>未执行</td>
-<td></td>
+<td>MC-04 双渠道支付</td>
+<td>两渠道模拟收银台、取消不付款、重复点击不重收、真实模式拒绝mock成功</td>
 </tr>
 <tr>
-<td>AC-05；F03及统一行为，T05—T06／T28／T33</td>
-<td>有效文件、空文件、超限文件、重复键、可控丢响应</td>
-<td>上传→中途断网→查询收据→原键原文重试→换号→异正文复用键</td>
-<td>未知结果不冒充失败或演示成功；仅一次提交；越界拒绝；断点恢复未实现部分单独记缺口</td>
-<td>未执行</td>
-<td></td>
+<td>MC-05 双方履约</td>
+<td>买方付款→站方开始／交付→买方确认完成／评价；双方动作权限与四状态一致</td>
 </tr>
 <tr>
-<td>AC-06；F05，T08—T09／T23</td>
-<td>当前、撤回、过期及旧版报价，两端并发客户端</td>
-<td>重报价与接受并发→重复接受→旧链接接受→核对成交快照</td>
-<td>仅当前有效版本可接受；一需求唯一订单；完整范围、金额、期限与修改条款可读</td>
-<td>未执行</td>
-<td></td>
+<td>MC-06 数据与权限</td>
+<td>客户只见本人订单，幂等同键异文拒绝，重启后订单支付评价及收据保留</td>
 </tr>
 <tr>
-<td>AC-07；F06，T10—T11／T31／T36</td>
-<td>满足／不足启动款，多个暂停原因，普刊反馈样例</td>
-<td>尝试开工→逐条暂停／恢复→核对交期约定→登记外部反馈</td>
-<td>启动条件可解释；全部 hold 解除才恢复；交期变更有依据；普刊来源／日期可查</td>
-<td>未执行</td>
-<td></td>
+<td>MC-07 API及故障</td>
+<td>进入刷新写操作请求API；异常隔离演示，恢复自动回真数据；未知写先核对／原键重试</td>
 </tr>
 <tr>
-<td>AC-08；F07，T12／T26／T37／T39</td>
-<td>主订单和两个售后组，多版正式交付、草稿、免计轮及已用额度</td>
-<td>验收旧版→跨组验收→同轮重复反馈／受理→免计→完成后返修</td>
-<td>仅本组最新正式版可验收；草稿不取代正式版；按受理轮计次；售后不篡改主单完成事实</td>
-<td>未执行</td>
-<td></td>
-</tr>
-<tr>
-<td>AC-09；F08，T13—T14／T32／T34／T38</td>
-<td>未启动／履约／修改中订单，变更与取消方案</td>
-<td>提议变更→客户确认／拒绝→取消与验收并发→核对最终结算</td>
-<td>客户确认后才生效；保留原价与最终应收；拒绝取消保留原状态；终态冲突不重开</td>
-<td>未执行</td>
-<td></td>
-</tr>
-<tr>
-<td>AC-10；F08，T15／T24—T25／T35</td>
-<td>合成原收款、已退金额、占用、unknown 和重复凭据</td>
-<td>申请→批准→标未知→并发再退→核对失败或成功→重复结果</td>
-<td>金额守恒；退款关联原收款；批准不代表划款；unknown 保留占用，凭据与重复结果可核对</td>
-<td>未执行</td>
-<td></td>
-</tr>
-<tr>
-<td>AC-11；统一行为，T16—T17／T28</td>
-<td>真空列表、服务异常、401／403／409／422、网络恢复</td>
-<td>进入／刷新／写入→离线演示→恢复→换号→逐一清空动态列表</td>
-<td>真响应自动覆盖；演示不补发正式写；真实错误保留；每个动态列表有完整空态和重载</td>
-<td>未执行</td>
-<td></td>
-</tr>
-<tr>
-<td>AC-12；F09及各端，T02／T20</td>
-<td>已确认设备、宽窄窗口、大字体、键盘及三主题</td>
-<td>逐项操作主流程→放大字体→弹键盘→切主题→离线启动／图片失败</td>
-<td>关键内容与动作可见可读；本地素材兜底；容器的离线与文件能力边界可理解</td>
-<td>未执行</td>
-<td></td>
-</tr>
-<tr>
-<td>AC-13；F04，T29</td>
-<td>已确认通知渠道，发送失败／重试场景</td>
-<td>提交业务→故意使投递失败→恢复重试→核对业务与消息</td>
-<td>业务、审计和通知意图原子登记；重试不重复业务；真实送达独立记录，outbox 不能冒充送达</td>
-<td>未执行</td>
-<td></td>
-</tr>
-<tr>
-<td>AC-14；F10及全端，T21—T22</td>
-<td>每个本期端可安装／访问，三服务合成数据</td>
-<td>各端分别提交→后台处理→报价确认→履约→交付／售后→重启重读</td>
-<td>同编号与约定一致；真实持久化；各端独立证据完整，Web 不能代替微信小程序或原生设备</td>
-<td>未执行</td>
-<td></td>
-</tr>
-<tr>
-<td>AC-15；GOV-03 微信小程序独立交付</td>
-<td>登记项目 AppID、合法 HTTPS 域名、基础库、开发者工具及 iOS／Android 微信设备；合成客户数据</td>
-<td>导入原生工程→工具编译→登录与三服务提交→后台同编号处理→报价／交付／售后→故障回退与恢复→逐个空态重载→登记体验／提审／发布状态</td>
-<td>独立 WXML／WXSS／JavaScript／JSON 工程可运行；真数据覆盖演示；必填与授权一致；Web 预览、仓库测试及上传均不能冒充真机或审核发布成功</td>
-<td>未执行</td>
-<td></td>
+<td>MC-08 界面基础</td>
+<td>三主题、十语言、暖色文字对比、空态重载、图片失败品牌兜底、宽窄窗口</td>
 </tr>
 </tbody></table>
-<p>各 AC 的优先级／执行环境：</p>
-<p>部署与恢复按<a href="../../需求/交付与运维清单/交付与运维清单阅读版.html#operations-cases">OP-01—OP-06</a>执行，与本表共享候选版本及证据格式。当前已知缺口见<a href="../../需求/交付与运维清单/交付与运维清单阅读版.html#gaps">统一清单</a>，不得通过缩写用例或改预期隐藏未实现范围。</p>
-<h2>四、<span id="execution">目录、复跑与执行边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>部署与反部署仍按<a href="../../%E9%9C%80%E6%B1%82/%E4%BA%A4%E4%BB%98%E4%B8%8E%E8%BF%90%E7%BB%B4%E6%B8%85%E5%8D%95/%E4%BA%A4%E4%BB%98%E4%B8%8E%E8%BF%90%E7%BB%B4%E6%B8%85%E5%8D%95.md#operations-cases">运维用例</a>分别验收；当前任务不执行真实部署、商户支付或发布。</p>
+<h2 id="execution-heading">四、<span id="execution">目录、复跑与执行边界</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <p>测试源码与执行证据集中在本目录，核心代码位于平级 <code>代码/</code>。语言要求的测试执行上下文仍由入口显式设置，不把业务源码复制进测试目录，也不在核心代码内保留另一套测试副本。</p>
 <table>
 <thead>
@@ -299,9 +209,9 @@
 </code></pre>
 <p>按入口列出的测试组选择执行，工具路径从当前环境或显式参数传入。Go 测试未提供专用 <code>TEST_DATABASE_URL</code> 时，PG 场景会明确跳过；必须保留跳过数量，不能报告为原生数据库通过。移动端沿用已锁 SDK／插件，目录迁移不构成升级授权；依赖缺失时记录阻塞，不将下载安装或清理环境作为默认测试动作。</p>
 <p>部署沙盒使用假 Go／fzf／隧道与临时文件，不能证明真实公网或提供商连通。真实 HTTP 会构建并启动独立后端进程；Qt 测试需要对应桌面运行库。各组应在具备依赖的环境执行，失败保留日志及退出码。</p>
-<h2>五、<span id="evidence">执行证据与历史基线</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
-<p>以下来自<a href="../回归测试报告/回归测试报告阅读版.html">2026-10-30 回归报告</a>，是历史执行记录，下表沿用历史结果；迁移后的实际执行单独见<a href="../目录迁移验证/目录迁移验证.md">目录迁移验证</a>。目录与源码变化后，须以当前候选版本另建结果，不能只更新日期沿用历史结论。</p>
-<p>微信小程序已由 GOV-03 确认为本期独立前端。当前工作区的仓库自动检查通过 20 项，涵盖 API／隔离演示、会话及未知写、超时配置、同账户并发恢复与表单校验，见<a href="../报告与证据/本轮/2026.11.03 11-55-32-061954/执行摘要.json">本次执行摘要</a>及<a href="../报告与证据/本轮/2026.11.03 11-55-32-061954/mini-1.log">原始日志</a>。AC-15 的开发者工具、真机、体验版、审核和发布仍未执行，不能以这些仓库测试替代。</p>
+<h2 id="evidence-heading">五、<span id="evidence">执行证据与历史基线</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>以下来自<a href="../%E5%9B%9E%E5%BD%92%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A/%E5%9B%9E%E5%BD%92%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A.md">2026-10-30 回归报告</a>，是历史执行记录，下表沿用历史结果；迁移后的实际执行单独见<a href="../%E7%9B%AE%E5%BD%95%E8%BF%81%E7%A7%BB%E9%AA%8C%E8%AF%81/%E7%9B%AE%E5%BD%95%E8%BF%81%E7%A7%BB%E9%AA%8C%E8%AF%81.md">目录迁移验证</a>。目录与源码变化后，须以当前候选版本另建结果，不能只更新日期沿用历史结论。</p>
+<p>微信小程序已由 GOV-03 确认为本期独立前端。当前工作区的仓库自动检查通过 20 项，涵盖 API／隔离演示、会话及未知写、超时配置、同账户并发恢复与表单校验，见<a href="../%E6%8A%A5%E5%91%8A%E4%B8%8E%E8%AF%81%E6%8D%AE/%E6%9C%AC%E8%BD%AE/2026.11.03%2011-55-32-061954/%E6%89%A7%E8%A1%8C%E6%91%98%E8%A6%81.json">本次执行摘要</a>及<a href="../%E6%8A%A5%E5%91%8A%E4%B8%8E%E8%AF%81%E6%8D%AE/%E6%9C%AC%E8%BD%AE/2026.11.03%2011-55-32-061954/mini-1.log">原始日志</a>。AC-15 的开发者工具、真机、体验版、审核和发布仍未执行，不能以这些仓库测试替代。</p>
 <table>
 <thead>
 <tr>
@@ -422,7 +332,7 @@
 <td></td>
 </tr>
 </tbody></table>
-<h2>六、<span id="acceptance-record">缺陷、复验与签收</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<h2 id="acceptance-record-heading">六、<span id="acceptance-record">缺陷、复验与签收</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <table>
 <thead>
 <tr>
@@ -445,4 +355,4 @@
 <p>验收等级与范围：</p>
 <p>验收结论、确认人及日期：</p>
 <p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
-<footer>离线阅读版由当前文档生成。测试、构建、设备业务和正式验收按各自证据登记。</footer></main><script src="../../需求/阅读资源/mermaid.min.js"></script><script>window.__diagramErrors=[];mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeVariables:{fontFamily:'system-ui',primaryColor:'#e6eee1',primaryTextColor:'#1c362c',lineColor:'#526e5d'}});mermaid.run({querySelector:'.mermaid'}).then(()=>{window.__renderDone=true}).catch(e=>{window.__diagramErrors.push(String(e));window.__renderDone=true});</script></body></html>
+<script src="../../需求/阅读资源/mermaid.min.js"></script><script>if(window.mermaid)mermaid.initialize({startOnLoad:true,securityLevel:'strict'});</script></body></html>

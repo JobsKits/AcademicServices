@@ -1,953 +1,334 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>学术服务平台｜项目需求与开发评审</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f5f6f1;color:#1c362c;font:16px/1.85 system-ui,sans-serif}main{max-width:1180px;margin:auto;padding:42px 28px}header{border-bottom:1px solid #d5ded3;padding:12px 0 26px;display:flex;gap:18px;align-items:center}header img{width:64px;height:64px;border-radius:14px}h1{font-size:36px;line-height:1.3;margin:6px 0}h2{font-size:25px;border-top:1px solid #d5ded3;margin:44px 0 20px;padding-top:24px}h3{font-size:20px;margin-top:32px}h2 a,h3 a{font-size:15px!important;text-decoration:none}a{color:#145f44;text-underline-offset:3px}small{font-size:13px;color:#50675b}.toc{background:#e7ede3;padding:14px 20px;margin:24px 0;border-radius:12px}.toc summary{cursor:pointer;font-weight:650}.toc ul{list-style:none;padding:0;columns:2}.toc li{break-inside:avoid;padding:3px 0}.toc .l3{padding-left:16px;font-size:14px}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;background:white;font-size:14px;margin:20px 0}td,th{border:1px solid #d1dcd0;padding:10px 13px;text-align:left;min-width:90px;vertical-align:top}th{background:#e6eee1;font-weight:650}p code,li code,td code{font-size:.88em;background:#e9eee4;padding:2px 4px;border-radius:4px;overflow-wrap:anywhere}pre{overflow:auto;background:#e8eee3;padding:18px;border-radius:12px;line-height:1.65}code{font-family:ui-monospace,monospace}blockquote{margin:20px 0;padding:8px 20px;border-left:3px solid #68866d;background:#edf0e7;overflow-wrap:anywhere}.mermaid{background:white;text-align:center}svg{max-width:100%;height:auto}footer{margin:42px 0 0;border-top:1px solid #d5ded3;padding:20px 0;font-size:13px;color:#50675b}body>svg{display:none}@media(max-width:650px){main{padding:20px 14px}h1{font-size:28px}h2{font-size:22px}header img{width:44px;height:44px}.toc ul{columns:1}table{font-size:13px}}@media print{.toc,header small{display:none}body{background:white}main{max-width:none}}</style></head><body><main><header><img src="../../代码/工程资源/icon.png" alt="项目图标"><div><small>学术服务平台 · 文档阅读</small><h1>学术服务平台｜项目需求与开发评审</h1><small>原始结论日期以正文为准 · <a href="项目需求与开发评审.md">Markdown 原稿</a> · <a href="../../README.md">根目录说明</a></small></div></header><details class="toc"><summary>章节目录</summary><nav aria-label="章节"><ul><li class="l2"><a href="#前言">前言</a></li><li class="l2"><a href="#requirements">需求摸排</a></li><li class="l3"><a href="#raw-input">用户原始需求与来源</a></li><li class="l3"><a href="#scope">目标、范围与优先级</a></li><li class="l3"><a href="#traceability">需求、设计、用例与验收追溯</a></li><li class="l3"><a href="#roles">角色与权限矩阵</a></li><li class="l3"><a href="#flows">业务流程与异常闭环</a></li><li class="l3"><a href="#milestones">阶段、风险与变更</a></li><li class="l2"><a href="#design-review">开发评审与技术方案</a></li><li class="l3"><a href="#frontend">前端产品包与技术路线</a></li><li class="l3"><a href="#backend">后端架构与容量</a></li><li class="l3"><a href="#database">数据库与数据字典</a></li><li class="l3"><a href="#interfaces">接口与第三方集成</a></li><li class="l3"><a href="#review-result">当前评审结论</a></li><li class="l2"><a href="#acceptance">三级验收与测试</a></li><li class="l2"><a href="#deployment">部署与本地测试</a></li><li class="l2"><a href="#engineering">工程、交付与运维责任</a></li><li class="l2"><a href="#open-items">不确定项与补填回归</a></li><li class="l3"><a href="#uncertainties">有依据的不确定项</a></li><li class="l3"><a href="#regression">补填后的二次回归记录</a></li><li class="l2"><a href="#references">来源与证据使用规则</a></li></ul></nav></details>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>学术服务商城｜项目需求与开发评审</title><style>
+ :root{color-scheme:light dark}body{font:16px/1.75 system-ui,-apple-system,sans-serif;background:#faf5ec;color:#392b22;max-width:1100px;margin:36px auto;padding:0 24px}h1{font-size:32px}h2{margin-top:38px;border-bottom:1px solid #dbcdbb;padding-bottom:10px}h3{margin-top:28px}a{color:#805334}img{max-width:100%;max-height:280px;object-fit:cover;border-radius:12px}table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow:auto}th,td{border:1px solid #d4c4b2;padding:10px 13px;vertical-align:top}th{background:#eee0cd}blockquote{margin:16px 0;padding:10px 20px;border-left:4px solid #b98b5e;background:#f1e7d8}pre{padding:18px;background:#efe5d6;overflow:auto;border-radius:8px}code{font-size:.9em}nav{background:#f3eadc;padding:16px;border-radius:12px}.level3{margin-left:18px}li{margin:4px 0}.mermaid{background:transparent}@media(prefers-color-scheme:dark){body{background:#211c18;color:#f5e9dc}a{color:#e4b187}th,nav,blockquote,pre{background:#352b22}td,th,h2{border-color:#806c59}}@media print{body{max-width:none;margin:0;color:#222;background:white}nav{display:none}h2,h3{break-after:avoid}tr{break-inside:avoid}}</style></head><body><h1>学术服务商城｜项目需求与开发评审</h1>
+<p><img src="https://picsum.photos/1500/400" alt="Jobs出品，必属精品"></p>
+<nav aria-label="章节目录"><details open><summary>目录</summary><ul><li class="level2"><a href="#前言">🔥 前言</a></li><li class="level2"><a href="#requirements">一、用户原文与确认范围</a></li><li class="level2"><a href="#pages">二、商品与页面</a></li><li class="level2"><a href="#states">三、订单与双方状态</a></li><li class="level2"><a href="#payment">四、临时支付及真实渠道接口</a></li><li class="level2"><a href="#data">五、数据库与接口约束</a></li><li class="level2"><a href="#quality">六、界面、回退及验收</a></li><li class="level2"><a href="#frontend">七、工程与技术路线</a></li><li class="level2"><a href="#engineering">八、工程、部署及交付约定</a></li><li class="level2"><a href="#open-items">九、外部依赖与未定事项</a></li></ul></details></nav>
 <hr>
-<h2>🔥 <span id="前言">前言</span></h2>
-<p>依据 Jobs“软件项目从零到一”Skill 的现行完整开发与交付规范（2026-11-03 核对目录条款），建立当前工程的可补填基线。本文件整理已有需求与实现，原 V0.3 文档及其编号原样保留。源码事实、历史执行证据、用户确认与建议分别记录；本轮完成文档回归及目录分离，迁移验证结果单独登记，不等于正式上线验收。</p>
-<table>
-<thead>
-<tr>
-<th>文档信息</th>
-<th>内容</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>项目名称／别名</td>
-<td>学术服务平台／陈泉羽项目</td>
-</tr>
-<tr>
-<td>品牌现状</td>
-<td>知序为实现暂名，见 Q-001</td>
-</tr>
-<tr>
-<td>文档版本／日期</td>
-<td>V1.0；2026-11-03，Asia/Shanghai</td>
-</tr>
-<tr>
-<td>当前工程版本</td>
-<td>既有交付状态记录 <code>0.1.0-mvp</code>；当前工作区有未提交改动，未冻结发布候选</td>
-</tr>
-<tr>
-<td>需求方／业务确认人</td>
-<td></td>
-</tr>
-<tr>
-<td>开发维护者</td>
-<td>Jobs</td>
-</tr>
-<tr>
-<td>测试、部署及验收负责人</td>
-<td></td>
-</tr>
-<tr>
-<td>本期目标验收等级</td>
-<td></td>
-</tr>
-<tr>
-<td>原始资料</td>
-<td><a href="../学术服务小程序需求分析/学术服务小程序需求分析.md">需求 V0.3</a>、<a href="../技术方案与实现范围/技术方案阅读版.html">实现范围</a>、<a href="../../测试/回归测试报告/回归测试报告阅读版.html">历史回归</a></td>
-</tr>
-<tr>
-<td>阅读与分册</td>
-<td><a href="项目需求与开发评审阅读版.html">离线阅读版</a>、<a href="../../测试/测试与分级验收/测试与分级验收阅读版.html">测试与分级验收</a>、<a href="../交付与运维清单/交付与运维清单阅读版.html">交付与运维清单</a></td>
-</tr>
-</tbody></table>
-<p>空白表示没有足够输入，不代表默认同意。带稳定编号的红字只记录有依据的歧义或冲突。技术版本以现有锁文件和记录为事实来源，本轮未作外部版本或平台生命周期核验。</p>
-<h2>一、<span id="requirements">需求摸排</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
-<h3>1.1、<span id="raw-input">用户原始需求与来源</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h3>
-<p>本轮用户原文：</p>
+<h2 id="前言-heading">🔥 <span id="前言">前言</span></h2>
+<p>陈泉羽项目是单一自营的虚拟商品商城，销售课程及服务，主分类为毕业论文、普刊、编译。当前处于开发阶段，直接按这一套需求、数据库、代码及测试推进。先梳理需求，再设计数据，再实现并回归；采用既定桌面、移动端、管理端、微信小程序技术路线。</p>
+<h2 id="requirements-heading">一、<span id="requirements">用户原文与确认范围</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <blockquote>
-<p>用我“软件项目开发从0～1”的skills去对这个项目进行规范。</p>
+<p>对陈泉羽项目，你可能是对需求理解有偏差
+1、我们需要做的，是有临摹目标的，本质是个商城，也就是卖课/卖服务
+2、需要有支付，一般是接入支付宝/微信支付。但是手续还没有齐全，没办法申请下key，所以付款的时候虽然要跳出支付宝/微信支付，但是是没办法走支付流程的（暂时处理成点击以后就付款成功，等Key到来再介入真正支付）
+3、商城类，就一定有几种商品的状态：待付款/待完成/已完成/待评价。买方和卖方的状态是对立的，这里的卖方就是网站本身，商品是虚拟商品，不存在物流，那么商品的属性（详情介绍、价格、图片...）可以在后台进行编辑(包括上下架，设置缺货状态)
+4、抄袭的网站首页有：毕业论文、普刊、编译。其实你可以完全1:1照抄这几个模块（注意里面的下属子页面），内容需要照抄，但是UI可以比他们做的更加出色
+5、主色调，期望用更加暖心护眼的色调。</p>
+<p>你可以先重新做需求，然后理数据库，最后再写代码，然后回归。不着急。</p>
 </blockquote>
-<p>目录整理补充原文：</p>
-<blockquote>
-<p>/Users/jobs/Documents/Github/学术服务平台/学术服务平台（全端工程） 需求和测试要和核心代码分开，放在外面。比如需求已经在外层有了/Users/jobs/Documents/Github/学术服务平台/学术服务小程序需求分析（2026-10-30） 你就没必要里面单独开一个文件夹写，你就在外写就完了。</p>
-<p>整体的项目目录，应该是：一个大的文件夹（git管理），下辖：代码文件夹、测试文件夹、需求文件夹</p>
-<p>同时，代码文件夹里面的各个端的装代码文件夹，需要用中文（目前是英文）命名。</p>
-</blockquote>
-<p>微信小程序范围补充原文（2026-11-03）：</p>
-<blockquote>
-<p>那么，陈泉羽项目和李林哲项目，都需要微信小程序</p>
-</blockquote>
-<p>代码分层补充原文：</p>
-<blockquote>
-<p>代码总体来讲，分前端和后端。所以在代码文件夹里面，应该是：前端（内含PC端、移动端、后台管理端、）、后端（内含接口契约、后端代码）、部署（内含各个操作系统平台的部署脚本）</p>
-<p>artifacts文件夹不应该存在。
-前端存在跨平台写法，比如在移动端文件夹，如果是选用的跨平台写法，移动端名下就应该有Flutter文件夹、如果选用的是原生写法，那就需要有iOS/Android/鸿蒙文件夹</p>
-<p>这一套文件夹的管理方案，你要写进：从0～1软件开发的Skills里面去
-同时对这个文件夹进行应用</p>
-</blockquote>
-<p>测试归类补充原文：</p>
-<blockquote>
-<p>测试文件夹里面，集成这个文件夹干嘛的？</p>
-<p>而且这里面的也应像代码文件夹一样，进行前后端归类</p>
-</blockquote>
-<p>主目录资料收纳补充原文：</p>
-<blockquote>
-<p>测试/代码/需求 文件夹中的一级目录散落着很多md/html，其实都要按照内容/标题并入自己的文件夹。也就是对于主目录，永远只有README.md和一堆文件夹</p>
-<p>以上需要计入0～1软件开发工程规范里面</p>
-</blockquote>
-<p>目录大小写补充原文（保留用户原句）：</p>
-<blockquote>
-<p>macOS文件夹，名字要写成MacOS，但凡是macOS，以后都要写成MacOS。文件夹都是大写字母开头，这个需要计入0～1软件开发工程规范里面。</p>
-</blockquote>
-<p>此前业务原始聊天全文未包含在仓库资料中，原文栏留空，不将整理过的摘要还原成引号内的用户发言。</p>
-<p>此前业务原始需求全文：</p>
-<table>
-<thead>
-<tr>
-<th>来源编号</th>
-<th>资料与日期</th>
-<th>可支持的结论</th>
-<th>确认边界</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>SRC-01</td>
-<td><a href="../学术服务小程序需求分析/学术服务小程序需求分析.md#confirmed-input">原需求第一章 C01—C07</a>，2026-10-30</td>
-<td>小程序主体、网站非前提、三服务、简洁且独立视觉、需求回归与数据库设计</td>
-<td>文档登记的已确认输入；非聊天逐字原文</td>
-</tr>
-<tr>
-<td>SRC-02</td>
-<td><a href="../技术方案与实现范围/技术方案阅读版.html#%E5%89%8D%E8%A8%80">技术方案前言</a>，2026-10-30</td>
-<td>用户要求 Python 桌面、Flutter 移动／后台、Go 后端、分平台部署与多轮回归</td>
-<td>已确认技术方向；未证明原建议业务已逐项确认</td>
-</tr>
-<tr>
-<td>SRC-03</td>
-<td><a href="../学术服务小程序需求分析/学术服务小程序需求分析.md#regression">原需求 R01—R23 与 T01—T39</a>，V0.3</td>
-<td>建议业务规则、未来软件验收合同</td>
-<td>建议规则与软件通过结论分开</td>
-</tr>
-<tr>
-<td>SRC-04</td>
-<td><a href="../../代码/后端/接口契约/api.json">运行接口契约</a>、<a href="../../代码/后端/后端代码/internal/platform/store.go">存储实现</a></td>
-<td>当前接口、状态聚合、金额与幂等语义</td>
-<td>2026-11-03 静态核对；不等于生产验收</td>
-</tr>
-<tr>
-<td>SRC-05</td>
-<td><a href="../../测试/回归测试报告/回归测试报告阅读版.html">既有回归报告</a>及原始日志，2026-10-30</td>
-<td>已报告的有限自动化、HTTP、构建与平台结果</td>
-<td>保留原日期与适用版本；迁移后的复跑另行登记</td>
-</tr>
-<tr>
-<td>SRC-06</td>
-<td>用户永久记忆的本项目确认，2026-11-02</td>
-<td>降低前期云费用、双模式部署、每份部署文档写最低机器配置</td>
-<td>需求已确认；穿透采购、真实公网和最低硬件实测未确认完成</td>
-</tr>
-<tr>
-<td>SRC-07</td>
-<td>本轮用户原文，2026-11-03</td>
-<td>按指定 Skill 规范本项目</td>
-<td>授权本次规范落地；不扩大为发布、采购或重写各端</td>
-</tr>
-<tr>
-<td>SRC-08</td>
-<td>本轮目录整理补充原文，2026-11-03</td>
-<td>根仓统一管理代码、测试、需求；不在代码内另设重复需求；各端中文命名</td>
-<td>已明确，按实际目录迁移，工具链内部标准目录保留</td>
-</tr>
-<tr>
-<td>SRC-09</td>
-<td>用户代码分层补充原文，2026-11-03</td>
-<td>前端／后端／部署与技术目录分层，禁止 artifacts，并写入 Skill</td>
-<td>已明确，应用到当前项目</td>
-</tr>
-<tr>
-<td>SRC-10</td>
-<td>用户测试归类补充原文，2026-11-03</td>
-<td>测试按前端、后端、部署及产品技术归类</td>
-<td>已明确，原集成用例按职责迁移保留</td>
-</tr>
-<tr>
-<td>SRC-11</td>
-<td>用户主目录资料收纳补充原文，2026-11-03</td>
-<td>三个主目录一级只保留 README 与文件夹，资料按内容或标题归档</td>
-<td>已明确，写入工程规范并同步当前项目</td>
-</tr>
-<tr>
-<td>SRC-12</td>
-<td>微信小程序范围补充原文，2026-11-03</td>
-<td>陈泉羽项目必须包含独立微信小程序前端，沿用现有官方原生工程</td>
-<td>已确认该端纳入本期交付；不代替真机、体验版、提审和发布证据，不扩大真实支付及身份能力</td>
-</tr>
-<tr>
-<td>SRC-13</td>
-<td>用户目录大小写补充原文，2026-11-03</td>
-<td>自定义英文目录首字母大写，MacOS 统一写法，并写入从零到一工程规范</td>
-<td>已明确；保留实际工具链、语言包及用户指定专名，迁移同步引用并核验</td>
-</tr>
-</tbody></table>
-<p>案例材料沿用原需求中的 <a href="https://www.keyan.asia/"><strong>氪研学术</strong></a> 调研及<a href="../参考截图">两张本地截图</a>。原文记录的调研时间为 2026-10-30，本轮未重新访问竞品；截图用于内部需求讨论，不能当自有宣传素材。</p>
-<h3>1.2、<span id="scope">目标、范围与优先级</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h3>
-<table>
-<thead>
-<tr>
-<th>项目</th>
-<th>当前依据／填写</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>目标用户</td>
-<td>三项服务的客户及内部运营人员；具体人群定位沿用原需求建议</td>
-</tr>
-<tr>
-<td>已确认业务方向</td>
-<td>仅毕业论文、普刊、编译；小程序为主体，对外网站不构成前提</td>
-</tr>
-<tr>
-<td>已确认技术方向</td>
-<td>Python 桌面，Flutter 移动及响应式后台，Go 后端；微信小程序为本期必交付的官方原生独立前端</td>
-</tr>
-<tr>
-<td>当前实现范围</td>
-<td>服务展示、固定身份、需求、人工报价、订单、人工资金台账、交付修改、取消结算、售后与私有文件</td>
-</tr>
-<tr>
-<td>正式经营服务清单及标准</td>
-<td></td>
-</tr>
-<tr>
-<td>本期合同交付范围／优先级</td>
-<td>微信小程序独立前端已确认；其它范围与具体优先级：</td>
-</tr>
-<tr>
-<td>后续阶段范围／成功指标</td>
-<td></td>
-</tr>
-<tr>
-<td>原建议不主动扩展项</td>
-<td>见<a href="../学术服务小程序需求分析/学术服务小程序需求分析.md#excluded">原需求 4.3</a>，仍为建议；不自动转成正式排除合同</td>
-</tr>
-</tbody></table>
-<h3>1.3、<span id="traceability">需求、设计、用例与验收追溯</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h3>
-<p>原需求 C 为确认摘要，F 为建议功能，R 为建议执行规则，T 为验收项。本轮不重排这些编号。下表连接功能与实现；完整 T01—T39 状态沿用<a href="../技术方案与实现范围/技术方案阅读版.html#section-4">39 项实现映射</a>，实际执行记录依<a href="../../测试/测试与分级验收/测试与分级验收阅读版.html#evidence">测试计划</a>关联版本后填写。</p>
-<table>
-<thead>
-<tr>
-<th>需求</th>
-<th>来源／规则</th>
-<th>当前设计或实现入口</th>
-<th>用例</th>
-<th>正式验收证据</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>F01 三服务</td>
-<td>C03、R18；T01—T02、T30</td>
-<td><code>前端/移动端/Flutter/lib/main.dart</code>；<code>后端/后端代码/internal/platform/engine.go</code>；尚缺内容运营发布入口</td>
-<td>AC-01</td>
-<td></td>
-</tr>
-<tr>
-<td>F02 本人身份</td>
-<td>C01；T03、T18—T19、T27—T28</td>
-<td><code>后端/后端代码/internal/platform/http.go</code> 固定 admin/customer；真实注册及员工分派未实现</td>
-<td>AC-02、AC-03</td>
-<td></td>
-</tr>
-<tr>
-<td>F03 需求与上传</td>
-<td>R19；T04—T07、T33</td>
-<td><code>POST /cases</code>、<code>POST /cases/{id}/attachments</code>；无完整断点恢复</td>
-<td>AC-04、AC-05</td>
-<td></td>
-</tr>
-<tr>
-<td>F04 材料与沟通</td>
-<td>R17；T07、T29</td>
-<td><code>need_material</code>、<code>supplement</code>、<code>message</code>；outbox 未实际发送通知</td>
-<td>AC-04、AC-13</td>
-<td></td>
-</tr>
-<tr>
-<td>F05 版本报价</td>
-<td>R01、R02、R11；T08—T09、T23</td>
-<td><code>quote</code>、<code>withdraw_quote</code>、<code>accept_quote</code>；范围为自由文本</td>
-<td>AC-06</td>
-<td></td>
-</tr>
-<tr>
-<td>F06 订单履约</td>
-<td>R04、R05、R20；T10—T11、T31、T36</td>
-<td><code>start</code>、<code>pause</code>、<code>resume</code>；普刊外部反馈与自动计时未完成</td>
-<td>AC-07</td>
-<td></td>
-</tr>
-<tr>
-<td>F07 交付与修改</td>
-<td>R08、R14、R21、R23；T12、T26、T37、T39</td>
-<td><code>deliver</code>、<code>revision</code>、<code>accept_revision</code>、<code>accept_delivery</code></td>
-<td>AC-08</td>
-<td></td>
-</tr>
-<tr>
-<td>F08 变更、取消、售后</td>
-<td>R03、R06—R07、R09、R12—R13、R22；T13—T15、T24—T25、T32、T34—T35、T38</td>
-<td><code>propose_change</code>、<code>confirm_cancel</code>、退款动作、<code>after_sale</code>；仅人工资金方案</td>
-<td>AC-09、AC-10</td>
-<td></td>
-</tr>
-<tr>
-<td>F09 主体与规则</td>
-<td>C04—C05；T02、T20</td>
-<td>暂名与示例文案；正式主体、协议和收费规则未定稿</td>
-<td>AC-01、AC-12</td>
-<td></td>
-</tr>
-<tr>
-<td>F10 内部后台</td>
-<td>T19、T21—T22</td>
-<td><code>前端/后台管理端/Flutter/lib/main.dart</code>；MVP 运营闭环，员工与内容管理不完整</td>
-<td>AC-03、AC-14</td>
-<td></td>
-</tr>
-<tr>
-<td>统一前端行为</td>
-<td>R16、R19；T16—T17、T28</td>
-<td>各端仓库 API 优先／隔离演示／未知写保护</td>
-<td>AC-05、AC-11</td>
-<td></td>
-</tr>
-<tr>
-<td>GOV-01 项目基线</td>
-<td>SRC-07</td>
-<td>本主文档、测试计划、交付清单与根目录导航</td>
-<td>文档编号、内链、原文保护及阅读版检查</td>
-<td>本轮文档核对，见各分册的验证范围</td>
-</tr>
-<tr>
-<td>GOV-02 双模式与机器配置</td>
-<td>SRC-06</td>
-<td><code>部署/</code> 各系统说明、入口与锁清单</td>
-<td>OP-01—OP-06</td>
-<td></td>
-</tr>
-<tr>
-<td>GOV-03 微信小程序独立前端</td>
-<td>SRC-09；T21—T22</td>
-<td><code>代码/前端/微信小程序/</code> 官方原生 WXML／WXSS／JavaScript／JSON；共用 API，独立交付</td>
-<td>AC-11、AC-14、AC-15</td>
-<td>仓库校验不代替开发者工具、真机、体验版及发布证据</td>
-</tr>
-</tbody></table>
-<h3>1.4、<span id="roles">角色与权限矩阵</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h3>
-<table>
-<thead>
-<tr>
-<th>角色</th>
-<th>当前页面与操作</th>
-<th>数据与敏感字段范围</th>
-<th>结论</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>游客</td>
-<td>服务展示、登录</td>
-<td>不得读私有工作区、附件与操作回执</td>
-<td>后端校验；真实权限证据按 AC-02 复验</td>
-</tr>
-<tr>
-<td>customer</td>
-<td>提需求、补料、接受／拒绝报价、确认变更／取消、反馈／验收／售后</td>
-<td>仅所有者数据；材料与联系方式按案件授权</td>
-<td>当前只有一个固定客户身份，不能据此宣称多客户隔离已运营</td>
-</tr>
-<tr>
-<td>admin</td>
-<td>审核、报价、人工资金登记、履约交付、退款核验与售后处理</td>
-<td>当前可处理全部案件及其附件</td>
-<td>单一管理员角色，无细分员工或组织隔离</td>
-</tr>
-<tr>
-<td>员工／服务人员</td>
-<td>原建议角色，源码未实现分派／撤派</td>
-<td></td>
-<td>F10／T19、T27 未完成</td>
-</tr>
-<tr>
-<td>运维／资产管理员</td>
-<td></td>
-<td></td>
-<td>责任与数据接触权限留白</td>
-</tr>
-</tbody></table>
-<p>页面隐藏不代替服务端授权。未登录、会话过期、跨案件、同键异用户、附件归属及管理员动作要纳入用例。账号停用、找回、注销、员工权限收回属于尚未完成的账户生命周期范围。</p>
-<h3>1.5、<span id="flows">业务流程与异常闭环</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h3>
-<table>
-<thead>
-<tr>
-<th>流程</th>
-<th>前置与成功结果</th>
-<th>异常、重试及补偿</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>需求→报价→订单</td>
-<td>客户同意材料处理并提交，运营出当前有效版本报价，客户接受后形成唯一订单</td>
-<td>过期／撤回／版本冲突拒绝；网络未知写保留原键原文核对；费用与服务条款见 Q-002</td>
-</tr>
-<tr>
-<td>启动→履约→交付</td>
-<td>启动款满足约定，管理员启动，按主订单或指定售后组发布交付，客户确认相应最新版本</td>
-<td>多原因暂停按 hold 逐条解除；草稿附件不能替代正式交付；自动计时规则见 Q-005</td>
-</tr>
-<tr>
-<td>反馈→修改</td>
-<td>反馈绑定交付，管理员受理轮次后计算使用额度；允许免计轮</td>
-<td>重复受理和超额拒绝；主订单完成后的新售后使用独立组，不能重开旧组冒充新交付</td>
-</tr>
-<tr>
-<td>变更／取消</td>
-<td>报价与约定变化由客户确认；取消按最终应收结算而非直接填退款额</td>
-<td>验收与取消并发以版本校验；拒绝取消回到原流程；已成功退款不重复扣减</td>
-</tr>
-<tr>
-<td>人工退款</td>
-<td>指向原收款，申请、批准占用额度、人工核实原流水再记结果</td>
-<td>申请与批准不表示已划款；unknown 保留占用，核实失败后才释放，禁止另键重复退</td>
-</tr>
-<tr>
-<td>附件／消息</td>
-<td>授权后上传下载；消息、审计、通知意图随聚合事务保存</td>
-<td>单文件上限 8 MiB；没有实际投递器，outbox 不证明已送达；恢复须包含私有文件</td>
-</tr>
-</tbody></table>
-<p>下图为当前 MVP 的主流程摘要，规则以源码及上表为准，保留 <a href="https://mermaid.js.org"><strong>Mermaid</strong></a> 可编辑源。</p>
-<pre class="mermaid">flowchart TD
-    R[客户提交需求] --&gt; Q[管理员发布版本报价]
-    Q --&gt; C{接受当前有效报价}
-    C --&gt;|接受| O[生成唯一订单]
-    C --&gt;|拒绝或撤回| X[关闭并留痕]
-    O --&gt; P[核实启动款并开始]
-    P --&gt; W[履约与多原因暂停恢复]
-    W --&gt; D[正式分组交付]
-    D --&gt; V{客户处理最新交付}
-    V --&gt;|反馈且受理修改| W
-    V --&gt;|验收| F[主订单完成]
-    F --&gt; A[独立售后组]
-    A --&gt; AD[售后交付与结论]
-    O --&gt; K[协商最终结算并请求取消]
-    W --&gt; K
-    K --&gt; KC{客户确认}
-    KC --&gt;|拒绝| BCK[保留请求取消前的状态]
-    KC --&gt;|同意| RF[关联原收款申请退款]
-    RF --&gt; U[批准占用与人工核验结果]
-</pre>
-<p>取消拒绝后保留请求前的状态，并非跳过启动条件。完整取消、资金、修改与售后规则保留在原 R 编号中。</p>
-<h3>1.6、<span id="milestones">阶段、风险与变更</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h3>
-<p>以下为实施建议，日期与责任未确认，不构成排期或费用承诺。</p>
-<table>
-<thead>
-<tr>
-<th>阶段</th>
-<th>可检查交付物与进入条件</th>
-<th>负责人</th>
-<th>计划日期</th>
-<th>验收人／期限</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>M1 业务与范围基线</td>
-<td>补填服务条款、品牌、付款方案、本期端与等级；解决 Q-001—Q-003、Q-007</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>M2 技术闭环</td>
-<td>确认数据路径、权限与通知范围，完成对应实现及用例</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>M3 基础级目标环境</td>
-<td>对约定各端完成构建、安装、核心流程、重启、越权检查</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>M4 商用准入</td>
-<td>正式依赖、备份恢复、性能、发布资质及商用阻断项全部满足</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>M5 工业化</td>
-<td>在确认目标下完善容量、故障、发布与维护机制</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>风险／依赖</th>
-<th>依据与影响</th>
-<th>当前处理建议</th>
-<th>负责人／期限</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>业务条款与身份不完整</td>
-<td>原建议未逐项确认，固定账户不能支持真实多客户运营</td>
-<td>先确认 Q-001—Q-003；完成账号与授权生命周期</td>
-<td></td>
-</tr>
-<tr>
-<td>全状态快照增长</td>
-<td>聚合每次读写，附件随状态增长；没有负载证明</td>
-<td>补容量指标和压测，再决定关系化／文件拆分；不预设分库分表</td>
-<td></td>
-</tr>
-<tr>
-<td>平台产物与宿主能力</td>
-<td>Android／鸿蒙／Windows 等未完成目标环境验收</td>
-<td>分端登记设备、工具链、构建与真实文件用例</td>
-<td></td>
-</tr>
-<tr>
-<td>本地常开和穿透</td>
-<td>睡眠／断网中断，随机地址与小程序正式域名需求有差异</td>
-<td>临时合成数据联调，OP 用例验证，正式环境独立评审</td>
-<td></td>
-</tr>
-<tr>
-<td>版本与分发许可</td>
-<td>现有锁定值是历史配置，Qt 等分发声明需随包保留</td>
-<td>发布时核实兼容、许可、来源与安全状态，不自动升级</td>
-<td></td>
-</tr>
-</tbody></table>
-<p>变更登记：</p>
-<table>
-<thead>
-<tr>
-<th>变更编号</th>
-<th>来源／原要求</th>
-<th>调整内容</th>
-<th>影响需求、接口、数据、测试、费用与工期</th>
-<th>确认人／结论</th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h2>二、<span id="design-review">开发评审与技术方案</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
-<h3>2.1、<span id="frontend">前端产品包与技术路线</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h3>
-<p>采用既有用户指定的按端混合方案，不应用原生默认规则重建现有工程。新增目标端或原生实现须单独确认；当前 iOS 为 Flutter 宿主，不套用 OC／Swift 原生蓝本改造。</p>
-<table>
-<thead>
-<tr>
-<th>产品端</th>
-<th>实际路线与入口</th>
-<th>产品包／渠道现状</th>
-<th>完整版本与设备矩阵</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Windows／MacOS 桌面</td>
-<td><a href="https://www.python.org"><strong>Python</strong></a>＋<a href="https://doc.qt.io/qtforpython/"><strong>PySide6</strong></a>，<code>前端/PC端/Python/Zhixu/src/zhixu/app.py</code></td>
-<td>历史报告有 Mac ARM64 APP／DMG；Windows EXE 未验</td>
-<td><a href="../../代码/前端/PC端/Python/桌面说明阅读版.html">桌面说明</a>；本期签收设备：</td>
-</tr>
-<tr>
-<td>iOS／Android 用户端</td>
-<td><a href="https://flutter.dev/"><strong>Flutter</strong></a>，<code>lib/main.dart</code></td>
-<td>历史 iOS 无签名 Release；Android APK／AAB 未完成</td>
-<td><a href="../../代码/前端/移动端/Flutter/Flutter说明阅读版.html">Flutter 说明</a>；本期签收设备：</td>
-</tr>
-<tr>
-<td>用户 Web／响应式后台</td>
-<td>Flutter Web，移动端与独立后台工程各自 <code>lib/main.dart</code></td>
-<td>通过 Go 同源 <code>/client/</code>、<code>/admin/</code>；构建资源不受 Git 跟踪，发布包需另行携带</td>
-<td>本期浏览器／窗口范围：</td>
-</tr>
-<tr>
-<td>鸿蒙</td>
-<td><a href="https://developer.huawei.com/consumer/cn/"><strong>HarmonyOS</strong></a> ArkWeb＋线上同源 HTTPS 页面</td>
-<td>非 Flutter OH 引擎；宿主源码已在，HAP、签名、设备和附件桥接未验</td>
-<td>本期系统／设备／SDK：</td>
-</tr>
-<tr>
-<td>微信小程序（本期必交付）</td>
-<td><a href="https://mp.weixin.qq.com/"><strong>微信小程序</strong></a> 官方原生，<code>代码/微信小程序/app.js</code>，与 Web／H5 分开</td>
-<td>固定账户联调；AppID、真实微信身份、工具编译、真机、体验版及发布分别未验</td>
-<td>本期基础库／设备／账号：</td>
-</tr>
-</tbody></table>
-<p>前端统一合同：进入、刷新、写操作请求 API；成功替换为真数据，网络／服务异常回退隔离演示；401／403／409／422 保持真实错误反馈。真实写未知保留原键和原文，查询回执再对账，不自动重放演示写入。每个动态列表包含完整空态与重新加载。素材本地随包；若以后增加远程图，必须先本地 Logo、失败保留兜底并登记来源。</p>
-<p>当前静态核对仍有差距：Flutter 演示写先刷新／读取服务，再做本地动作，不发送该业务 POST；消息、售后、进度详情的无数据状态仍为单行文字，仅页面级重载；小程序请求超时现可配置为 500—10000ms、默认 2500ms；该并发改动已保留并定向复核。小程序详情各动态列表已补完整空态和重载，并保护迟到响应及新建表单授权；仓库校验见<a href="../../测试/测试与分级验收/测试与分级验收阅读版.html#evidence">测试证据</a>，工具和真机仍待验。分别纳入<a href="../交付与运维清单/交付与运维清单阅读版.html#gaps">交付缺口</a>及 AC-11，不能把上面的统一要求当成全端已验结论。</p>
-<p>页面清单和可见功能以<a href="../../代码/工程总览/单元导航阅读版.html">代码地图</a>、各端 README 及<a href="../../代码/工程总览/工程总览阅读版.html#section-5">工程统计口径</a>为准。主题、大字、键盘、文件选择和宽窄窗口需要目标设备证据，截图不能代替全部交互验收。</p>
-<h3>2.2、<span id="backend">后端架构与容量</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h3>
-<table>
-<thead>
-<tr>
-<th>项目</th>
-<th>当前事实／补填</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>语言与入口</td>
-<td><a href="https://go.dev/"><strong>Go</strong></a>，<code>后端/后端代码/cmd/server/main.go</code>，锁定约束见 <code>后端/后端代码/go.mod</code></td>
-</tr>
-<tr>
-<td>模块边界</td>
-<td><code>http.go</code> 处理鉴权／网关；<code>engine.go</code> 处理状态与授权动作；<code>model.go</code> 数据结构；<code>store.go</code> 持久化</td>
-</tr>
-<tr>
-<td>拓扑</td>
-<td>单个服务进程，同源网页／API／私有附件；公网 HTTPS 依赖外部终止 TLS 或隧道</td>
-</tr>
-<tr>
-<td>外部集成</td>
-<td>无真实支付、通知发送器或对象存储；PG 为可选存储，不要求多数据库并行</td>
-</tr>
-<tr>
-<td>用户量、并发、日增数据与附件规模</td>
-<td></td>
-</tr>
-<tr>
-<td>分库分表</td>
-<td>没有容量依据，本轮不引入；若以后评估，记录分片键、事务、跨片查询和迁移成本</td>
-</tr>
-<tr>
-<td>扩容与高可用目标</td>
-<td></td>
-</tr>
-</tbody></table>
-<pre class="mermaid">flowchart LR
-    PY[desktop app.py] --&gt; HTTP[http.go 身份和附件网关]
-    FL[main.dart 用户端] --&gt; HTTP
-    AD[后台管理端 lib/main.dart] --&gt; HTTP
-    WX[miniprogram app.js] --&gt; HTTP
-    HM[Harmony Index.ets] --&gt; FL
-    HTTP --&gt; E[engine.go 状态机]
-    E --&gt; S[store.go 原子提交]
-    S --&gt; F[文件 JSON 快照]
-    S --&gt; PG[可选 PG JSONB 聚合]
-</pre>
-<h3>2.3、<span id="database">数据库与数据字典</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h3>
-<p>当前默认文件快照；显式配置 <code>DATABASE_URL</code> 时使用 <a href="https://www.postgresql.org/"><strong>PostgreSQL</strong></a> 的 <code>academic_runtime_state</code> 单行 JSONB 聚合。外层 <code>需求/</code> 的 29 表关系设计与当前运行存储是两套模型，不能将参考 SQL 直接当生产迁移执行。</p>
-<p>正式主数据库与版本：</p>
-<p>正式选型／迁移方案及确认依据：</p>
-<table>
-<thead>
-<tr>
-<th>模型或数据组</th>
-<th>定义与用途</th>
-<th>关系／数据归属</th>
-<th>保留与清理</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>academic_runtime_state</code></td>
-<td>运行态聚合存储；实际 DDL 与字段定义见 <a href="../../代码/后端/后端代码/internal/platform/store.go">store.go</a></td>
-<td>全局运行状态，不等于独立业务主表</td>
-<td></td>
-</tr>
-<tr>
-<td><code>State</code>／<code>Case</code>／<code>Quote</code>／<code>Order</code></td>
-<td>完整字段以 <a href="../../代码/后端/后端代码/internal/platform/model.go">model.go</a> 为当前源码字典</td>
-<td>案件绑定 owner；报价和订单快照关联案件</td>
-<td></td>
-</tr>
-<tr>
-<td>附件／交付／反馈／轮次／售后</td>
-<td>同上，文件内容随当前状态持久化；交付按主单／售后分组</td>
-<td>必须通过授权网关访问，保留交付版本关系</td>
-<td></td>
-</tr>
-<tr>
-<td>收款／退款／占用</td>
-<td>整数分、关联原收款、终态与 unknown 分开</td>
-<td>人工凭据，不能用客户操作推断实际到账</td>
-<td></td>
-</tr>
-<tr>
-<td>幂等记录／审计／outbox</td>
-<td>与业务原子提交，回执和响应缓存分开</td>
-<td>同用户同动作原键核对；outbox 仅通知意图</td>
-<td></td>
-</tr>
-<tr>
-<td>29 表参考设计</td>
-<td><a href="../数据库设计/数据库设计.md">表清单与字段字典</a>、<a href="../数据库设计/数据库结构.sql">DDL</a></td>
-<td>原建议数据模型，未逐表接入运行服务</td>
-<td></td>
-</tr>
-</tbody></table>
-<p>当前运行 SQL 表的完整字段字典如下，依据 <a href="../../代码/后端/后端代码/Migrations/001_runtime.sql">001_runtime.sql</a> 与 <code>store.go</code>；JSON 内业务字段的完整名称和类型以 <code>model.go</code> 为准，不宣称已经有独立关系约束。</p>
-<table>
-<thead>
-<tr>
-<th>字段</th>
-<th>类型</th>
-<th>可空／默认值</th>
-<th>约束与用途</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>id</code></td>
-<td>SMALLINT</td>
-<td>主键非空，无默认值</td>
-<td>主键索引且 <code>CHECK(id = 1)</code>，仅一行聚合</td>
-</tr>
-<tr>
-<td><code>schema_version</code></td>
-<td>INTEGER</td>
-<td>NOT NULL，无默认值</td>
-<td>初始化为 1；业务 payload 另检查 schema</td>
-</tr>
-<tr>
-<td><code>payload</code></td>
-<td>JSONB</td>
-<td>NOT NULL，无默认值</td>
-<td><code>CHECK(jsonb_typeof(payload) = &#39;object&#39;)</code>；包含业务、附件、收据、审计及 outbox</td>
-</tr>
-<tr>
-<td><code>updated_at</code></td>
-<td>TIMESTAMPTZ</td>
-<td>NOT NULL，默认 <code>now()</code></td>
-<td>聚合更新时间</td>
-</tr>
-</tbody></table>
-<p>运行表没有业务实体独立外键或唯一索引。在关系化前，须建立运行字段→关系表字段→迁移转换→校验／回滚的逐项映射，审核金额、所有权、交付组、提交键与历史资金一致性。该映射尚未形成，不用参考表字典冒充运行库字典。</p>
-<p>事务语义：文件模式进程内互斥并原子替换，不能把同一文件交给多进程并发写；PG 模式通过聚合行锁串行提交。金额以 CNY 分存储，接口时间采用 RFC3339／UTC。备份必须覆盖完整状态、必要配置与网页发布资源，恢复后核对附件、订单、资金及操作收据。容量与原生 PG 故障恢复尚未验收。</p>
-<h3>2.4、<span id="interfaces">接口与第三方集成</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h3>
-<p>当前契约唯一维护于<a href="../../代码/后端/接口契约/api.json">后端接口契约</a>，为手写 JSON 说明，不是完整 OpenAPI 定义。接口基址 <code>/api/v1</code>，完整请求／响应字段与动作表查契约，不在多份文档复制一套易失配字段。</p>
-<table>
-<thead>
-<tr>
-<th>接口组</th>
-<th>调用与请求／响应</th>
-<th>鉴权与异常约定</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>POST /auth/login</code>、<code>POST /auth/logout</code></td>
-<td>固定账户登录、内存会话注销；返回 token／user 或 ok</td>
-<td>密码配置、限流、会话过期；生产拒用弱默认凭据</td>
-</tr>
-<tr>
-<td><code>GET /services</code></td>
-<td>三类服务列表</td>
-<td>游客可读；无通用分页</td>
-</tr>
-<tr>
-<td><code>GET /workspace</code>、<code>GET /cases/{id}</code></td>
-<td>当前用户可见案件聚合／详情</td>
-<td>Bearer 会话，后端校验角色及所有权</td>
-</tr>
-<tr>
-<td><code>POST /cases</code></td>
-<td>按服务字段创建案件；成功 201</td>
-<td>稳定 <code>Idempotency-Key</code>，合规字段及服务状态校验</td>
-</tr>
-<tr>
-<td><code>POST /cases/{id}/actions</code></td>
-<td>action＋<code>expected_version</code>＋动作字段，返回更新案件</td>
-<td>同键不同正文冲突；角色、状态与版本校验</td>
-</tr>
-<tr>
-<td>附件 POST／GET</td>
-<td>multipart 文件＋版本／授权二进制；上传成功 201</td>
-<td>8 MiB；归属、版本、文件与交付关系校验</td>
-</tr>
-<tr>
-<td><code>GET /operations/{key}</code></td>
-<td>已提交操作收据及当前案件</td>
-<td>只允许对应主体；404 不能证明仍在途写入失败</td>
-</tr>
-<tr>
-<td><code>/healthz</code>、<code>GET /api/v1/health</code></td>
-<td>进程健康与版本信息</td>
-<td>不能替代数据库、持久化和业务恢复检查</td>
-</tr>
-</tbody></table>
-<p>错误形状为 <code>error.code</code>／<code>error.message</code>；401／403 清理私有状态或拒绝访问，409 刷新后核对版本／提交键，422 展示业务校验，429 按限流处理。网络／5xx 才按客户端合同处理回退或未知写；不把重定向当最终成功。契约的“除登录外写入需要幂等键”与实际 logout 不要求幂等键存在说明差异，需明确例外或调整契约，见<a href="../交付与运维清单/交付与运维清单阅读版.html#gaps">交付缺口</a>。</p>
-<table>
-<thead>
-<tr>
-<th>需落实的接口字段</th>
-<th>当前填写</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>正式超时／重试上限</td>
-<td></td>
-</tr>
-<tr>
-<td>旧客户端兼容区间与退役方式</td>
-<td></td>
-</tr>
-<tr>
-<td>分页／数据规模上限</td>
-<td>当前 workspace 全量返回；正式上限：</td>
-</tr>
-<tr>
-<td>正式 API 域名与允许来源</td>
-<td></td>
-</tr>
-</tbody></table>
-<p>第三方账号、能力、正式／沙箱、配额、费用与责任按<a href="../交付与运维清单/交付与运维清单阅读版.html#assets">交付清单</a>登记。没有真实支付回调、通知发送或对象存储配置，不能声明外部集成完成。</p>
-<h3>2.5、<span id="review-result">当前评审结论</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h3>
-<p>本轮工程文档评审结论：<strong>需重新评审后才能作完整交付或商用放行</strong>。依据为尚未冻结本期范围与验收等级，业务规则、目标端、数据路径存在 Q 项，且原生 PG、部分平台、运维与正式身份等执行证据不足。可以继续在现有 MVP 边界内隔离联调；该意见不是业务方验收签字。</p>
-<table>
-<thead>
-<tr>
-<th>评审范围</th>
-<th>参与人</th>
-<th>正式结论</th>
-<th>遗留项</th>
-<th>负责人／期限</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>需求与商业规则</td>
-<td></td>
-<td></td>
-<td>Q-001—Q-003、Q-005</td>
-<td></td>
-</tr>
-<tr>
-<td>技术、数据及权限</td>
-<td></td>
-<td></td>
-<td>Q-004、Q-006</td>
-<td></td>
-</tr>
-<tr>
-<td>平台、部署及验收</td>
-<td></td>
-<td></td>
-<td>Q-007—Q-009；分册清单</td>
-<td></td>
-</tr>
-</tbody></table>
-<h2>三、<span id="acceptance">三级验收与测试</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
-<p>三级按基础可运行→可商用→工业化递进。各级条件、指标留白、可执行用例和证据登记见<a href="../../测试/测试与分级验收/测试与分级验收阅读版.html">测试与分级验收</a>。历史有限测试可以作为复测线索；当前项目未获得本轮正式等级结论。</p>
-<p>本期目标等级：</p>
-<p>对应需求／候选版本／验收人／期限：</p>
-<h2>四、<span id="deployment">部署与本地测试</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
-<p>现有系统入口、资源预算、双模式、副作用、恢复建议和未完成的生命周期能力见<a href="../交付与运维清单/交付与运维清单阅读版.html#deployment">交付与运维清单</a>。通用规范另要求的 RHEL、CentOS Stream 10 尚无对应本项目独立入口，记录 Q-008；不能以 RockyLinux 入口替代验收或默默缩小规范范围。</p>
-<h2>五、<span id="engineering">工程、交付与运维责任</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
-<p>主目录一级只保留 <code>README.md</code> 与子目录，原稿、阅读版及同主题附件一并归入题名或职责文件夹，由 README 提供导航；工具链必须的工程内部配置按其约定保留。</p>
-<p>自定义英文目录首字母大写，MacOS 自维护文案及平台目录使用统一写法；<code>iOS</code>、语言包身份与工具链固定布局保留实际名称，见<a href="../../测试/目录命名验证/目录命名验证.md">目录命名核验</a>。</p>
-<p>1、Git 根目录统一分为 <code>代码/</code>、<code>测试/</code>、<code>需求/</code>、<code>部署/</code>；代码内只分 <code>前端/</code> 与 <code>后端/</code>，前端按 PC端／移动端／后台管理端／微信小程序归类，采用跨平台时再按 Flutter／Python 分层，原生按 iOS／Android／鸿蒙分层。后端分接口契约和后端代码，部署按操作系统分层；不设 artifacts，产物进入对应工程 Dist。工具链要求的内部标准目录保留；测试同样按前端／后端／部署职责归类，前端镜像产品端及技术；不以顶层集成目录混放。需求与测试不嵌入核心代码。保留用户改动，只修改 Jobs 自有或明确接管文件。第三方、SDK、依赖、脚手架及生成代码不在一般规范整理范围。没有 <code>.codegraph/</code> 不主动创建索引，从<a href="../../代码/工程总览/单元导航阅读版.html">独立工程地图导航</a>定位；具体地图分别放在各前端技术工程、Go 后端实现与各系统部署单元内，上层只导航，共享源码只链接唯一维护源。</p>
-<p>2、工程路径按入口／项目根解析，保留可迁移性；依赖使用现有锁文件。发布时记录源码版本＋未提交差异摘要、构建环境、目标系统／架构、签名、包哈希与资源清单。当前工作区未冻结，不把 <code>0.1.0-mvp</code> 标签当本轮可复现候选。</p>
-<p>3、需求变更连接 C／F／R／T、动作契约、运行模型、各端与测试；唯一接口契约同步。只按变更影响复测，保留失败和跳过项；不为了数量重复跑测试。</p>
-<p>4、用户补填后先保留当前文档快照，逐项检查范围、权限、状态、接口、数据、用例、里程碑和交接一致性。有依据消除 Q 歧义才解除红字；仍缺输入继续留白。不覆盖原需求，不重编既有编号。</p>
-<p>5、正式交付按<a href="../交付与运维清单/交付与运维清单阅读版.html">资产与运维清单</a>登记；部署、升级、迁移、恢复和发布有对应版本与回退证据。凭据只通过受控渠道交接，文档不记秘密。提交、推送、采购及生产发布另按用户授权范围执行。</p>
-<h2>六、<span id="open-items">不确定项与补填回归</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
-<h3>6.1、<span id="uncertainties">有依据的不确定项</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h3>
-<p>本轮 Q-001 起的编号属于当前评审；原需求第十五章 D01—D12 与 R／T 原样保留，不覆盖或消除旧项。负责人、期限和用户结论为空白，供实际确认时填写。</p>
 <table>
 <thead>
 <tr>
 <th>编号</th>
-<th>红字歧义／依据</th>
-<th>需明确的结论</th>
-<th>负责人／期限</th>
-<th>用户结论</th>
+<th>已确认要求</th>
+<th>本期行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MALL-01</td>
+<td>自营商城，卖课／服务</td>
+<td>商品分类→商品列表→详情→立即购买→订单</td>
+</tr>
+<tr>
+<td>MALL-02</td>
+<td>微信／支付宝，手续及 Key 尚未齐全</td>
+<td>弹出可选渠道的收银台，点击确认模拟成功；订单、金额、渠道、模拟标记在服务端落库</td>
+</tr>
+<tr>
+<td>MALL-03</td>
+<td>买卖双方订单状态、无物流</td>
+<td>一份订单状态驱动双方视图，履约以课程／服务交付及买方确认完成为依据</td>
+</tr>
+<tr>
+<td>MALL-04</td>
+<td>后台可维护商品</td>
+<td>名称、类别、课程／服务、简介、详情、价格、图片、详情分节、上下架、缺货均可编辑</td>
+</tr>
+<tr>
+<td>MALL-05</td>
+<td>临摹三类及子页面</td>
+<td>参考站首页、分类列表、详情与相应子服务逐页建立映射，不仅制作三张入口卡片</td>
+</tr>
+<tr>
+<td>MALL-06</td>
+<td>暖心护眼</td>
+<td>米白背景、暖棕主色、低饱和辅助色；深色主题采用暖深底，确保主副文字对比</td>
+</tr>
+<tr>
+<td>MALL-07</td>
+<td>先需求再数据再实现回归</td>
+<td>需求基线→数据库设计→各端实现→业务、权限、幂等、回退、界面回归</td>
+</tr>
+</tbody></table>
+<p>用户补充：项目仍在开发阶段，直接按当前商城方案实现，不提供双版本入口、版本对比或历史数据兼容升级流程。</p>
+<h2 id="pages-heading">二、<span id="pages">商品与页面</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<ul>
+<li>商城首页：三主分类、课程／服务商品卡片、明确价格及库存状态、订单入口。</li>
+<li>分类子页：分类内商品列表，支持返回首页、重载和无数据占位；不出现参考站其它业务分类。</li>
+<li>详情子页：本地品牌图／商品图、名称、价格、内容分节、交付说明、商品状态及立即购买；下架或缺货不可新购。</li>
+<li>下单／收银台：确认商品与人民币金额，选择支付宝／微信渠道，提示“模拟支付，不会扣款”，关闭不支付。</li>
+<li>买方订单：全部、待付款、待完成、待评价、已完成；可查看订单快照、支付记录、站方交付、确认完成及评价。</li>
+<li>站方后台：商品列表及编辑表单，上下架和缺货开关；订单列表及开始服务／提交交付动作。</li>
+</ul>
+<p>参考目标为<a href="https://www.keyan.asia/"><strong>氪研学术</strong></a>及其<a href="https://www.keyan.asia/productService/">学术产品服务页</a>。公开页面的结构、通用名称、可核实价格等事实用于映射；完整长篇营销原文、人物、商标、评价与资质不擅自冒用。实际已核实页面及无法访问的子页另列证据，不把未进入页面写成已逐页复刻。</p>
+<p><span style="color:#d32f2f;">【不确定 M-Q01】用户要求内容照抄，但当前没有参考站长篇文案及图片的所有权／授权材料。先保留分类、子服务事实及信息层级，商品详情由后台完整编辑；不可访问的正文和正式经营价格不能用猜测伪装为原站内容。</span></p>
+<h2 id="states-heading">三、<span id="states">订单与双方状态</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<blockquote>
+<p>用户提到的待付款等属于订单交易状态；上下架、缺货属于商品状态，分别管理。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>订单状态</th>
+<th>履约子状态</th>
+<th>买方视图</th>
+<th>站方视图</th>
+<th>允许动作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>pending_payment</td>
+<td>pending</td>
+<td>待付款</td>
+<td>待买方付款</td>
+<td>买方支付／取消</td>
+</tr>
+<tr>
+<td>pending_completion</td>
+<td>pending</td>
+<td>待完成</td>
+<td>待开始服务</td>
+<td>站方开始服务或交付</td>
+</tr>
+<tr>
+<td>pending_completion</td>
+<td>in_progress</td>
+<td>待完成（服务中）</td>
+<td>待完成服务</td>
+<td>站方提交交付</td>
+</tr>
+<tr>
+<td>pending_completion</td>
+<td>delivered</td>
+<td>待完成（待确认）</td>
+<td>待买方确认</td>
+<td>买方确认完成</td>
+</tr>
+<tr>
+<td>pending_review</td>
+<td>delivered</td>
+<td>待评价</td>
+<td>待买方评价</td>
+<td>买方评价</td>
+</tr>
+<tr>
+<td>completed</td>
+<td>delivered</td>
+<td>已完成</td>
+<td>已完成</td>
+<td>只读订单与评价</td>
+</tr>
+<tr>
+<td>cancelled</td>
+<td>pending</td>
+<td>已取消</td>
+<td>已取消</td>
+<td>只读；本期仅未付款订单可直接取消</td>
+</tr>
+</tbody></table>
+<p>确认完成后订单已完成履约，待评价是评价阶段；不以发货／签收快递作为节点。不新增自动确认、自动评价、物流单、多商家、分佣或购物车等未要求规则。已付款取消及退款继续作为后续商议流程，不伪造退款到账。</p>
+<p>下单时在同一事务校验商品版本、上架与库存、人民币价格，写入完整商品快照。后续改价、下架及缺货不改变历史订单；已生成待付款订单按快照付款。修改价格与下单并发时拒绝旧商品版本，提示重新确认。金额使用整数分，初期数量固定为1。</p>
+<h2 id="payment-heading">四、<span id="payment">临时支付及真实渠道接口</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>当前支付驱动为 mock，渠道为 alipay／wechat。买方主动点击收银台确认后，服务端按订单应付金额记一笔带模拟标记的成功记录，并进入待完成；前端展示支付成功并可查看订单。重复点击、超时重试及并发支付均不得重复产生订单或收款。</p>
+<p>没有商户参数时只能展示应用内支付宝／微信渠道收银台，不能凭空生成有效官方支付单或官方付款二维码。真实外部 App／SDK 唤起留在渠道驱动边界；正式商户资料到齐后再接创建预支付、签名验签、渠道回调、主动查单、对账及退款。真实模式不能接受客户端“成功”直接改已付款，也不能失败后静默使用模拟驱动。</p>
+<p><span style="color:#d32f2f;">【不确定 M-Q02】“跳出支付宝／微信”是否还要求无商户订单情况下唤起外部 App，当前无法等价于有效收银台；本期交付可操作的渠道弹窗和模拟付款，外部正式唤起须随商户配置按各端渠道能力验收。</span></p>
+<h2 id="data-heading">五、<span id="data">数据库与接口约束</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>采用 <a href="https://go.dev/"><strong>Go</strong></a> 后端、文件原子快照与可选 <a href="https://www.postgresql.org/"><strong>PostgreSQL</strong></a> 聚合事务。商城商品、订单、支付／评价和幂等收据构成实际运行模型；字段字典与事务约束见<a href="../%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1.md">数据库设计</a>。</p>
+<table>
+<thead>
+<tr>
+<th>资源</th>
+<th>接口（前缀 /api/v1）</th>
+<th>约束</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>商品目录</td>
+<td>GET /products、GET /products/{id}</td>
+<td>游客可见已上架商品；缺货仍可浏览</td>
+</tr>
+<tr>
+<td>商品维护</td>
+<td>GET／POST /admin/products、PUT /admin/products/{id}</td>
+<td>管理员；修改提供 expected_version</td>
+</tr>
+<tr>
+<td>下单</td>
+<td>POST /shop-orders</td>
+<td>客户；product_id、product_version；金额由服务端决定</td>
+</tr>
+<tr>
+<td>订单查询</td>
+<td>GET /shop-orders、GET /shop-orders/{id}</td>
+<td>客户只看本人，管理员看全部</td>
+</tr>
+<tr>
+<td>订单动作</td>
+<td>POST /shop-orders/{id}/actions</td>
+<td>action、expected_version；按角色及当前状态校验</td>
+</tr>
+</tbody></table>
+<p>写请求使用 Idempotency-Key；同键同请求返回原结果，同键不同请求拒绝。订单动作含 pay、start、deliver、accept、review、cancel；支付提供 channel，交付／评价提供 text，评价还需 rating（1—5）。订单状态、支付记录、快照、幂等结果在同一事务持久化。</p>
+<p>按当前商城结构初始化开发及测试数据，不增加历史版本兼容与升级流程。回归使用独立测试数据，不清理正在运行的服务数据。</p>
+<h2 id="quality-heading">六、<span id="quality">界面、回退及验收</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<ul>
+<li>商品与订单列表均需完整空态、重载及出错后可继续操作的本地演示；进入／刷新／写操作优先请求API，短超时可配置，后续成功响应自动恢复真实数据。</li>
+<li>页面与支付弹窗适配白天、黑夜、跟随系统；提供简体中文、繁体中文、藏文、英文、日文、法文、西班牙文、德文、俄罗斯文、韩文切换。动态商品内容保留后台输入语言。</li>
+<li>商品图默认复用本地品牌图兜底；后台维护的合法商品图片加载失败保留品牌图。新增素材按项目来源及许可清单登记，不使用参考站无授权宣传素材。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>验收号</th>
+<th>核心场景</th>
+<th>通过依据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MC-01</td>
+<td>三分类、分类子页、详情子页可达</td>
+<td>页面结构及交互测试、参考页映射</td>
+</tr>
+<tr>
+<td>MC-02</td>
+<td>后台改名／详情／价格／图片／上下架／缺货</td>
+<td>API权限、版本冲突、界面操作</td>
+</tr>
+<tr>
+<td>MC-03</td>
+<td>下架或缺货不能购买，历史快照不变</td>
+<td>事务及并发测试</td>
+</tr>
+<tr>
+<td>MC-04</td>
+<td>双渠道模拟付款、关闭不付款、重复点击不重收</td>
+<td>API与客户端测试，明确mock标记</td>
+</tr>
+<tr>
+<td>MC-05</td>
+<td>站方开始／交付、买方确认／评价、四状态筛选</td>
+<td>完整订单回归与双方权限测试</td>
+</tr>
+<tr>
+<td>MC-06</td>
+<td>重启持久化、越权与幂等</td>
+<td>隔离存储及真实回环HTTP测试</td>
+</tr>
+<tr>
+<td>MC-07</td>
+<td>离线回退→恢复接口自动回真数据</td>
+<td>仓库层失败／恢复测试</td>
+</tr>
+<tr>
+<td>MC-08</td>
+<td>三主题、十语言、空列表、图片兜底</td>
+<td>界面与资源测试，目标设备验收另记</td>
+</tr>
+</tbody></table>
+<p>当前实施与执行证据见<a href="../../%E6%B5%8B%E8%AF%95/%E5%95%86%E5%9F%8E%E5%9B%9E%E5%BD%92/README.md">商城回归</a>。源码测试、可运行预览、移动设备实测、真实渠道支付与正式发布分别登记；尚未执行的项不写为通过。</p>
+<h2 id="frontend-heading">七、<span id="frontend">工程与技术路线</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<table>
+<thead>
+<tr>
+<th>产品端</th>
+<th>技术与当前入口</th>
+<th>平台验收</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PC端</td>
+<td>Python／PySide6，<code>代码/前端/PC端/Python/Zhixu/src/zhixu/shop.py</code></td>
+<td>Windows与MacOS成品及目标机分别验证</td>
+</tr>
+<tr>
+<td>iOS／Android／用户Web</td>
+<td>Flutter，<code>代码/前端/移动端/Flutter/lib/Shop/</code></td>
+<td>源码测试、Web预览、设备及商店发布分别登记</td>
+</tr>
+<tr>
+<td>响应式后台</td>
+<td>Flutter，<code>代码/前端/后台管理端/Flutter/lib/main.dart</code></td>
+<td>商品编辑与站方订单动作，宽窄窗口分别检查</td>
+</tr>
+<tr>
+<td>微信小程序</td>
+<td>官方原生WXML／WXSS／JavaScript／JSON，<code>代码/前端/微信小程序/</code></td>
+<td>本期独立前端；开发者工具、真机、体验与发布分别登记</td>
+</tr>
+<tr>
+<td>鸿蒙</td>
+<td>ArkWeb加载HTTPS用户Web</td>
+<td>HAP、签名、设备与容器能力另验</td>
+</tr>
+<tr>
+<td>后端</td>
+<td>Go，<code>代码/后端/后端代码/</code></td>
+<td>文件原子快照／可选PG聚合事务；角色、版本及幂等统一校验</td>
+</tr>
+</tbody></table>
+<p>当前接口契约见<a href="../../%E4%BB%A3%E7%A0%81/%E5%90%8E%E7%AB%AF/%E6%8E%A5%E5%8F%A3%E5%A5%91%E7%BA%A6/api.json">接口说明</a>，运行字段见<a href="../%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1.md">数据库设计</a>。正式主体／品牌：；定价及交付标准确认人：；本期验收负责人：；排期：。未提供的信息留白。</p>
+<h2 id="engineering-heading">八、<span id="engineering">工程、部署及交付约定</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<ul>
+<li>Git根并列代码、测试、需求、部署；前三个主目录一级仅README和文件夹。各独立端及后端维护自己的代码地图，公共依赖放机器受管理环境，源码使用相对引用。</li>
+<li>默认只修改Jobs自有或明确接管的源码，保留并发改动；不自动提交或推送。构建产物进入各端Dist，不把SDK、缓存及运行数据纳入源码。</li>
+<li><a href="../../%E9%83%A8%E7%BD%B2/README.md">部署说明</a>按系统提供部署／反部署及快捷入口，保留资源归属、默认备份、脱敏日志、可复制地址及本地二维码。当前任务不清理或重启已有服务。</li>
+<li>本机加内网穿透模式必须提示“关闭此运行终端，服务将结束”。公开域名、HTTPS、手机访问、真实渠道、平台签名与审核分别验收。</li>
+<li>测试使用隔离目录与合成数据；真实支付未接通，不能把mock记录作为银行到账证据。未验收的设备、PG数据库与正式渠道如实留在交付限制中。</li>
+</ul>
+<h2 id="open-items-heading">九、<span id="open-items">外部依赖与未定事项</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>当前事项</th>
+<th>处理</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Q-001</td>
-<td><span style="color:#d32f2f;">【不确定 Q-001】原 D03 主体、品牌未定，工程采用“知序”暂名；当前文案能否用于正式对外经营没有确认。</span></td>
-<td>主体、品牌、授权内容与对外协议</td>
-<td></td>
-<td></td>
+<td>品牌、经营主体、协议</td>
+<td>当前名称为实现暂名，正式内容由经营方填写</td>
 </tr>
 <tr>
 <td>Q-002</td>
-<td><span style="color:#d32f2f;">【不确定 Q-002】原 D02／D04／D07 的三项服务细项、定价与交付标准均属分析假设；工程自由文本报价不能替代统一经营规则。</span></td>
-<td>服务边界、成果标准、价格构成、交期、修改与取消约定</td>
-<td></td>
-<td></td>
+<td>实际售价、课程资源、服务周期和交付标准</td>
+<td>后台可编辑；种子仅为演示，不形成运营报价</td>
 </tr>
 <tr>
 <td>Q-003</td>
-<td><span style="color:#d32f2f;">【不确定 Q-003】原 D05／D06 将付款方案 A／B 分列，当前只实现人工台账，尚无用户对本期资金方案的正式收口结论。</span></td>
-<td>本期采用人工核验、真实渠道或仅咨询跟进，及对应验收范围</td>
-<td></td>
-<td></td>
+<td>支付商户资料及Key</td>
+<td>本期模拟支付已明确；正式支付、验签、回调、对账及退款随资料接入</td>
 </tr>
 <tr>
 <td>Q-004</td>
-<td><span style="color:#d32f2f;">【不确定 Q-004】29 表关系设计与文件／PG 单行 JSONB 运行模型并存，关联 D09 的材料保存选择；正式交付的数据路径未确认，不能称关系迁移已完成。</span></td>
-<td>是否继续聚合 MVP、何时关系化、迁移校验与恢复边界</td>
-<td></td>
-<td></td>
+<td>参考站完整正文及图片</td>
+<td>公开可核实分类／名称／层级可映射；未访问页面和未授权长文不冒充已复刻</td>
 </tr>
 <tr>
 <td>Q-005</td>
-<td><span style="color:#d32f2f;">【不确定 Q-005】D07、R05／R20 的日历和暂停对交期的具体约定未定；当前以暂停／恢复记录和确认变更承载，原需求未强制自动时钟。</span></td>
-<td>工作日／自然日、暂停交期规则，以及是否增加自动计时与提醒</td>
-<td></td>
-<td></td>
+<td>真实微信身份与多客户注册</td>
+<td>当前固定账户联调，独立于商城订单权限回归</td>
 </tr>
 <tr>
 <td>Q-006</td>
-<td><span style="color:#d32f2f;">【不确定 Q-006】原 D08 及建议规则含员工分派／撤派与消息送达，当前只有固定 admin/customer 和通知意图。</span></td>
-<td>本期员工角色、材料权限、撤权、通知渠道及送达标准</td>
-<td></td>
-<td></td>
+<td>原生设备、平台基础库与发布</td>
+<td>具体设备矩阵：；版本：；签收等级：</td>
 </tr>
 <tr>
 <td>Q-007</td>
-<td><span style="color:#d32f2f;">【不确定 Q-007】微信小程序纳入本期交付已由 SRC-09 明确；其基础库、真机矩阵和验收等级，以及其它端的分期签收范围、鸿蒙在线容器认可边界仍未填实。</span></td>
-<td>小程序基础库／目标设备与验收等级、其它端分期及鸿蒙宿主认可边界</td>
-<td>微信小程序必须交付；其余缺失项继续留白，2026-11-03</td>
-<td></td>
-</tr>
-<tr>
-<td>Q-008</td>
-<td><span style="color:#d32f2f;">【不确定 Q-008】通用规范默认部署目标含 RHEL／CentOS Stream 10，项目仅有现列八类系统入口，缺对应实现与证据。</span></td>
-<td>补齐目标入口或记录经确认的项目范围例外；版本与能力在实施时核验</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Q-009</td>
-<td><span style="color:#d32f2f;">【不确定 Q-009】通用规范要求预构建优先及全生命周期菜单，现有部署入口以源码编译／前台运行为主，没有统一升级回滚备份恢复入口。</span></td>
-<td>本期部署交付模式、可接受例外、补齐范围与运维责任</td>
-<td></td>
-<td></td>
+<td>性能及运维指标</td>
+<td>并发、RPO、RTO、负载与硬件下限实测：</td>
 </tr>
 </tbody></table>
-<h3>6.2、<span id="regression">补填后的二次回归记录</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h3>
-<table>
-<thead>
-<tr>
-<th>条目／编号</th>
-<th>用户补填与来源</th>
-<th>一致性及受影响设计／用例</th>
-<th>已解决／仍不确定／仍缺失</th>
-<th>后续动作／责任人</th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<p>当前没有收到本主文档的补填，不填写已解决结论。正式范围、服务条款、付款与目标端阻塞相应产品化承诺；现有源码阅读、隔离联调和不依赖这些输入的文档工作可以继续。</p>
-<h2>七、<span id="references">来源与证据使用规则</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
-<p>来源编号详见<a href="#raw-input">1.1</a>，所有工程链接以当前文件为基准。原外层需求资料合并到本目录，四份需求原稿内容保留，核心代码内不再保存重复需求副本。当前评审负责收口，补填确认后按变更表同步受影响实现。</p>
-<p>本轮核对范围为现有文档、契约、关键源码、编号、链接、阅读版及目录迁移。迁移后测试按外层统一入口执行，结果见测试目录本轮证据；原生数据库、安装包构建、真机、真实公网或生产环境仍另验，历史报告保留原日期。</p>
+<p>实际执行结果统一见<a href="../../%E6%B5%8B%E8%AF%95/%E5%95%86%E5%9F%8E%E5%9B%9E%E5%BD%92/README.md">商城回归</a>，不以文档写齐代替实现或验收。</p>
 <p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
-<footer>离线阅读版由当前文档生成。测试、构建、设备业务和正式验收按各自证据登记。</footer></main><script src="../阅读资源/mermaid.min.js"></script><script>window.__diagramErrors=[];mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeVariables:{fontFamily:'system-ui',primaryColor:'#e6eee1',primaryTextColor:'#1c362c',lineColor:'#526e5d'}});mermaid.run({querySelector:'.mermaid'}).then(()=>{window.__renderDone=true}).catch(e=>{window.__diagramErrors.push(String(e));window.__renderDone=true});</script></body></html>
+<script src="../阅读资源/mermaid.min.js"></script><script>if(window.mermaid)mermaid.initialize({startOnLoad:true,securityLevel:'strict'});</script></body></html>

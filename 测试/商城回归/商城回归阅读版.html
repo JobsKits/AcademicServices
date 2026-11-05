@@ -1,0 +1,118 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>学术商城｜回归与验收</title><style>
+ :root{color-scheme:light dark}body{font:16px/1.75 system-ui,-apple-system,sans-serif;background:#faf5ec;color:#392b22;max-width:1100px;margin:36px auto;padding:0 24px}h1{font-size:32px}h2{margin-top:38px;border-bottom:1px solid #dbcdbb;padding-bottom:10px}h3{margin-top:28px}a{color:#805334}img{max-width:100%;max-height:280px;object-fit:cover;border-radius:12px}table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow:auto}th,td{border:1px solid #d4c4b2;padding:10px 13px;vertical-align:top}th{background:#eee0cd}blockquote{margin:16px 0;padding:10px 20px;border-left:4px solid #b98b5e;background:#f1e7d8}pre{padding:18px;background:#efe5d6;overflow:auto;border-radius:8px}code{font-size:.9em}nav{background:#f3eadc;padding:16px;border-radius:12px}.level3{margin-left:18px}li{margin:4px 0}.mermaid{background:transparent}@media(prefers-color-scheme:dark){body{background:#211c18;color:#f5e9dc}a{color:#e4b187}th,nav,blockquote,pre{background:#352b22}td,th,h2{border-color:#806c59}}@media print{body{max-width:none;margin:0;color:#222;background:white}nav{display:none}h2,h3{break-after:avoid}tr{break-inside:avoid}}</style></head><body><h1>学术商城｜回归与验收</h1>
+<p><img src="https://picsum.photos/1500/400" alt="Jobs出品，必属精品"></p>
+<nav aria-label="章节目录"><details open><summary>目录</summary><ul><li class="level2"><a href="#前言">🔥 前言</a></li><li class="level2"><a href="#results">一、执行结果</a></li><li class="level2"><a href="#coverage">二、商城场景追溯</a></li><li class="level2"><a href="#rerun">三、复跑入口</a></li><li class="level2"><a href="#limits">四、未执行验收与外部条件</a></li></ul></details></nav>
+<hr>
+<h2 id="前言-heading">🔥 <span id="前言">前言</span></h2>
+<p>按<a href="../../%E9%9C%80%E6%B1%82/%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E4%B8%8E%E5%BC%80%E5%8F%91%E8%AF%84%E5%AE%A1/%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E4%B8%8E%E5%BC%80%E5%8F%91%E8%AF%84%E5%AE%A1.md">商城需求与开发评审</a>验证当前商城方案。当前执行环境为MacOS，测试使用临时文件、合成订单和动态回环端口，不使用真实款项或正在运行的业务数据。</p>
+<h2 id="results-heading">一、<span id="results">执行结果</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<table>
+<thead>
+<tr>
+<th>范围</th>
+<th>结果</th>
+<th>可核验证据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Go业务与并发</td>
+<td>43组通过、1组专用PG跳过，含9组商城及子场景；vet通过</td>
+<td><a href="../%E5%90%8E%E7%AB%AF/%E8%AF%81%E6%8D%AE/%E6%9C%AC%E8%BD%AE/2026.11.04%2023-25-14-349922/go-1.log">业务日志</a>、<a href="../%E5%90%8E%E7%AB%AF/%E8%AF%81%E6%8D%AE/%E6%9C%AC%E8%BD%AE/2026.11.04%2023-25-14-349922/go-2.log">vet</a></td>
+</tr>
+<tr>
+<td>真实HTTP</td>
+<td>22项通过，含双渠道完整订单闭环、后台商品、越权、并发幂等、重启与Python仓库联调</td>
+<td><a href="../%E5%90%8E%E7%AB%AF/%E8%AF%81%E6%8D%AE/%E6%9C%AC%E8%BD%AE/2026.11.04%2023-25-14-349922/http-1.log">HTTP日志</a></td>
+</tr>
+<tr>
+<td>Python桌面</td>
+<td>54项通过，含7项商城专项与真实下单丢响应保护</td>
+<td><a href="../%E5%89%8D%E7%AB%AF/PC%E7%AB%AF/Python/%E8%AF%81%E6%8D%AE/%E6%9C%AC%E8%BD%AE/2026.11.05%2000-07-04-567134/desktop-1.log">桌面日志</a></td>
+</tr>
+<tr>
+<td>Flutter商城</td>
+<td>60项四文件回归通过（含26项商城），双端分析与Web构建通过</td>
+<td><a href="../%E5%89%8D%E7%AB%AF/%E6%8A%A5%E5%91%8A%E4%B8%8E%E8%AF%81%E6%8D%AE/%E6%9C%AC%E8%BD%AE/2026.11.05%2000-26-22-980430/flutter-1.log">Flutter完整日志</a></td>
+</tr>
+<tr>
+<td>微信小程序</td>
+<td>44项通过；当前ShopClient经真实HTTP bridge完成双渠道交付评价闭环</td>
+<td><a href="../%E5%89%8D%E7%AB%AF/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/%E8%AF%81%E6%8D%AE/%E6%9C%AC%E8%BD%AE/2026.11.05%2000-32-49-464470/mini-1.log">小程序日志</a></td>
+</tr>
+<tr>
+<td>浏览器实际操作</td>
+<td>用户真实登录、详情、下单、收银台模拟付款及服务端待完成；管理员登录、商品编辑并实际保存159.88元后从API读回15988分，均无脚本异常</td>
+<td><a href="./%E8%AF%81%E6%8D%AE/%E9%A1%B5%E9%9D%A2/%E5%95%86%E5%9F%8EWeb%E9%A6%96%E9%A1%B5.png">首页</a>、<a href="./%E8%AF%81%E6%8D%AE/%E9%A1%B5%E9%9D%A2/%E6%A8%A1%E6%8B%9F%E6%94%AF%E4%BB%98%E6%94%B6%E9%93%B6%E5%8F%B0.png">收银台</a>、<a href="./%E8%AF%81%E6%8D%AE/%E9%A1%B5%E9%9D%A2/%E5%90%8E%E5%8F%B0%E5%95%86%E5%93%81%E7%BC%96%E8%BE%91.png">后台</a></td>
+</tr>
+<tr>
+<td>字体本地覆盖</td>
+<td>十语言87词条与商品中文227种字符零缺字；CJK／藏文字体官方许可随包</td>
+<td><a href="../%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/Flutter/%E8%AF%81%E6%8D%AE/%E5%95%86%E5%9F%8E/font-coverage.json">字形覆盖</a></td>
+</tr>
+<tr>
+<td>完全离线Web</td>
+<td>同时阻断API与所有外网，藏文深色390窗口、中文商品名及本地演示正常，外部请求和脚本错误均为0</td>
+<td><a href="./%E8%AF%81%E6%8D%AE/%E7%A6%BB%E7%BA%BF%E9%A1%B5%E9%9D%A2%E6%A3%80%E6%9F%A5.json">结果</a>、<a href="./%E8%AF%81%E6%8D%AE/%E9%A1%B5%E9%9D%A2/%E8%97%8F%E6%96%87%E6%B7%B1%E8%89%B2%E7%A7%BB%E5%8A%A8%E9%A2%84%E8%A7%88.png">截图</a></td>
+</tr>
+<tr>
+<td>文档阅读</td>
+<td>主需求10个二级标题、6张表、目录可用，1440窗口无水平溢出，无脚本异常</td>
+<td>当前阅读版及链接检查</td>
+</tr>
+</tbody></table>
+<h2 id="coverage-heading">二、<span id="coverage">商城场景追溯</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<table>
+<thead>
+<tr>
+<th>验收号</th>
+<th>实际验证</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MC-01</td>
+<td>三分类、9子商品、详情分节及详情入口；参考网站证据见<a href="../../%E9%9C%80%E6%B1%82/%E5%95%86%E5%9F%8E%E9%9C%80%E6%B1%82%E4%B8%8E%E8%AE%BE%E8%AE%A1/%E5%8F%82%E8%80%83%E9%A1%B5%E9%9D%A2/README.md">参考页面</a></td>
+</tr>
+<tr>
+<td>MC-02</td>
+<td>管理员新增编辑商品、上下架、缺货、图片地址、版本冲突及客户拒绝访问</td>
+</tr>
+<tr>
+<td>MC-03</td>
+<td>缺货／下架阻止新单、后台改价与下单冲突、订单快照不随商品修改变化</td>
+</tr>
+<tr>
+<td>MC-04</td>
+<td>alipay／wechat模拟付款、同键重试、异键并发、真实渠道未接入时拒绝客户端成功</td>
+</tr>
+<tr>
+<td>MC-05</td>
+<td>start→deliver→accept→review完整双方动作、身份限制及订单状态</td>
+</tr>
+<tr>
+<td>MC-06</td>
+<td>文件重启、订单／支付／评价／收据逐字段保留，越权与损坏数据保护</td>
+</tr>
+<tr>
+<td>MC-07</td>
+<td>API异常隔离演示、恢复覆盖真数据、写结果未知保留原键，不把超时当付款成功</td>
+</tr>
+<tr>
+<td>MC-08</td>
+<td>十语言词条及持久设置、暖色明暗对比、三主题、宽窄窗口、空态与图片品牌兜底</td>
+</tr>
+</tbody></table>
+<h2 id="rerun-heading">三、<span id="rerun">复跑入口</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<p>在仓库根执行，只使用现有工具链，不自动安装依赖或发布服务：</p>
+<pre><code class="language-shell">python3 &#39;./测试/运行测试.py/运行测试.py&#39; --group go --group http --group desktop --group mini --group flutter
+</code></pre>
+<p>统一入口及依赖说明见<a href="../%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95.py/README.md">测试入口</a>。后端测试通过Go overlay注入外置测试；HTTP启动专属临时Go服务并在退出时清理本次进程；桌面采用Qt离屏，Flutter为仓库／Widget测试，小程序为Node逻辑／页面测试。目标设备、正式渠道和发布不包含在此命令中。</p>
+<h2 id="limits-heading">四、<span id="limits">未执行验收与外部条件</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<ul>
+<li>未提供专用TEST_DATABASE_URL，真实PostgreSQL集成与生产容量未验；文件与内存通过不替代实库证据。</li>
+<li>支付为mock，未调用实际支付宝／微信商户接口、外部钱包SDK或真实扣款；真实签名、回调、对账与退款须随商户资料及Key接入。</li>
+<li>小程序开发者工具、微信真机、体验版、提审及发布，iOS／Android／鸿蒙设备、Windows成品及各平台签名分别未验。本次未生成这些平台的新成品。</li>
+<li>品牌、正式价格、课程资源、服务交付细则及完整授权文案由运营方配置。参考站公开事实及页面层级不代表取得商标、人物图和长篇正文使用权。</li>
+<li>本任务使用专属临时Go同源服务验证浏览器与微信HTTP bridge；现有部署未重启、数据未清理，未提交或推送。</li>
+</ul>
+<p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
+<script src="../../需求/阅读资源/mermaid.min.js"></script><script>if(window.mermaid)mermaid.initialize({startOnLoad:true,securityLevel:'strict'});</script></body></html>

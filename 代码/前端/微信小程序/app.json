@@ -1,17 +1,19 @@
 {
   "pages": [
-    "Pages/Home/index",
+    "Pages/Shop/index",
+    "Pages/Product/index",
+    "Pages/Orders/index",
+    "Pages/Order/index",
     "Pages/Login/index",
-    "Pages/Create/index",
-    "Pages/Workspace/index",
-    "Pages/Detail/index"
+    "Pages/Settings/index"
   ],
   "window": {
-    "navigationBarTitleText": "知序",
-    "navigationBarBackgroundColor": "#f6f7f3",
+    "navigationBarTitleText": "知序 · 学术商城",
+    "navigationBarBackgroundColor": "#fbf5ec",
     "navigationBarTextStyle": "black",
-    "backgroundColor": "#f6f7f3"
+    "backgroundColor": "#fbf5ec"
   },
+  "darkmode": true,
   "style": "v2",
   "usingComponents": {
     "empty-state": "/Components/EmptyState/index"

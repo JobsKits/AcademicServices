@@ -1,0 +1,165 @@
+?   	academic.local/platform/cmd/server	[no test files]
+=== RUN   TestThreeServicesValidationAndIsolation
+--- PASS: TestThreeServicesValidationAndIsolation (0.01s)
+=== RUN   TestStableCreateIdempotency
+--- PASS: TestStableCreateIdempotency (0.01s)
+=== RUN   TestQuoteReplacementExpiryAndMaterialVersion
+--- PASS: TestQuoteReplacementExpiryAndMaterialVersion (0.02s)
+=== RUN   TestConcurrentAcceptanceAndRequote
+--- PASS: TestConcurrentAcceptanceAndRequote (0.05s)
+=== RUN   TestAcceptedReplayBeforeVersionCheck
+--- PASS: TestAcceptedReplayBeforeVersionCheck (0.01s)
+=== RUN   TestPaymentsPrepayHoldsAndTerminal
+--- PASS: TestPaymentsPrepayHoldsAndTerminal (0.03s)
+=== RUN   TestCancelSettlementAndRefundWorkflow
+--- PASS: TestCancelSettlementAndRefundWorkflow (0.06s)
+=== RUN   TestRefundApprovalsGuardAggregateAndStart
+--- PASS: TestRefundApprovalsGuardAggregateAndStart (0.02s)
+=== RUN   TestRevisionRoundsQuotaAndFreeUnit
+--- PASS: TestRevisionRoundsQuotaAndFreeUnit (0.04s)
+=== RUN   TestLatestReleasedGroupingAndAftersalePreservesCompletion
+--- PASS: TestLatestReleasedGroupingAndAftersalePreservesCompletion (0.04s)
+=== RUN   TestAttachmentOwnershipBytesAndImmutability
+--- PASS: TestAttachmentOwnershipBytesAndImmutability (0.01s)
+=== RUN   TestOfflineServicePreservesSoldSnapshot
+--- PASS: TestOfflineServicePreservesSoldSnapshot (0.01s)
+=== RUN   TestStorageFailureRollsBackAuditOutboxReceipt
+--- PASS: TestStorageFailureRollsBackAuditOutboxReceipt (0.00s)
+=== RUN   TestFilePersistenceLockAndCorruptionProtection
+--- PASS: TestFilePersistenceLockAndCorruptionProtection (0.02s)
+=== RUN   TestServiceStaffAndForeignActionGuards
+--- PASS: TestServiceStaffAndForeignActionGuards (0.00s)
+=== RUN   TestPostgresIntegration
+    engine_test.go:419: set TEST_DATABASE_URL to a dedicated empty PostgreSQL database
+--- SKIP: TestPostgresIntegration (0.00s)
+=== RUN   TestChangeRequiresConfirmationPreservesInitialAndDeadline
+--- PASS: TestChangeRequiresConfirmationPreservesInitialAndDeadline (0.01s)
+=== RUN   TestUnknownRefundResolutionAndAftersaleCloseGuard
+--- PASS: TestUnknownRefundResolutionAndAftersaleCloseGuard (0.05s)
+=== RUN   TestSparseStateIsRejected
+--- PASS: TestSparseStateIsRejected (0.00s)
+=== RUN   TestConcurrentFinalAcceptanceAndCancel
+--- PASS: TestConcurrentFinalAcceptanceAndCancel (0.02s)
+=== RUN   TestFileStoreLockProcessHelper
+--- PASS: TestFileStoreLockProcessHelper (0.00s)
+=== RUN   TestFileStoreDarwinConcurrentProcessAndCrashRecovery
+2026/11/04 23:16:52 WARN recovered stale data directory lock pid=30992 backup=/var/folders/r6/sb0vlrj92qg__pr4zcc4nznm0000gn/T/TestFileStoreDarwinConcurrentProcessAndCrashRecovery3469624171/001/.server-lock.stale-3996805994.bak
+--- PASS: TestFileStoreDarwinConcurrentProcessAndCrashRecovery (0.03s)
+=== RUN   TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks
+=== RUN   TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks/bad-pid
+=== RUN   TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks/bad-time
+=== RUN   TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks/extra-fields
+=== RUN   TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks/active-legacy
+=== RUN   TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks/oversize
+=== RUN   TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks/empty
+=== RUN   TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks/signed-pid
+=== RUN   TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks/overflow-pid
+=== RUN   TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks/missing-newline
+--- PASS: TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks (0.01s)
+    --- PASS: TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks/bad-pid (0.00s)
+    --- PASS: TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks/bad-time (0.00s)
+    --- PASS: TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks/extra-fields (0.00s)
+    --- PASS: TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks/active-legacy (0.00s)
+    --- PASS: TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks/oversize (0.00s)
+    --- PASS: TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks/empty (0.00s)
+    --- PASS: TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks/signed-pid (0.00s)
+    --- PASS: TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks/overflow-pid (0.00s)
+    --- PASS: TestFileStoreDarwinRetainsLegacyActiveAndUnknownLocks/missing-newline (0.00s)
+=== RUN   TestFileStoreDarwinRejectsSpecialLockFiles
+=== RUN   TestFileStoreDarwinRejectsSpecialLockFiles/.server-lock/symlink
+=== RUN   TestFileStoreDarwinRejectsSpecialLockFiles/.server-lock/directory
+=== RUN   TestFileStoreDarwinRejectsSpecialLockFiles/.server-lock/fifo
+=== RUN   TestFileStoreDarwinRejectsSpecialLockFiles/.server-guard/symlink
+=== RUN   TestFileStoreDarwinRejectsSpecialLockFiles/.server-guard/directory
+=== RUN   TestFileStoreDarwinRejectsSpecialLockFiles/.server-guard/fifo
+--- PASS: TestFileStoreDarwinRejectsSpecialLockFiles (0.00s)
+    --- PASS: TestFileStoreDarwinRejectsSpecialLockFiles/.server-lock/symlink (0.00s)
+    --- PASS: TestFileStoreDarwinRejectsSpecialLockFiles/.server-lock/directory (0.00s)
+    --- PASS: TestFileStoreDarwinRejectsSpecialLockFiles/.server-lock/fifo (0.00s)
+    --- PASS: TestFileStoreDarwinRejectsSpecialLockFiles/.server-guard/symlink (0.00s)
+    --- PASS: TestFileStoreDarwinRejectsSpecialLockFiles/.server-guard/directory (0.00s)
+    --- PASS: TestFileStoreDarwinRejectsSpecialLockFiles/.server-guard/fifo (0.00s)
+=== RUN   TestFileStoreDarwinGuardPersistsAndOldCloseIsHarmless
+--- PASS: TestFileStoreDarwinGuardPersistsAndOldCloseIsHarmless (0.00s)
+=== RUN   TestHTTPAuthenticationExpiryAndLogout
+--- PASS: TestHTTPAuthenticationExpiryAndLogout (1.69s)
+=== RUN   TestHTTPCreateOperationAndForeignIsolation
+--- PASS: TestHTTPCreateOperationAndForeignIsolation (1.74s)
+=== RUN   TestHTTPPrivateAttachmentRoundTrip
+--- PASS: TestHTTPPrivateAttachmentRoundTrip (1.69s)
+=== RUN   TestHTTPRejectMalformedUnknownLargeAndRoleActions
+--- PASS: TestHTTPRejectMalformedUnknownLargeAndRoleActions (1.84s)
+=== RUN   TestHTTPLoginRateLimit
+--- PASS: TestHTTPLoginRateLimit (4.52s)
+=== RUN   TestHTTPOriginReverseProxyAndPreflight
+--- PASS: TestHTTPOriginReverseProxyAndPreflight (1.02s)
+=== RUN   TestHTTPStaticAndHealth
+--- PASS: TestHTTPStaticAndHealth (1.04s)
+=== RUN   TestConfigProductionRejectsDefaults
+--- PASS: TestConfigProductionRejectsDefaults (0.69s)
+=== RUN   TestConfigLocalDebugPasswordPolicy
+=== RUN   TestConfigLocalDebugPasswordPolicy/local_four_characters
+=== RUN   TestConfigLocalDebugPasswordPolicy/IPv6_loopback
+=== RUN   TestConfigLocalDebugPasswordPolicy/local_three_characters
+=== RUN   TestConfigLocalDebugPasswordPolicy/local_three_customer_characters
+=== RUN   TestConfigLocalDebugPasswordPolicy/Unicode_four_characters
+=== RUN   TestConfigLocalDebugPasswordPolicy/Unicode_three_characters
+=== RUN   TestConfigLocalDebugPasswordPolicy/production_without_debug
+=== RUN   TestConfigLocalDebugPasswordPolicy/explicit_debug_required
+=== RUN   TestConfigLocalDebugPasswordPolicy/all_interfaces
+=== RUN   TestConfigLocalDebugPasswordPolicy/IPv6_all_interfaces
+=== RUN   TestConfigLocalDebugPasswordPolicy/non-loopback
+=== RUN   TestConfigLocalDebugPasswordPolicy/hostname_does_not_relax_policy
+=== RUN   TestConfigLocalDebugPasswordPolicy/duplicate_accounts
+=== RUN   TestConfigLocalDebugPasswordPolicy/default_administrator
+=== RUN   TestConfigLocalDebugPasswordPolicy/default_customer
+=== RUN   TestConfigLocalDebugPasswordPolicy/wildcard_CORS
+=== RUN   TestConfigLocalDebugPasswordPolicy/HTTP_CORS
+=== RUN   TestConfigLocalDebugPasswordPolicy/HTTPS_CORS
+=== RUN   TestConfigLocalDebugPasswordPolicy/non-loopback_strong_passwords
+--- PASS: TestConfigLocalDebugPasswordPolicy (3.38s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/local_four_characters (0.67s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/IPv6_loopback (0.67s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/local_three_characters (0.00s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/local_three_customer_characters (0.00s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/Unicode_four_characters (0.67s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/Unicode_three_characters (0.00s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/production_without_debug (0.00s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/explicit_debug_required (0.00s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/all_interfaces (0.00s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/IPv6_all_interfaces (0.00s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/non-loopback (0.00s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/hostname_does_not_relax_policy (0.00s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/duplicate_accounts (0.00s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/default_administrator (0.00s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/default_customer (0.00s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/wildcard_CORS (0.00s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/HTTP_CORS (0.00s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/HTTPS_CORS (0.67s)
+    --- PASS: TestConfigLocalDebugPasswordPolicy/non-loopback_strong_passwords (0.69s)
+=== RUN   TestStaticSPAAndPrivateDirectoryBoundary
+--- PASS: TestStaticSPAAndPrivateDirectoryBoundary (0.00s)
+=== RUN   TestShopCatalogEditingAndSnapshot
+--- PASS: TestShopCatalogEditingAndSnapshot (0.01s)
+=== RUN   TestShopProductValidationAndNewProduct
+--- PASS: TestShopProductValidationAndNewProduct (0.02s)
+=== RUN   TestShopFullWorkflowAndBothChannels
+=== RUN   TestShopFullWorkflowAndBothChannels/alipay
+=== RUN   TestShopFullWorkflowAndBothChannels/wechat
+--- PASS: TestShopFullWorkflowAndBothChannels (0.02s)
+    --- PASS: TestShopFullWorkflowAndBothChannels/alipay (0.01s)
+    --- PASS: TestShopFullWorkflowAndBothChannels/wechat (0.01s)
+=== RUN   TestShopRoleIsolationAndStateGuards
+--- PASS: TestShopRoleIsolationAndStateGuards (0.01s)
+=== RUN   TestShopStableKeysAndConcurrentPayments
+--- PASS: TestShopStableKeysAndConcurrentPayments (0.03s)
+=== RUN   TestShopConcurrentPriceChangeAndPurchase
+--- PASS: TestShopConcurrentPriceChangeAndPurchase (0.00s)
+=== RUN   TestShopStorageRollbackAndRestart
+--- PASS: TestShopStorageRollbackAndRestart (0.02s)
+=== RUN   TestShopRejectsInvalidStateWithoutOverwriting
+--- PASS: TestShopRejectsInvalidStateWithoutOverwriting (0.01s)
+=== RUN   TestHTTPShopCatalogAdminOrderAndCORS
+--- PASS: TestHTTPShopCatalogAdminOrderAndCORS (2.11s)
+PASS
+ok  	academic.local/platform/internal/platform	21.933s

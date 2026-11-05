@@ -1,0 +1,11 @@
+<view class="app {{theme}}"><view class="page">
+  <view class="row"><button class="small secondary" bindtap="shop">{{t.shop}}</button><button class="small secondary" bindtap="orders">{{t.orders}}</button></view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+  <empty-state wx:if="{{!product}}" title="{{t.emptyProducts}}" description="{{t.emptyHint}}" reload-label="{{t.reload}}" bind:reload="reload"/>
+  <block wx:if="{{product}}"><view class="detail-image product-image"><image src="/Assets/brand.png" mode="aspectFit"/><image wx:if="{{product.image &amp;&amp; !failedImages[product.id]}}" class="remote-image" src="{{product.image}}" mode="aspectFill" data-id="{{product.id}}" binderror="imageError"/></view>
+    <view class="eyebrow">{{t[product.category_id]}} · {{t[product.kind]}}</view><view class="hero product-title">{{product.name}}</view><view class="sub">{{product.summary}}</view><view class="price large">{{product.amount}}</view>
+    <view class="demo" wx:if="{{product.is_demo}}">{{t.demoGoods}}</view><view class="line">{{product.description}}</view>
+    <view class="card" wx:for="{{product.sections}}" wx:key="title"><view class="title">{{item.title}}</view><view class="line sub">{{item.body}}</view></view>
+    <button wx:if="{{product.active &amp;&amp; product.in_stock}}" disabled="{{busy}}" loading="{{busy}}" bindtap="buy">{{t.buy}} · {{product.amount}}</button><button wx:else disabled>{{product.active?t.outOfStock:t.inactive}}</button>
+  </block><button class="secondary" bindtap="reload">{{t.reload}}</button>
+</view></view>

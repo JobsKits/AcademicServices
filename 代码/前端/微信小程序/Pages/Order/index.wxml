@@ -1,0 +1,15 @@
+<view class="app {{theme}}"><view class="page">
+  <view class="row"><button class="small secondary" bindtap="orders">{{t.orders}}</button><button class="small secondary" bindtap="settings">{{t.settings}}</button></view><view wx:if="{{error}}" class="error">{{error}}</view>
+  <empty-state wx:if="{{!order}}" title="{{t.emptyOrders}}" description="{{t.emptyHint}}" reload-label="{{t.reload}}" bind:reload="reload"/>
+  <block wx:if="{{order}}"><view class="card"><view class="badge">{{t[order.status]}}</view><view class="hero product-title">{{order.product_snapshot.name}}</view><view class="small muted">{{order.id}}</view><view class="line">{{order.product_snapshot.description}}</view><view class="price large">{{order.amount}}</view><view class="sub">{{t[order.fulfillment_status]}}</view></view>
+    <view class="demo" wx:if="{{source==='demo'}}">{{t.offline}}</view>
+    <view class="card" wx:if="{{order.payment}}"><view class="title">{{t.mockRecord}}</view><view class="line">{{t[order.payment.channel]}} · {{order.amount}}</view><view class="small muted">{{order.payment.reference}}</view></view>
+    <view class="card" wx:if="{{order.delivery_text}}"><view class="title">{{t.deliver}}</view><view class="line">{{order.delivery_text}}</view></view>
+    <block wx:if="{{order.status==='pending_payment'}}"><button disabled="{{busy}}" bindtap="openCashier">{{t.checkout}}</button><button class="secondary" disabled="{{busy}}" bindtap="cancel">{{t.cancel}}</button></block>
+    <button wx:if="{{order.status==='pending_completion' &amp;&amp; order.fulfillment_status==='delivered'}}" disabled="{{busy}}" bindtap="accept">{{t.accept}}</button>
+    <view class="card" wx:if="{{order.status==='pending_review'}}"><label>{{t.rating}}</label><picker range="{{ratings}}" value="{{rating-1}}" bindchange="rating"><view class="picker-value">{{rating}} / 5</view></picker><label>{{t.review}}</label><textarea maxlength="2000" value="{{text}}" bindinput="text" placeholder="{{t.text}}"/><button disabled="{{busy}}" bindtap="review">{{t.review}}</button></view>
+    <view class="card" wx:if="{{order.review}}"><view class="title">{{t.review}} · {{order.review.rating}} / 5</view><view class="line">{{order.review.text}}</view></view>
+  </block><button class="secondary" bindtap="reload">{{t.reload}}</button>
+</view>
+<view class="mask" wx:if="{{cashier &amp;&amp; order}}" bindtap="closeCashier"><view class="cashier" catchtap="noop"><view class="title">{{t.checkout}}</view><view class="price large">{{order.amount}}</view><view class="demo">{{t.mockHint}}</view><view class="channel-row"><button class="{{channel==='alipay'?'selected':'secondary'}}" data-id="alipay" bindtap="channel">{{t.alipay}}</button><button class="{{channel==='wechat'?'selected':'secondary'}}" data-id="wechat" bindtap="channel">{{t.wechat}}</button></view><view wx:if="{{error}}" class="error">{{error}}</view><button disabled="{{busy}}" loading="{{busy}}" bindtap="pay">{{t.confirmPay}}</button><button class="secondary" disabled="{{busy}}" bindtap="closeCashier">{{t.cancel}}</button></view></view>
+</view>

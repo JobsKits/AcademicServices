@@ -58,8 +58,21 @@ func OpenFileStore(dir string) (*FileStore, error) {
 	return store, nil
 }
 func validState(s *State) error {
-	if s.Schema != 1 || s.Cases == nil || s.Receipts == nil || len(s.Services) != 3 {
+	if s.Schema != 2 || s.Cases == nil || s.Receipts == nil || len(s.Services) != 3 {
 		return errors.New("unsupported state schema; do not overwrite data")
+	}
+	if s.Products == nil || s.ShopOrders == nil || s.ShopReceipts == nil || s.ShopAudit == nil {
+		return errors.New("incomplete shop state; do not overwrite data")
+	}
+	for id, p := range s.Products {
+		if p == nil || id != p.ID || p.Version < 1 || !moneyOK(p.Price) || p.Currency != "CNY" {
+			return errors.New("invalid shop product; do not overwrite data")
+		}
+	}
+	for id, o := range s.ShopOrders {
+		if o == nil || id != o.ID || o.OwnerID == "" || o.Version < 1 || !moneyOK(o.Amount) || o.Currency != "CNY" || o.Quantity != 1 {
+			return errors.New("invalid shop order; do not overwrite data")
+		}
 	}
 	return nil
 }
@@ -171,7 +184,7 @@ func OpenPGStore(ctx context.Context, url string) (*PGStore, error) {
 		return nil, e
 	}
 	b, _ := json.Marshal(initialState())
-	if _, e = pool.Exec(ctx, `INSERT INTO academic_runtime_state(id,schema_version,payload) VALUES(1,1,$1) ON CONFLICT(id) DO NOTHING`, string(b)); e != nil {
+	if _, e = pool.Exec(ctx, `INSERT INTO academic_runtime_state(id,schema_version,payload) VALUES(1,2,$1) ON CONFLICT(id) DO NOTHING`, string(b)); e != nil {
 		pool.Close()
 		return nil, e
 	}
@@ -215,7 +228,7 @@ func (p *PGStore) Update(ctx context.Context, f func(*State) error) error {
 	if e != nil {
 		return e
 	}
-	if _, e = tx.Exec(ctx, `UPDATE academic_runtime_state SET payload=$1,updated_at=now() WHERE id=1`, string(b)); e != nil {
+	if _, e = tx.Exec(ctx, `UPDATE academic_runtime_state SET payload=$1,schema_version=2,updated_at=now() WHERE id=1`, string(b)); e != nil {
 		return e
 	}
 	return tx.Commit(ctx)

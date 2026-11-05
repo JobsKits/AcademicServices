@@ -1,0 +1,27 @@
+test_01_three_services_and_empty_lists (__main__.HTTPRegression.test_01_three_services_and_empty_lists) ... ok
+test_02_auth_and_validation (__main__.HTTPRegression.test_02_auth_and_validation) ... ok
+test_03_stable_idempotency (__main__.HTTPRegression.test_03_stable_idempotency) ... ok
+test_04_ownership_and_staff_authority (__main__.HTTPRegression.test_04_ownership_and_staff_authority) ... ok
+test_05_concurrent_acceptance (__main__.HTTPRegression.test_05_concurrent_acceptance) ... ok
+test_06_version_and_receipt_replay (__main__.HTTPRegression.test_06_version_and_receipt_replay) ... ok
+test_07_private_attachment_gateway (__main__.HTTPRegression.test_07_private_attachment_gateway) ... ok
+test_08_prepayment_and_multiple_holds (__main__.HTTPRegression.test_08_prepayment_and_multiple_holds) ... ok
+test_09_cancel_settlement_and_refund (__main__.HTTPRegression.test_09_cancel_settlement_and_refund) ... ok
+test_10_delivery_revision_and_after_sale (__main__.HTTPRegression.test_10_delivery_revision_and_after_sale) ... ok
+test_11_change_requires_customer_acceptance (__main__.HTTPRegression.test_11_change_requires_customer_acceptance) ... ok
+test_12_supplement_invalidates_unaccepted_quote (__main__.HTTPRegression.test_12_supplement_invalidates_unaccepted_quote) ... ok
+test_13_readiness_and_session_no_cache (__main__.HTTPRegression.test_13_readiness_and_session_no_cache) ... ok
+test_20_shop_catalog_category_and_details (__main__.HTTPRegression.test_20_shop_catalog_category_and_details) ... ok
+test_21_shop_admin_edit_stock_and_versions (__main__.HTTPRegression.test_21_shop_admin_edit_stock_and_versions) ... ok
+test_22_shop_both_payment_channels_and_full_fulfillment (__main__.HTTPRegression.test_22_shop_both_payment_channels_and_full_fulfillment) ... ok
+test_23_shop_concurrent_payment (__main__.HTTPRegression.test_23_shop_concurrent_payment) ... ok
+test_24_shop_roles_owner_and_price_forgery (__main__.HTTPRegression.test_24_shop_roles_owner_and_price_forgery) ... ok
+test_25_python_shop_repository_real_service_contract (__main__.HTTPRegression.test_25_python_shop_repository_real_service_contract) ... ok
+test_26_shop_restart_preserves_payment_review_and_receipt (__main__.HTTPRegression.test_26_shop_restart_preserves_payment_review_and_receipt) ... ok
+test_98_hangup_releases_lock_and_preserves_business (__main__.HTTPRegression.test_98_hangup_releases_lock_and_preserves_business) ... ok
+test_99_restart_preserves_business_and_receipt (__main__.HTTPRegression.test_99_restart_preserves_business_and_receipt) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 3.048s
+
+OK
