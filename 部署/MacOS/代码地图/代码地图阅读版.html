@@ -3,6 +3,7 @@
 <h2>🔥 <span id="前言">前言</span></h2>
 <p>本图只定位 MacOS 部署单元；其它系统入口分别维护，不以本系统结果推定其它系统可用。本图标明平台目录内的快捷入口、脚本包内的唯一部署实现及各自职责；运行行为与验证状态以就近使用说明为准。路径均从当前文档相对指向源码；跨单元内容只通过链接引用。</p>
 <p>本平台部署与反部署脚本分别内嵌生命周期核心，独立运行不依赖外部生命周期函数库。<a href="../../README.md#lifecycle-protocol">原点与恢复协议</a>说明原点、互斥、备份和恢复边界。</p>
+<p>部署入口的 <code>preselect_existing_mode</code> 在接管前只读选择模式；<code>acquire_restart_lock</code> 与 <code>stop_previous_deployment</code> 串行停止身份匹配的旧实例。<code>start_session_guard</code>／<code>run_session_guard</code> 监测入口及终端父进程，<code>run_session_child</code> 在启动业务前自登记并管理后端／隧道子进程；退出流程完成回收、日志／二维码封存和解锁。两份脚本的 <code>lc_manifest</code> 使用 <code>runtime-selected</code> 范围封存本轮资料，退出时不遍历 SDK 缓存。</p>
 <h2>一、<span id="modules">入口与模块职责</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <table>
 <thead>

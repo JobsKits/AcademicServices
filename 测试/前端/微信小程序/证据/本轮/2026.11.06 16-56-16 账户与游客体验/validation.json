@@ -1,0 +1,31 @@
+{
+  "status": "passed",
+  "node_tests": 86,
+  "syntax_checks": [
+    "Utils/api.js",
+    "Utils/shop.js",
+    "Utils/ui.js",
+    "Pages/Login/index.js",
+    "Pages/Settings/index.js"
+  ],
+  "template_translation_keys": 78,
+  "languages": 10,
+  "live_api": {
+    "status": "passed",
+    "scope": "native ShopClient through a wx.request fetch bridge against isolated final Go Demo backend",
+    "steps": [
+      "explicit Demo config",
+      "email-code registration",
+      "username login",
+      "profile rename and immediate PNG upload",
+      "password reset",
+      "bound email login"
+    ],
+    "data": "synthetic temporary account only"
+  },
+  "not_verified": [
+    "WeChat developer tools compilation",
+    "iOS/Android WeChat devices",
+    "real SMTP delivery"
+  ]
+}

@@ -1,0 +1,11 @@
+test_explicit_port_preserved (__main__.EndpointTests.test_explicit_port_preserved) ... ok
+test_host_never_uses_file_origin_or_tls_bypass (__main__.EndpointTests.test_host_never_uses_file_origin_or_tls_bypass) ... ok
+test_navigation_policy_runs_against_valid_invalid_and_gesture_cases (__main__.EndpointTests.test_navigation_policy_runs_against_valid_invalid_and_gesture_cases) ... ok
+test_rejects_credentials_non_https_and_ambiguous_paths (__main__.EndpointTests.test_rejects_credentials_non_https_and_ambiguous_paths) ... ok
+test_same_https_origin (__main__.EndpointTests.test_same_https_origin) ... ok
+test_window_open_releases_handler_and_only_browses_user_http_requests (__main__.EndpointTests.test_window_open_releases_handler_and_only_browses_user_http_requests) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.088s
+
+OK

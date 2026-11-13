@@ -1,0 +1,57 @@
+test_AlibabaCloudLinux_local (__main__.ShopDeploymentTests.test_AlibabaCloudLinux_local) ... ok
+test_AlibabaCloudLinux_server (__main__.ShopDeploymentTests.test_AlibabaCloudLinux_server) ... ok
+test_AlibabaCloudLinux_static_00 (__main__.ShopDeploymentTests.test_AlibabaCloudLinux_static_00) ... ok
+test_AlibabaCloudLinux_static_01 (__main__.ShopDeploymentTests.test_AlibabaCloudLinux_static_01) ... ok
+test_AlibabaCloudLinux_static_10 (__main__.ShopDeploymentTests.test_AlibabaCloudLinux_static_10) ... ok
+test_AlibabaCloudLinux_syntax (__main__.ShopDeploymentTests.test_AlibabaCloudLinux_syntax) ... ok
+test_Alpine_local (__main__.ShopDeploymentTests.test_Alpine_local) ... ok
+test_Alpine_server (__main__.ShopDeploymentTests.test_Alpine_server) ... ok
+test_Alpine_static_00 (__main__.ShopDeploymentTests.test_Alpine_static_00) ... ok
+test_Alpine_static_01 (__main__.ShopDeploymentTests.test_Alpine_static_01) ... ok
+test_Alpine_static_10 (__main__.ShopDeploymentTests.test_Alpine_static_10) ... ok
+test_Alpine_syntax (__main__.ShopDeploymentTests.test_Alpine_syntax) ... ok
+test_Debian_local (__main__.ShopDeploymentTests.test_Debian_local) ... ok
+test_Debian_server (__main__.ShopDeploymentTests.test_Debian_server) ... ok
+test_Debian_static_00 (__main__.ShopDeploymentTests.test_Debian_static_00) ... ok
+test_Debian_static_01 (__main__.ShopDeploymentTests.test_Debian_static_01) ... ok
+test_Debian_static_10 (__main__.ShopDeploymentTests.test_Debian_static_10) ... ok
+test_Debian_syntax (__main__.ShopDeploymentTests.test_Debian_syntax) ... ok
+test_FreeBSD_local (__main__.ShopDeploymentTests.test_FreeBSD_local) ... ok
+test_FreeBSD_server (__main__.ShopDeploymentTests.test_FreeBSD_server) ... ok
+test_FreeBSD_static_00 (__main__.ShopDeploymentTests.test_FreeBSD_static_00) ... ok
+test_FreeBSD_static_01 (__main__.ShopDeploymentTests.test_FreeBSD_static_01) ... ok
+test_FreeBSD_static_10 (__main__.ShopDeploymentTests.test_FreeBSD_static_10) ... ok
+test_FreeBSD_syntax (__main__.ShopDeploymentTests.test_FreeBSD_syntax) ... ok
+test_MacOS_local (__main__.ShopDeploymentTests.test_MacOS_local) ... ok
+test_MacOS_server (__main__.ShopDeploymentTests.test_MacOS_server) ... ok
+test_MacOS_static_00 (__main__.ShopDeploymentTests.test_MacOS_static_00) ... ok
+test_MacOS_static_01 (__main__.ShopDeploymentTests.test_MacOS_static_01) ... ok
+test_MacOS_static_10 (__main__.ShopDeploymentTests.test_MacOS_static_10) ... ok
+test_MacOS_syntax (__main__.ShopDeploymentTests.test_MacOS_syntax) ... ok
+test_RockyLinux_local (__main__.ShopDeploymentTests.test_RockyLinux_local) ... ok
+test_RockyLinux_server (__main__.ShopDeploymentTests.test_RockyLinux_server) ... ok
+test_RockyLinux_static_00 (__main__.ShopDeploymentTests.test_RockyLinux_static_00) ... ok
+test_RockyLinux_static_01 (__main__.ShopDeploymentTests.test_RockyLinux_static_01) ... ok
+test_RockyLinux_static_10 (__main__.ShopDeploymentTests.test_RockyLinux_static_10) ... ok
+test_RockyLinux_syntax (__main__.ShopDeploymentTests.test_RockyLinux_syntax) ... ok
+test_Ubuntu_local (__main__.ShopDeploymentTests.test_Ubuntu_local) ... ok
+test_Ubuntu_server (__main__.ShopDeploymentTests.test_Ubuntu_server) ... ok
+test_Ubuntu_static_00 (__main__.ShopDeploymentTests.test_Ubuntu_static_00) ... ok
+test_Ubuntu_static_01 (__main__.ShopDeploymentTests.test_Ubuntu_static_01) ... ok
+test_Ubuntu_static_10 (__main__.ShopDeploymentTests.test_Ubuntu_static_10) ... ok
+test_Ubuntu_syntax (__main__.ShopDeploymentTests.test_Ubuntu_syntax) ... ok
+test_Windows_local (__main__.ShopDeploymentTests.test_Windows_local) ... ok
+test_Windows_restore_local_0 (__main__.ShopDeploymentTests.test_Windows_restore_local_0) ... ok
+test_Windows_restore_local_1 (__main__.ShopDeploymentTests.test_Windows_restore_local_1) ... ok
+test_Windows_restore_server_0 (__main__.ShopDeploymentTests.test_Windows_restore_server_0) ... ok
+test_Windows_restore_server_1 (__main__.ShopDeploymentTests.test_Windows_restore_server_1) ... ok
+test_Windows_server (__main__.ShopDeploymentTests.test_Windows_server) ... ok
+test_Windows_static_00 (__main__.ShopDeploymentTests.test_Windows_static_00) ... ok
+test_Windows_static_01 (__main__.ShopDeploymentTests.test_Windows_static_01) ... ok
+test_Windows_static_10 (__main__.ShopDeploymentTests.test_Windows_static_10) ... ok
+test_Windows_syntax (__main__.ShopDeploymentTests.test_Windows_syntax) ... ok
+
+----------------------------------------------------------------------
+Ran 52 tests in 6.191s
+
+OK

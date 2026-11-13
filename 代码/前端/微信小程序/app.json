@@ -5,7 +5,9 @@
     "Pages/Orders/index",
     "Pages/Order/index",
     "Pages/Login/index",
-    "Pages/Settings/index"
+    "Pages/Settings/index",
+    "Pages/Profile/index",
+    "Pages/Web/index"
   ],
   "window": {
     "navigationBarTitleText": "知序 · 学术商城",
@@ -18,5 +20,25 @@
   "usingComponents": {
     "empty-state": "/Components/EmptyState/index"
   },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "tabBar": {
+    "custom": true,
+    "color": "#6f5b4d",
+    "selectedColor": "#905737",
+    "backgroundColor": "#fffdf9",
+    "list": [
+      {
+        "pagePath": "Pages/Shop/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "Pages/Orders/index",
+        "text": "我的订单"
+      },
+      {
+        "pagePath": "Pages/Profile/index",
+        "text": "个人中心"
+      }
+    ]
+  }
 }

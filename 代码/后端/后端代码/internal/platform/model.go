@@ -11,9 +11,12 @@ import (
 )
 
 type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
-	Role string `json:"role"`
+	ID        string `json:"id"`
+	Name      string `json:"name"`
+	Role      string `json:"role"`
+	AvatarURL string `json:"avatar_url"`
+	Username  string `json:"username"`
+	Email     string `json:"email,omitempty"`
 }
 type Service struct {
 	ID          string `json:"id"`
@@ -217,10 +220,12 @@ type State struct {
 	ShopOrders   map[string]*ShopOrder  `json:"shop_orders"`
 	ShopReceipts map[string]ShopReceipt `json:"shop_receipts"`
 	ShopAudit    []ShopEvent            `json:"shop_audit"`
+	Banners      map[string]*Banner     `json:"banners"`
+	Accounts     map[string]Account     `json:"accounts,omitempty"`
 }
 
 func initialState() *State {
-	return &State{Schema: 2, Services: defaultServices(), Cases: map[string]*Case{}, Receipts: map[string]Receipt{}, Audit: []Event{}, Outbox: []Notice{}, Products: defaultProducts(), ShopOrders: map[string]*ShopOrder{}, ShopReceipts: map[string]ShopReceipt{}, ShopAudit: []ShopEvent{}}
+	return &State{Schema: 2, Services: defaultServices(), Cases: map[string]*Case{}, Receipts: map[string]Receipt{}, Audit: []Event{}, Outbox: []Notice{}, Products: defaultProducts(), ShopOrders: map[string]*ShopOrder{}, ShopReceipts: map[string]ShopReceipt{}, ShopAudit: []ShopEvent{}, Banners: defaultBannerMap()}
 }
 func cloneState(s *State) (*State, error) {
 	b, e := json.Marshal(s)

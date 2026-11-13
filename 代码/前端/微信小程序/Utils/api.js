@@ -79,7 +79,7 @@ class Client {
         url: this.base + path,
         method,
         data,
-        timeout: this.timeoutMs,
+        timeout: path === '/auth/email-code' ? Math.max(this.timeoutMs, 15000) : this.timeoutMs,
         header: {
           "Content-Type": "application/json",
           ...(this.token ? { Authorization: "Bearer " + this.token } : {}),

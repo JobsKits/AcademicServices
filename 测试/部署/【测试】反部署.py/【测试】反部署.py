@@ -470,6 +470,97 @@ printf 'tunnel-output\\n' > "$LOG_FILE.tunnel.log"
 lc_finalize''', check=True)
         self.run_shell('lc_validate_owner\nlc_restore_resources', check=True)
 
+    def test_25_finalize_scans_only_owned_runtime_paths_and_keeps_external_changes(self):
+        for shell in ('sh', 'bash', 'zsh'):
+            if not shutil.which(shell):
+                continue
+            with self.subTest(shell=shell):
+                server = self.work / ('selective-' + shell)
+                server.mkdir()
+                initial = self.work / ('initial-' + shell + '.tsv')
+                changes = {'SERVER_ROOT': str(server),
+                           'LOG_FILE': str(server / '.runtime/logs/current.log'),
+                           'FIXTURE_INITIAL': str(initial)}
+                self.run_shell('''mkdir -p "$SERVER_ROOT/.runtime/logs" "$SERVER_ROOT/.tools/shared"
+printf 'original-sdk\\n' > "$SERVER_ROOT/.tools/shared/sdk"
+printf 'original-config\\n' > "$SERVER_ROOT/.runtime/config.env"
+lc_begin
+printf 'before-run\\n' > "$LOG_FILE"
+lc_checkpoint
+cp "$LC_STATE/after.tsv" "$FIXTURE_INITIAL"
+printf 'external-sdk\\n' > "$SERVER_ROOT/.tools/shared/sdk"
+printf 'external-config\\n' > "$SERVER_ROOT/.runtime/config.env"
+printf 'unowned-new-file\\n' > "$SERVER_ROOT/.runtime/unowned"
+printf 'after-run\\n' >> "$LOG_FILE"
+printf 'server-output\\n' > "$LOG_FILE.server.log"
+printf 'tunnel-output\\n' > "$LOG_FILE.tunnel.log"
+quick_config="$SERVER_ROOT/.runtime/logs/quick-config.fixture"
+printf '{}\\n' > "$quick_config"
+QR_OUTPUT="$SERVER_ROOT/.runtime/access-qr.fixture"
+mkdir -p "$QR_OUTPUT/nested"
+printf 'qr-output\\n' > "$QR_OUTPUT/nested/code.svg"
+find() {
+  case "$1" in
+    "$LOG_FILE"|"$LOG_FILE.server.log"|"$LOG_FILE.tunnel.log"|"$quick_config"|"$QR_OUTPUT") command find "$@";;
+    *) printf 'unexpected-unowned-scan:%s\\n' "$1" >&2; return 71;;
+  esac
+}
+lc_hash() {
+  case "$1" in
+    "$LOG_FILE"|"$LOG_FILE.server.log"|"$LOG_FILE.tunnel.log"|"$quick_config"|"$QR_OUTPUT"/*)
+      if command -v sha256sum >/dev/null 2>&1; then command sha256sum "$1" | awk '{print $1}'
+      else command shasum -a 256 "$1" | awk '{print $1}'; fi;;
+    *) printf 'unexpected-unowned-hash:%s\\n' "$1" >&2; return 72;;
+  esac
+}
+lc_finalize''', shell=shell, changes=changes, check=True)
+                state = server / '.deployment-state/posix'
+                before = {row.split('\t', 3)[3]: row for row in initial.read_text().splitlines()}
+                after = {row.split('\t', 3)[3]: row for row in (state / 'after.tsv').read_text().splitlines()}
+                selected = {row.split('\t', 3)[3] for row in (state / 'finalize.tsv').read_text().splitlines()}
+                self.assertEqual(selected, {
+                    '.runtime/logs/current.log', '.runtime/logs/current.log.server.log',
+                    '.runtime/logs/current.log.tunnel.log', '.runtime/logs/quick-config.fixture',
+                    '.runtime/access-qr.fixture', '.runtime/access-qr.fixture/nested',
+                    '.runtime/access-qr.fixture/nested/code.svg'})
+                for path, row in before.items():
+                    if path not in selected:
+                        self.assertEqual(after[path], row, path)
+                self.assertNotIn('.runtime/unowned', after)
+                self.assertNotEqual(after['.runtime/logs/current.log'], before['.runtime/logs/current.log'])
+                self.assertFalse((server / '.deployment-state/operation-lock').exists())
+                result = self.run_shell('lc_validate_owner\nlc_restore_resources',
+                                        shell=shell, changes=changes)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertEqual((server / '.tools/shared/sdk').read_text(), 'external-sdk\n')
+                self.assertEqual((server / '.runtime/config.env').read_text(), 'external-config\n')
+                self.assertEqual((server / '.runtime/unowned').read_text(), 'unowned-new-file\n')
+
+    def test_26_finalize_rejects_unsafe_paths_and_symlink_ancestors_without_resealing(self):
+        self.baseline()
+        self.create_deployment()
+        after = self.server / '.deployment-state/posix/after.tsv'
+        before = after.read_bytes()
+        outside = self.work / 'outside-runtime'
+        outside.mkdir()
+        marker = outside / 'owned.log'
+        marker.write_text('outside-unchanged\n')
+        (self.server / '.runtime/linked').symlink_to(outside, target_is_directory=True)
+        cases = (
+            {'LOG_FILE': str(marker)},
+            {'quick_config': str(self.server / '.tools/shared/other-project')},
+            {'QR_OUTPUT': str(self.server / '.runtime/../data')},
+            {'LOG_FILE': str(self.server / '.runtime/linked/owned.log')},
+            {'quick_config': str(self.server / '.runtime/linked/owned.log')},
+            {'QR_OUTPUT': str(self.server / '.runtime/linked/missing-directory')},
+        )
+        for changes in cases:
+            with self.subTest(changes=changes):
+                result = self.run_shell('lc_context\nlc_finalize_resources', changes=changes)
+                self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.assertEqual(after.read_bytes(), before)
+                self.assertEqual(marker.read_text(), 'outside-unchanged\n')
+
     def test_23_real_platform_undeployment_entries_read_existing_state_without_helper(self):
         for platform in PLATFORMS:
             with self.subTest(platform=platform):

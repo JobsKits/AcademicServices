@@ -1,7 +1,7 @@
 <!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>学术服务商城｜项目需求与开发评审</title><style>
  :root{color-scheme:light dark}body{font:16px/1.75 system-ui,-apple-system,sans-serif;background:#faf5ec;color:#392b22;max-width:1100px;margin:36px auto;padding:0 24px}h1{font-size:32px}h2{margin-top:38px;border-bottom:1px solid #dbcdbb;padding-bottom:10px}h3{margin-top:28px}a{color:#805334}img{max-width:100%;max-height:280px;object-fit:cover;border-radius:12px}table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow:auto}th,td{border:1px solid #d4c4b2;padding:10px 13px;vertical-align:top}th{background:#eee0cd}blockquote{margin:16px 0;padding:10px 20px;border-left:4px solid #b98b5e;background:#f1e7d8}pre{padding:18px;background:#efe5d6;overflow:auto;border-radius:8px}code{font-size:.9em}nav{background:#f3eadc;padding:16px;border-radius:12px}.level3{margin-left:18px}li{margin:4px 0}.mermaid{background:transparent}@media(prefers-color-scheme:dark){body{background:#211c18;color:#f5e9dc}a{color:#e4b187}th,nav,blockquote,pre{background:#352b22}td,th,h2{border-color:#806c59}}@media print{body{max-width:none;margin:0;color:#222;background:white}nav{display:none}h2,h3{break-after:avoid}tr{break-inside:avoid}}</style></head><body><h1>学术服务商城｜项目需求与开发评审</h1>
 <p><img src="https://picsum.photos/1500/400" alt="Jobs出品，必属精品"></p>
-<nav aria-label="章节目录"><details open><summary>目录</summary><ul><li class="level2"><a href="#前言">🔥 前言</a></li><li class="level2"><a href="#requirements">一、用户原文与确认范围</a></li><li class="level2"><a href="#pages">二、商品与页面</a></li><li class="level2"><a href="#states">三、订单与双方状态</a></li><li class="level2"><a href="#payment">四、临时支付及真实渠道接口</a></li><li class="level2"><a href="#data">五、数据库与接口约束</a></li><li class="level2"><a href="#quality">六、界面、回退及验收</a></li><li class="level2"><a href="#frontend">七、工程与技术路线</a></li><li class="level2"><a href="#engineering">八、工程、部署及交付约定</a></li><li class="level2"><a href="#open-items">九、外部依赖与未定事项</a></li></ul></details></nav>
+<nav aria-label="章节目录"><details open><summary>目录</summary><ul><li class="level2"><a href="#前言">🔥 前言</a></li><li class="level2"><a href="#requirements">一、用户原文与确认范围</a></li><li class="level2"><a href="#pages">二、商品与页面</a></li><li class="level3"><a href="#mall-experience">2.1、商城页面与角色体验</a></li><li class="level3"><a href="#frontend-experience-contract">2.2、前端载体与操作恢复</a></li><li class="level2"><a href="#states">三、订单与双方状态</a></li><li class="level2"><a href="#payment">四、临时支付及真实渠道接口</a></li><li class="level2"><a href="#data">五、数据库与接口约束</a></li><li class="level2"><a href="#quality">六、界面、回退及验收</a></li><li class="level2"><a href="#frontend">七、工程与技术路线</a></li><li class="level2"><a href="#engineering">八、工程、部署及交付约定</a></li><li class="level2"><a href="#open-items">九、外部依赖与未定事项</a></li></ul></details></nav>
 <hr>
 <h2 id="前言-heading">🔥 <span id="前言">前言</span></h2>
 <p>陈泉羽项目是单一自营的虚拟商品商城，销售课程及服务，主分类为毕业论文、普刊、编译。当前处于开发阶段，直接按这一套需求、数据库、代码及测试推进。先梳理需求，再设计数据，再实现并回归；采用既定桌面、移动端、管理端、微信小程序技术路线。</p>
@@ -14,6 +14,20 @@
 4、抄袭的网站首页有：毕业论文、普刊、编译。其实你可以完全1:1照抄这几个模块（注意里面的下属子页面），内容需要照抄，但是UI可以比他们做的更加出色
 5、主色调，期望用更加暖心护眼的色调。</p>
 <p>你可以先重新做需求，然后理数据库，最后再写代码，然后回归。不着急。</p>
+</blockquote>
+<p>用户界面补充原文（2026-11-05）：</p>
+<blockquote>
+<p>只要是本机部署+内网穿透，这张模式，就一定是Demo演示。在这张模式之下，如图所示，就要写清楚各个角色的账户/密码，同时旁边有复制按钮（复制成功会弹出tips）</p>
+<p>你旁边的：使用演示账户，我觉得这个按钮就有必要去掉</p>
+<p>如图二所示，下面的Tab键，要图文结合，不要写01 02 这种</p>
+<p>客户端，我的里面，需要有订单入口，观察订单的状态。也就是要有：待付款/待完成/已完成/待评价 这几个入口按钮</p>
+<p>切换账户、切换主题 要放在设置里面。“我的”就是“个人中心”，登陆了以后，我的要显示成用户名+用户头像
+第一个Tab不要叫服务，改为首页。传统的首页顶部都有轮播图，这个轮播图内容可以在服务器后台进行配置（上传图、或者图片的url），点击这些轮播图，如果配置了图片的跳转URL，就要进行跳转（用默认浏览器打开这个后台配置的URL）轮播图的图片你目前随便配置到原始的数据库里面（是静态图）目的是引导用户进行配置，而且没有配置前不能有空。如果配置的是图片URL进行展示图，完全可能有URL失效的问题，那么App里面所有的网络图，都应该有占位图</p>
+<p>然后三个功能：毕业论文、普刊、编译，需要用横向可切换的卡片进行切换，效果类似于iOS的<a href="https://github.com/pujiaxin33/JXCategoryView"><em><strong>JXCategoryView</strong></em></a></p>
+<p>第二个Tab键，需求改为我的订单。在没有接单的时候，可以点进去进行编辑订单，已经接单的状态，订单不能被修改，要被锁死</p>
+<p>以上是客户端（是发出订单的）</p>
+<p>对于商户端（是接受订单的），状态是和客户端进行对立的。你也要去做相应的调整</p>
+<p>这个App就是商城的需求，你可以模仿现在主流的电商App，比如京东、淘宝</p>
 </blockquote>
 <table>
 <thead>
@@ -59,6 +73,10 @@
 <td>需求基线→数据库设计→各端实现→业务、权限、幂等、回退、界面回归</td>
 </tr>
 </tbody></table>
+<p>用户体验审视补充原文（2026-11-05）：</p>
+<blockquote>
+<p>完成上面的任务以后，用大前端体验 Skill 审视／完善这个项目。</p>
+</blockquote>
 <p>用户补充：项目仍在开发阶段，直接按当前商城方案实现，不提供双版本入口、版本对比或历史数据兼容升级流程。</p>
 <h2 id="pages-heading">二、<span id="pages">商品与页面</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <ul>
@@ -71,6 +89,95 @@
 </ul>
 <p>参考目标为<a href="https://www.keyan.asia/"><strong>氪研学术</strong></a>及其<a href="https://www.keyan.asia/productService/">学术产品服务页</a>。公开页面的结构、通用名称、可核实价格等事实用于映射；完整长篇营销原文、人物、商标、评价与资质不擅自冒用。实际已核实页面及无法访问的子页另列证据，不把未进入页面写成已逐页复刻。</p>
 <p><span style="color:#d32f2f;">【不确定 M-Q01】用户要求内容照抄，但当前没有参考站长篇文案及图片的所有权／授权材料。先保留分类、子服务事实及信息层级，商品详情由后台完整编辑；不可访问的正文和正式经营价格不能用猜测伪装为原站内容。</span></p>
+<h3 id="mall-experience-heading">2.1、<span id="mall-experience">商城页面与角色体验</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h3>
+<table>
+<thead>
+<tr>
+<th>页面／角色</th>
+<th>首屏与入口</th>
+<th>操作闭环及状态</th>
+<th>依据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>客户首页</td>
+<td>顶部轮播→毕业论文／普刊／编译横向联动分类→商品内容与价格</td>
+<td>点击分类或横滑切换；详情返回保留分类。商品是主角，轮播是配置引导，无优惠券／积分等扩张</td>
+<td>用户明确；沿用暖色设计</td>
+</tr>
+<tr>
+<td>我的订单</td>
+<td>图文第二Tab，状态筛选与订单条目</td>
+<td>接单前可编辑需求、联系与交付要求；付款确认金额；接单后需求只读，可继续确认及评价</td>
+<td>用户明确；服务端校验</td>
+</tr>
+<tr>
+<td>个人中心</td>
+<td>第三Tab；登录后用户名与头像，四种订单状态数量及入口</td>
+<td>待付款／待完成／已完成／待评价直达对应筛选；未登录在查看私有记录时登录，不阻断首页浏览</td>
+<td>用户明确；身份衔接为必要依赖</td>
+</tr>
+<tr>
+<td>设置</td>
+<td>首页及个人中心均可达</td>
+<td>账户切换、退出、语言、白天／黑夜／跟随系统；账户切换清理私有数据</td>
+<td>用户明确／全局基础能力</td>
+</tr>
+<tr>
+<td>商户</td>
+<td>商品、订单及轮播管理三图文入口</td>
+<td>待买方付款／待接单／服务中／待买方确认／待买方评价；接单后锁定客户需求，不能替买方支付或评价</td>
+<td>用户明确；同一订单事实投影</td>
+</tr>
+<tr>
+<td>Demo登录</td>
+<td>本机部署＋内网穿透明确为Demo</td>
+<td>展示客户及商户两组实际账号密码，各字段复制并弹短提示；没有“使用演示账户”按钮。正式模式不返回密码字段</td>
+<td>用户明确；由部署模式显式决定</td>
+</tr>
+</tbody></table>
+<p>首页采用米白背景、暖棕主动作，轮播约2.57:1保持完整内容，商品与价格为主要决策信息。桌面使用多列商品／宽表单，窄屏保持单列和安全区；按钮、浮层、未知结果和空态沿既有组件，保留十语言及本地字体。横向分类使用直接操控的同层滑动，减少动效时仍可手动切换。</p>
+<p>轮播由后台维护标题、图片、可选跳转URL、顺序及上下架，支持本地上传PNG／JPEG／WebP或图片URL；上传限制2MiB为实现约束。初始存储与各客户端打包同一三张原创引导图，未配置／加载失败保留可读图像，所有网络图先显示本地占位。多图连续循环并可手动暂停、前后切换；单图静态。焦点／手势、离屏、应用后台及减少动效场景按各端暂停计时。</p>
+<p>有效HTTP(S)轮播目标在桌面／Flutter原生端交默认浏览器，Web新窗口打开。微信小程序没有任意唤起系统浏览器API，使用平台允许的网页承载与复制链接入口，并明确域名白名单条件；鸿蒙宿主通过系统Ability转交用户触发的HTTP(S)外链，实际设备行为另验。不把平台限制写成已完成的外部浏览器验收。</p>
+<p>订单编辑只修改需求说明、联系方式和交付要求，商品、数量及已付金额不改；<code>start</code>为商户接单，持久化<code>accepted_at</code>，此后<code>edit</code>一律拒绝。商户快捷交付亦先在同一事务锁定。并发编辑／接单以版本校验及事务串行化，不允许接单后用旧页面绕过锁。</p>
+<h3 id="frontend-experience-contract-heading">2.2、<span id="frontend-experience-contract">前端载体与操作恢复</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h3>
+<p>用户要求完成商城后使用<code>jobs-frontend-experience</code>审视并完善。采用商品交易＋服务履约主线，以下为完成购买与订单管理所需的体验默认，不增加收费、退款、时限、会员或营销业务。</p>
+<table>
+<thead>
+<tr>
+<th>载体／任务</th>
+<th>当前骨架与布局</th>
+<th>返回、失败与恢复</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>手机App／小程序／窄屏Web</td>
+<td>保留用户指定的首页／我的订单／个人中心图文导航，商品单列，订单状态为同层筛选</td>
+<td>Tab保留筛选与阅读位置；登录后返回原购买确认，仍需再次主动提交，取消登录不改变订单</td>
+</tr>
+<tr>
+<td>桌面Web公开商城</td>
+<td>宽度达到1100时使用品牌顶栏、首页与我的订单链接、账户入口；商品网格，详情主图与购买信息约4:6并排</td>
+<td>分类、商品、订单筛选与个人中心有hash URL，可复制／直达／刷新／前进后退；商品及订单真实链接支持新标签页，未登录私有页只呈现登录入口</td>
+</tr>
+<tr>
+<td>桌面Web商户工作区</td>
+<td>同断点使用职责侧栏：商品／订单／首页轮播，右侧为当前任务</td>
+<td>页内筛选、对象与权限保持对应，不把运营后台塞进买方个人中心</td>
+</tr>
+<tr>
+<td>Python桌面用户端</td>
+<td>沿用原生窗口与用户指定的三个图文目的地；个人状态入口2×2适应长翻译</td>
+<td>详情返回及刷新保留列表位置；设置控件和未提交地址草稿保持，登录与购买确认相衔接</td>
+</tr>
+<tr>
+<td>提交、断网及过期</td>
+<td>表单提交中防重复；购买／需求编辑／评价／登录失败保留原输入与持续错误；刷新失败保留已取得的真数据并标更新失败</td>
+<td>未知写保留原幂等键并可核对，不自动补单或扣款；401撤下私有显示并可重新登录，403权限与404资源缺失有各自恢复路径</td>
+</tr>
+</tbody></table>
+<p>运营轮播的成功空列表表示当前配置全部下架，页面隐藏轮播，不以默认图对抗关闭；初次未取得配置时使用打包图，后续读取失败保留最近一次已知配置。初始数据库的三张引导图仍保证配置前非空。</p>
+<p>验证包含实际浏览器页面与操作、Qt离屏界面、Flutter窄屏德文200%字号表单、小程序页面逻辑；设备系统文字倍率、原生返回手势与各目标真机行为仍需对应环境验收，不用浏览器缩放等效值代替系统文字放大。</p>
 <h2 id="states-heading">三、<span id="states">订单与双方状态</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <blockquote>
 <p>用户提到的待付款等属于订单交易状态；上下架、缺货属于商品状态，分别管理。</p>
@@ -90,14 +197,14 @@
 <td>pending</td>
 <td>待付款</td>
 <td>待买方付款</td>
-<td>买方支付／取消</td>
+<td>买方编辑需求／支付／取消</td>
 </tr>
 <tr>
 <td>pending_completion</td>
 <td>pending</td>
 <td>待完成</td>
-<td>待开始服务</td>
-<td>站方开始服务或交付</td>
+<td>待接单</td>
+<td>买方编辑需求；站方接单或交付</td>
 </tr>
 <tr>
 <td>pending_completion</td>
@@ -152,6 +259,16 @@
 </tr>
 </thead>
 <tbody><tr>
+<td>首页配置</td>
+<td>GET /shop-config、GET /banners</td>
+<td>显式Demo配置；正式不含角色密码；轮播空数据用打包图</td>
+</tr>
+<tr>
+<td>轮播维护</td>
+<td>GET／POST /admin/banners、PUT /admin/banners/{id}</td>
+<td>商户；上传或图片URL、跳转URL、版本和幂等</td>
+</tr>
+<tr>
 <td>商品目录</td>
 <td>GET /products、GET /products/{id}</td>
 <td>游客可见已上架商品；缺货仍可浏览</td>
@@ -177,7 +294,7 @@
 <td>action、expected_version；按角色及当前状态校验</td>
 </tr>
 </tbody></table>
-<p>写请求使用 Idempotency-Key；同键同请求返回原结果，同键不同请求拒绝。订单动作含 pay、start、deliver、accept、review、cancel；支付提供 channel，交付／评价提供 text，评价还需 rating（1—5）。订单状态、支付记录、快照、幂等结果在同一事务持久化。</p>
+<p>写请求使用 Idempotency-Key；同键同请求返回原结果，同键不同请求拒绝。订单动作含 edit、pay、start、deliver、accept、review、cancel；支付提供 channel，交付／评价提供 text，评价还需 rating（1—5）。订单状态、支付记录、快照、幂等结果在同一事务持久化。</p>
 <p>按当前商城结构初始化开发及测试数据，不增加历史版本兼容与升级流程。回归使用独立测试数据，不清理正在运行的服务数据。</p>
 <h2 id="quality-heading">六、<span id="quality">界面、回退及验收</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <ul>
@@ -232,6 +349,36 @@
 <td>MC-08</td>
 <td>三主题、十语言、空列表、图片兜底</td>
 <td>界面与资源测试，目标设备验收另记</td>
+</tr>
+<tr>
+<td>MC-09</td>
+<td>本机＋穿透明确Demo，实际双角色凭据逐项复制及短提示，无快捷跳过登录</td>
+<td>模式配置／剪贴板测试及浏览器操作；正式模式不返回凭据</td>
+</tr>
+<tr>
+<td>MC-10</td>
+<td>图文导航、用户名头像、个人中心四状态入口、设置内切换</td>
+<td>各端界面测试及390宽浏览器截图</td>
+</tr>
+<tr>
+<td>MC-11</td>
+<td>三条默认轮播实际入库，后台图片上传／URL及跳转配置，三分类横滑联动</td>
+<td>API／数据库持久化、后台实际保存、点击外链、图片失败及轮播生命周期测试</td>
+</tr>
+<tr>
+<td>MC-12</td>
+<td>未接单可改需求，接单后双端锁定</td>
+<td>接单并发／权限／版本回归，浏览器修改后从API读回并验锁</td>
+</tr>
+<tr>
+<td>MC-13</td>
+<td>Web独立导航、详情深链、刷新／前进后退与新标签页</td>
+<td>路由白名单及真实Chrome操作，私有表单不进入URL</td>
+</tr>
+<tr>
+<td>MC-14</td>
+<td>原位错误与草稿保留、读取失败保留真数据、运营轮播可关闭</td>
+<td>拒绝写／断网／过期定向回归与页面截图；十语言及文字放大适配</td>
 </tr>
 </tbody></table>
 <p>当前实施与执行证据见<a href="../../%E6%B5%8B%E8%AF%95/%E5%95%86%E5%9F%8E%E5%9B%9E%E5%BD%92/README.md">商城回归</a>。源码测试、可运行预览、移动设备实测、真实渠道支付与正式发布分别登记；尚未执行的项不写为通过。</p>

@@ -20,3 +20,6 @@ bash './【Linux】反部署.sh'
 完整原点协议、备份阶段及限制见[原点与恢复协议](../../README.md#lifecycle-protocol)，日志和运行条件见[本系统说明](../README.md)。恢复包及原点含私密配置，勿提交或公开。
 
 反部署确认后的纯文本审计位于后端 `.deployment-state/posix/operations.log`；资源差异见 `current.tsv` / `restored.tsv`，数据恢复位置见 `data-pending` / `data-destination`。未完成项会返回非零并保留现场。
+
+**终端配色保护：** 独立运行时，在支持完整保存与恢复配色的交互终端中临时使用黑底白字及统一强调色；正常结束、失败或可捕获中断后恢复进入前的配色，不修改终端全局偏好或 Shell 启动配置。不支持完整保护、无交互终端、`NO_COLOR`、既有纯文本模式和 Sourcetree 场景不切换配色，并沿用纯文本输出约定。强制终止（如 `kill -9`）无法由脚本自身保证恢复，请使用运行时显示的独立恢复入口。
+

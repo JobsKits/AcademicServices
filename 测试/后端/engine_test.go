@@ -13,9 +13,9 @@ import (
 	"time"
 )
 
-var testCustomer = User{"customer", "客户", "customer"}
-var testOther = User{"customer2", "客户2", "customer"}
-var testAdmin = User{"admin", "管理", "admin"}
+var testCustomer = User{ID: "customer", Name: "客户", Role: "customer"}
+var testOther = User{ID: "customer2", Name: "客户2", Role: "customer"}
+var testAdmin = User{ID: "admin", Name: "管理", Role: "admin"}
 var testCtx = context.Background()
 
 func int64p(v int64) *int64 { return &v }

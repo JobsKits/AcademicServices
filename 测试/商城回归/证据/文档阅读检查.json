@@ -1,0 +1,33 @@
+{
+  "results": [
+    {
+      "name": "交付说明",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": [],
+      "missingAnchors": []
+    },
+    {
+      "name": "交付说明",
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": [],
+      "missingAnchors": []
+    },
+    {
+      "name": "主需求",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": [],
+      "missingAnchors": []
+    },
+    {
+      "name": "主需求",
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": [],
+      "missingAnchors": []
+    }
+  ],
+  "errors": []
+}

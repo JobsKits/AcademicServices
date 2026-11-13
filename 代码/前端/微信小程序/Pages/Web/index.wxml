@@ -1,0 +1,1 @@
+<view class="app {{theme}}"><web-view wx:if="{{showWeb}}" src="{{url}}" binderror="failed"/><view wx:else class="page"><view class="hero product-title">{{t.openWebView}}</view><view class="sub">{{t.webViewHint}}</view><view class="line">{{url}}</view><button wx:if="{{url}}" bindtap="copy">{{t.copyLink}}</button></view></view>

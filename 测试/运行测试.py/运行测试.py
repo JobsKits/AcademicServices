@@ -98,6 +98,7 @@ def command_plan(group: str, options: argparse.Namespace, overlay: Path, evidenc
     if group == "deploy":
         return [
             ([sys.executable, str(TEST_ROOT / "部署/test_deploy.py")], ROOT, env),
+            ([sys.executable, str(TEST_ROOT / "部署/【测试】商城部署配置.py/【测试】商城部署配置.py")], ROOT, env),
             ([sys.executable, str(TEST_ROOT / "部署/【测试】部署双模式.py/【测试】部署双模式.py")], ROOT, env),
             ([sys.executable, str(TEST_ROOT / "部署/【测试】反部署.py/【测试】反部署.py")], ROOT, env),
         ]
@@ -106,7 +107,7 @@ def command_plan(group: str, options: argparse.Namespace, overlay: Path, evidenc
     if group == "flutter":
         flutter = executable(options.flutter_bin, [], "flutter")
         env["CI"] = "true"
-        return [([flutter, "test", "--no-pub", str(TEST_ROOT / "前端/移动端/Flutter/repository_test.dart"), str(TEST_ROOT / "前端/移动端/Flutter/widget_test.dart"), str(TEST_ROOT / "前端/后台管理端/Flutter/admin_widget_test.dart"), str(TEST_ROOT / "前端/移动端/Flutter/shop_test.dart")], FLUTTER, env)]
+        return [([flutter, "test", "--no-pub", str(TEST_ROOT / "前端/移动端/Flutter/repository_test.dart"), str(TEST_ROOT / "前端/移动端/Flutter/widget_test.dart"), str(TEST_ROOT / "前端/后台管理端/Flutter/admin_widget_test.dart"), str(TEST_ROOT / "前端/移动端/Flutter/shop_test.dart"), str(TEST_ROOT / "前端/移动端/Flutter/auth_repository_test.dart"), str(TEST_ROOT / "前端/移动端/Flutter/auth_experience_test.dart")], FLUTTER, env)]
     return [([sys.executable, str(TEST_ROOT / "前端/移动端/鸿蒙/test_prepare_harmony.py")], ROOT, env)]
 
 

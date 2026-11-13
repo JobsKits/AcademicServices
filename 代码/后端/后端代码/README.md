@@ -8,21 +8,24 @@
 
 ## 🔥 <span id="前言">前言</span>
 
-以 [**Go**](https://go.dev/) 实现的自营虚拟商品商城，为毕业论文、普刊、编译的课程／服务提供商品、交易订单、模拟支付、交付与评价 API。维护者 Jobs。当前适用于产品演示与功能联调；真实客户入驻、细分员工权限和真实支付仍需继续完成。零基础操作者先看上级工程使用说明，再运行同级代码层的 `../../../部署` 内对应系统入口。
+以 [**Go**](https://go.dev/) 实现的自营虚拟商品商城，为毕业论文、普刊、编译的课程／服务提供商品、交易订单、模拟支付、交付与评价 API。维护者 Jobs。当前适用于产品演示与功能联调；细分员工权限和真实支付仍需继续完成。零基础操作者先看上级工程使用说明，再运行同级代码层的 `../../../部署` 内对应系统入口。
 
 ## 一、<span id="capability">当前功能</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 模块 | 当前行为 |
 | --- | --- |
 | 商城商品 | 毕业论文／普刊／编译三分类、九个演示商品；课程／服务、详情分节、人民币价格、图片、上下架与手动缺货；管理员新增编辑 |
+| 首页轮播 | 三张随包静态图作为数据库初始轮播，可直接后台编辑；后台维护图片上传／HTTPS URL、点击URL、排序与上下架 |
 | 商城订单 | 商品与价格快照下单、待付款／待完成／待评价／已完成、未付款取消；数量固定1，无物流 |
-| 买卖双方 | 站方开始服务、提交交付说明；买方确认完成、评分评价；按角色和订单归属校验 |
+| 买卖双方 | 站方接单／开始服务、提交交付说明；买方接单前可改购买需求，接单后锁定；买方确认完成、评分评价 |
 | 支付 | 支付宝／微信应用内模拟收银台，mock成功不扣款；价格取订单快照，同键重试与并发不重复收款 |
 | 一致性 | 商品及订单版本冲突409，业务／支付／评价／审计／幂等收据同一存储事务；提供写结果对账 |
 | 安全 | 密码PBKDF2、随机会话、8小时失效、登录每IP每分钟10次、正文限制、明确跨域来源、客户订单隔离 |
 | 页面托管 | /admin/ 与 /client/ 托管部署时带入的Flutter Web产物，扩展名为空的路由回退入口 |
 
-当前固定 `admin` 与 `customer` 两个生产身份。开发模式额外提供 `customer2` 便于验证账号隔离；真实微信登录、注册、员工细分权限、短信和推送尚未接通。商品及运行演示价格标为 `is_demo=true`，实际经营内容由后台编辑。
+保留 `admin` 与 `customer` 两个种子身份，并支持邮箱验证码注册真实客户。用户名或绑定邮箱均可登录；注册须填写邮箱验证码、用户名和两次一致密码，密码至少8个字符。忘记密码使用独立用途验证码，成功后撤销原会话。开发模式额外提供 `customer2` 便于验证账号隔离；真实微信登录、员工细分权限、短信和推送尚未接通。商品及运行演示价格标为 `is_demo=true`，实际经营内容由后台编辑。
+
+本机部署加内网穿透明确为Demo，由部署模式注入 `DEMO_MODE=1`，服务端强制mock。Demo管理员固定为 `admin / 1234`，后台前端读取明确Demo配置后自动建立会话进入；正式后台必须管理员登录，网络失败不能降级获得正式权限。公开 `/api/v1/shop-config` 仅在此显式模式返回当前实际角色账号与密码，供登录tips和复制；服务器部署注入 `DEMO_MODE=0`，不返回凭据字段。开发／测试环境名本身不开放凭据，配置及健康响应禁止缓存；不把演示凭据写进数据库、文档或日志。
 
 商城付款使用 `PAYMENT_MODE=mock`，模拟记录带 `mode=mock` 与 `MOCK-` 参考号，不表示实际到账。设为 `real` 时未配置的真实驱动返回503、订单继续待付款，不静默降级为mock。已付款取消与退款规则尚未作为商城动作开放；本期仅未付款订单可直接取消，不模拟退款到账。
 
@@ -52,6 +55,15 @@ go run ./cmd/server
 | `CLIENT_STATIC_DIR` | `./client-web` | 用户端Web构建产物目录 |
 | `CORS_ORIGINS` | 空 | 空为同源；允许其它来源时逗号分隔精确origin，生产仅HTTPS |
 | `PAYMENT_MODE` | `mock` | 模拟付款；`real`预留并拒绝尚未实现的真实付款，禁止失败后转为模拟 |
+| `DEMO_MODE` | `0` | 精确为1启用Demo、admin/1234并强制mock，公开当前角色演示凭据；0为正式模式，不公开任何密码 |
+| `SMTP_HOST`／`SMTP_PORT` | 空／587 | 邮件服务器；注册及找回密码发送邮箱验证码 |
+| `SMTP_USERNAME`／`SMTP_PASSWORD` | 空 | 邮件服务商账户及授权凭据，只通过进程环境传入 |
+| `SMTP_FROM` | 空 | 邮件发件地址，需由服务商允许发送 |
+| `SMTP_TLS_MODE` | `starttls` | `starttls`强制升级TLS；`implicit`用于隐式TLS端口，均校验证书 |
+
+邮箱验证码6位数字、10分钟失效、最多5次错误、60秒重发间隔，并限制单IP发送频率。正式环境未配置SMTP或发送失败返回503，不显示“已发送”。仅显式Demo且未配置SMTP时返回 `delivery=demo` 与 `demo_code`，页面明确展示为未发送邮件的演示验证码。可用测试替身验证调用合同；真实供应商送达须配置后实测。
+
+设置资料支持修改用户名及直接上传PNG／JPEG／WebP头像，最多2MiB，无审核等待；未上传时分配本地随机PNG头像。账户、加盐密码派生值和头像随既有文件／PostgreSQL原子状态持久化；会话仍为内存8小时有效，服务重启需重新登录。
 
 服务直接读取进程环境，**不自动执行/加载 `.env`**；[配置示例](.env.example) 是字段说明。部署入口使用自身配置并注入环境。反向代理须保留原始 Host。同源HTTPS以及本机loopback HTTP可用；生产公共域名需要HTTPS。CORS是浏览器来源约束，所有私有接口仍单独校验Bearer会话。
 
@@ -67,18 +79,25 @@ MacOS 再次启动遇到 `.server-lock` 时，只有记录的 `pid`、`started` 
 
 | 商城方法与路径 | 用途与返回 |
 | --- | --- |
+| `GET /shop-config` | demo_mode、payment_mode及仅Demo模式可见的demo_credentials |
+| `GET /banners` | 公开上架轮播；已有配置但全下架时成功返回空数组；仅完全未配置时防御性使用内嵌图 |
+| `GET／POST /admin/banners`、`PUT /admin/banners/{id}` | 管理员配置标题、图片、target_url、active、sort_order；更新带expected_version |
 | `GET /products`、`GET /products/{id}` | 公开上架商品；列表支持category_id筛选，返回products／product |
 | `GET /admin/products`、`POST /admin/products`、`PUT /admin/products/{id}` | 管理员查看全部、新增和完整编辑；更新含expected_version |
-| `POST /shop-orders` | 客户提交product_id、product_version，服务端锁定价格及商品快照，返回order |
+| `POST /shop-orders` | 客户提交product_id、product_version，可带requirements／contact／delivery_requirements；服务端锁定价格及商品快照 |
 | `GET /shop-orders`、`GET /shop-orders/{id}` | 客户本人／管理员全部，返回orders／order |
-| `POST /shop-orders/{id}/actions` | pay(channel)、start、deliver(text)、accept、review(rating,text)、cancel |
-| `GET /shop-operations/{key}` | 当前身份商城写结果对账，返回最新product或order；404不证明仍在途的写失败 |
+| `POST /shop-orders/{id}/actions` | pay(channel)、edit(requirements,contact,delivery_requirements)、start、deliver(text)、accept、review(rating,text)、cancel |
+| `GET /shop-operations/{key}` | 当前身份商城写结果对账，返回最新product／order／banner；404不证明仍在途的写失败 |
 
 公开缺货商品可浏览，缺货或下架不可下单；同一事务校验商品版本，拒绝客户端报价。已生成待付款订单按快照付款，后续改价和下架不改写历史。所有商城业务变化、收据、支付和审计原子提交；同键同文优先重放收据，同键异文409。存储使用当前schema 2，结构不支持或损坏时拒绝覆盖；开发回归使用干净隔离目录，不自动修改现有运行数据。
 
 | 身份与目录方法 | 用途 |
 | --- | --- |
-| POST /auth/login | account/password换取会话；登录是免幂等键入口 |
+| POST /auth/login | 用户名或绑定邮箱＋password换取会话 |
+| POST /auth/email-code | email、purpose=register／reset_password；发送验证码 |
+| POST /auth/register | email、code、username、password、confirm_password；注册客户 |
+| POST /auth/reset-password | email、code、password、confirm_password；重设密码并撤销旧会话 |
+| GET／PUT /auth/profile | 登录后读取／设置username、可选avatar图片data URL；即时生效 |
 | POST /auth/logout | 撤销当前会话，可重复调用 |
 | GET /services | 公开三项主分类 |
 
@@ -86,12 +105,15 @@ MacOS 再次启动遇到 `.server-lock` 时，只有记录的 `pid`、`started` 
 | --- | --- |
 | pay(channel) | 客户本人、待付款；channel=alipay／wechat |
 | cancel | 客户本人、待付款 |
-| start | 管理员、待完成且尚未开始 |
-| deliver(text) | 管理员、待完成且未交付，说明不能为空 |
+| edit(requirements,contact,delivery_requirements) | 客户本人、待付款或待完成但尚未接单；不改变商品、数量、金额 |
+| start | 管理员、待完成且尚未开始；作为接单写accepted_at，锁定客户编辑 |
+| deliver(text) | 管理员、待完成且未交付，说明不能为空；快捷交付同时接单锁定 |
 | accept | 客户本人、站方已交付，进入待评价 |
 | review(rating,text) | 客户本人、待评价，评分1～5且正文非空；完成时间沿用确认时刻 |
 
 响应丢失时保留原key及完整原正文，通过GET /shop-operations/{key}核对；404不证明仍在途的请求已失败。可由用户主动使用原key重试，服务端先查收据再验版本。同key异文409，不能以新key盲目重做购买／付款。
+
+轮播图片上传转为PNG／JPEG／WebP data URL，解码后最多2MiB，JSON总量最多3MiB；或配置HTTPS图片URL。点击地址可为空或HTTP(S)绝对地址，拒绝脚本、用户密码及控制字符，客户端按平台能力用默认浏览器打开。初始状态的三条稳定seed轮播写入数据库，后台列表可直接编辑其图片和点击地址；启动时仅为空的轮播字典补齐三条，不修改已有非空配置或全下架设置。静态图已内嵌二进制，无外部运行资源路径依赖，公开接口在已有非空配置全部下架时成功返回空数组，客户端应隐藏运营位；仅完全未配置时才防御性返回三张静态图。
 
 401重新登录，403身份无权限，409刷新并核对版本/当前状态，422检查输入。5xx/超时按未知提交处理，不能显示“操作成功”。错误结构为 `{"error":{"code":"...","message":"..."}}`。
 

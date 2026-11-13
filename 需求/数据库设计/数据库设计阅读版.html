@@ -1,7 +1,7 @@
 <!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>学术服务商城｜数据库设计</title><style>
  :root{color-scheme:light dark}body{font:16px/1.75 system-ui,-apple-system,sans-serif;background:#faf5ec;color:#392b22;max-width:1100px;margin:36px auto;padding:0 24px}h1{font-size:32px}h2{margin-top:38px;border-bottom:1px solid #dbcdbb;padding-bottom:10px}h3{margin-top:28px}a{color:#805334}img{max-width:100%;max-height:280px;object-fit:cover;border-radius:12px}table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow:auto}th,td{border:1px solid #d4c4b2;padding:10px 13px;vertical-align:top}th{background:#eee0cd}blockquote{margin:16px 0;padding:10px 20px;border-left:4px solid #b98b5e;background:#f1e7d8}pre{padding:18px;background:#efe5d6;overflow:auto;border-radius:8px}code{font-size:.9em}nav{background:#f3eadc;padding:16px;border-radius:12px}.level3{margin-left:18px}li{margin:4px 0}.mermaid{background:transparent}@media(prefers-color-scheme:dark){body{background:#211c18;color:#f5e9dc}a{color:#e4b187}th,nav,blockquote,pre{background:#352b22}td,th,h2{border-color:#806c59}}@media print{body{max-width:none;margin:0;color:#222;background:white}nav{display:none}h2,h3{break-after:avoid}tr{break-inside:avoid}}</style></head><body><h1>学术服务商城｜数据库设计</h1>
 <p><img src="https://picsum.photos/1500/400" alt="Jobs出品，必属精品"></p>
-<nav aria-label="章节目录"><details open><summary>目录</summary><ul><li class="level2"><a href="#前言">🔥 前言</a></li><li class="level2"><a href="#storage">一、实际存储与关系</a></li><li class="level2"><a href="#dictionary">二、运行字段字典</a></li><li class="level2"><a href="#transitions">三、状态、支付和一致性</a></li><li class="level2"><a href="#runtime">四、运行结构与初始化</a></li><li class="level2"><a href="#verification">五、验证合同及当前边界</a></li></ul></details></nav>
+<nav aria-label="章节目录"><details open><summary>目录</summary><ul><li class="level2"><a href="#前言">🔥 前言</a></li><li class="level2"><a href="#storage">一、实际存储与关系</a></li><li class="level2"><a href="#dictionary">二、运行字段字典</a></li><li class="level2"><a href="#transitions">三、状态、支付和一致性</a></li><li class="level2"><a href="#runtime">四、运行结构与初始化</a></li><li class="level2"><a href="#verification">五、验证合同及当前边界</a></li><li class="level2"><a href="#demo-banner">六、演示配置与轮播约束</a></li></ul></details></nav>
 <hr>
 <h2 id="前言-heading">🔥 <span id="前言">前言</span></h2>
 <p>本模型承接<a href="../%E5%95%86%E5%9F%8E%E9%9C%80%E6%B1%82%E4%B8%8E%E8%AE%BE%E8%AE%A1/README.md">商城需求基线</a>，覆盖自营课程／服务商品、交易订单、模拟支付、交付、评价及写操作幂等。当前应用使用文件原子快照，或可选的数据库单行聚合事务；两种存储实现使用同一商城数据模型。实际建表定义见<a href="../../%E4%BB%A3%E7%A0%81/%E5%90%8E%E7%AB%AF/%E5%90%8E%E7%AB%AF%E4%BB%A3%E7%A0%81/Migrations/001_runtime.sql">001_runtime.sql</a>。</p>
@@ -12,6 +12,7 @@
 <li><code>State.shop_orders</code>：订单字典。买家ID只取认证会话，金额和商品快照只从事务内商品记录生成。</li>
 <li><code>State.shop_receipts</code>：当前身份＋幂等键唯一的商城写收据，保存请求摘要、资源类型、资源ID、动作和创建时间。</li>
 <li><code>State.shop_audit</code>：商品和订单事件。订单另保存自己的事件视图；事件、收据、支付与业务变化原子写入。</li>
+<li><code>State.banners</code>：轮播图字典。管理员维护标题、图片、点击地址、上下架及顺序，初始数据库保存三条可直接后台编辑的稳定seed轮播；启动时仅对空字典补齐，已有非空配置及全下架状态保持不动。公开接口只返回上架条目，有配置但全下架时成功返回空数组，表示主动关闭运营位；仅轮播字典本身为空时防御性使用三张打包静态图。</li>
 <li>单商品对应多订单；单订单对应一个不可变商品快照、一笔当前模拟支付、一次交付和一次评价。本期数量固定为1，不含物流、购物车和多商家。</li>
 </ul>
 <h2 id="dictionary-heading">二、<span id="dictionary">运行字段字典</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
@@ -69,6 +70,21 @@
 <td>站方交付说明；评价含1～5评分及正文；事件仅本人和管理员可读</td>
 </tr>
 <tr>
+<td>订单 ShopOrder</td>
+<td>requirements、contact、delivery_requirements</td>
+<td>买方购买需求、联系说明及交付要求；仅商户接单前允许本人修改，不改变商品快照、金额或数量</td>
+</tr>
+<tr>
+<td>订单 ShopOrder</td>
+<td>accepted_at、editable</td>
+<td>商户接单时刻；editable由接单、交易及履约状态计算，不采信客户端传值</td>
+</tr>
+<tr>
+<td>轮播 Banner</td>
+<td>id、title、image、target_url、active、sort_order、version、created_at、updated_at</td>
+<td>稳定ID、图片、外部点击URL、上下架、升序排序及乐观版本；图片支持上传后data URL或HTTPS，点击地址仅HTTP(S)绝对地址或空</td>
+</tr>
+<tr>
 <td>支付 ShopPayment</td>
 <td>id、mode、channel、status、amount_minor、currency、reference、created_at</td>
 <td>当前 mode=mock，channel=alipay／wechat，reference以MOCK标识；模拟款不表示真实商户到账</td>
@@ -84,7 +100,7 @@
 <td>重试先检查收据再校验版本，同键异文409；同键同文返回资源最新视图，不重复执行</td>
 </tr>
 </tbody></table>
-<p>商品创建及编辑输入不接收服务器ID、版本结果、日期；更新额外提供 <code>expected_version</code>。订单创建仅提供 <code>product_id</code> 和 <code>product_version</code>，事务内同时核对上架、缺货、商品版本和价格。已经生成的待付款订单按快照付款。</p>
+<p>商品创建及编辑输入不接收服务器ID、版本结果、日期；更新额外提供 <code>expected_version</code>。订单创建提供 <code>product_id</code> 和 <code>product_version</code>，可选填写 <code>requirements</code>、<code>contact</code>、<code>delivery_requirements</code>；事务内同时核对上架、缺货、商品版本和价格。已经生成的待付款订单按快照付款。</p>
 <h2 id="transitions-heading">三、<span id="transitions">状态、支付和一致性</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <table>
 <thead>
@@ -105,14 +121,19 @@
 <td>保存mock成功支付及服务器金额，进入pending_completion／pending</td>
 </tr>
 <tr>
+<td>edit</td>
+<td>本人，pending_payment或pending_completion／pending，尚未接单</td>
+<td>替换requirements、contact、delivery_requirements；价格／数量／商品不变</td>
+</tr>
+<tr>
 <td>start</td>
 <td>管理员，pending_completion／pending</td>
-<td>履约子状态in_progress</td>
+<td>商户接单、记录accepted_at、履约子状态in_progress；买方编辑锁定</td>
 </tr>
 <tr>
 <td>deliver</td>
 <td>管理员，pending_completion，未交付，交付说明非空</td>
-<td>履约子状态delivered，记录交付时刻</td>
+<td>履约子状态delivered，记录交付时刻；直接交付同时记录接单锁定</td>
 </tr>
 <tr>
 <td>accept</td>
@@ -174,6 +195,13 @@
 <li>验证创建／支付幂等与并发、越权隔离、写失败回滚、文件重启读回、损坏与未知schema拒绝。</li>
 <li>HTTP经真实回环端口验证鉴权、资源、PUT预检和错误状态；数据库集成只在显式专用测试库运行，未配置记录跳过，不把文件／内存通过写成真实数据库通过。</li>
 <li>具体执行结论以<a href="../../%E6%B5%8B%E8%AF%95/%E5%95%86%E5%9F%8E%E5%9B%9E%E5%BD%92/README.md">商城回归</a>及<a href="../../%E6%B5%8B%E8%AF%95/%E5%90%8E%E7%AB%AF/README.md">后端测试</a>为准。文档设计完成不等于业务测试、真实支付或正式数据库部署已完成。</li>
+</ul>
+<h2 id="demo-banner-heading">六、<span id="demo-banner">演示配置与轮播约束</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
+<ul>
+<li>部署通过 <code>DEMO_MODE=1／0</code> 显式声明演示模式，本机加内网穿透为1，服务器模式为0。<code>GET /api/v1/shop-config</code> 返回demo_mode与payment_mode，仅明确演示模式才附demo_credentials角色账号列表及当前实际密码；响应禁止缓存，正式模式不返回凭据字段。凭据从进程配置读取，不写入业务数据库、轮播、日志、文档或审计。</li>
+<li>演示模式强制mock支付。当前商城身份为customer／admin，用户公开对象含avatar_url，默认空值由客户端显示随包品牌图／姓名字母，不据此新增账号或头像上传系统。</li>
+<li>轮播新增／编辑与商品一样校验管理员、幂等键和版本，写入内容、审计与收据同事务提交。图片上传以PNG／JPEG／WebP data URL随JSON提交，解码后不超过2MiB并验真实类型；轮播JSON总量不超过3MiB。HTTPS图片及target_url拒绝账号密码和控制字符，不允许脚本协议；客户端按目标平台能力在默认浏览器打开点击地址。</li>
+<li>接单与买方编辑对同一订单进行版本条件更新并串行提交；并发只有一个看到的版本能成功。接单后、已交付、待评价、完成或取消状态均不可再编辑购买需求。</li>
 </ul>
 <p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
 <script src="../阅读资源/mermaid.min.js"></script><script>if(window.mermaid)mermaid.initialize({startOnLoad:true,securityLevel:'strict'});</script></body></html>

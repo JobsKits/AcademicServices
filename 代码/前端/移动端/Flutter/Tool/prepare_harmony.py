@@ -10,6 +10,63 @@ from urllib.parse import urlparse
 ROOT = Path(__file__).resolve().parents[1]
 
 
+# JOBS_INPUT_CHOICE_STYLE_BEGIN
+# 只格式化已展开的提示，答案、默认值和 EOF 仍由原 input 处理。
+def jobs_prompt_render(message):
+    import os
+    import re
+    import sys
+    plain = re.sub(r"\x1b\[[0-9;]*m", "", str(message))
+    if ("NO_COLOR" in os.environ or os.environ.get("TERM", "") in ("", "dumb")
+            or os.environ.get("PLAIN_OUTPUT") == "1"
+            or os.environ.get("IS_SOURCETREE_RUNTIME") == "1"
+            or not sys.stdin.isatty() or not sys.stdout.isatty()):
+        return plain
+    red = re.compile(r"(?:输入)?(?:任意|任何)(?:非空)?(?:字符|内容|输入|键)|非空(?:字符|内容|输入)?|其它输入|其他输入|type (?:anything|any[^ ]*)|press any key", re.I)
+    green = re.compile(r"(?:直接|仅|只需|只|按下|按)?\s*(?:回车|回車)|\b(?:enter|return)\b", re.I)
+    def green_position(value):
+        match = green.search(value)
+        if match is None:
+            return None
+        prefix = re.sub(r"[“”‘’「」『』\"']", "", value[:match.start()])
+        typed = re.search(r"(?:输入|键入|填写|type)[^；;|]*[\w+-]+\s*(?:后|再|并)?\s*$", prefix, re.I)
+        return None if typed else match
+    def segment(value, inherited):
+        red_match = red.search(value)
+        green_match = green_position(value)
+        if inherited:
+            return f"\x1b[1;{inherited}m{value}\x1b[0m" if value else value
+        if red_match and green_match and green_match.start() < red_match.start():
+            return segment(value[:red_match.start()], 0) + segment(value[red_match.start():], 31)
+        match, color = (red_match, 31) if red_match else (green_match, 32)
+        if match is None:
+            return value
+        return value[:match.start()] + f"\x1b[1;{color}m" + value[match.start():] + "\x1b[0m"
+    output = []
+    inherited = 0
+    depth = 0
+    for index, part in enumerate(re.split(r"([；;/|，,、？?：:=＝（）()\[\]【】])", plain)):
+        if not index % 2:
+            output.append(segment(part, inherited))
+            previous = part
+            continue
+        output.append(part)
+        if part in "（([【":
+            depth += 1
+            if red.search(previous):
+                inherited = 31
+            elif green_position(previous):
+                inherited = 32
+        elif part in "）)]】":
+            depth = max(0, depth - 1)
+        elif part in "：:=＝":
+            if not inherited:
+                inherited = 31 if red.search(previous) else 32 if green.search(previous) else 0
+        elif not depth:
+            inherited = 0
+    return "".join(output)
+# JOBS_INPUT_CHOICE_STYLE_END
+
 def endpoint_config(value: str) -> tuple[str, str]:
     """Derive a same-origin hosted page; never use a file-origin production page."""
     api = urlparse(value)
@@ -54,7 +111,7 @@ def main():
     if not sys.stdin.isatty():
         parser.error('No interactive input; run --check for a read-only check, or use a terminal to build')
     try:
-        if input('按回车开始；输入任意字符取消：'):
+        if input(jobs_prompt_render('按回车开始；输入任意字符取消：')):
             raise SystemExit('已取消，未构建或写入配置。')
     except EOFError:
         raise SystemExit('输入结束，未构建或写入配置。')
@@ -70,6 +127,8 @@ def main():
                            f'export const CLIENT_URL: string = {json.dumps(page)};\n')
     print('Copy Dist/Client to ../../../后端/后端代码/client-web on the configured HTTPS server.\n'
           'Open ../鸿蒙/ in DevEco Studio, configure signing, then build HAP and APP.\n'
+          'The ArkWeb host keeps the configured origin inside the app. User-triggered HTTP(S) links open with the system browser handler.\n'
+          'Index.ets is the single maintained host source; this tool generates Endpoint.ets only.\n'
           'The production host loads HTTPS, so first launch requires a working network; invalid TLS is rejected.')
 
 

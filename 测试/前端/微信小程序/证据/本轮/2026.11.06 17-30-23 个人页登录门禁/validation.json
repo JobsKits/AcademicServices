@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "node_tests": 89,
+  "scenarios": [
+    "guest personal Tab opens login directly",
+    "failed or canceled login leaves home and never opens profile",
+    "successful login alone switches to profile",
+    "guest Profile deep link and cold start return home before login",
+    "settings contains no guest login entry",
+    "native swiper auto rotation and horizontal gestures both enabled"
+  ],
+  "syntax": "passed",
+  "diff_check": "passed",
+  "not_verified": [
+    "WeChat developer tools compilation",
+    "iOS/Android WeChat devices"
+  ]
+}

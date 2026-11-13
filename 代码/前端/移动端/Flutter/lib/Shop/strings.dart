@@ -1,3 +1,6 @@
+import 'experience_strings.dart';
+import 'auth_strings.dart';
+
 const shopLanguages = {
   'zh': '简体中文',
   'zh-Hant': '繁體中文',
@@ -529,6 +532,78 @@ const _words = <String, List<String>>{
     'Пароль',
     '비밀번호',
   ],
+  'demoCustomer': [
+    '客户',
+    '客戶',
+    'ཉོ་མཁན།',
+    'Customer',
+    'お客様',
+    'Client',
+    'Cliente',
+    'Kunde',
+    'Клиент',
+    '고객',
+  ],
+  'demoAdmin': [
+    '管理员',
+    '管理員',
+    'དོ་དམ་པ།',
+    'Administrator',
+    '管理者',
+    'Administrateur',
+    'Administrador',
+    'Administrator',
+    'Администратор',
+    '관리자',
+  ],
+  'demoCredentialsHint': [
+    '以下仅为首次本机演示默认值；已部署环境请使用部署者配置的账户和密码。',
+    '以下僅為首次本機演示預設值；已部署環境請使用部署者設定的帳戶和密碼。',
+    'འདི་དག་ནི་རང་འཁོར་ཐོག་དང་པོའི་དཔེ་སྟོན་གྱི་སྔོན་སྒྲིག་ཡིན། བཀོད་སྒྲིག་བྱས་ཟིན་པར་དོ་དམ་པས་བཟོས་པའི་ཐོ་ཁོངས་དང་གསང་ཚིག་སྤྱོད།',
+    'These are initial local demo defaults. For a deployed service, use the account and password configured by its operator.',
+    '初回のローカルデモ用の初期値です。運用環境では管理者が設定したアカウントとパスワードを使用してください。',
+    'Valeurs initiales de démonstration locale. Sur un service déployé, utilisez le compte et le mot de passe définis par son administrateur.',
+    'Son valores iniciales de la demo local. En un servicio desplegado, usa la cuenta y la contraseña configuradas por su administrador.',
+    'Dies sind anfängliche lokale Demo-Zugangsdaten. Verwenden Sie bei einem bereitgestellten Dienst das vom Betreiber festgelegte Konto und Passwort.',
+    'Это начальные данные локальной демонстрации. Для развёрнутого сервиса используйте учётную запись и пароль, заданные администратором.',
+    '최초 로컬 데모의 기본값입니다. 배포된 서비스에서는 운영자가 설정한 계정과 비밀번호를 사용하세요.',
+  ],
+  'copy': [
+    '复制',
+    '複製',
+    'འདྲ་བཤུས།',
+    'Copy',
+    'コピー',
+    'Copier',
+    'Copiar',
+    'Kopieren',
+    'Копировать',
+    '복사',
+  ],
+  'copied': [
+    '已复制',
+    '已複製',
+    'འདྲ་བཤུས་ཟིན།',
+    'Copied',
+    'コピー済み',
+    'Copié',
+    'Copiado',
+    'Kopiert',
+    'Скопировано',
+    '복사됨',
+  ],
+  'copyFailed': [
+    '复制失败，请选中文本复制。',
+    '複製失敗，請選取文字複製。',
+    'འདྲ་བཤུས་མ་ཐུབ། ཡིག་གེ་བདམས་ནས་འདྲ་བཤུས་བྱེད་རོགས།',
+    'Copy failed. Select the text to copy it.',
+    'コピーできませんでした。文字を選択してコピーしてください。',
+    'Échec de la copie. Sélectionnez le texte pour le copier.',
+    'No se pudo copiar. Selecciona el texto para copiarlo.',
+    'Kopieren fehlgeschlagen. Markieren Sie den Text zum Kopieren.',
+    'Не удалось скопировать. Выделите текст и скопируйте его.',
+    '복사하지 못했습니다. 텍스트를 선택해 복사하세요.',
+  ],
   'loginHint': [
     '离线时自动进入隔离演示；密码错误会保留服务端提示。',
     '離線時自動進入隔離演示；密碼錯誤會保留服務端提示。',
@@ -1045,6 +1120,30 @@ const _words = <String, List<String>>{
     'Запись демооплаты',
     '모의 결제 기록',
   ],
+  'productCategory': [
+    '商品分类',
+    '商品分類',
+    'ཚོང་རྫས་སྡེ་ཚན།',
+    'Product category',
+    '商品カテゴリー',
+    'Catégorie du produit',
+    'Categoría del producto',
+    'Produktkategorie',
+    'Категория товара',
+    '상품 카테고리',
+  ],
+  'productKind': [
+    '商品类型',
+    '商品類型',
+    'ཚོང་རྫས་རིགས།',
+    'Product type',
+    '商品の種類',
+    'Type de produit',
+    'Tipo de producto',
+    'Produkttyp',
+    'Тип товара',
+    '상품 유형',
+  ],
   'sellerWaiting': [
     '待买方付款／确认／评价',
     '待買方付款／確認／評價',
@@ -1060,12 +1159,13 @@ const _words = <String, List<String>>{
 };
 
 String shopText(String language, String key) {
-  final values = _words[key];
+  final values = _words[key] ?? experienceWords[key] ?? authWords[key];
   if (values == null) return key;
   final index = shopLanguages.keys.toList().indexOf(language);
   return values[index < 0 ? 0 : index];
 }
 
-bool get shopTranslationsComplete => _words.values.every(
-  (v) => v.length == shopLanguages.length && v.every((s) => s.isNotEmpty),
-);
+bool get shopTranslationsComplete =>
+    [..._words.values, ...experienceWords.values, ...authWords.values].every(
+      (v) => v.length == shopLanguages.length && v.every((s) => s.isNotEmpty),
+    );

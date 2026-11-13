@@ -19,7 +19,7 @@ func productInput(p *Product) ProductInput {
 func shopSetup(t *testing.T) (*Engine, *ShopOrder) {
 	t.Helper()
 	e := NewEngine(NewMemoryStore())
-	o, err := e.CreateShopOrder(testCtx, testCustomer, "shop-create-key", ShopCreateInput{"graduation-outline", 1})
+	o, err := e.CreateShopOrder(testCtx, testCustomer, "shop-create-key", ShopCreateInput{ProductID: "graduation-outline", ProductVersion: 1})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -71,7 +71,7 @@ func TestShopCatalogEditingAndSnapshot(t *testing.T) {
 	if _, err = e.Product(testCtx, p.ID); ProblemOf(err).Status != 404 {
 		t.Fatal(err)
 	}
-	if _, err = e.CreateShopOrder(testCtx, testCustomer, "shop-offline-create", ShopCreateInput{p.ID, 2}); ProblemOf(err).Status != 409 {
+	if _, err = e.CreateShopOrder(testCtx, testCustomer, "shop-offline-create", ShopCreateInput{ProductID: p.ID, ProductVersion: 2}); ProblemOf(err).Status != 409 {
 		t.Fatal(err)
 	}
 	sold, err := e.ShopOrder(testCtx, testCustomer, o.ID)
@@ -93,7 +93,7 @@ func TestShopCatalogEditingAndSnapshot(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if _, err = e.CreateShopOrder(testCtx, testCustomer, "shop-stock-create", ShopCreateInput{p.ID, 3}); ProblemOf(err).Status != 409 {
+	if _, err = e.CreateShopOrder(testCtx, testCustomer, "shop-stock-create", ShopCreateInput{ProductID: p.ID, ProductVersion: 3}); ProblemOf(err).Status != 409 {
 		t.Fatal(err)
 	}
 }
@@ -148,7 +148,7 @@ func TestShopFullWorkflowAndBothChannels(t *testing.T) {
 }
 func TestShopRoleIsolationAndStateGuards(t *testing.T) {
 	e, o := shopSetup(t)
-	foreign := User{"foreign", "其他客户", "customer"}
+	foreign := User{ID: "foreign", Name: "其他客户", Role: "customer"}
 	if _, err := e.ShopOrder(testCtx, foreign, o.ID); ProblemOf(err).Status != 404 {
 		t.Fatal(err)
 	}
@@ -188,11 +188,11 @@ func TestShopRoleIsolationAndStateGuards(t *testing.T) {
 }
 func TestShopStableKeysAndConcurrentPayments(t *testing.T) {
 	e, o := shopSetup(t)
-	replay, err := e.CreateShopOrder(testCtx, testCustomer, "shop-create-key", ShopCreateInput{"graduation-outline", 1})
+	replay, err := e.CreateShopOrder(testCtx, testCustomer, "shop-create-key", ShopCreateInput{ProductID: "graduation-outline", ProductVersion: 1})
 	if err != nil || replay.ID != o.ID {
 		t.Fatalf("%+v %v", replay, err)
 	}
-	if _, err = e.CreateShopOrder(testCtx, testCustomer, "shop-create-key", ShopCreateInput{"editing-polish", 1}); ProblemOf(err).Status != 409 {
+	if _, err = e.CreateShopOrder(testCtx, testCustomer, "shop-create-key", ShopCreateInput{ProductID: "editing-polish", ProductVersion: 1}); ProblemOf(err).Status != 409 {
 		t.Fatal(err)
 	}
 	var succeeded atomic.Int32
@@ -231,7 +231,7 @@ func TestShopStableKeysAndConcurrentPayments(t *testing.T) {
 	if _, err = e2.ActShopOrder(testCtx, testCustomer, o2.ID, "shop-pay-stable-key", a); ProblemOf(err).Status != 409 {
 		t.Fatal(err)
 	}
-	r, _, saved, err := e2.ShopOperation(testCtx, testCustomer, "shop-pay-stable-key")
+	r, _, saved, _, err := e2.ShopOperation(testCtx, testCustomer, "shop-pay-stable-key")
 	if err != nil || saved.Payment.ID != paid.Payment.ID || r.Action != "pay" {
 		t.Fatalf("%+v %v", saved, err)
 	}
@@ -252,7 +252,7 @@ func TestShopConcurrentPriceChangeAndPurchase(t *testing.T) {
 	}()
 	go func() {
 		defer wg.Done()
-		o, err := e.CreateShopOrder(testCtx, testCustomer, "shop-price-order", ShopCreateInput{p.ID, 1})
+		o, err := e.CreateShopOrder(testCtx, testCustomer, "shop-price-order", ShopCreateInput{ProductID: p.ID, ProductVersion: 1})
 		if err == nil {
 			if o.Amount != p.Price || o.Product.Version != 1 {
 				t.Error("mixed snapshot")
@@ -262,7 +262,7 @@ func TestShopConcurrentPriceChangeAndPurchase(t *testing.T) {
 		}
 	}()
 	wg.Wait()
-	if _, err := e.CreateShopOrder(testCtx, testCustomer, "shop-after-price", ShopCreateInput{p.ID, 1}); ProblemOf(err).Status != 409 {
+	if _, err := e.CreateShopOrder(testCtx, testCustomer, "shop-after-price", ShopCreateInput{ProductID: p.ID, ProductVersion: 1}); ProblemOf(err).Status != 409 {
 		t.Fatal(err)
 	}
 }
@@ -286,7 +286,7 @@ func TestShopStorageRollbackAndRestart(t *testing.T) {
 		t.Fatal(err)
 	}
 	disk := NewEngine(file)
-	saved, err := disk.CreateShopOrder(testCtx, testCustomer, "shop-disk-order", ShopCreateInput{"editing-polish", 1})
+	saved, err := disk.CreateShopOrder(testCtx, testCustomer, "shop-disk-order", ShopCreateInput{ProductID: "editing-polish", ProductVersion: 1})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -343,7 +343,7 @@ func TestHTTPShopCatalogAdminOrderAndCORS(t *testing.T) {
 	if code != 403 {
 		t.Fatal(code)
 	}
-	code, created := request(t, server, "POST", "/api/v1/shop-orders", customer, "http-shop-order", ShopCreateInput{"editing-translation", 1})
+	code, created := request(t, server, "POST", "/api/v1/shop-orders", customer, "http-shop-order", ShopCreateInput{ProductID: "editing-translation", ProductVersion: 1})
 	if code != 201 {
 		t.Fatal(code, created)
 	}

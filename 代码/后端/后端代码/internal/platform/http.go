@@ -36,13 +36,37 @@ type Config struct {
 	AdminPassword    string
 	CustomerPassword string
 	PaymentMode      string
+	DemoMode         bool
+	SMTPHost         string
+	SMTPPort         string
+	SMTPUsername     string
+	SMTPPassword     string
+	SMTPFrom         string
+	SMTPTLSMode      string
 }
 
 func LoadConfig() (Config, error) {
 	c := Config{Environment: env("APP_ENV", "development"), Listen: env("LISTEN_ADDR", "127.0.0.1:8080"), DataDir: env("DATA_DIR", "./data"), DatabaseURL: os.Getenv("DATABASE_URL"), AdminStaticDir: env("ADMIN_STATIC_DIR", "./admin-web"), ClientStaticDir: env("CLIENT_STATIC_DIR", "./client-web"), AdminPassword: env("ADMIN_PASSWORD", "demo-admin-change-me"), CustomerPassword: env("DEMO_CUSTOMER_PASSWORD", "demo-customer")}
 	c.PaymentMode = env("PAYMENT_MODE", "mock")
+	switch env("DEMO_MODE", "0") {
+	case "0":
+	case "1":
+		c.DemoMode = true
+		c.PaymentMode = "mock"
+	default:
+		return c, errors.New("DEMO_MODE must be 0 or 1")
+	}
 	if c.PaymentMode != "mock" && c.PaymentMode != "real" {
 		return c, errors.New("PAYMENT_MODE must be mock or real")
+	}
+	if c.DemoMode {
+		c.AdminPassword = "1234"
+	}
+	c.SMTPHost, c.SMTPPort = os.Getenv("SMTP_HOST"), env("SMTP_PORT", "587")
+	c.SMTPUsername, c.SMTPPassword = os.Getenv("SMTP_USERNAME"), os.Getenv("SMTP_PASSWORD")
+	c.SMTPFrom, c.SMTPTLSMode = os.Getenv("SMTP_FROM"), env("SMTP_TLS_MODE", "starttls")
+	if c.SMTPTLSMode != "starttls" && c.SMTPTLSMode != "implicit" {
+		return c, errors.New("SMTP_TLS_MODE must be starttls or implicit")
 	}
 	for _, s := range strings.Split(os.Getenv("CORS_ORIGINS"), ",") {
 		if strings.TrimSpace(s) != "" {
@@ -60,7 +84,7 @@ func LoadConfig() (Config, error) {
 				minimumPasswordLength = 4
 			}
 		}
-		if utf8.RuneCountInString(c.AdminPassword) < minimumPasswordLength || utf8.RuneCountInString(c.CustomerPassword) < minimumPasswordLength || c.AdminPassword == "demo-admin-change-me" || c.CustomerPassword == "demo-customer" || c.AdminPassword == c.CustomerPassword {
+		if (!c.DemoMode && (utf8.RuneCountInString(c.AdminPassword) < minimumPasswordLength || c.AdminPassword == "demo-admin-change-me")) || utf8.RuneCountInString(c.CustomerPassword) < minimumPasswordLength || c.CustomerPassword == "demo-customer" || c.AdminPassword == c.CustomerPassword {
 			return c, fmt.Errorf("production requires distinct ADMIN_PASSWORD and DEMO_CUSTOMER_PASSWORD, at least %d characters, and no demo defaults", minimumPasswordLength)
 		}
 		for _, o := range c.Origins {
@@ -103,17 +127,25 @@ type API struct {
 	rates        map[string]loginRate
 	static       http.Handler
 	clientStatic http.Handler
+	emailCodes   map[string]emailChallenge
+	emailRates   map[string]loginRate
+	sendEmail    func(context.Context, string, string, string) error
 }
 
 func NewAPI(engine *Engine, c Config) *API {
+	if c.DemoMode {
+		c.PaymentMode = "mock"
+		c.AdminPassword = "1234"
+	}
 	if c.PaymentMode != "" {
 		engine.PaymentMode = c.PaymentMode
 	}
-	a := &API{engine: engine, config: c, credentials: map[string]credential{}, sessions: map[string]session{}, rates: map[string]loginRate{}}
-	a.addUser("admin", c.AdminPassword, User{"admin", "运营管理员", "admin"})
-	a.addUser("customer", c.CustomerPassword, User{"customer", "客户", "customer"})
+	a := &API{engine: engine, config: c, credentials: map[string]credential{}, sessions: map[string]session{}, rates: map[string]loginRate{}, emailCodes: map[string]emailChallenge{}, emailRates: map[string]loginRate{}}
+	a.sendEmail = a.deliverEmail
+	a.addUser("admin", c.AdminPassword, User{ID: "admin", Name: "运营管理员", Role: "admin"})
+	a.addUser("customer", c.CustomerPassword, User{ID: "customer", Name: "客户", Role: "customer"})
 	if c.Environment != "production" {
-		a.addUser("customer2", c.CustomerPassword, User{"customer2", "第二位客户", "customer"})
+		a.addUser("customer2", c.CustomerPassword, User{ID: "customer2", Name: "第二位客户", Role: "customer"})
 	}
 	if c.AdminStaticDir != "" {
 		a.static = spa(c.AdminStaticDir, "/admin/")
@@ -173,6 +205,8 @@ func spa(dir, prefix string) http.Handler {
 	})
 }
 func (a *API) addUser(name, password string, user User) {
+	user.Username = name
+	user.AvatarURL = randomAvatar()
 	salt := make([]byte, 16)
 	if _, err := rand.Read(salt); err != nil {
 		panic(err)
@@ -196,7 +230,10 @@ func fail(w http.ResponseWriter, err error) {
 	respond(w, p.Status, map[string]any{"error": map[string]string{"code": p.Code, "message": p.Message}})
 }
 func decode(w http.ResponseWriter, r *http.Request, out any) error {
-	r.Body = http.MaxBytesReader(w, r.Body, 256<<10)
+	return decodeLimit(w, r, out, 256<<10)
+}
+func decodeLimit(w http.ResponseWriter, r *http.Request, out any, limit int64) error {
+	r.Body = http.MaxBytesReader(w, r.Body, limit)
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(out); err != nil {
@@ -231,7 +268,7 @@ func (a *API) login(w http.ResponseWriter, r *http.Request) {
 		fail(w, err)
 		return
 	}
-	if len(in.Password) > 512 || len(in.Account) > 100 {
+	if len(in.Password) > 512 || len(in.Account) > 254 {
 		fail(w, invalid("账号或密码长度无效"))
 		return
 	}
@@ -255,7 +292,11 @@ func (a *API) login(w http.ResponseWriter, r *http.Request) {
 		fail(w, &Problem{429, "rate_limit", "尝试过于频繁，请稍后再试"})
 		return
 	}
-	c, ok := a.credentials[in.Account]
+	c, ok, err := a.findCredential(r.Context(), in.Account)
+	if err != nil {
+		fail(w, err)
+		return
+	}
 	if !ok {
 		c = a.credentials["customer"]
 	}
@@ -271,6 +312,18 @@ func (a *API) login(w http.ResponseWriter, r *http.Request) {
 	}
 	token := hex.EncodeToString(b)
 	a.mu.Lock()
+	// A concurrent reset must not publish a new session from the old password.
+	current, stillValid, lookupErr := a.findCredential(r.Context(), in.Account)
+	if lookupErr != nil || !stillValid || subtle.ConstantTimeCompare(current.hash, c.hash) != 1 {
+		a.mu.Unlock()
+		if lookupErr != nil {
+			fail(w, lookupErr)
+		} else {
+			fail(w, &Problem{401, "unauthorized", "账号或密码已变化，请重新登录"})
+		}
+		return
+	}
+	c.user = current.user
 	for k, s := range a.sessions {
 		if !now.Before(s.expires) {
 			delete(a.sessions, k)
@@ -322,7 +375,7 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			fail(w, err)
 			return
 		}
-		respond(w, 200, map[string]any{"status": "ok", "version": "0.2.0", "environment": a.config.Environment, "payment_mode": a.engine.PaymentMode})
+		respond(w, 200, map[string]any{"status": "ok", "version": "0.2.0", "environment": a.config.Environment, "payment_mode": a.engine.PaymentMode, "demo_mode": a.config.DemoMode})
 		return
 	}
 	if r.URL.Path == "/" && r.Method == "GET" {
@@ -357,6 +410,9 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		a.login(w, r)
 		return
 	}
+	if a.publicAuth(w, r) {
+		return
+	}
 	if r.URL.Path == "/api/v1/services" && r.Method == "GET" {
 		s, err := a.engine.Services(r.Context())
 		if err != nil {
@@ -376,6 +432,9 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	ctx, cancel := context.WithTimeout(r.Context(), 15*time.Second)
 	defer cancel()
+	if a.privateAuth(w, r, ctx, u) {
+		return
+	}
 	if a.privateShop(w, r, ctx, u) {
 		return
 	}

@@ -11,6 +11,23 @@ func (a *API) publicShop(w http.ResponseWriter, r *http.Request) bool {
 	if r.Method != "GET" {
 		return false
 	}
+	if r.URL.Path == "/api/v1/shop-config" {
+		out := map[string]any{"demo_mode": a.config.DemoMode, "payment_mode": a.engine.PaymentMode}
+		if a.config.DemoMode {
+			out["demo_credentials"] = []map[string]string{{"role": "customer", "account": "customer", "password": a.config.CustomerPassword}, {"role": "admin", "account": "admin", "password": a.config.AdminPassword}}
+		}
+		respond(w, 200, out)
+		return true
+	}
+	if r.URL.Path == "/api/v1/banners" {
+		banners, err := a.engine.Banners(r.Context(), false)
+		if err != nil {
+			fail(w, err)
+		} else {
+			respond(w, 200, map[string]any{"banners": banners})
+		}
+		return true
+	}
 	if r.URL.Path == "/api/v1/products" {
 		products, err := a.engine.Products(r.Context(), false, r.URL.Query().Get("category_id"))
 		if err != nil {
@@ -33,6 +50,41 @@ func (a *API) publicShop(w http.ResponseWriter, r *http.Request) bool {
 	return false
 }
 func (a *API) privateShop(w http.ResponseWriter, r *http.Request, ctx context.Context, u User) bool {
+	if r.URL.Path == "/api/v1/admin/banners" || strings.HasPrefix(r.URL.Path, "/api/v1/admin/banners/") {
+		if u.Role != "admin" {
+			fail(w, denied())
+			return true
+		}
+		if r.URL.Path == "/api/v1/admin/banners" && r.Method == "GET" {
+			banners, err := a.engine.Banners(ctx, true)
+			if err != nil {
+				fail(w, err)
+			} else {
+				respond(w, 200, map[string]any{"banners": banners})
+			}
+			return true
+		}
+		if r.URL.Path == "/api/v1/admin/banners" && r.Method == "POST" || strings.HasPrefix(r.URL.Path, "/api/v1/admin/banners/") && r.Method == "PUT" {
+			var in BannerInput
+			if err := decodeLimit(w, r, &in, 3<<20); err != nil {
+				fail(w, err)
+				return true
+			}
+			id := ""
+			status := 201
+			if r.Method == "PUT" {
+				id = strings.TrimPrefix(r.URL.Path, "/api/v1/admin/banners/")
+				status = 200
+			}
+			banner, err := a.engine.SaveBanner(ctx, u, id, r.Header.Get("Idempotency-Key"), in)
+			if err != nil {
+				fail(w, err)
+			} else {
+				respond(w, status, map[string]any{"banner": banner})
+			}
+			return true
+		}
+	}
 	if r.URL.Path == "/api/v1/admin/products" {
 		if u.Role != "admin" {
 			fail(w, denied())
@@ -128,7 +180,7 @@ func (a *API) privateShop(w http.ResponseWriter, r *http.Request, ctx context.Co
 		}
 	}
 	if strings.HasPrefix(r.URL.Path, "/api/v1/shop-operations/") && r.Method == "GET" {
-		receipt, product, order, err := a.engine.ShopOperation(ctx, u, strings.TrimPrefix(r.URL.Path, "/api/v1/shop-operations/"))
+		receipt, product, order, banner, err := a.engine.ShopOperation(ctx, u, strings.TrimPrefix(r.URL.Path, "/api/v1/shop-operations/"))
 		if err != nil {
 			fail(w, err)
 		} else {
@@ -138,6 +190,9 @@ func (a *API) privateShop(w http.ResponseWriter, r *http.Request, ctx context.Co
 			}
 			if order != nil {
 				out["order"] = order
+			}
+			if banner != nil {
+				out["banner"] = banner
 			}
 			respond(w, 200, out)
 		}

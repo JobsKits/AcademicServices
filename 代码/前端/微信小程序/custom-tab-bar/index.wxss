@@ -1,0 +1,6 @@
+/* Created by Jobs. Same surface roles as the storefront. */
+.tab-bar { position:fixed; z-index:90; bottom:0; left:0; right:0; display:flex; gap:12rpx; padding:12rpx 20rpx calc(12rpx + env(safe-area-inset-bottom)); background:#fffcf7; border-top:1rpx solid #ded3c5; }
+.tab { flex:1; padding:12rpx 8rpx; margin:0; min-height:96rpx; background:transparent; color:#6f5b4e; border-radius:20rpx; font-size:26rpx; line-height:1.5; }
+.tab::after { border:0; }.tab image { width:44rpx; height:44rpx; display:block; margin:0 auto 8rpx; }
+.selected { background:#f0e2d0; color:#633e2b; font-weight:650; }
+.dark { background:#24201b; border-color:#514438; }.dark .tab { color:#cdbba8; }.dark .tab image { filter:invert(1); }.dark .selected { background:#473527; color:#f3e2ce; }

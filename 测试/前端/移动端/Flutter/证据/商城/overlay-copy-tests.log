@@ -1,0 +1,5 @@
+00:00 +0: loading /Users/jobs/Documents/Github/学术服务平台/测试/前端/移动端/Flutter/shop_test.dart
+00:00 +0: dynamic credential copy preserves tips and never invents defaults
+00:00 +1: clipboard failure also opens a root overlay tip
+00:00 +2: copy tip is above the dialog, expires and is removed with its owner
+00:00 +3: All tests passed!

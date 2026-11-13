@@ -41,6 +41,34 @@ final shopSamples = <Json>[
     },
 ];
 
+List<Json> defaultShopBanners() => [
+  for (final entry in [
+    ['graduation', 'bannerGuide'],
+    ['journal', 'bannerService'],
+    ['editing', 'bannerProgress'],
+  ])
+    {
+      'id': 'seed-${entry[0]}',
+      'title_key': entry[1],
+      'title': '',
+      'image': 'Assets/Banners/${entry[0]}.png',
+      'target_url': '',
+      'active': true,
+      'sort_order': entry[0] == 'graduation'
+          ? 0
+          : entry[0] == 'journal'
+          ? 1
+          : 2,
+      'version': 1,
+    },
+];
+
+bool shopOrderEditable(Json order) => order['editable'] is bool
+    ? order['editable'] == true
+    : ['pending_payment', 'pending_completion'].contains(order['status']) &&
+          order['fulfillment_status'] == 'pending' &&
+          '${order['accepted_at'] ?? ''}'.isEmpty;
+
 class ShopPending {
   ShopPending(this.path, this.method, this.body, this.key);
   final String path, method, key;
@@ -52,15 +80,39 @@ class ShopRepository extends ChangeNotifier {
     required String baseUrl,
     http.Client? client,
     this.timeoutMs = 2200,
+    bool? demoMode,
   }) : baseUrl = WorkspaceRepository.normalizeUrl(baseUrl),
+       _demoBuild = demoMode ?? const bool.fromEnvironment('DEMO_MODE'),
        _client = client ?? http.Client();
+  final bool _demoBuild;
+  bool? _serverDemo;
+  bool get demoMode => _serverDemo ?? _demoBuild;
+  final Map<String, Json> _demoAccounts = {};
+  final Map<String, Json> _demoCodes = {};
   String baseUrl;
   int timeoutMs;
   final http.Client _client;
   String? token;
+  String? refreshError;
   Json? user;
   bool demo = true, adminCatalogue = false;
   List<Json> products = shopSamples.map(copy).toList(), orders = [];
+  List<Json> banners = defaultShopBanners();
+  Json shopConfig = {'demo_mode': false};
+  int _bannerSequence = 0, _configSequence = 0;
+  bool _bannersKnown = false;
+  List<Json> get demoCredentials =>
+      shopConfig['demo_mode'] == true && shopConfig['demo_credentials'] is List
+      ? objects(shopConfig['demo_credentials'])
+      : [];
+  List<Json> get visibleBanners {
+    final list = banners.where((b) => b['active'] == true).toList()
+      ..sort(
+        (a, b) => (a['sort_order'] as int).compareTo(b['sort_order'] as int),
+      );
+    return list.isEmpty && !_bannersKnown ? defaultShopBanners() : list;
+  }
+
   final List<Json> _demoOrders = [];
   ShopPending? pending;
   int _generation = 0, _sequence = 0;
@@ -85,7 +137,11 @@ class ShopRepository extends ChangeNotifier {
       'Idempotency-Key': ?key,
     });
     if (body != null) request.body = jsonEncode(body);
-    final duration = Duration(milliseconds: timeoutMs);
+    final duration = Duration(
+      milliseconds: path == '/auth/email-code'
+          ? max(timeoutMs, 15000)
+          : timeoutMs,
+    );
     final response = await http.Response.fromStream(
       await _client.send(request).timeout(duration),
     ).timeout(duration);
@@ -175,16 +231,67 @@ class ShopRepository extends ChangeNotifier {
       products = nextProducts;
       orders = nextOrders;
       demo = false;
+      refreshError = null;
     } catch (e) {
       if (generation != _generation || sequence != _sequence) return;
       if (!_fallback(e)) rethrow;
-      if (!demo) {
-        products = shopSamples.map(copy).toList();
-        orders = [];
-      }
-      demo = true;
+      refreshError = demo ? null : 'updateFailed';
     }
     notifyListeners();
+    await Future.wait([loadConfiguration(), loadBanners()]);
+  }
+
+  Future<void> loadConfiguration() async {
+    final generation = _generation, sequence = ++_configSequence;
+    try {
+      final result = await _request('GET', '/shop-config');
+      if (result['demo_mode'] is! bool) {
+        throw const FormatException('Invalid shop configuration');
+      }
+      if (generation != _generation || sequence != _configSequence) return;
+      shopConfig = result['demo_mode'] == true
+          ? result
+          : {'demo_mode': false, 'payment_mode': result['payment_mode']};
+      _serverDemo = result['demo_mode'] == true;
+      if (!demoMode && token == null && user != null) logout();
+    } catch (_) {
+      if (generation != _generation || sequence != _configSequence) return;
+    }
+    notifyListeners();
+  }
+
+  Future<void> loadBanners() async {
+    final generation = _generation, sequence = ++_bannerSequence;
+    try {
+      final result = await _request(
+        'GET',
+        admin ? '/admin/banners' : '/banners',
+      );
+      final next = _banners(result['banners']);
+      if (generation != _generation || sequence != _bannerSequence) return;
+      banners = next;
+      _bannersKnown = true;
+    } catch (_) {
+      if (generation != _generation || sequence != _bannerSequence) return;
+    }
+    notifyListeners();
+  }
+
+  List<Json> _banners(dynamic value) {
+    if (value is! List) throw const FormatException('Invalid banners');
+    final rows = objects(value);
+    if (rows.any(
+      (b) =>
+          b['id'] is! String ||
+          b['title'] is! String ||
+          b['image'] is! String ||
+          b['active'] is! bool ||
+          b['sort_order'] is! int ||
+          b['version'] is! int,
+    )) {
+      throw const FormatException('Invalid banner');
+    }
+    return rows;
   }
 
   Future<void> login(
@@ -207,16 +314,46 @@ class ShopRepository extends ChangeNotifier {
         throw const FormatException('Invalid login');
       }
       user = next;
+      if (asAdmin && next['role'] != 'admin') {
+        user = null;
+        throw ApiFailure('admin', status: 403);
+      }
+      user!['account'] = account;
       token = result['token'];
       demo = false;
     } catch (e) {
       if (generation != _generation) rethrow;
-      if (!_fallback(e)) rethrow;
-      user = {
-        'id': 'demo-${asAdmin ? 'admin' : 'customer'}',
-        'role': asAdmin ? 'admin' : 'customer',
-        'name': account,
-      };
+      if (!_fallback(e) || !demoMode) rethrow;
+      final saved = _demoAccounts.values
+          .where(
+            (row) =>
+                '${row['username']}'.toLowerCase() == account.toLowerCase() ||
+                '${row['email']}'.toLowerCase() == account.toLowerCase(),
+          )
+          .firstOrNull;
+      final credentials = demoCredentials
+          .where(
+            (row) => row['account'] == account && row['password'] == password,
+          )
+          .firstOrNull;
+      if (saved != null && saved['password'] == password && !asAdmin) {
+        user = {...saved}..remove('password');
+      } else if ((account == 'admin' && password == '1234') ||
+          (!asAdmin &&
+              (credentials != null ||
+                  account == 'customer' && password == 'demo-customer'))) {
+        final role = account == 'admin' ? 'admin' : 'customer';
+        user = {
+          'id': 'demo-$role',
+          'role': role,
+          'name': account,
+          'username': account,
+          'avatar_url': '',
+          'avatar_color': Random.secure().nextInt(0xffffff),
+        };
+      } else {
+        throw ApiFailure('unauthorized', status: 401);
+      }
       demo = true;
       orders = _demoOrders
           .where((o) => asAdmin || o['owner_id'] == user!['id'])
@@ -227,6 +364,203 @@ class ShopRepository extends ChangeNotifier {
     await refresh();
   }
 
+  Future<void> bootstrapAdmin() async {
+    await loadConfiguration();
+    if (demoMode && !admin) await login('admin', '1234', asAdmin: true);
+  }
+
+  Future<Json> requestEmailCode(String email, {required String purpose}) async {
+    final generation = _generation, target = baseUrl;
+    email = email.trim().toLowerCase();
+    try {
+      final result = await _request('POST', '/auth/email-code', {
+        'email': email,
+        'purpose': purpose,
+      });
+      _checkAuthContext(generation, target);
+      if (result['demo_code'] is String && demoMode) {
+        _rememberDemoCode(email, purpose, result['demo_code']);
+      }
+      return result;
+    } catch (e) {
+      _checkAuthContext(generation, target);
+      if (!demoMode || !_fallback(e)) rethrow;
+      if (!RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(email) ||
+          !['register', 'reset_password'].contains(purpose)) {
+        throw ApiFailure('invalidEmail');
+      }
+      final prior = _demoCodes['$email:$purpose'];
+      if (prior != null &&
+          DateTime.now().difference(prior['sent'] as DateTime).inSeconds < 60) {
+        throw ApiFailure('rate_limit', status: 429);
+      }
+      final code = Random.secure().nextInt(1000000).toString().padLeft(6, '0');
+      _rememberDemoCode(email, purpose, code);
+      return {
+        'ok': true,
+        'delivery': 'demo',
+        'demo_code': code,
+        'retry_after': 60,
+        'expires_in': 600,
+      };
+    }
+  }
+
+  void _checkAuthContext(int generation, String target) {
+    if (generation != _generation || target != baseUrl) {
+      throw ApiFailure('account', status: 409);
+    }
+  }
+
+  void _rememberDemoCode(String email, String purpose, String code) {
+    _demoCodes['$email:$purpose'] = {
+      'code': code,
+      'sent': DateTime.now(),
+      'attempts': 0,
+    };
+  }
+
+  void _verifyDemoCode(String email, String purpose, String code) {
+    final entry = _demoCodes['$email:$purpose'];
+    if (entry == null ||
+        DateTime.now().difference(entry['sent'] as DateTime).inMinutes >= 10 ||
+        entry['attempts'] >= 5 ||
+        entry['code'] != code) {
+      if (entry != null) entry['attempts'] = (entry['attempts'] as int) + 1;
+      throw ApiFailure('invalidCode');
+    }
+  }
+
+  void _validateAccountInput(
+    String username,
+    String password,
+    String confirmPassword,
+  ) {
+    if (password != confirmPassword) throw ApiFailure('passwordMismatch');
+    if (password.runes.length < 8 || utf8.encode(password).length > 512) {
+      throw ApiFailure('passwordTooShort');
+    }
+    if (username.isNotEmpty &&
+        (username.runes.length < 3 ||
+            username.runes.length > 32 ||
+            !RegExp(r'^[\p{L}\p{N}_-]+$', unicode: true).hasMatch(username))) {
+      throw ApiFailure('invalidUsername');
+    }
+  }
+
+  Future<void> register({
+    required String email,
+    required String code,
+    required String username,
+    required String password,
+    required String confirmPassword,
+  }) async {
+    final generation = _generation, target = baseUrl;
+    email = email.trim().toLowerCase();
+    username = username.trim();
+    _validateAccountInput(username, password, confirmPassword);
+    if (username.isEmpty) throw ApiFailure('invalidUsername');
+    try {
+      await _request('POST', '/auth/register', {
+        'email': email,
+        'code': code,
+        'username': username,
+        'password': password,
+        'confirm_password': confirmPassword,
+      });
+      _checkAuthContext(generation, target);
+    } catch (e) {
+      _checkAuthContext(generation, target);
+      if (!demoMode || !_fallback(e)) rethrow;
+      _verifyDemoCode(email, 'register', code);
+      if (_demoAccounts.values.any(
+            (row) =>
+                row['email'] == email ||
+                '${row['username']}'.toLowerCase() == username.toLowerCase(),
+          ) ||
+          ['admin', 'customer'].contains(username.toLowerCase())) {
+        throw ApiFailure('account_exists', status: 409);
+      }
+      _demoAccounts[email] = {
+        'id': 'demo-${_key()}',
+        'role': 'customer',
+        'name': username,
+        'username': username,
+        'email': email,
+        'password': password,
+        'avatar_url': '',
+        'avatar_color': Random.secure().nextInt(0xffffff),
+      };
+      _demoCodes.remove('$email:register');
+    }
+    await login(email, password);
+  }
+
+  Future<void> resetPassword({
+    required String email,
+    required String code,
+    required String password,
+    required String confirmPassword,
+  }) async {
+    final generation = _generation, target = baseUrl;
+    email = email.trim().toLowerCase();
+    _validateAccountInput('', password, confirmPassword);
+    try {
+      await _request('POST', '/auth/reset-password', {
+        'email': email,
+        'code': code,
+        'password': password,
+        'confirm_password': confirmPassword,
+      });
+      _checkAuthContext(generation, target);
+    } catch (e) {
+      _checkAuthContext(generation, target);
+      if (!demoMode || !_fallback(e)) rethrow;
+      _verifyDemoCode(email, 'reset_password', code);
+      final account = _demoAccounts[email];
+      if (account == null) throw ApiFailure('invalidCode');
+      account['password'] = password;
+      _demoCodes.remove('$email:reset_password');
+    }
+    logout();
+  }
+
+  Future<void> updateProfile({required String username, String? avatar}) async {
+    if (user == null) throw ApiFailure('signInFirst', status: 401);
+    final generation = _generation;
+    _validateAccountInput(username.trim(), 'unused-pass', 'unused-pass');
+    if (username.trim().isEmpty) throw ApiFailure('invalidUsername');
+    try {
+      final result = await _request('PUT', '/auth/profile', {
+        'username': username.trim(),
+        'avatar': ?avatar,
+      });
+      if (generation != _generation) {
+        throw ApiFailure('signInFirst', status: 401);
+      }
+      user = object(result['user']);
+    } catch (e) {
+      if (generation != _generation) rethrow;
+      if (!demoMode || token != null || !_fallback(e)) rethrow;
+      if (_demoAccounts.values.any(
+        (row) =>
+            row['id'] != user!['id'] &&
+            '${row['username']}'.toLowerCase() == username.trim().toLowerCase(),
+      )) {
+        throw ApiFailure('username_taken', status: 409);
+      }
+      user = {
+        ...user!,
+        'username': username.trim(),
+        'name': username.trim(),
+        'avatar_url': ?avatar,
+      };
+      final saved = _demoAccounts['${user!['email']}'];
+      if (saved != null) saved.addAll(user!);
+    }
+    notifyListeners();
+  }
+
   void logout() {
     _generation++;
     _sequence++;
@@ -234,6 +568,7 @@ class ShopRepository extends ChangeNotifier {
     user = null;
     orders = [];
     pending = null;
+    refreshError = null;
     adminCatalogue = false;
     if (!demo) products = shopSamples.map(copy).toList();
     demo = true;
@@ -248,6 +583,12 @@ class ShopRepository extends ChangeNotifier {
     timeoutMs = timeout;
     products = shopSamples.map(copy).toList();
     demo = true;
+    shopConfig = {'demo_mode': false};
+    _serverDemo = null;
+    _demoAccounts.clear();
+    _demoCodes.clear();
+    banners = defaultShopBanners();
+    _bannersKnown = false;
   }
 
   String get _pendingKey => 'shop-pending:$baseUrl:${user?['id']}';
@@ -289,10 +630,12 @@ class ShopRepository extends ChangeNotifier {
     } catch (_) {}
   }
 
-  Future<Json> buy(Json product) => _write('POST', '/shop-orders', {
-    'product_id': product['id'],
-    'product_version': product['version'],
-  });
+  Future<Json> buy(Json product, [Json requirements = const {}]) =>
+      _write('POST', '/shop-orders', {
+        'product_id': product['id'],
+        'product_version': product['version'],
+        ...requirements,
+      });
   Future<Json> action(Json order, String action, [Json fields = const {}]) =>
       _write('POST', '/shop-orders/${order['id']}/actions', {
         'action': action,
@@ -319,6 +662,21 @@ class ShopRepository extends ChangeNotifier {
         'reference_price',
       ])
         if (product.containsKey(key)) key: product[key],
+      'expected_version': ?version,
+    },
+  );
+  Future<Json> saveBanner(Json banner, {String? id, int? version}) => _write(
+    id == null ? 'POST' : 'PUT',
+    '/admin/banners${id == null ? '' : '/$id'}',
+    {
+      for (final key in [
+        'title',
+        'image',
+        'target_url',
+        'active',
+        'sort_order',
+      ])
+        key: banner[key],
       'expected_version': ?version,
     },
   );
@@ -406,6 +764,11 @@ class ShopRepository extends ChangeNotifier {
     if (result['order'] is Map) {
       final order = _orders([result['order']]).single;
       orders = [order, ...orders.where((o) => o['id'] != order['id'])];
+    } else if (result['banner'] is Map) {
+      final banner = _banners([result['banner']]).single;
+      _bannersKnown = true;
+      banners = [banner, ...banners.where((b) => b['id'] != banner['id'])];
+      _bannerSequence++;
     } else if (result['product'] is Map) {
       final product = _products([result['product']]).single;
       products = [product, ...products.where((p) => p['id'] != product['id'])];
@@ -417,6 +780,24 @@ class ShopRepository extends ChangeNotifier {
   Json _local(ShopPending operation) {
     _sequence++;
     final body = operation.body;
+    if (operation.path.startsWith('/admin/banners')) {
+      if (!admin) throw ApiFailure('admin', status: 403);
+      final id = operation.method == 'POST'
+          ? 'demo-${_key()}'
+          : operation.path.split('/').last;
+      final previous = banners.where((b) => b['id'] == id).firstOrNull;
+      if (previous != null && previous['version'] != body['expected_version']) {
+        throw ApiFailure('version', status: 409);
+      }
+      final banner = {
+        ...body,
+        'id': id,
+        'version': (previous?['version'] ?? 0) + 1,
+      };
+      banners = [banner, ...banners.where((b) => b['id'] != id)];
+      _bannersKnown = true;
+      return {'banner': banner};
+    }
     if (operation.path.startsWith('/admin/products')) {
       if (!admin) throw ApiFailure('admin', status: 403);
       final id = operation.method == 'POST'
@@ -457,6 +838,11 @@ class ShopRepository extends ChangeNotifier {
         'fulfillment_status': 'pending',
         'version': 1,
         'created_at': DateTime.now().toUtc().toIso8601String(),
+        'requirements': body['requirements'] ?? '',
+        'contact': body['contact'] ?? '',
+        'delivery_requirements': body['delivery_requirements'] ?? '',
+        'accepted_at': '',
+        'editable': true,
       };
       orders.insert(0, order);
       _demoOrders.add(order);
@@ -483,13 +869,24 @@ class ShopRepository extends ChangeNotifier {
       } else {
         throw ApiFailure('state', status: 409);
       }
+      if ('${order['accepted_at'] ?? ''}'.isEmpty) {
+        order['accepted_at'] = DateTime.now().toUtc().toIso8601String();
+      }
+      order['editable'] = false;
       order['version'] = (order['version'] as int) + 1;
       return {'order': order};
     }
     if (order['owner_id'] != user!['id']) {
       throw ApiFailure('account', status: 403);
     }
-    if (action == 'pay' && order['status'] == 'pending_payment') {
+    if (action == 'edit') {
+      if (!shopOrderEditable(order)) {
+        throw ApiFailure('orderLocked', status: 409);
+      }
+      for (final key in ['requirements', 'contact', 'delivery_requirements']) {
+        order[key] = body[key] ?? '';
+      }
+    } else if (action == 'pay' && order['status'] == 'pending_payment') {
       if (!['alipay', 'wechat'].contains(body['channel'])) {
         throw ApiFailure('state', status: 422);
       }
@@ -503,6 +900,7 @@ class ShopRepository extends ChangeNotifier {
       };
     } else if (action == 'cancel' && order['status'] == 'pending_payment') {
       order['status'] = 'cancelled';
+      order['editable'] = false;
     } else if (action == 'accept' &&
         order['status'] == 'pending_completion' &&
         order['fulfillment_status'] == 'delivered') {

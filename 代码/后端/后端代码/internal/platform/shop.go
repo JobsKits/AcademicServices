@@ -3,10 +3,7 @@ package platform
 
 import (
 	"context"
-	"encoding/base64"
 	"encoding/json"
-	"net/http"
-	"net/url"
 	"slices"
 	"strconv"
 	"strings"
@@ -78,25 +75,30 @@ type ShopEvent struct {
 	Created    string `json:"created_at"`
 }
 type ShopOrder struct {
-	ID           string       `json:"id"`
-	OwnerID      string       `json:"owner_id"`
-	Product      Product      `json:"product_snapshot"`
-	Quantity     int          `json:"quantity"`
-	Amount       int64        `json:"amount_minor"`
-	Currency     string       `json:"currency"`
-	Status       string       `json:"status"`
-	Fulfillment  string       `json:"fulfillment_status"`
-	SellerStatus string       `json:"seller_status"`
-	Version      int          `json:"version"`
-	Created      string       `json:"created_at"`
-	Updated      string       `json:"updated_at"`
-	Paid         string       `json:"paid_at,omitempty"`
-	Delivered    string       `json:"delivered_at,omitempty"`
-	Completed    string       `json:"completed_at,omitempty"`
-	DeliveryText string       `json:"delivery_text"`
-	Payment      *ShopPayment `json:"payment"`
-	Review       *ShopReview  `json:"review"`
-	Events       []ShopEvent  `json:"events"`
+	ID                   string       `json:"id"`
+	OwnerID              string       `json:"owner_id"`
+	Product              Product      `json:"product_snapshot"`
+	Quantity             int          `json:"quantity"`
+	Amount               int64        `json:"amount_minor"`
+	Currency             string       `json:"currency"`
+	Status               string       `json:"status"`
+	Fulfillment          string       `json:"fulfillment_status"`
+	SellerStatus         string       `json:"seller_status"`
+	Version              int          `json:"version"`
+	Created              string       `json:"created_at"`
+	Updated              string       `json:"updated_at"`
+	Paid                 string       `json:"paid_at,omitempty"`
+	Delivered            string       `json:"delivered_at,omitempty"`
+	Completed            string       `json:"completed_at,omitempty"`
+	DeliveryText         string       `json:"delivery_text"`
+	Payment              *ShopPayment `json:"payment"`
+	Review               *ShopReview  `json:"review"`
+	Events               []ShopEvent  `json:"events"`
+	Requirements         string       `json:"requirements"`
+	Contact              string       `json:"contact"`
+	DeliveryRequirements string       `json:"delivery_requirements"`
+	Accepted             string       `json:"accepted_at"`
+	Editable             bool         `json:"editable"`
 }
 type ShopReceipt struct {
 	Hash         string `json:"hash"`
@@ -107,15 +109,21 @@ type ShopReceipt struct {
 	Created      string `json:"created_at"`
 }
 type ShopCreateInput struct {
-	ProductID      string `json:"product_id"`
-	ProductVersion int    `json:"product_version"`
+	ProductID            string `json:"product_id"`
+	ProductVersion       int    `json:"product_version"`
+	Requirements         string `json:"requirements"`
+	Contact              string `json:"contact"`
+	DeliveryRequirements string `json:"delivery_requirements"`
 }
 type ShopAction struct {
-	Action          string `json:"action"`
-	ExpectedVersion int    `json:"expected_version"`
-	Channel         string `json:"channel,omitempty"`
-	Text            string `json:"text,omitempty"`
-	Rating          int    `json:"rating,omitempty"`
+	Action               string `json:"action"`
+	ExpectedVersion      int    `json:"expected_version"`
+	Channel              string `json:"channel,omitempty"`
+	Text                 string `json:"text,omitempty"`
+	Rating               int    `json:"rating,omitempty"`
+	Requirements         string `json:"requirements"`
+	Contact              string `json:"contact"`
+	DeliveryRequirements string `json:"delivery_requirements"`
 }
 
 func defaultProducts() map[string]*Product {
@@ -150,6 +158,7 @@ func publicShopOrder(o *ShopOrder) *ShopOrder {
 	var out ShopOrder
 	_ = json.Unmarshal(b, &out)
 	out.SellerStatus = out.Status
+	out.Editable = shopOrderEditable(o)
 	switch out.Status {
 	case "pending_payment":
 		out.SellerStatus = "awaiting_payment"
@@ -165,6 +174,15 @@ func publicShopOrder(o *ShopOrder) *ShopOrder {
 		out.SellerStatus = "awaiting_review"
 	}
 	return &out
+}
+func shopOrderEditable(o *ShopOrder) bool {
+	return o.Accepted == "" && o.Fulfillment == "pending" && (o.Status == "pending_payment" || o.Status == "pending_completion")
+}
+func validOrderRequirements(requirements, contact, delivery string) error {
+	if len([]rune(requirements)) > 10000 || len([]rune(contact)) > 200 || len([]rune(delivery)) > 2000 || strings.ContainsRune(requirements+contact+delivery, '\x00') {
+		return invalid("购买需求限10000字、联系说明限200字、交付要求限2000字")
+	}
+	return nil
 }
 func validProduct(in ProductInput) error {
 	if in.CategoryID != "graduation" && in.CategoryID != "journal" && in.CategoryID != "editing" {
@@ -190,24 +208,7 @@ func validProduct(in ProductInput) error {
 	if len(in.Image) > 180000 {
 		return invalid("商品图片须小于约130KB")
 	}
-	if in.Image != "" {
-		valid := false
-		if strings.HasPrefix(in.Image, "data:image/png;base64,") || strings.HasPrefix(in.Image, "data:image/jpeg;base64,") || strings.HasPrefix(in.Image, "data:image/webp;base64,") {
-			parts := strings.SplitN(in.Image, ",", 2)
-			data, err := base64.StdEncoding.DecodeString(parts[1])
-			mediaType := strings.TrimSuffix(strings.TrimPrefix(parts[0], "data:"), ";base64")
-			valid = err == nil && len(data) > 0 && http.DetectContentType(data) == mediaType
-		} else if parsed, err := url.Parse(in.Image); err == nil {
-			valid = parsed.Scheme == "https" && parsed.Host != "" && parsed.User == nil
-			if parsed.Scheme == "" && parsed.Host == "" && parsed.RawQuery == "" && parsed.Fragment == "" && !strings.ContainsAny(in.Image, "\\\r\n") && !strings.Contains(parsed.Path, "..") {
-				valid = true
-			}
-		}
-		if !valid {
-			return invalid("图片须为HTTPS、打包相对地址或PNG/JPEG/WebP图片data URL")
-		}
-	}
-	return nil
+	return validShopImage(in.Image, 135000, true)
 }
 func (e *Engine) Products(ctx context.Context, all bool, category string) ([]*Product, error) {
 	out := []*Product{}
@@ -362,8 +363,12 @@ func (e *Engine) CreateShopOrder(ctx context.Context, u User, key string, in Sho
 		if p.Version != in.ProductVersion {
 			return &Problem{409, "version_conflict", "商品信息或价格已变化，请刷新后重新确认"}
 		}
+		if err := validOrderRequirements(in.Requirements, in.Contact, in.DeliveryRequirements); err != nil {
+			return err
+		}
 		now := e.Now()
 		o := &ShopOrder{ID: uuid(), OwnerID: u.ID, Product: *cloneProduct(p), Quantity: 1, Amount: p.Price, Currency: p.Currency, Status: "pending_payment", Fulfillment: "pending", Version: 1, Created: timestamp(now), Updated: timestamp(now), Events: []ShopEvent{}}
+		o.Requirements, o.Contact, o.DeliveryRequirements = strings.TrimSpace(in.Requirements), strings.TrimSpace(in.Contact), strings.TrimSpace(in.DeliveryRequirements)
 		o.Events = append(o.Events, shopEvent(s, u, o.ID, "create_order", p.Name, "", o.Status, now))
 		s.ShopOrders[o.ID] = o
 		s.ShopReceipts[receiptName(u, key)] = ShopReceipt{h, "order", o.ID, "create_order", u.ID, timestamp(now)}
@@ -380,7 +385,7 @@ func (e *Engine) ActShopOrder(ctx context.Context, u User, id, key string, in Sh
 		if u.Role != "admin" {
 			return nil, denied()
 		}
-	} else if in.Action == "pay" || in.Action == "accept" || in.Action == "review" || in.Action == "cancel" {
+	} else if in.Action == "pay" || in.Action == "accept" || in.Action == "review" || in.Action == "cancel" || in.Action == "edit" {
 		if u.Role != "customer" {
 			return nil, denied()
 		}
@@ -417,6 +422,14 @@ func (e *Engine) ActShopOrder(ctx context.Context, u User, id, key string, in Sh
 		now := e.Now()
 		before := o.Status + ":" + o.Fulfillment
 		switch in.Action {
+		case "edit":
+			if !shopOrderEditable(o) {
+				return conflict("商户已接单或订单已结束，购买需求不能再修改")
+			}
+			if err := validOrderRequirements(in.Requirements, in.Contact, in.DeliveryRequirements); err != nil {
+				return err
+			}
+			o.Requirements, o.Contact, o.DeliveryRequirements = strings.TrimSpace(in.Requirements), strings.TrimSpace(in.Contact), strings.TrimSpace(in.DeliveryRequirements)
 		case "pay":
 			if o.Status != "pending_payment" || o.Payment != nil {
 				return conflict("订单不处于待付款状态")
@@ -435,6 +448,7 @@ func (e *Engine) ActShopOrder(ctx context.Context, u User, id, key string, in Sh
 				return conflict("订单当前不可开始服务")
 			}
 			o.Fulfillment = "in_progress"
+			o.Accepted = timestamp(now)
 		case "deliver":
 			if o.Status != "pending_completion" || o.Fulfillment == "delivered" {
 				return conflict("订单当前不可交付")
@@ -445,6 +459,9 @@ func (e *Engine) ActShopOrder(ctx context.Context, u User, id, key string, in Sh
 			o.Fulfillment = "delivered"
 			o.DeliveryText = strings.TrimSpace(in.Text)
 			o.Delivered = timestamp(now)
+			if o.Accepted == "" {
+				o.Accepted = timestamp(now)
+			}
 		case "accept":
 			if o.Status != "pending_completion" || o.Fulfillment != "delivered" {
 				return conflict("站方交付后才能确认完成")
@@ -475,10 +492,11 @@ func (e *Engine) ActShopOrder(ctx context.Context, u User, id, key string, in Sh
 	})
 	return out, err
 }
-func (e *Engine) ShopOperation(ctx context.Context, u User, key string) (ShopReceipt, *Product, *ShopOrder, error) {
+func (e *Engine) ShopOperation(ctx context.Context, u User, key string) (ShopReceipt, *Product, *ShopOrder, *Banner, error) {
 	var receipt ShopReceipt
 	var product *Product
 	var order *ShopOrder
+	var banner *Banner
 	err := e.Store.View(ctx, func(s *State) error {
 		var ok bool
 		receipt, ok = s.ShopReceipts[receiptName(u, key)]
@@ -494,6 +512,16 @@ func (e *Engine) ShopOperation(ctx context.Context, u User, key string) (ShopRec
 				return missing()
 			}
 			product = cloneProduct(p)
+		} else if receipt.ResourceType == "banner" {
+			if u.Role != "admin" {
+				return missing()
+			}
+			b := s.Banners[receipt.ResourceID]
+			if b == nil {
+				return missing()
+			}
+			copy := *b
+			banner = &copy
 		} else {
 			o := s.ShopOrders[receipt.ResourceID]
 			if o == nil || !shopCanSee(u, o) {
@@ -503,5 +531,5 @@ func (e *Engine) ShopOperation(ctx context.Context, u User, key string) (ShopRec
 		}
 		return nil
 	})
-	return receipt, product, order, err
+	return receipt, product, order, banner, err
 }

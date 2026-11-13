@@ -1,0 +1,17 @@
+{
+  "frozen": true,
+  "entry": "/Users/jobs/Documents/Github/学术服务平台/代码/前端/PC端/Python/Dist/2026.11.06 18-19-24/Zhixu.app/Contents/MacOS/Zhixu",
+  "event_source": "native Qt QTest mouse press/move/release; no direct slide advancement",
+  "timer_active": true,
+  "automatic_change": true,
+  "mouse_drag_change": true,
+  "guest_controls_enabled": true,
+  "light_primary_text": "#ffffff",
+  "light_contrast": true,
+  "dark_primary_text": "#2d1c0e",
+  "dark_contrast": true,
+  "private_auth_dialog": true,
+  "private_cancel_stays_home": true,
+  "guest_settings_no_login": true,
+  "passed": true
+}

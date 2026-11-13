@@ -1,5 +1,9 @@
 {
-  "mobileText": "རིག་གཞུང་ཚོང་ཁང་།\nསྒྲིག་འགོད།\nདཔེ་སྟོན། དངུལ་མི་གཅོག\nཡར་རྒྱས་ལ་ཐུགས་སྣང་གནང་།\nསློབ་ཚན་དང་ཞབས་ཞུ། རིན་གོང་གསལ་པོ།\nཞིབ་ཕྲ་ལ་གཟིགས།",
+  "apiBlocked": true,
+  "locale": "bo",
+  "theme": "dark",
+  "viewport": "390x844",
+  "brandAndLocalBanners": true,
   "errors": [],
   "external": []
 }

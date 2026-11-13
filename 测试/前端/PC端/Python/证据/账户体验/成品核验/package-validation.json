@@ -1,0 +1,28 @@
+{
+  "checked_at": "2026-11-06T16:59:49.283277+08:00",
+  "bundle": "Dist/2026.11.06 16-56-14/Zhixu.app",
+  "dmg": "Dist/2026.11.06 16-56-14/Zhixu.dmg",
+  "dmg_sha256": "359461087fd1cfd29f90d485aeeab7de81a51e70cbaab8f07628d7ce0a7d8c2a",
+  "native_macho_files_checked": 88,
+  "external_non_system_dependencies": [],
+  "relocated_native_launch": true,
+  "scope": "MacOS Apple Silicon local build + independent renamed copied bundle, not another computer or actual AirDrop AppTranslocation",
+  "source_sha256": {
+    "src/entry.py": "ff1318238498dfb4498f6bc141f6b519c779c3cffc0451d0e2364567f89782bf",
+    "src/zhixu/shop_widgets.py": "9aeb0c7b9d22df783657d75b22999e39bcebd7f7bc44c5cb0f74e455129d293b",
+    "src/zhixu/__init__.py": "d38b31fc346c59826bd164db8f2024e2653d0deae281a072aa51e396a6b1c5b0",
+    "src/zhixu/settings.py": "f38b13f3d1f608236945e4cb653d26e20cf4dca72c49ff6f85e1b9d8643b1528",
+    "src/zhixu/app.py": "40f31d203757e5b647e6c12c605740b1b30b986a596aab3c1714509d2ec0f939",
+    "src/zhixu/shop_repository.py": "93e1f5ffa152e9b833af069ff2ceab8a1c17c1b3597fd75c4cf1cecfa9c6511e",
+    "src/zhixu/repository.py": "00701bf3a2e5692fd2f7da7bf2d68aebf2cc3d36f89d37051f47e426c607c5ae",
+    "src/zhixu/shop.py": "9746b3b59a89d7cd2679dbbad827d70f55965aa55ea9330f14f4d2c2d6d21d38",
+    "src/zhixu/Assets/LGPL-3.0.txt": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118",
+    "src/zhixu/Assets/GPL-3.0.txt": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "src/zhixu/Assets/brand.svg": "fb076d1ca7c2f97b0a528b1e0cd30d58c8a0f2927e3ac0814437c4993a93afdc",
+    "src/zhixu/Assets/THIRD_PARTY_NOTICES.txt": "f762a6c381abc2550aab698d075d6eced0c40410572ecf6504257eeb7b78cb9b",
+    "src/zhixu/Assets/Fonts/OFL-CJK.txt": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2",
+    "src/zhixu/Assets/Fonts/OFL.txt": "0077789fc3cb20f358278ba4c6437eb14ade97d4d3e3281eaa42853efcd9dc8b",
+    "Scripts/manage.py": "7cd43d2f0ecba9f24e8076cc00166dee0948020a70606d2fdb9f380eab9098cc",
+    "Scripts/bootstrap.ps1": "816fdef8131bbe70c30ec83da73a043d61abf9cbce8937a8d770c58687e26466"
+  }
+}

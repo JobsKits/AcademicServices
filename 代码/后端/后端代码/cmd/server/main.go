@@ -50,7 +50,7 @@ func run() error {
 		defer cancel()
 		_ = server.Shutdown(shutdown)
 	}()
-	slog.Info("academic service ready", "listen", c.Listen, "environment", c.Environment, "storage_postgres", c.DatabaseURL != "", "payment_mode", c.PaymentMode)
+	slog.Info("academic service ready", "listen", c.Listen, "environment", c.Environment, "storage_postgres", c.DatabaseURL != "", "payment_mode", c.PaymentMode, "demo_mode", c.DemoMode)
 	if c.Environment != "production" {
 		slog.Warn("development sample identities enabled; configure passwords before production")
 	}

@@ -15,11 +15,15 @@
 </thead>
 <tbody><tr>
 <td><a href="../app.js">app.js</a>、<a href="../app.json">app.json</a></td>
-<td>唯一商城首页、六个页面注册、系统主题监听</td>
+<td>八个页面、三项图文Tab、系统主题监听</td>
+</tr>
+<tr>
+<td><a href="../custom-tab-bar/index.js">custom-tab-bar</a></td>
+<td>首页／我的订单／个人中心，国际化图文导航，普通切换不重置订单筛选</td>
 </tr>
 <tr>
 <td><a href="../Utils/shop.js">Utils/shop.js</a></td>
-<td>商品／订单、隔离演示、版本和幂等恢复</td>
+<td>商品／订单、隔离演示、版本和幂等恢复；轮播成功空配置与请求失败分开缓存</td>
 </tr>
 <tr>
 <td><a href="../Utils/api.js">Utils/api.js</a></td>
@@ -27,27 +31,39 @@
 </tr>
 <tr>
 <td><a href="../Utils/ui.js">Utils/ui.js</a>、<a href="../Utils/strings.json">strings.json</a></td>
-<td>十语言、三主题、价格和视图格式</td>
+<td>十语言、三主题、价格、买卖方状态、持续错误提示及已有真实数据保留判定</td>
+</tr>
+<tr>
+<td><a href="../Utils/carousel.js">Utils/carousel.js</a></td>
+<td>原生轮播偏好、单图／多图及前台可见播放判定</td>
 </tr>
 <tr>
 <td><a href="../Pages/Shop/index.js">Pages/Shop</a></td>
-<td>首页及分类子页，九项商品</td>
+<td>轮播、本地种子、运营关闭隐藏、三分类swiper联动、九项商品</td>
+</tr>
+<tr>
+<td><a href="../Pages/Profile/index.js">Pages/Profile</a></td>
+<td>用户名、头像、买卖方四订单状态入口</td>
+</tr>
+<tr>
+<td><a href="../Pages/Web/index.js">Pages/Web</a></td>
+<td>受域名限制的web-view与复制链接回退</td>
 </tr>
 <tr>
 <td><a href="../Pages/Product/index.js">Pages/Product</a></td>
-<td>商品详情和下单</td>
+<td>商品详情、购买输入与登录返回，主动确认后下单</td>
 </tr>
 <tr>
 <td><a href="../Pages/Orders/index.js">Pages/Orders</a></td>
-<td>四状态筛选、收据核对和原键重试</td>
+<td>四状态筛选保留、收据核对、原键重试及私有数据隔离</td>
 </tr>
 <tr>
 <td><a href="../Pages/Order/index.js">Pages/Order</a></td>
-<td>订单快照、渠道收银台、确认和评价</td>
+<td>订单快照、渠道收银台、确认和评价；需求草稿同账号恢复，商户只读对应状态</td>
 </tr>
 <tr>
 <td><a href="../Pages/Login/index.js">Pages/Login</a></td>
-<td>登录、隔离演示和退出</td>
+<td>登录回原任务、失败保留表单及显式Demo配置的实际凭据逐字段复制</td>
 </tr>
 <tr>
 <td><a href="../Pages/Settings/index.js">Pages/Settings</a></td>
@@ -66,19 +82,23 @@
 <pre class="mermaid">flowchart LR
   Home[商城首页] --&gt; Category[分类子页]
   Category --&gt; Product[商品详情]
-  Product --&gt; Order[待付款订单与收银台]
+  Product --&gt; Login[未登录先登录]
+  Login --&gt; Product
+  Product --&gt; Order[主动购买后待付款订单与收银台]
   Order --&gt; Payment[待完成]
   Payment --&gt; Accept[已交付后确认完成]
   Accept --&gt; Review[待评价与完成]
   Home --&gt; Orders[订单列表及筛选]
   Orders --&gt; Order
-  Home --&gt; Settings[语言主题与连接]
+  Home --&gt; Profile[个人中心]
+  Profile --&gt; Orders
+  Profile --&gt; Settings[语言主题与连接]
 </pre>
 <h2 id="contracts-heading">三、<span id="contracts">接口与验证</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <ul>
 <li><a href="../../../../%E9%9C%80%E6%B1%82/%E5%95%86%E5%9F%8E%E9%9C%80%E6%B1%82%E4%B8%8E%E8%AE%BE%E8%AE%A1/README.md">商城需求</a>定义商品状态、交易和履约分轴。</li>
 <li><a href="../../../%E5%90%8E%E7%AB%AF/%E5%90%8E%E7%AB%AF%E4%BB%A3%E7%A0%81/internal/platform/shop.go">后端商城实现</a>负责事务、金额、权限和收据。</li>
-<li><a href="../../../../%E6%B5%8B%E8%AF%95/%E5%89%8D%E7%AB%AF/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/test_shop.cjs">商城逻辑测试</a>覆盖真实空态、恢复、并发写、支付与状态；<a href="../../../../%E6%B5%8B%E8%AF%95/%E5%89%8D%E7%AB%AF/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/test_mini.cjs">HTTP保护测试</a>继续覆盖请求与隔离边界。</li>
+<li><a href="../../../../%E6%B5%8B%E8%AF%95/%E5%89%8D%E7%AB%AF/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/test_shop.cjs">商城逻辑测试</a>57项覆盖真实空态、恢复、并发写、支付、登录返回、失败草稿、账号隔离、筛选、卖方状态和轮播主动关闭；<a href="../../../../%E6%B5%8B%E8%AF%95/%E5%89%8D%E7%AB%AF/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/test_mini.cjs">HTTP保护测试</a>20项覆盖请求与隔离边界，总计77项。</li>
 <li>仓库检查不替代微信开发者工具编译、真机、体验与发布；操作说明见<a href="../小程序说明阅读版.html">工程 README</a>。</li>
 </ul>
 <p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>

@@ -1,0 +1,1 @@
+<view class="tab-bar {{theme}}"><button wx:for="{{tabs}}" wx:key="path" class="tab {{selected===index?'selected':''}}" data-index="{{index}}" bindtap="select"><image src="/Assets/Icons/{{item.icon}}.svg" mode="aspectFit"/><view>{{t[item.label]}}</view></button></view>

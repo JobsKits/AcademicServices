@@ -5,7 +5,9 @@
 <hr>
 <h2 id="前言-heading">🔥 <span id="前言">前言</span></h2>
 <p>本图只定位 Python 桌面独立工程；工程在本单元的 <code>Zhixu/</code>，Python 包身份仍为 <code>src/zhixu</code>。Windows／MacOS 使用同一份业务源码，分别在目标系统构建。路径均从当前文档相对指向源码；跨单元内容只通过链接引用。</p>
+<p><code>shop_widgets.py</code>负责轮播、外部浏览器链接与横向分类页，<code>Assets/Banners/</code>为离线引导图。</p>
 <p>当前商城唯一入口：<code>../Zhixu/src/zhixu/app.py</code>的main创建ShopWindow；<code>shop.py</code>负责商品分类、详情、收银台、订单及设置；<code>shop_repository.py</code>负责API、隔离演示、订单动作及幂等键；<code>Assets/shop_strings.json</code>负责十语言；<code>settings.py</code>持久化主题、语言及连接选项。页面使用本地<code>Assets/brand.svg</code>兜底，远程图异步加载。</p>
+<p>shop.py的render_home与reflow_products控制桌面视觉层级、宽窄窗引导区和商品网格；resizeEvent只触发重排，shop_widgets.CategoryPager.update_page_height同步分类页高度，BannerCarousel.paint_image按实际视口缩放。</p>
 <h2 id="modules-heading">一、<span id="modules">入口与模块职责</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <table>
 <thead>
@@ -74,5 +76,6 @@
 </li>
 </ul>
 <p>本次拆图核对文档与源码位置，不代表重新完成构建、设备业务或正式发布验收。已有验证状态保留原记录，未执行的目标不写成通过。</p>
+<p>体验恢复逻辑集中在<code>shop.py</code>的<code>submit_form</code>、<code>run</code>与<code>render</code>：写入原位反馈、列表位置恢复、登录后回购买确认；<code>shop_widgets.py</code>的<code>SubmitDialog</code>保持提交期间弹层上下文。<code>shop_repository.py</code>保留真数据并用<code>stale</code>标记更新失败，区分资源拒绝与网络失败，<code>banners_loaded</code>区分未配置读取与主动关闭。</p>
 <p><a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a></p>
 <script src="../../../../../需求/阅读资源/mermaid.min.js"></script><script>if(window.mermaid)mermaid.initialize({startOnLoad:true,securityLevel:'strict'});</script></body></html>

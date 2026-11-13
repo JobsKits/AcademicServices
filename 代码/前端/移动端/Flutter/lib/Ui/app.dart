@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Data/models.dart';
 import '../Data/repository.dart';
 import 'actions.dart';
+import 'demo_login_credentials.dart';
 import 'theme.dart';
 
 String defaultApiUrl() {
@@ -166,9 +167,10 @@ class _WorkspaceState extends State<Workspace> {
             appBar: AppBar(
               title: Text(widget.adminMode ? '知序 / 管理工作台' : '知序'),
               actions: [
-                TextButton(
+                IconButton(
                   onPressed: () => _settings(),
-                  child: const Text('设置'),
+                  tooltip: '设置',
+                  icon: const Icon(Icons.settings_outlined),
                 ),
                 TextButton(
                   onPressed: working ? null : () => run(() => repo.refresh()),
@@ -551,36 +553,20 @@ class _WorkspaceState extends State<Workspace> {
       text: widget.adminMode ? 'admin' : 'customer',
     );
     final password = TextEditingController();
-    final result = await _dialog(
-      widget.adminMode ? '管理工作台登录' : '登录知序',
-      [
-        TextField(
-          controller: account,
-          autofillHints: const [AutofillHints.username],
-          decoration: const InputDecoration(labelText: '账户'),
-        ),
-        TextField(
-          controller: password,
-          obscureText: true,
-          autofillHints: const [AutofillHints.password],
-          decoration: const InputDecoration(labelText: '密码'),
-        ),
-        const Text(
-          '首次本机演示：客户 customer / demo-customer；管理员 admin / demo-admin-change-me。正式环境由部署者配置。',
-        ),
-      ],
-      () => {'account': account.text.trim(), 'password': password.text},
-      extra: TextButton(
-        onPressed: () => Navigator.pop(context, {
-          'account': widget.adminMode ? 'admin' : 'customer',
-          'password': widget.adminMode
-              ? 'demo-admin-change-me'
-              : 'demo-customer',
-          'demo': true,
-        }),
-        child: const Text('使用演示账户（离线时进入本地演示）'),
+    final result = await _dialog(widget.adminMode ? '管理工作台登录' : '登录知序', [
+      TextField(
+        controller: account,
+        autofillHints: const [AutofillHints.username],
+        decoration: const InputDecoration(labelText: '账户'),
       ),
-    );
+      TextField(
+        controller: password,
+        obscureText: true,
+        autofillHints: const [AutofillHints.password],
+        decoration: const InputDecoration(labelText: '密码'),
+      ),
+      const DemoLoginCredentials(),
+    ], () => {'account': account.text.trim(), 'password': password.text});
     account.dispose();
     password.dispose();
     if (result != null) {

@@ -1,6 +1,7 @@
 """Real Go process regression. GO_BIN can point at a portable Go executable."""
 from __future__ import annotations
 import concurrent.futures
+import base64
 import contextlib
 import datetime as dt
 import json
@@ -290,6 +291,90 @@ class HTTPRegression(unittest.TestCase):
         restored = self.req('/shop-orders/' + order['id'], self.customer)['order']
         self.assertEqual(restored, order)
         self.assertEqual(self.req('/shop-operations/' + key, self.customer)['order']['payment']['id'], order['payment']['id'])
+    def test_27_banner_config_upload_fallback_and_restart(self):
+        defaults = self.req('/banners')['banners']
+        self.assertEqual(len(defaults), 3)
+        self.assertTrue(all(b['image'].startswith('data:image/png;base64,') and b['target_url'] == '' for b in defaults))
+        configured = self.req('/admin/banners', self.admin)['banners']
+        self.assertEqual([b['id'] for b in configured], [b['id'] for b in defaults])
+        seed = configured[0]
+        seed_body = {key: seed[key] for key in ('title', 'image', 'active', 'sort_order')}
+        seed_body.update(target_url='https://example.org/default-banner-configured', expected_version=seed['version'])
+        seed = self.req('/admin/banners/' + seed['id'], self.admin, seed_body, method='PUT')['banner']
+        self.assertEqual(seed['version'], 2)
+        self.assertEqual(self.req('/banners')['banners'][0]['target_url'], seed_body['target_url'])
+        for old in configured:
+            current = seed if old['id'] == seed['id'] else old
+            hidden_body = {key: current[key] for key in ('title', 'image', 'target_url', 'sort_order')}
+            hidden_body.update(active=False, expected_version=current['version'])
+            self.req('/admin/banners/' + current['id'], self.admin, hidden_body, method='PUT')
+        picture = ROOT / '代码/后端/后端代码/internal/platform/BannerAssets/graduation.png'
+        body = {'title': '后台上传轮播', 'image': 'data:image/png;base64,' + base64.b64encode(picture.read_bytes()).decode(),
+                'target_url': 'https://example.org/course', 'active': True, 'sort_order': 0}
+        key = str(uuid.uuid4())
+        banner = self.req('/admin/banners', self.admin, body, key=key, expected=201)['banner']
+        self.assertEqual(self.req('/admin/banners', self.admin, body, key=key, expected=201)['banner']['id'], banner['id'])
+        self.req('/admin/banners', self.customer, body, expected=403)
+        self.req('/admin/banners', self.admin, {**body, 'target_url': 'javascript:alert(1)'}, expected=422)
+        self.assertEqual(self.req('/banners')['banners'][0]['id'], banner['id'])
+        self.stop()
+        self.start()
+        del type(self)._tokens
+        self.setUp()
+        restored = self.req('/admin/banners', self.admin)['banners']
+        self.assertEqual(len(restored), 4)
+        self.assertEqual(next(b for b in restored if b['id'] == banner['id']), banner)
+        self.assertTrue(all(not b['active'] for b in restored if b['id'].startswith('seed-')))
+        hidden = self.req('/admin/banners/' + banner['id'], self.admin,
+                          {**body, 'active': False, 'expected_version': 1}, method='PUT')['banner']
+        self.assertEqual(hidden['version'], 2)
+        self.assertEqual(self.req('/banners')['banners'], [])
+        self.assertEqual(self.req('/shop-operations/' + key, self.admin)['banner']['id'], banner['id'])
+    def test_28_order_requirements_lock_when_merchant_accepts(self):
+        order = self.req('/shop-orders', self.customer, {'product_id': 'editing-polish', 'product_version': 1,
+                         'requirements': '摘要润色', 'contact': '站内留言', 'delivery_requirements': '保留原段落'}, expected=201)['order']
+        self.assertTrue(order['editable'])
+        order = self.shop_action(order, 'edit', requirements='增加术语校对', contact='站内联系', delivery_requirements='双语说明')
+        self.assertEqual(order['requirements'], '增加术语校对')
+        order = self.shop_action(order, 'pay', channel='wechat')
+        self.assertTrue(order['editable'])
+        order = self.shop_action(order, 'edit', requirements='付款后补充', contact='', delivery_requirements='保留格式')
+        self.req('/shop-orders/' + order['id'] + '/actions', self.other,
+                 {'action': 'edit', 'expected_version': order['version'], 'requirements': '越权'}, expected=404)
+        order = self.shop_action(order, 'start', self.admin)
+        self.assertFalse(order['editable'])
+        self.assertTrue(order['accepted_at'])
+        self.req('/shop-orders/' + order['id'] + '/actions', self.customer,
+                 {'action': 'edit', 'expected_version': order['version'], 'requirements': '接单后改变'}, expected=409)
+        self.stop()
+        self.start()
+        del type(self)._tokens
+        self.setUp()
+        restored = self.req('/shop-orders/' + order['id'], self.customer)['order']
+        self.assertEqual(restored, order)
+    def test_29_demo_credentials_are_explicit_and_actual(self):
+        formal = self.req('/shop-config')
+        self.assertFalse(formal['demo_mode'])
+        self.assertNotIn('demo_credentials', formal)
+        self.stop()
+        self.env['DEMO_MODE'] = '1'
+        self.env['PAYMENT_MODE'] = 'real'
+        self.start()
+        try:
+            demo = self.req('/shop-config')
+            self.assertTrue(demo['demo_mode'])
+            self.assertEqual(demo['payment_mode'], 'mock')
+            for row in demo['demo_credentials']:
+                token = self.login(row['account'], row['password'])
+                self.assertTrue(token)
+        finally:
+            self.stop()
+            self.env['DEMO_MODE'] = '0'
+            self.env['PAYMENT_MODE'] = 'mock'
+            self.start()
+            del type(self)._tokens
+            self.setUp()
+        self.assertNotIn('demo_credentials', self.req('/shop-config'))
     @unittest.skipUnless(hasattr(signal, 'SIGHUP'), 'Requires Unix hangup signal')
     def test_98_hangup_releases_lock_and_preserves_business(self):
         c=self.new()

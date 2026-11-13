@@ -1,0 +1,45 @@
+{
+  "scope": "本轮视觉修整；保留此前业务改动",
+  "sourceFiles": [
+    {
+      "path": "代码/前端/PC端/Python/Zhixu/src/zhixu/shop.py",
+      "sha256": "83141ebec6742b99375f595044de361ac88cbdd1b69cdb8a6c15fb1509ca8a29"
+    },
+    {
+      "path": "代码/前端/PC端/Python/Zhixu/src/zhixu/shop_widgets.py",
+      "sha256": "43ffaf9d3886f5b671e02523734040b82ffd2a6e1cadb6bb9f56148002eef535"
+    },
+    {
+      "path": "代码/前端/移动端/鸿蒙/entry/src/main/ets/Pages/Index.ets",
+      "sha256": "4a340ae1bd4b314dd196ba8488465671ab1bd14515412f922e0afc583491da7f"
+    },
+    {
+      "path": "代码/前端/移动端/鸿蒙/entry/src/main/ets/Config/ShellCopy.ets",
+      "sha256": "215ef403388e0618813be7acbfdcc84243f401fd4b7911cd0d6572a7de694c07"
+    }
+  ],
+  "desktopTests": {
+    "suite": "test_shop.py",
+    "passed": 27
+  },
+  "harmonyContractTests": {
+    "suite": "test_prepare_harmony.py",
+    "passed": 6,
+    "nativeBuild": false
+  },
+  "macOSPackage": {
+    "directory": "代码/前端/PC端/Python/Dist/2026.11.12 01-57-56",
+    "app": "Zhixu.app",
+    "dmg": "Zhixu.dmg",
+    "actualFrozenSmoke": "success"
+  },
+  "backendFallbacks": {
+    "clientMatchesActualDist": true,
+    "adminMatchesActualDist": true
+  },
+  "limitations": [
+    "Windows原生包未重建",
+    "鸿蒙DevEco/HAP和真实设备未验收",
+    "Qt截图为隔离演示；冻结Mac应用另完成实际启动截图"
+  ]
+}

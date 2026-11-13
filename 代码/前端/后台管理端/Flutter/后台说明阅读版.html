@@ -4,7 +4,7 @@
 <nav aria-label="章节目录"><details open><summary>目录</summary><ul><li class="level2"><a href="#前言">🔥 前言</a></li><li class="level2"><a href="#entry">一、职责与使用</a></li><li class="level2"><a href="#code-map">一、本单元代码地图</a></li></ul></details></nav>
 <hr>
 <h2 id="前言-heading">🔥 <span id="前言">前言</span></h2>
-<p>独立后台 Flutter Web 工程，入口为 <code>lib/main.dart</code>。当前通过 <code>pubspec.yaml</code> 的本地 <code>path: ../../移动端/Flutter</code> 依赖现有 zhixu 包，复用 <code>ShopApp</code>、商城仓库、十语言和暖色三主题，使用 <code>adminMode: true</code>。后台可编辑商品名称、价格、图片、详情分节、上下架及缺货，查询订单并开始服务、提交交付。</p>
+<p>独立后台 Flutter Web 工程，入口为 <code>lib/main.dart</code>。当前通过 <code>pubspec.yaml</code> 的本地 <code>path: ../../移动端/Flutter</code> 依赖现有 zhixu 包，复用 <code>ShopApp</code>、商城仓库、十语言和暖色三主题，使用 <code>adminMode: true</code>。后台可编辑商品名称、价格、图片、详情分节、上下架及缺货，查询订单、接单并锁定需求、提交交付；独立轮播入口支持图片上传或URL、可选跳转、顺序与上下架。仅演示部署登录页同时显示服务端客户与商户两角色实际账户密码及逐项复制提示。</p>
 <h2 id="entry-heading">一、<span id="entry">职责与使用</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <p>在本目录执行构建；所需依赖须先按锁定的移动端包版本准备：</p>
 <pre><code class="language-shell">flutter pub get
@@ -13,9 +13,10 @@ flutter build web \
   --release \
   --no-web-resources-cdn \
   --base-href /admin/ \
-  --output Dist/Admin
+  --output Dist/ShopAdmin
 </code></pre>
-<p>将完整 <code>Dist/Admin/</code> 内容部署到 <code>代码/后端/后端代码/admin-web/</code>。后台默认独立 Web 入口及本地图标随源码提供；生成的启动脚本、CanvasKit 和应用代码由 Flutter 构建产生，不能直接双击源码 <code>web/index.html</code> 当运行成品。</p>
+<p>各系统部署入口优先直接托管本工程完整的 <code>Dist/ShopAdmin/</code>；缺少其 <code>index.html</code> 时才回退到后端 <code>admin-web/</code>。独立后端分发需将完整构建包发布到后端实际使用的管理端静态目录。后台默认独立 Web 入口及本地图标随源码提供；生成的启动脚本、CanvasKit 和应用代码由 Flutter 构建产生，不能直接双击源码 <code>web/index.html</code> 当运行成品。共享源码变更后需重新构建并发布完整产物；仅修改源码、运行 <code>flutter run</code> 或在其它目录生成包，都不会更新当前 <code>/admin/</code>。发布后对照部署日志中的实际静态目录与网址返回资源，刷新当前页面验收。</p>
+<p>宽屏Web采用品牌头部和商品／订单／轮播职责侧栏；窄屏保留图文导航。默认hash路由支持<code>/admin/#/orders?status=pending_completion</code>、<code>/admin/#/orders/{id}</code>、<code>/admin/#/products/{id}</code>、<code>/admin/#/banners</code>；刷新与登录保留来源，不把表单私密输入写进URL。各编辑表单在服务端确认前保持打开，失败显示持续可读反馈并保留输入；刷新失败保留已有真实记录。配置全部轮播下架后，用户商城隐藏该运营位。</p>
 <p>运行及构建使用锁定依赖。商品和订单真实空结果保留空态；离线时用隔离演示，不把模拟付款当作真实扣款。未确认写保留原幂等键，可查询原操作或原键重试。用户端入口和共享源码见<a href="../../%E7%A7%BB%E5%8A%A8%E7%AB%AF/Flutter/README.md">移动 Flutter</a>，正式身份与细分员工权限边界按<a href="../../../../%E9%9C%80%E6%B1%82/%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E4%B8%8E%E5%BC%80%E5%8F%91%E8%AF%84%E5%AE%A1/%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82%E4%B8%8E%E5%BC%80%E5%8F%91%E8%AF%84%E5%AE%A1.md">主评审</a>执行。</p>
 <h2 id="code-map-heading">一、<span id="code-map">本单元代码地图</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <p>定位入口见<a href="%E4%BB%A3%E7%A0%81%E5%9C%B0%E5%9B%BE/README.md">代码地图目录</a>，包含本工程的主地图与离线阅读版；共享源只通过原归属引用。</p>

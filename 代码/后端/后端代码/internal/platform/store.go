@@ -40,6 +40,7 @@ func OpenFileStore(dir string) (*FileStore, error) {
 		return nil, errors.New("refuse symlink state.json")
 	}
 	b, e := os.ReadFile(p)
+	initialize := os.IsNotExist(e)
 	if e == nil {
 		var loaded State
 		if e = json.Unmarshal(b, &loaded); e != nil {
@@ -54,6 +55,16 @@ func OpenFileStore(dir string) (*FileStore, error) {
 	} else if !os.IsNotExist(e) {
 		store.Close()
 		return nil, e
+	}
+	if len(store.state.Banners) == 0 {
+		store.state.Banners = defaultBannerMap()
+		initialize = true
+	}
+	if initialize {
+		if e = store.Update(context.Background(), func(*State) error { return nil }); e != nil {
+			store.Close()
+			return nil, fmt.Errorf("initialize banner seeds: %w", e)
+		}
 	}
 	return store, nil
 }
@@ -72,6 +83,22 @@ func validState(s *State) error {
 	for id, o := range s.ShopOrders {
 		if o == nil || id != o.ID || o.OwnerID == "" || o.Version < 1 || !moneyOK(o.Amount) || o.Currency != "CNY" || o.Quantity != 1 {
 			return errors.New("invalid shop order; do not overwrite data")
+		}
+	}
+	for id, b := range s.Banners {
+		if b == nil || id != b.ID || b.Version < 1 {
+			return errors.New("invalid banner; do not overwrite data")
+		}
+	}
+	for id, account := range s.Accounts {
+		if id != account.User.ID || !validUsername(account.User.Username) || len(account.Salt) != 16 || len(account.Hash) != 32 || (account.User.Role != "admin" && account.User.Role != "customer") {
+			return errors.New("invalid account state; do not overwrite data")
+		}
+		if account.User.Email != "" {
+			email, err := normalizedEmail(account.User.Email)
+			if err != nil || email != account.User.Email {
+				return errors.New("invalid account email; do not overwrite data")
+			}
 		}
 	}
 	return nil
@@ -164,8 +191,10 @@ func (m *MemoryStore) Update(ctx context.Context, f func(*State) error) error {
 }
 func (m *MemoryStore) Close() {}
 
-// PGStore keeps an MVP aggregate in a locked JSONB row; the separate 29-table design is not yet a projection.
+// PGStore saves the complete commerce aggregate in one locked JSONB row.
 type PGStore struct{ pool *pgxpool.Pool }
+
+var errBannersAlreadyConfigured = errors.New("banners already configured")
 
 const AggregateDDL = `CREATE TABLE IF NOT EXISTS academic_runtime_state (id SMALLINT PRIMARY KEY CHECK(id=1), schema_version INTEGER NOT NULL, payload JSONB NOT NULL CHECK(jsonb_typeof(payload)='object'), updated_at TIMESTAMPTZ NOT NULL DEFAULT now());`
 
@@ -187,6 +216,18 @@ func OpenPGStore(ctx context.Context, url string) (*PGStore, error) {
 	if _, e = pool.Exec(ctx, `INSERT INTO academic_runtime_state(id,schema_version,payload) VALUES(1,2,$1) ON CONFLICT(id) DO NOTHING`, string(b)); e != nil {
 		pool.Close()
 		return nil, e
+	}
+	// Only an empty banner map is initialized; configured and deliberately hidden rows are retained.
+	e = s.Update(ctx, func(state *State) error {
+		if len(state.Banners) != 0 {
+			return errBannersAlreadyConfigured
+		}
+		state.Banners = defaultBannerMap()
+		return nil
+	})
+	if e != nil && !errors.Is(e, errBannersAlreadyConfigured) {
+		pool.Close()
+		return nil, fmt.Errorf("initialize banner seeds: %w", e)
 	}
 	return s, nil
 }

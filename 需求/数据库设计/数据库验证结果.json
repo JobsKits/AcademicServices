@@ -3,13 +3,67 @@
   "schema": 2,
   "runtime_sql": "../../代码/后端/后端代码/Migrations/001_runtime.sql",
   "go_groups": {
-    "passed": 43,
+    "passed": 52,
     "skipped": 1,
     "skip_reason": "未配置专用TEST_DATABASE_URL"
   },
-  "http_tests_passed": 22,
+  "http_tests_passed": 25,
   "file_store_restart": "passed",
   "postgres_integration": "not_run",
   "real_payment": "not_integrated",
-  "evidence": "../../测试/后端/证据/本轮/2026.11.04 23-25-14-349922/"
+  "evidence": [
+    "../../测试/后端/证据/本轮/2026.11.05 22-53-37-416167/go-1.log",
+    "../../测试/后端/证据/本轮/2026.11.05 22-53-37-416167/go-2.log",
+    "../../测试/后端/证据/本轮/2026.11.05 22-53-37-416167/http-1.log"
+  ],
+  "demo_configuration": {
+    "explicit_flag_only": "passed",
+    "formal_credentials_omitted": "passed",
+    "actual_demo_login": "passed",
+    "forced_mock": "passed"
+  },
+  "banner_configuration": {
+    "permissions_versions_idempotency": "passed",
+    "upload_url_validation": "passed",
+    "embedded_fallback": "passed",
+    "file_restart": "passed",
+    "persisted_initialization": {
+      "status": "passed",
+      "stored_seed_count": 3,
+      "seed_ids": [
+        "seed-graduation",
+        "seed-journal",
+        "seed-editing"
+      ],
+      "initial_version": 1,
+      "initial_target_url": "",
+      "fresh_file_store_persisted": "passed",
+      "empty_banner_map_startup_persisted": "passed",
+      "nonempty_inactive_configuration_bytes_preserved": "passed",
+      "admin_default_seed_update": "passed",
+      "public_get_reflects_seed_update": "passed",
+      "scope": "隔离文件存储、内存事务及真实回环HTTP；原生PostgreSQL专用库未配置，不据此声明其持久化已实测",
+      "go_cases": [
+        "TestBannerSeedsPersistOnStartupWithoutReplacingConfiguration",
+        "TestHTTPBannerUploadAndOrderEditContract"
+      ],
+      "http_case": "test_27_banner_config_upload_fallback_and_restart"
+    },
+    "unconfigured_only_fallback": "passed",
+    "configured_all_inactive": {
+      "status": "passed",
+      "http_status": 200,
+      "banners": [],
+      "meaning": "已有非空轮播配置全部下架，明确关闭运营位；不以静态兜底对抗关闭设置。",
+      "http_case": "test_27_banner_config_upload_fallback_and_restart"
+    }
+  },
+  "order_requirements": {
+    "before_acceptance_edit": "passed",
+    "after_acceptance_lock": "passed",
+    "concurrent_edit_acceptance": "passed",
+    "immutable_price_quantity_product": "passed"
+  },
+  "cache_policy": "GOCACHE and GOMODCACHE explicitly outside project; deployed .tools caches unchanged",
+  "go_vet": "passed"
 }

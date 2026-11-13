@@ -1,8 +1,511 @@
 #!/bin/zsh
 # 脚本自述：
 # - 在当前后端目录配置、准备Go、编译和运行知序服务；不改全局PATH或防火墙。
-# - 首次保存管理员/客户密码；数据、日志、SDK与反部署原点留在后端代码目录，Ctrl+C停止服务。
+# - 选择启动后先停止同项目旧部署；关窗或Ctrl+C回收本轮服务，独立守护兜底主Shell异常结束。
+# - 首次保存管理员/客户密码；数据、日志、SDK与反部署原点留在后端代码目录。
 # - --check仅检查路径与平台，不下载、不写入；双击正常入口须回车确认。
+# >>> Jobs terminal style protection v1 >>>
+# 临时保护当前终端配色，业务进程自行管理原有退出清理。
+jobs_terminal_style_run() {
+    # 无法可靠保存原色时，沿用脚本已有的纯文本约定。
+    jobs_terminal_style_plain() {
+        PLAIN_OUTPUT=1
+        NO_COLOR=1
+        FORCE_COLOR=0
+        CLICOLOR=0
+        ANSI_COLORS_DISABLED=1
+        npm_config_color=false
+        export PLAIN_OUTPUT NO_COLOR FORCE_COLOR CLICOLOR ANSI_COLORS_DISABLED npm_config_color
+        if "$@"; then
+            jobs_style_exit_status=0
+        else
+            jobs_style_exit_status=$?
+        fi
+        exit "$jobs_style_exit_status"
+    }
+    if [ ! -t 0 ] || [ ! -t 1 ] || [ -z "${TERM:-}" ] ||
+       [ "${TERM:-}" = dumb ] || [ "${NO_COLOR+x}" = x ] ||
+       [ "${PLAIN_OUTPUT:-0}" = 1 ] || [ "${IS_SOURCETREE_RUNTIME:-0}" = 1 ] ||
+       env | LC_ALL=C grep -qiE '^(SOURCETREE|SOURCE_TREE)'; then
+        if "$@"; then
+            jobs_style_exit_status=0
+        else
+            jobs_style_exit_status=$?
+        fi
+        exit "$jobs_style_exit_status"
+    fi
+    if [ -n "${TMUX:-}${STY:-}" ]; then
+        jobs_terminal_style_plain "$@"
+    fi
+    jobs_style_tty=$(tty 2>/dev/null) || jobs_terminal_style_plain "$@"
+    if ! ps -o pgid= -o tpgid= -p "$$" 2>/dev/null |
+         LC_ALL=C awk 'NF == 2 && $1 == $2 && $1 > 0 { foreground = 1 } END { exit !foreground }'; then
+        jobs_terminal_style_plain "$@"
+    fi
+    case ${JOBS_TERMINAL_STYLE_OWNER:-} in
+        ''|*[!0-9]*) ;;
+        *)
+            if [ "${JOBS_TERMINAL_STYLE_TTY:-}" = "$jobs_style_tty" ] &&
+               kill -0 "$JOBS_TERMINAL_STYLE_OWNER" 2>/dev/null; then
+                if "$@"; then
+                    jobs_style_exit_status=0
+                else
+                    jobs_style_exit_status=$?
+                fi
+                exit "$jobs_style_exit_status"
+            fi
+            ;;
+    esac
+    jobs_style_stty=$(stty -g 2>/dev/null < /dev/tty) || jobs_terminal_style_plain "$@"
+    jobs_style_saved=''
+    jobs_style_saved_rows=''
+    jobs_style_applied_rows=''
+    jobs_style_changed=0
+    jobs_style_applied_complete=0
+    jobs_style_query_active=0
+    jobs_style_recovery=''
+    jobs_style_exit_status=0
+    jobs_style_esc=$(printf '\033')
+    jobs_style_bel=$(printf '\007')
+    # 只接受本次请求对应的 RGB 响应；非协议输入使本次探测失败。
+    jobs_terminal_style_query() {
+        jobs_style_query_key=$1
+        printf '\033]%s;?\007' "$jobs_style_query_key" > /dev/tty || return 1
+        jobs_style_reply=''
+        for jobs_style_attempt in 1 2 3; do
+            jobs_style_piece=$(dd bs=256 count=1 2>/dev/null < /dev/tty)
+            jobs_style_reply=$jobs_style_reply$jobs_style_piece
+            case $jobs_style_reply in
+                *"$jobs_style_bel"|*"$jobs_style_esc\\") break ;;
+                '') ;;
+                "$jobs_style_esc"*) ;;
+                *) break ;;
+            esac
+        done
+        case $jobs_style_reply in
+            "$jobs_style_esc]$jobs_style_query_key;rgb:"*"$jobs_style_bel")
+                jobs_style_rgb=${jobs_style_reply#"$jobs_style_esc]$jobs_style_query_key;rgb:"}
+                jobs_style_rgb=${jobs_style_rgb%"$jobs_style_bel"}
+                ;;
+            "$jobs_style_esc]$jobs_style_query_key;rgb:"*"$jobs_style_esc\\")
+                jobs_style_rgb=${jobs_style_reply#"$jobs_style_esc]$jobs_style_query_key;rgb:"}
+                jobs_style_rgb=${jobs_style_rgb%"$jobs_style_esc\\"}
+                ;;
+            *) return 1 ;;
+        esac
+        jobs_style_normalized=$(printf '%s\n' "$jobs_style_rgb" | LC_ALL=C awk -F/ '
+            NF != 3 { exit 1 }
+            {
+                for (i = 1; i <= 3; i++) {
+                    h = tolower($i)
+                    if (length(h) < 1 || length(h) > 4 || h ~ /[^0-9a-f]/) exit 1
+                    n = 0
+                    for (j = 1; j <= length(h); j++) n = n * 16 + index("0123456789abcdef", substr(h, j, 1)) - 1
+                    value[i] = int(n * 65535 / (16 ^ length(h) - 1) + 0.5)
+                }
+                printf "%d/%d/%d", value[1], value[2], value[3]
+            }
+        ') || return 1
+        [ -n "$jobs_style_normalized" ]
+    }
+    # 查询可用不代表终端允许改色，按目标值核对实际生效结果。
+    jobs_terminal_style_accepts_target() {
+        jobs_style_requested_hex=''
+        case $1 in
+            10|12) jobs_style_requested_hex=ffffff ;;
+            11) jobs_style_requested_hex=000000 ;;
+            '4;'*)
+                jobs_style_requested_index=0
+                for jobs_style_requested_color in 000000 ff5f56 5fd787 ffd75f 5fafff d787ff 5fd7ff eeeeee 9e9e9e ff8787 87ffaf ffff87 87bfff ffafff afffff ffffff; do
+                    if [ "4;$jobs_style_requested_index" = "$1" ]; then
+                        jobs_style_requested_hex=$jobs_style_requested_color
+                        break
+                    fi
+                    jobs_style_requested_index=$((jobs_style_requested_index + 1))
+                done
+                ;;
+        esac
+        [ -n "$jobs_style_requested_hex" ] || return 1
+        printf '%s|%s\n' "$jobs_style_normalized" "$jobs_style_requested_hex" | LC_ALL=C awk -F'|' '
+            function hexbyte(h) {
+                return (index("0123456789abcdef", substr(h, 1, 1)) - 1) * 16 + index("0123456789abcdef", substr(h, 2, 1)) - 1
+            }
+            {
+                if (split($1, actual, "/") != 3 || length($2) != 6) exit 1
+                for (i = 1; i <= 3; i++) {
+                    difference = actual[i] - hexbyte(substr($2, i * 2 - 1, 2)) * 257
+                    if (difference < -255 || difference > 255) exit 1
+                }
+            }
+        '
+    }
+    # 检测到后续改色时只恢复仍由本次保护持有的项，保留独立恢复入口。
+    jobs_terminal_style_cleanup() {
+        jobs_style_result=$1
+        trap '' HUP INT TERM
+        if [ "$jobs_style_query_active" = 1 ]; then
+            stty "$jobs_style_stty" 2>/dev/null < /dev/tty || :
+            jobs_style_query_active=0
+        fi
+        if [ "$jobs_style_changed" = 1 ]; then
+            jobs_style_cleanup_ok=0
+            jobs_style_conflicts=''
+            jobs_style_restore_safe=''
+            if [ "$jobs_style_applied_complete" = 1 ]; then
+                jobs_style_stty=$(stty -g 2>/dev/null < /dev/tty) || jobs_style_stty=''
+                if [ -n "$jobs_style_stty" ] && stty -echo -icanon min 0 time 1 2>/dev/null < /dev/tty; then
+                    jobs_style_query_active=1
+                    jobs_style_cleanup_ok=1
+                    while IFS='|' read -r jobs_style_key jobs_style_expected jobs_style_original; do
+                        [ -n "$jobs_style_key" ] || continue
+                        if ! jobs_terminal_style_query "$jobs_style_key"; then
+                            jobs_style_cleanup_ok=0
+                            break
+                        fi
+                        if [ "$jobs_style_normalized" = "$jobs_style_expected" ]; then
+                            jobs_style_restore_safe=$jobs_style_restore_safe$jobs_style_original
+                        else
+                            jobs_style_conflicts="$jobs_style_conflicts $jobs_style_key"
+                        fi
+                    done <<JOBS_STYLE_APPLIED
+$jobs_style_applied_rows
+JOBS_STYLE_APPLIED
+                    stty "$jobs_style_stty" 2>/dev/null < /dev/tty || jobs_style_cleanup_ok=0
+                    jobs_style_query_active=0
+                fi
+            fi
+            if [ "$jobs_style_cleanup_ok" = 1 ] && printf '%s\033[0m' "$jobs_style_restore_safe" > /dev/tty; then
+                if [ -z "$jobs_style_conflicts" ]; then
+                    rm -f "$jobs_style_recovery"
+                    rmdir "${jobs_style_recovery%/*}" 2>/dev/null || :
+                else
+                    printf '检测到运行期间的配色变更，已保留这些项：%s\n' "$jobs_style_conflicts" >&2
+                    printf '确认要覆盖后续改色时才使用恢复入口：sh "%s"\n' "$jobs_style_recovery" >&2
+                    [ "$jobs_style_result" -ne 0 ] || jobs_style_result=1
+                fi
+            else
+                printf '终端配色未能安全自动恢复；确认覆盖当前配色后可运行：sh "%s"\n' "$jobs_style_recovery" >&2
+                [ "$jobs_style_result" -ne 0 ] || jobs_style_result=1
+            fi
+        fi
+        if [ "${2:-}" = continue ]; then
+            jobs_style_cleanup_status=$jobs_style_result
+            return 0
+        fi
+        exit "$jobs_style_result"
+    }
+    trap 'jobs_terminal_style_cleanup "$jobs_style_exit_status"' 0
+    trap 'jobs_style_exit_status=129; exit 129' HUP
+    trap 'jobs_style_exit_status=130; exit 130' INT
+    trap 'jobs_style_exit_status=143; exit 143' TERM
+    if ! stty -echo -icanon min 0 time 1 2>/dev/null < /dev/tty; then
+        jobs_terminal_style_plain "$@"
+    fi
+    jobs_style_query_active=1
+    jobs_style_probe_ok=1
+    for jobs_style_key in 10 11 12 '4;0' '4;1' '4;2' '4;3' '4;4' '4;5' '4;6' '4;7' '4;8' '4;9' '4;10' '4;11' '4;12' '4;13' '4;14' '4;15'; do
+        if ! jobs_terminal_style_query "$jobs_style_key"; then
+            jobs_style_probe_ok=0
+            break
+        fi
+        jobs_style_saved=$jobs_style_saved$jobs_style_reply
+        jobs_style_saved_rows="$jobs_style_saved_rows$jobs_style_key|$jobs_style_reply
+"
+    done
+    stty "$jobs_style_stty" 2>/dev/null < /dev/tty || { jobs_style_exit_status=1; exit 1; }
+    jobs_style_query_active=0
+    if [ "$jobs_style_probe_ok" != 1 ]; then
+        printf '%s\n' '终端不支持完整配色保存，或启动时收到其它输入；保留原配色并使用纯文本。' >&2
+        jobs_terminal_style_plain "$@"
+    fi
+    jobs_style_recovery_dir=$(umask 077; mktemp -d "${TMPDIR:-/tmp}/jobs-terminal-style.XXXXXX") || jobs_terminal_style_plain "$@"
+    jobs_style_recovery=$jobs_style_recovery_dir/restore.sh
+    if ! (umask 077; {
+        printf '#!/bin/sh\n'
+        printf '[ -t 0 ] && [ "$(tty)" = '\''%s'\'' ] || { printf '\''请在原终端运行恢复入口。\\n'\'' >&2; exit 1; }\n' "$jobs_style_tty"
+        printf 'printf '\''本操作会覆盖此终端当前配色。确认恢复脚本启动前的配色，请输入 YES：'\'' >&2\n'
+        printf 'IFS= read -r jobs_restore_choice\n[ "$jobs_restore_choice" = YES ] || exit 1\n'
+        printf 'printf '\''%%s\\033[0m'\'' '\''%s'\'' > /dev/tty\n' "$jobs_style_saved"
+    } > "$jobs_style_recovery"); then
+        printf '%s\n' '无法保存终端配色恢复入口；保留原配色并使用纯文本。' >&2
+        jobs_terminal_style_plain "$@"
+    fi
+    printf '正在准备本次终端临时配色；强退后恢复入口：sh "%s"\n' "$jobs_style_recovery" >&2
+    jobs_style_changed=1
+    printf '\033]10;#ffffff\007\033]11;#000000\007\033]12;#ffffff\007' > /dev/tty
+    jobs_style_index=0
+    for jobs_style_color in 000000 ff5f56 5fd787 ffd75f 5fafff d787ff 5fd7ff eeeeee 9e9e9e ff8787 87ffaf ffff87 87bfff ffafff afffff ffffff; do
+        printf '\033]4;%s;#%s\007' "$jobs_style_index" "$jobs_style_color" > /dev/tty
+        jobs_style_index=$((jobs_style_index + 1))
+    done
+    printf '\033[0m' > /dev/tty
+    jobs_style_stty=$(stty -g 2>/dev/null < /dev/tty) || { jobs_style_exit_status=1; exit 1; }
+    stty -echo -icanon min 0 time 1 2>/dev/null < /dev/tty || { jobs_style_exit_status=1; exit 1; }
+    jobs_style_query_active=1
+    jobs_style_probe_ok=1
+    jobs_style_targets_ok=1
+    while IFS='|' read -r jobs_style_key jobs_style_original; do
+        [ -n "$jobs_style_key" ] || continue
+        if ! jobs_terminal_style_query "$jobs_style_key"; then
+            jobs_style_probe_ok=0
+            break
+        fi
+        jobs_style_applied_rows="$jobs_style_applied_rows$jobs_style_key|$jobs_style_normalized|$jobs_style_original
+"
+        if ! jobs_terminal_style_accepts_target "$jobs_style_key"; then
+            jobs_style_targets_ok=0
+        fi
+    done <<JOBS_STYLE_ORIGINAL
+$jobs_style_saved_rows
+JOBS_STYLE_ORIGINAL
+    stty "$jobs_style_stty" 2>/dev/null < /dev/tty || { jobs_style_exit_status=1; exit 1; }
+    jobs_style_query_active=0
+    if [ "$jobs_style_probe_ok" != 1 ]; then
+        printf '%s\n' '无法核实本次临时配色，已停止启动业务。' >&2
+        jobs_style_exit_status=1
+        exit 1
+    fi
+    jobs_style_applied_complete=1
+    if [ "$jobs_style_targets_ok" != 1 ]; then
+        jobs_terminal_style_cleanup 0 continue
+        jobs_style_changed=0
+        if [ "$jobs_style_cleanup_status" != 0 ]; then
+            jobs_style_exit_status=1
+            exit 1
+        fi
+        trap 'jobs_style_exit_status=129; exit 129' HUP
+        trap 'jobs_style_exit_status=130; exit 130' INT
+        trap 'jobs_style_exit_status=143; exit 143' TERM
+        printf '%s\n' '终端未接受本次配色，已恢复原配色并使用纯文本。' >&2
+        jobs_terminal_style_plain "$@"
+    fi
+    printf '%s\n' '本次终端已临时使用黑底白字。' >&2
+    JOBS_TERMINAL_STYLE_TTY=$jobs_style_tty
+    JOBS_TERMINAL_STYLE_OWNER=$$
+    export JOBS_TERMINAL_STYLE_TTY JOBS_TERMINAL_STYLE_OWNER
+    if "$@"; then
+        jobs_style_exit_status=0
+    else
+        jobs_style_exit_status=$?
+    fi
+    exit "$jobs_style_exit_status"
+}
+# 仅监督直接执行的入口；被 source 时不切换配色、不重新执行业务。
+jobs_terminal_style_bootstrap() {
+    jobs_style_bootstrap_script=$1
+    shift
+    if [ -n "${ZSH_VERSION:-}" ]; then
+        case ${ZSH_EVAL_CONTEXT:-} in
+            *:file|*:file:*) return 0 ;;
+        esac
+    elif [ -n "${BASH_VERSION:-}" ] && [ "${BASH_SOURCE:-$jobs_style_bootstrap_script}" != "$jobs_style_bootstrap_script" ]; then
+        return 0
+    fi
+    if [ "${JOBS_TERMINAL_STYLE_REEXEC:-}" = "$jobs_style_bootstrap_script" ]; then
+        unset JOBS_TERMINAL_STYLE_REEXEC
+        return 0
+    fi
+    if [ ! -t 0 ] || [ ! -t 1 ] || [ -z "${TERM:-}" ] ||
+       [ "${TERM:-}" = dumb ] || [ "${NO_COLOR+x}" = x ] ||
+       [ "${PLAIN_OUTPUT:-0}" = 1 ] || [ "${IS_SOURCETREE_RUNTIME:-0}" = 1 ] ||
+       [ -n "${TMUX:-}${STY:-}" ] ||
+       env | LC_ALL=C grep -qiE '^(SOURCETREE|SOURCE_TREE)'; then
+        return 0
+    fi
+    case ${JOBS_TERMINAL_STYLE_OWNER:-} in
+        ''|*[!0-9]*) ;;
+        *)
+            if kill -0 "$JOBS_TERMINAL_STYLE_OWNER" 2>/dev/null &&
+               [ "${JOBS_TERMINAL_STYLE_TTY:-}" = "$(tty 2>/dev/null)" ]; then
+                return 0
+            fi
+            ;;
+    esac
+    JOBS_TERMINAL_STYLE_REEXEC=$jobs_style_bootstrap_script
+    export JOBS_TERMINAL_STYLE_REEXEC
+    jobs_terminal_style_run /bin/zsh "$jobs_style_bootstrap_script" "$@"
+    jobs_style_bootstrap_result=$?
+    exit "$jobs_style_bootstrap_result"
+}
+jobs_terminal_style_bootstrap "$0" "$@"
+# <<< Jobs terminal style protection v1 <<<
+
+# JOBS_INPUT_CHOICE_STYLE_BEGIN
+# 只展示提示选项；不读取答案、不改变默认值、返回码或业务环境。
+jobs_prompt_color_ready() {
+  [ -z "${NO_COLOR+x}" ] && [ -n "${TERM:-}" ] && [ "${TERM:-}" != dumb ] &&
+    [ "${PLAIN_OUTPUT:-0}" != 1 ] && [ "${IS_SOURCETREE_RUNTIME:-0}" != 1 ]
+}
+# 原生 awk 分段着色；任意/非空输入优先，括号内外沿用同一个选项。
+jobs_prompt_format() {
+  /usr/bin/awk -v color="${1:-0}" -v lines="${2:-0}" -v keep="${3:-0}" '
+    function typedEnter(value, start, prefix) {
+      prefix = substr(value, 1, start - 1)
+      gsub(/[“”‘’「」『』"]/, "", prefix)
+      gsub(sprintf("%c", 39), "", prefix)
+      if (prefix ~ /(空格|[Ss][Pp][Aa][Cc][Ee])[[:space:]]*(后|再|并|[Tt][Hh][Ee][Nn])?[[:space:]]*$/) return 1
+      return prefix ~ /(输入|键入|填写|[Tt]ype)[^；;|]*[[:alnum:]_+-]+[[:space:]]*(后|再|并)?[[:space:]]*$/
+    }
+    function greenPosition(value, token, start) {
+      if (match(value, /(直接|仅|只需|只|按下|按)?[[:space:]]*(回车|回車)/)) {
+        start = RSTART
+        return typedEnter(value, start) ? 0 : start
+      }
+      if (!match(value, /(^|[^[:alnum:]_])([Ee][Nn][Tt][Ee][Rr]|[Rr][Ee][Tt][Uu][Rr][Nn])([^[:alnum:]_]|$)/)) return 0
+      start = RSTART
+      token = substr(value, RSTART, RLENGTH)
+      match(token, /[Ee][Nn][Tt][Ee][Rr]|[Rr][Ee][Tt][Uu][Rr][Nn]/)
+      start += RSTART - 1
+      return typedEnter(value, start) ? 0 : start
+    }
+    function segment(value, inherited, start, kind, prefix, body, red, green, connector, left, right, splitAt) {
+      if (value == "") return value
+      kind = inherited
+      start = 1
+      if (!kind) {
+        if (match(value, /(输入)?(任意|任何)(非空)?(字符|内容|输入|键)|非空(字符|内容|输入)?|其它输入|其他输入|[Tt]ype (anything|any[^ ]*)|[Pp]ress any key/)) {
+          red = RSTART
+        }
+        green = greenPosition(value)
+        if (red && green && green < red) {
+          left = substr(value, 1, red - 1)
+          right = substr(value, red)
+          connector = ""
+          if (match(left, /(或者|或)[[:space:]]*$/)) {
+            connector = substr(left, RSTART)
+            left = substr(left, 1, RSTART - 1)
+          }
+          return segment(left, 0) connector segment(right, 31)
+        }
+        if (red && green && red < green && match(value, /或[[:space:]]*(直接|仅|只需|只|按下|按)?(回车|回車)/)) {
+          splitAt = RSTART
+          return segment(substr(value, 1, splitAt - 1), 31) "或" segment(substr(value, splitAt + length("或")), 0)
+        }
+        if (red) {
+          kind = 31
+          start = red
+        } else if (green) {
+          kind = 32
+          start = green
+        }
+      }
+      if (!kind || !color) return value
+      prefix = substr(value, 1, start - 1)
+      body = substr(value, start)
+      return prefix esc "[1;" kind "m" body esc "[0m"
+    }
+    function render(value, output, part, boundary, inherited, kind, consumed, depth, original) {
+      original = value
+      gsub(esc "\\[[0-9;]*m", "", value)
+      if (color && keep && !greenPosition(value) && value !~ /(任意|任何|非空|其它输入|其他输入|[Tt]ype (anything|any[^ ]*)|[Pp]ress any key)/) return original
+      output = ""
+      inherited = 0
+      depth = 0
+      while (match(value, /[；;\/|，,、？?：:=＝（）()\[\]【】]/)) {
+        part = substr(value, 1, RSTART - 1)
+        boundary = substr(value, RSTART, RLENGTH)
+        consumed = RSTART + RLENGTH
+        output = output segment(part, inherited) boundary
+        if (boundary ~ /[（(\[【]/) {
+          depth++
+          if (part ~ /(任意|任何|非空|其它输入|其他输入|[Tt]ype (anything|any[^ ]*)|[Pp]ress any key)/) inherited = 31
+          else if (greenPosition(part)) inherited = 32
+        } else if (boundary ~ /[）)\]】]/) {
+          if (depth) depth--
+        } else if (boundary ~ /[：:=＝]/) {
+          if (!inherited) {
+            if (part ~ /(任意|任何|非空|其它输入|其他输入)/) inherited = 31
+            else if (greenPosition(part)) inherited = 32
+          }
+        } else if (!depth) inherited = 0
+        value = substr(value, consumed)
+      }
+      return output segment(value, inherited)
+    }
+    BEGIN { esc = sprintf("%c", 27); first = 1 }
+    {
+      if (lines == 2) {
+        if (!first) printf "%s\n", render(pending)
+        pending = $0
+        first = 0
+        next
+      }
+      if (!lines && !first) printf "\n"
+      printf "%s", render($0)
+      if (lines) printf "\n"
+      first = 0
+    }
+    END {
+      if (lines == 2 && !first) {
+        sub(sprintf("%c", 1) "$", "", pending)
+        printf "%s", render(pending)
+      }
+    }
+  '
+}
+# read 的命令替换会使 stdout 成为管道，按输入与提示所在 stderr 判断终端。
+jobs_prompt_render() {
+  local jobs_prompt_color=0
+  if [ -t 0 ] && [ -t 2 ] && jobs_prompt_color_ready; then jobs_prompt_color=1; fi
+  printf "%s" "$1" | jobs_prompt_format "$jobs_prompt_color" 0
+}
+# 仅放在显示链末端；tee 在此函数之前接收纯文本，不把 ANSI 写入日志。
+jobs_prompt_stream() {
+  local jobs_prompt_color=0
+  if [ -t 1 ] && jobs_prompt_color_ready; then jobs_prompt_color=1; fi
+  jobs_prompt_format "$jobs_prompt_color" 1 1
+}
+# 显示管道保留原末尾换行；只删除本轮追加的最后一个结束标记。
+jobs_prompt_filter() {
+  local jobs_prompt_color=0
+  if [ -t 1 ] && jobs_prompt_color_ready; then jobs_prompt_color=1; fi
+  { /bin/cat; printf '\001'; } | jobs_prompt_format "$jobs_prompt_color" 2 1
+}
+# 仅包装原 printf/echo/print 展示，原参数、尾换行与显示命令退出码保持不变。
+jobs_prompt_output() {
+  local jobs_prompt_status=0 jobs_prompt_stderr=0 jobs_prompt_arg="" jobs_prompt_previous=""
+  if [ "${1:-}" = print ]; then
+    for jobs_prompt_arg in "$@"; do
+      case "$jobs_prompt_arg" in -?*u2*|-u2) jobs_prompt_stderr=1 ;; esac
+      if [ "$jobs_prompt_previous" = -u ] && [ "$jobs_prompt_arg" = 2 ]; then jobs_prompt_stderr=1; fi
+      jobs_prompt_previous="$jobs_prompt_arg"
+      [ "$jobs_prompt_arg" != -- ] || break
+    done
+  fi
+  if [ -n "${ZSH_VERSION:-}" ]; then
+    if [ "$jobs_prompt_stderr" = 1 ]; then
+      "$@" 2>&1 | jobs_prompt_filter >&2
+      jobs_prompt_status=$(( ${pipestatus[1]} != 0 ? ${pipestatus[1]} : ${pipestatus[2]} ))
+    else
+      "$@" | jobs_prompt_filter
+      jobs_prompt_status=$(( ${pipestatus[1]} != 0 ? ${pipestatus[1]} : ${pipestatus[2]} ))
+    fi
+  elif [ -n "${BASH_VERSION:-}" ]; then
+    "$@" | jobs_prompt_filter
+    jobs_prompt_status=$(( ${PIPESTATUS[0]} != 0 ? ${PIPESTATUS[0]} : ${PIPESTATUS[1]} ))
+  else
+    "$@" | jobs_prompt_filter
+    jobs_prompt_status=$?
+  fi
+  return "$jobs_prompt_status"
+}
+# 仅替换日志 primitive 的 tee：磁盘同步追加纯文，终端保留非选项原色。
+jobs_prompt_tee() {
+  local jobs_prompt_log="$1" jobs_prompt_line="" jobs_prompt_newline=0
+  while :; do
+    jobs_prompt_line=""
+    if IFS= read -r jobs_prompt_line; then jobs_prompt_newline=1; else jobs_prompt_newline=0; [ -n "$jobs_prompt_line" ] || break; fi
+    if [ "$jobs_prompt_newline" = 1 ]; then
+      { printf '%s\n' "$jobs_prompt_line"; printf '\001'; } | jobs_prompt_format 0 2 >> "$jobs_prompt_log" || return $?
+      printf '%s\n' "$jobs_prompt_line" | jobs_prompt_filter || return $?
+    else
+      { printf '%s' "$jobs_prompt_line"; printf '\001'; } | jobs_prompt_format 0 2 >> "$jobs_prompt_log" || return $?
+      printf '%s' "$jobs_prompt_line" | jobs_prompt_filter || return $?
+    fi
+  done
+}
+# JOBS_INPUT_CHOICE_STYLE_END
+
 SCRIPT_ENTRY="$0"
 SERVER_ROOT=""
 DEPLOY_ROOT=""
@@ -17,10 +520,13 @@ CLOUDFLARED_EXE=""
 DEPLOY_MODE=""
 OWN_SERVER_PID=""
 OWN_TUNNEL_PID=""
+OWN_GUARD_PID=""
+SESSION_DIR=""
+RESTART_LOCK_HELD=0
 # BEGIN JOBS DEPLOYMENT LIFECYCLE
 # 输出当前结果；经确认后的反部署同时留下纯文本审计。
 lc_message() {
-  printf '%s\n' "$*" >&2
+  jobs_prompt_output printf '%s\n' "$*" >&2
   if [ "${LC_AUDIT_ACTIVE:-0}" = 1 ]; then
     printf '%s\t%s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*" >> "$LC_STATE/operations.log" || return 1
   fi
@@ -95,17 +601,35 @@ lc_safe_relative() {
 }
 # 清单按单个文件保存内容摘要与模式；目录仅记录模式，不追踪时间戳。
 lc_manifest() {
-  local lc_base="$1" lc_output="$2" lc_scope="$3" lc_scan lc_full lc_rel lc_kind lc_digest
+  local lc_base="$1" lc_output="$2" lc_scope="$3" lc_scan lc_full lc_rel lc_parent lc_kind lc_digest
   lc_scan="$lc_output.paths"
   : > "$lc_output" || return 1
   : > "$lc_scan" || return 1
-  case "$lc_scope" in '.runtime .tools') set -- .runtime .tools;; data) set -- data;; *) return 1;; esac
+  case "$lc_scope" in
+    '.runtime .tools') set -- .runtime .tools;;
+    data) set -- data;;
+    runtime-selected) shift 3;;
+    *) return 1;;
+  esac
   for lc_rel do
+    [ -n "$lc_rel" ] || continue
+    if [ "$lc_scope" = runtime-selected ]; then
+      case "$lc_rel" in .runtime/*) ;; *) lc_error '本轮运行资源越出 .runtime，保留原清单。'; return 1;; esac
+      lc_safe_relative "$lc_rel" || { lc_error '本轮运行资源路径不安全，保留原清单。'; return 1; }
+      lc_parent="$lc_rel"
+      while :; do
+        [ ! -L "$lc_base/$lc_parent" ] || { lc_error '本轮运行资源或祖先为符号链接，保留原清单。'; return 1; }
+        case "$lc_parent" in */*) lc_parent="${lc_parent%/*}";; *) break;; esac
+      done
+    fi
     [ ! -L "$lc_base/$lc_rel" ] || { lc_error '受控目录为符号链接。'; return 1; }
     [ -e "$lc_base/$lc_rel" ] || continue
     [ -z "$(find "$lc_base/$lc_rel" \( -name "*$LC_NL*" -o -name "*$LC_TAB*" \) -print)" ] || { lc_error '文件名含换行或制表符，保持原状。'; return 1; }
     find "$lc_base/$lc_rel" -print >> "$lc_scan" || return 1
   done
+  if [ "$lc_scope" = runtime-selected ]; then
+    LC_ALL=C sort -u "$lc_scan" -o "$lc_scan" || return 1
+  fi
   while IFS= read -r lc_full; do
     lc_rel="${lc_full#"$lc_base/"}"
     lc_safe_relative "$lc_rel" || { lc_error '发现不可安全记录的路径。'; return 1; }
@@ -217,12 +741,14 @@ lc_finalize_resources() {
   fi
   # 运行期仅更新本次日志与独占二维码目录；SDK、配置与程序的封口摘要不重算。
   if [ -f "$LC_STATE/after.tsv" ] && [ -n "${LOG_FILE:-}" ]; then
-    lc_manifest "$SERVER_ROOT" "$LC_STATE/finalize.tsv" '.runtime .tools' || return 1
     lc_log_rel="${LOG_FILE#"$SERVER_ROOT/"}"
     lc_quick_rel="${quick_config:-}"
     lc_quick_rel="${lc_quick_rel#"$SERVER_ROOT/"}"
     lc_qr_rel="${QR_OUTPUT:-}"
     lc_qr_rel="${lc_qr_rel#"$SERVER_ROOT/"}"
+    lc_manifest "$SERVER_ROOT" "$LC_STATE/finalize.tsv" runtime-selected \
+      "$lc_log_rel" "$lc_log_rel.server.log" "$lc_log_rel.tunnel.log" \
+      "$lc_quick_rel" "$lc_qr_rel" || return 1
     awk -F '\t' -v log_path="$lc_log_rel" -v quick="$lc_quick_rel" -v qr="$lc_qr_rel" 'function owned() { return $4==log_path || $4==log_path ".server.log" || $4==log_path ".tunnel.log" || (quick!="" && $4==quick) || (qr!="" && ($4==qr || index($4,qr "/")==1)) } NR==FNR { if (owned()) next; print; next } owned() {print}' "$LC_STATE/after.tsv" "$LC_STATE/finalize.tsv" | LC_ALL=C sort > "$LC_STATE/after.tsv.next" || return 1
     mv "$LC_STATE/after.tsv.next" "$LC_STATE/after.tsv" || return 1
   fi
@@ -447,7 +973,7 @@ lc_undeploy_main() {
     *) lc_error '只接受 --check / --plan 或无参数。'; return 2;;
   esac
   [ -t 0 ] || { lc_error '请在交互终端运行。'; return 1; }
-  printf '已了解范围，回车继续；其它输入取消：' >&2
+  jobs_prompt_output printf '已了解范围，回车继续；其它输入取消：' >&2
   IFS= read -r lc_intro || return 130
   [ -z "$lc_intro" ] || return 130
   lc_validate_owner || return 1
@@ -459,7 +985,7 @@ lc_undeploy_main() {
   lc_message '仅回收清单归属资源，原有与共享环境保留。'
   lc_confirm="$(printf 'cancel\t取消（默认）\napply\t确认反部署并%s本项目源数据\n' "$(if [ "$lc_choice" = backup ]; then printf '备份后清理'; else printf '永久清零'; fi)" | lc_pick '危险操作确认 > ')" || return 130
   [ "$lc_confirm" = apply ] || return 130
-  printf '按一次空格后回车复核授权；其它输入取消：' >&2
+  jobs_prompt_output printf '按一次空格后回车复核授权；其它输入取消：' >&2
   IFS= read -r lc_space || return 130
   [ "$lc_space" = ' ' ] || return 130
   lc_stop_recorded || return 1
@@ -482,7 +1008,8 @@ prepare_display_context() {
   CODE_ROOT="$(CDPATH= cd -- "$SCRIPT_DIR/../../../代码" && pwd -P)" || exit 1
   DEPLOY_ROOT="$(CDPATH= cd -- "$SCRIPT_DIR/../.." && pwd -P)" || exit 1
   SERVER_ROOT="$CODE_ROOT/后端/后端代码"
-  LOG_FILE="$SERVER_ROOT/.runtime/logs/deploy-$(date '+%Y%m%d-%H%M%S').log"
+  LOG_FILE="$SERVER_ROOT/.runtime/logs/deploy-$(date '+%Y%m%d-%H%M%S')-$$.log"
+  quick_config="$LOG_FILE.quick-config"
 }
 # 输出自述；确认前不写入磁盘。
 show_script_intro_and_wait() {
@@ -490,8 +1017,9 @@ show_script_intro_and_wait() {
   if [ -t 1 ] && [ "${TERM:-dumb}" != dumb ] && [ -z "${NO_COLOR:-}" ]; then printf '\033[1;31m'; fi
   printf '\n知序服务｜MacOS 部署\n'
   if [ -t 1 ] && [ "${TERM:-dumb}" != dumb ] && [ -z "${NO_COLOR:-}" ]; then printf '\033[0;34m'; fi
-  printf '%s\n' '1、配置本工程账户和监听地址，必要时下载官方Go SDK并校验SHA256。' '2、回车后用fzf选择本地部署＋内网穿透或服务器部署；Esc取消。' '本地调试密码至少4字符，服务器部署至少12字符；两账户密码不同，输入不合规会重问。' '本地模式会创建公网临时HTTPS，先配置非默认密码；服务器模式不启动隧道。' '缺少fzf/cloudflared时按锁清单自动准备工程内工具并显示来源；不改全局PATH、系统服务或防火墙。' '3、后端代码目录的 .tools、.runtime、data 与 .deployment-state 产生文件；已有配置与业务数据保留。' '4、Go模块默认使用goproxy.cn镜像，失败回退官方源；可用GOPROXY覆盖，仅当前进程生效。' '5、写入前保存资源原点和原件；撤回时使用本平台反部署入口，默认备份数据，未知或后改资源保留。'
+  jobs_prompt_output printf '%s\n' '1、配置本工程账户和监听地址，必要时下载官方Go SDK并校验SHA256。' '2、回车后用fzf选择本地部署＋内网穿透或服务器部署；Esc取消。' '本地调试密码至少4字符，服务器部署至少12字符；两账户密码不同，输入不合规会重问。' '本地模式为Demo：模拟支付并在登录页公开本次真实测试账号密码；会创建公网临时HTTPS。服务器模式关闭Demo、不启动隧道。' '缺少fzf/cloudflared时按锁清单自动准备工程内工具并显示来源；不改全局PATH、系统服务或防火墙。' '3、后端代码目录的 .tools、.runtime、data 与 .deployment-state 产生文件；已有配置与业务数据保留。' '4、Go模块默认使用goproxy.cn镜像，失败回退官方源；可用GOPROXY覆盖，仅当前进程生效。' '5、写入前保存资源原点和原件；撤回时使用本平台反部署入口，默认备份数据，未知或后改资源保留。'
   printf '源码：%s\n日志：%s\n' "$SERVER_ROOT" "$LOG_FILE"
+  printf '%s\n' '选择部署方式后先停止本项目旧部署，等退出、解锁后再启动；关窗回收本轮服务与隧道，数据和配置保留。'
   if [ -t 1 ] && [ "${TERM:-dumb}" != dumb ] && [ -z "${NO_COLOR:-}" ]; then printf '\033[0m'; fi
   if [ "${1:-}" = --check ] && [ $# -eq 1 ]; then
     check_source
@@ -502,13 +1030,13 @@ show_script_intro_and_wait() {
   if [ "${1:-}" = --plan ] && [ $# -eq 1 ]; then show_plan; exit 0; fi
   [ $# -eq 0 ] || { printf '%s\n' '不支持的参数。仅可使用 --check 或 --plan。' >&2; exit 2; }
   [ -t 0 ] || { printf '%s\n' '请在交互终端运行，未执行部署。' >&2; exit 1; }
-  printf '%s' '按回车继续；输入任意字符取消：'
+  jobs_prompt_output printf '%s' '按回车继续；输入任意字符取消：'
   IFS= read -r deploy_answer || exit 1
   [ -z "$deploy_answer" ] || exit 1
 }
 # 将进度写入本次日志。
 log() {
-  printf '%s\n' "$*" | tee -a "$LOG_FILE"
+  printf '%s\n' "$*" | jobs_prompt_tee "$LOG_FILE"
 }
 # 裸地址独占一行方便复制；终端醒目展示，日志始终保留纯文本。
 log_access_url() {
@@ -547,7 +1075,11 @@ initialize_runtime() {
 }
 # 首次写入前保存资源原点，与其它平台互斥，退出时封存实际改动。
 initialize_deployment_lifecycle() {
+  trap handle_deployment_interrupt INT TERM HUP
+  acquire_restart_lock || exit 1
+  stop_previous_deployment || exit 1
   lc_begin || exit 1
+  release_restart_lock || exit 1
 }
 # zsh的函数内EXIT陷阱会在函数返回时触发；这里只在主Shell真正退出时回收与封存。
 TRAPEXIT() {
@@ -555,6 +1087,7 @@ TRAPEXIT() {
     cleanup_owned_processes
     finalize_deployment_before_exit
   fi
+  if [ "${ZSH_SUBSHELL:-0}" -eq 0 ]; then release_restart_lock; fi
 }
 # zsh的errexit也可能跳过EXIT钩子，异常命令失败仍须释放本轮进程与操作锁。
 TRAPZERR() {
@@ -563,6 +1096,7 @@ TRAPZERR() {
     cleanup_owned_processes
     finalize_deployment_before_exit
   fi
+  if [ "${ZSH_SUBSHELL:-0}" -eq 0 ]; then release_restart_lock; fi
   return "$failure_code"
 }
 # 封存失败时明确保留现场并释放操作锁，避免把未完成记录称为可完整恢复。
@@ -571,6 +1105,7 @@ finalize_deployment_before_exit() {
     printf '%s\n' '部署现场封存未完成，原数据与恢复依据保留；请核对 .deployment-state 后重试。' >&2
     lc_release_lock || true
   fi
+  finish_session_guard
 }
 # zsh从信号处理器exit时可能跳过EXIT钩子，须在这里显式封存。
 handle_deployment_interrupt() {
@@ -595,7 +1130,7 @@ check_platform() {
 # 必需依赖缺失时请求一次安装，非空输入和EOF均停止。
 confirm_install() {
   printf '%s\n' "$1"
-  printf '%s' '直接回车安装；输入任意字符后回车取消：'
+  jobs_prompt_output printf '%s' '直接回车安装；输入任意字符后回车取消：'
   IFS= read -r dependency_answer || exit 1
   [ -z "$dependency_answer" ] || exit 1
 }
@@ -734,6 +1269,17 @@ ensure_configured_passwords() {
   if [ "$config_passwords_changed" -eq 1 ]; then save_configured_passwords; fi
   unset config_admin config_customer CONFIG_PASSWORD
 }
+# 优先使用完整工程当前商城构建包，独立分发时回退到后端随包页面；不复制或覆盖静态文件。
+select_static_roots() {
+  export ADMIN_STATIC_DIR="$SERVER_ROOT/admin-web"
+  export CLIENT_STATIC_DIR="$SERVER_ROOT/client-web"
+  shop_client_root="$CODE_ROOT/前端/移动端/Flutter/Dist/ShopClient"
+  shop_admin_root="$CODE_ROOT/前端/后台管理端/Flutter/Dist/ShopAdmin"
+  if [ -f "$shop_client_root/index.html" ]; then export CLIENT_STATIC_DIR="$shop_client_root"; fi
+  if [ -f "$shop_admin_root/index.html" ]; then export ADMIN_STATIC_DIR="$shop_admin_root"; fi
+  log "用户端静态目录｜$CLIENT_STATIC_DIR"
+  log "管理端静态目录｜$ADMIN_STATIC_DIR"
+}
 # 初次配置账户，复用时按当前模式校验密码，禁止执行配置文本。
 configure_server() {
   prepare_password_policy
@@ -746,7 +1292,7 @@ configure_server() {
     read_password "设置管理员admin密码（至少${PASSWORD_MIN_LENGTH}字符）："
     config_admin="$CONFIG_PASSWORD"
     read_password "设置客户customer密码（至少${PASSWORD_MIN_LENGTH}字符，不能与管理员相同）：" "$config_admin"
-    printf '%s' 'PostgreSQL连接串（直接回车使用单实例本地文件存储；输入隐藏）：'
+    jobs_prompt_output printf '%s' 'PostgreSQL连接串（直接回车使用单实例本地文件存储；输入隐藏）：'
     stty -echo
     IFS= read -r config_database || { stty echo; exit 1; }
     stty echo
@@ -769,8 +1315,7 @@ configure_server() {
   done < "$config_file"
   ensure_configured_passwords
   export DATA_DIR="$SERVER_ROOT/data"
-  export ADMIN_STATIC_DIR="$SERVER_ROOT/admin-web"
-  export CLIENT_STATIC_DIR="$SERVER_ROOT/client-web"
+  select_static_roots
   export GOPROXY="${GOPROXY:-https://goproxy.cn|https://proxy.golang.org|direct}"
   export GOTELEMETRY=off
   export GOMODCACHE="$SERVER_ROOT/.tools/gomodcache"
@@ -801,9 +1346,9 @@ run_server() {
   log "启动｜监听 $LISTEN_ADDR｜管理端 /admin/｜Ctrl+C停止；运行日志 $LOG_FILE"
   if [ ! -f "$ADMIN_STATIC_DIR/index.html" ]; then log '管理端静态文件缺失；API仍可运行，请按说明先构建Flutter管理端。'; fi
   trap handle_local_interrupt INT TERM HUP
-  "$SERVER_ROOT/.runtime/bin/server" > >(tee -a "$LOG_FILE") 2>&1 &
+  /bin/zsh "$SCRIPT_DIR/$(basename -- "$SCRIPT_ENTRY")" --session-child "$SESSION_DIR" server > >(tee -a "$LOG_FILE") 2>&1 &
   OWN_SERVER_PID=$!
-  lc_record_process server "$OWN_SERVER_PID"
+  wait_session_child server "$OWN_SERVER_PID"
   if command -v qr_server_access >/dev/null 2>&1; then qr_server_access; fi
   server_result=0
   wait "$OWN_SERVER_PID" || server_result=$?
@@ -900,29 +1445,47 @@ EOF
 select_deployment_mode() {
   select_tool_platform
   ensure_local_tool fzf
-  set +e
-  selected_mode="$(printf 'local\t本地部署＋内网穿透（免费临时HTTPS）\nserver\t服务器部署（仅运行后端）\n' | FZF_DEFAULT_COMMAND= FZF_DEFAULT_OPTS= FZF_DEFAULT_OPTS_FILE= "$FZF_EXE" --height=45% --layout=reverse --border --no-multi --delimiter="$(printf '\t')" --with-nth=2 --accept-nth=1 --prompt='部署方式 > ' --header='回车选择；Esc取消，不启动后端')"
-  selector_code=$?
-  set -e
+  choose_deployment_mode || exit $?
+  log "部署模式｜$DEPLOY_MODE"
+}
+# 已有部署在接管前只读选择；取消不会停止旧服务或改写资源。
+preselect_existing_mode() {
+  [ -d "$SERVER_ROOT/.deployment-state" ] || return 0
+  lc_context || return 1
+  select_tool_platform
+  local candidate resolved
+  for candidate in "${FZF_BIN:-}" "$(command -v fzf 2>/dev/null || true)" "$SERVER_ROOT/.tools/deploy-fzf-$TOOL_OS-$TOOL_ARCH/fzf"; do
+    [ -n "$candidate" ] || continue
+    resolved="$candidate"
+    if [ -L "$resolved" ]; then
+      resolved="$(readlink "$candidate")"
+      case "$resolved" in /*) ;; *) resolved="$(dirname -- "$candidate")/$resolved";; esac
+    fi
+    if accept_local_tool fzf "$resolved"; then choose_deployment_mode; return $?; fi
+  done
+  printf '%s\n' '启动未完成：已有部署但未找到可用fzf；请恢复原工具或通过FZF_BIN指定，旧实例保留。' >&2
+  return 1
+}
+choose_deployment_mode() {
+  if selected_mode="$(printf 'local\t本地部署＋内网穿透（免费临时HTTPS）\nserver\t服务器部署（仅运行后端）\n' | FZF_DEFAULT_COMMAND= FZF_DEFAULT_OPTS= FZF_DEFAULT_OPTS_FILE= "$FZF_EXE" --height=45% --layout=reverse --border --no-multi --delimiter="$(printf '\t')" --with-nth=2 --accept-nth=1 --prompt='部署方式 > ' --header='回车选择后停止本项目旧实例并重新启动；Esc取消保留旧实例')"; then selector_code=0; else selector_code=$?; fi
   case "$selector_code" in
     0) ;;
-    1|130) log '已取消选择；未准备Go、修改配置或启动后端。'; exit 130 ;;
-    *) fail "fzf选择器失败（$selector_code），未启动业务。" ;;
+    1|130) printf '%s\n' '已取消选择；未停止旧实例、准备Go、修改配置或启动后端。'; return 130 ;;
+    *) printf 'fzf选择器失败（%s），未停止旧实例或启动业务。\n' "$selector_code" >&2; return 1 ;;
   esac
   case "$selected_mode" in
     local) DEPLOY_MODE=local ;;
     server) DEPLOY_MODE=server ;;
-    *) fail '选择结果为空或无法识别，未启动业务。' ;;
+    *) printf '%s\n' '选择结果为空或无法识别，未停止旧实例或启动业务。' >&2; return 1 ;;
   esac
-  log "部署模式｜$DEPLOY_MODE"
 }
 # 只读打印两模式与工具供应链计划。
 show_plan() {
   check_source
   check_platform
-  printf '%s\n' '计划：自述回车 → 健康fzf/缺失时本地下载 → 模式选择 → Go/配置/编译。'
-  printf '%s\n' '本地模式：密码至少4字符；强制本次进程production、loopback和同源；健康后建立免费随机HTTPS；Ctrl+C回收本次两个子进程。'
-  printf '%s\n' '服务器模式：密码至少12字符，已有短密码会重问并更新；只运行后端，不启动隧道、不开放防火墙。'
+  jobs_prompt_output printf '%s\n' '计划：自述回车 → 健康fzf/缺失时本地下载 → 模式选择 → 同项目旧实例退出与解锁 → Go/配置/编译。'
+  printf '%s\n' '本地模式（DEMO_MODE=1、PAYMENT_MODE=mock，登录页公开测试账号密码）：密码至少4字符；强制本次进程production、loopback和同源；健康后建立免费随机HTTPS；Ctrl+C回收本次两个子进程。'
+  printf '%s\n' '服务器模式（DEMO_MODE=0，不公开凭据）：密码至少12字符，已有短密码会重问并更新；只运行后端，不启动隧道、不开放防火墙。'
   printf '%s\n' '工具清单：部署/deploy-tools.lock.tsv；fzf0.74.5、cloudflared2026.10.7；原生组合缺失时停止并说明，不运行错架构。'
   printf '%s\n' '公网：Cloudflare Quick仅测试、无SLA、URL变动/200在途/不支持SSE；本计划未联网、下载、写配置或启动。'
 }
@@ -933,9 +1496,12 @@ initialize_business_runtime() {
   done
   mkdir -p "$SERVER_ROOT/.runtime/bin" "$SERVER_ROOT/data"
 }
-# 本地模式只覆盖当前子进程的公开相关设置，不重写已有配置。
+# 两模式均显式设置Demo开关；本地模拟支付，设置只对当前子进程生效，不重写已有配置。
 prepare_selected_mode() {
+  export DEMO_MODE=0
   [ "$DEPLOY_MODE" = local ] || return 0
+  export DEMO_MODE=1
+  export PAYMENT_MODE=mock
   ensure_local_tool cloudflared
   local_port="${LISTEN_ADDR##*:}"
   case "$local_port" in ''|*[!0-9]*) fail '本地模式监听端口无效。' ;; esac
@@ -944,16 +1510,18 @@ prepare_selected_mode() {
   export LISTEN_ADDR="127.0.0.1:$local_port"
   export CORS_ORIGINS=''
   LOCAL_URL="http://$LISTEN_ADDR"
+  printf '%s\n' '当前为Demo：登录页公开本次管理员和客户测试账号密码，可复制；支付为模拟成功。仅使用专用演示账户和合成数据。'
   printf '\n本地模式将创建可公网访问的临时HTTPS入口；使用刚配置的非默认密码，仅安排指定测试者和合成数据。\n'
   printf '%s\n' '不改系统代理/全局PATH/防火墙/电源/自启；网址会变，关闭本窗口或Ctrl+C撤回本次入口。'
   log_terminal_lifetime_notice
-  printf '%s' '确认发布本次临时入口，直接回车继续；其它输入取消：'
+  jobs_prompt_output printf '%s' '确认发布本次临时入口，直接回车继续；其它输入取消：'
   IFS= read -r tunnel_answer || exit 130
   [ -z "$tunnel_answer" ] || exit 130
 }
 # 只停止本次直接启动的进程，绝不按名字或端口杀其它服务。
 cleanup_owned_processes() {
-  trap - INT TERM HUP
+  trap '' INT TERM HUP
+  if [ -n "${SESSION_DIR:-}" ]; then : > "$SESSION_DIR/stopping"; fi
   for owned_pid in "${OWN_TUNNEL_PID:-}" "${OWN_SERVER_PID:-}"; do
     [ -n "$owned_pid" ] || continue
     if kill -0 "$owned_pid" 2>/dev/null; then
@@ -1041,9 +1609,9 @@ run_local_with_tunnel() {
   local_server_log="$LOG_FILE.server.log"
   local_tunnel_log="$LOG_FILE.tunnel.log"
   trap handle_local_interrupt INT TERM HUP
-  "$SERVER_ROOT/.runtime/bin/server" > "$local_server_log" 2>&1 &
+  /bin/zsh "$SCRIPT_DIR/$(basename -- "$SCRIPT_ENTRY")" --session-child "$SESSION_DIR" server > "$local_server_log" 2>&1 &
   OWN_SERVER_PID=$!
-  lc_record_process server "$OWN_SERVER_PID"
+  wait_session_child server "$OWN_SERVER_PID"
   health_attempt=0
   while [ "$health_attempt" -lt 30 ]; do
     kill -0 "$OWN_SERVER_PID" 2>/dev/null || report_backend_start_failure '本次后端已退出'
@@ -1056,11 +1624,12 @@ run_local_with_tunnel() {
   done
   [ "$health_attempt" -lt 30 ] || report_backend_start_failure '后端健康检查超时'
   log "本机后端健康｜$LOCAL_URL｜本次PID $OWN_SERVER_PID"
-  quick_config="$(mktemp "$SERVER_ROOT/.runtime/logs/quick-config.XXXXXX")" || fail '无法建立本次空隧道配置。'
-  printf '{}\n' > "$quick_config"
-  start_isolated_quick_child > "$local_tunnel_log" 2>&1 &
+  [ ! -e "$quick_config" ] && [ ! -L "$quick_config" ] || fail '本次隧道配置路径已存在，保留原文件。'
+  (set -C; printf '{}\n' > "$quick_config") || fail '无法建立本次空隧道配置。'
+  record_session_runtime
+  /bin/zsh "$SCRIPT_DIR/$(basename -- "$SCRIPT_ENTRY")" --session-child "$SESSION_DIR" tunnel > "$local_tunnel_log" 2>&1 &
   OWN_TUNNEL_PID=$!
-  lc_record_process tunnel "$OWN_TUNNEL_PID"
+  wait_session_child tunnel "$OWN_TUNNEL_PID"
   public_url=''
   tunnel_wait=0
   tunnel_timeout="${TUNNEL_START_TIMEOUT:-45}"
@@ -1087,6 +1656,235 @@ run_local_with_tunnel() {
   done
   fail "本次后端或隧道已退出，将回收另一子进程；后端日志 $local_server_log；隧道日志 $local_tunnel_log"
 }
+# 接管窗口单独互斥，两个新入口不能同时停止或接管同一旧实例。
+acquire_restart_lock() {
+  lc_context || return 1
+  RESTART_LOCK="$LC_ROOT/restart.guard"
+  mkdir -p "$LC_ROOT" || return 1
+  [ ! -L "$RESTART_LOCK" ] || { lc_message '启动未完成：接管锁为符号链接。'; return 1; }
+  [ ! -e "$RESTART_LOCK" ] || [ -f "$RESTART_LOCK" ] || return 1
+  for restart_target in "$LC_STATE/processes" "$LC_STATE/sessions"; do [ ! -L "$restart_target" ] || return 1; done
+  : >> "$RESTART_LOCK" || return 1
+  zmodload zsh/system || return 1
+  zsystem flock -t 0 -f RESTART_LOCK_FD "$RESTART_LOCK" || { lc_message '启动未完成：另一入口正在接管旧实例，请稍后重试。'; return 1; }
+  RESTART_LOCK_HELD=1
+}
+release_restart_lock() {
+  [ "${RESTART_LOCK_HELD:-0}" = 1 ] || return 0
+  zsystem flock -u "$RESTART_LOCK_FD" || return 1
+  RESTART_LOCK_HELD=0
+}
+# 只使用登记的启动时间和命令行；PID复用时不向新进程发送信号。
+stop_session_process() {
+  local records="$1" role="$2" registered_pid registered_identity current_identity attempt
+  [ -f "$records/$role.pid" ] || return 0
+  [ ! -L "$records/$role.pid" ] && [ -f "$records/$role.identity" ] && [ ! -L "$records/$role.identity" ] || return 1
+  registered_pid="$(cat "$records/$role.pid")"
+  case "$registered_pid" in ''|*[!0-9]*|0|1) return 1;; esac
+  [ "$registered_pid" != "$$" ] || return 1
+  registered_identity="$(cat "$records/$role.identity")"
+  [ -n "$registered_identity" ] || return 1
+  current_identity="$(lc_identity "$registered_pid" || true)"
+  [ -n "$current_identity" ] || return 0
+  [ "$current_identity" = "$registered_identity" ] || { lc_message "进程身份已变化，保留并停止交接：$role"; return 1; }
+  kill -TERM "$registered_pid" 2>/dev/null || return 1
+  attempt=0
+  while [ "$attempt" -lt 5 ]; do
+    current_identity="$(lc_identity "$registered_pid" || true)"
+    [ "$current_identity" = "$registered_identity" ] || return 0
+    sleep 1
+    attempt=$((attempt + 1))
+  done
+  # 仅独占的子进程可在宽限期后强制回收；部署Shell须先完成资源封存。
+  [ "$role" != wrapper ] || return 1
+  [ "$(lc_identity "$registered_pid" || true)" != "$registered_identity" ] || kill -KILL "$registered_pid" 2>/dev/null || return 1
+  attempt=0
+  while [ "$(lc_identity "$registered_pid" || true)" = "$registered_identity" ]; do
+    [ "$attempt" -lt 5 ] || return 1
+    sleep 0.2
+    attempt=$((attempt + 1))
+  done
+}
+# 旧锁必须对应本目录登记的部署Shell，反部署和未知操作均保留。
+stop_previous_deployment() {
+  local old_pid old_identity old_now attempt
+  if [ -d "$LC_LOCK" ]; then
+    [ -f "$LC_LOCK/pid" ] && [ ! -L "$LC_LOCK/pid" ] && [ -f "$LC_LOCK/identity" ] && [ ! -L "$LC_LOCK/identity" ] || { lc_message '启动未完成：旧锁缺少身份记录，保留现场。'; return 1; }
+    old_pid="$(cat "$LC_LOCK/pid")"
+    old_identity="$(cat "$LC_LOCK/identity")"
+    case "$old_pid" in ''|*[!0-9]*|0|1) return 1;; esac
+    [ -n "$old_identity" ] || return 1
+    old_now="$(lc_identity "$old_pid" || true)"
+    if [ -n "$old_now" ]; then
+      [ "$old_now" = "$old_identity" ] || { lc_message '启动未完成：旧锁PID身份已变化，未停止该进程。'; return 1; }
+      [ "$(cat "$LC_STATE/processes/wrapper.pid" 2>/dev/null)" = "$old_pid" ] && [ "$(cat "$LC_STATE/processes/wrapper.identity" 2>/dev/null)" = "$old_identity" ] || { lc_message '启动未完成：持锁者不是登记的部署实例，可能正在反部署，保留现场。'; return 1; }
+      case "$old_identity" in *"$SCRIPT_DIR/$(basename -- "$SCRIPT_ENTRY")"*|*"$SCRIPT_ENTRY"*) ;; *) lc_message '启动未完成：旧进程不属于当前部署入口。'; return 1;; esac
+      lc_message "正在停止上轮部署（PID $old_pid），等待服务退出和资源封存。"
+      kill -TERM "$old_pid" 2>/dev/null || return 1
+      attempt=0
+      while [ "$(lc_identity "$old_pid" || true)" = "$old_identity" ]; do
+        [ "$attempt" -lt 180 ] || { lc_message '启动未完成：上轮部署尚未退出；未启动第二个实例。'; return 1; }
+        if [ "$attempt" -gt 0 ] && [ $((attempt % 10)) -eq 0 ]; then lc_message '仍在等待上轮安全退出与解锁。'; fi
+        sleep 1
+        attempt=$((attempt + 1))
+      done
+    fi
+  fi
+  # SIGKILL后的独立守护先回收旧子进程并封存，接管者不能抢先改写记录。
+  if [ -f "$LC_STATE/processes/guard.pid" ]; then
+    local guard_pid guard_identity
+    guard_pid="$(cat "$LC_STATE/processes/guard.pid")"
+    guard_identity="$(cat "$LC_STATE/processes/guard.identity" 2>/dev/null)"
+    case "$guard_pid" in ''|*[!0-9]*|0|1) return 1;; esac
+    attempt=0
+    while [ -n "$guard_identity" ] && [ "$(lc_identity "$guard_pid" || true)" = "$guard_identity" ]; do
+      [ "$attempt" -lt 20 ] || { lc_message '启动未完成：旧会话守护尚未完成回收。'; return 1; }
+      sleep 1
+      attempt=$((attempt + 1))
+    done
+  fi
+  stop_session_process "$LC_STATE/processes" tunnel && stop_session_process "$LC_STATE/processes" server
+}
+# 每个会话保存独立身份副本，旧守护不会读到下一轮新PID。
+record_session_process() {
+  lc_record_process "$1" "$2" || return 1
+  if [ -n "${SESSION_DIR:-}" ]; then
+    cp "$LC_STATE/processes/$1.identity" "$SESSION_DIR/$1.identity" || return 1
+    cp "$LC_STATE/processes/$1.pid" "$SESSION_DIR/$1.pid" || return 1
+  fi
+}
+record_session_runtime() {
+  [ -n "${SESSION_DIR:-}" ] || return 0
+  printf '%s\n' "$LOG_FILE" > "$SESSION_DIR/log-path"
+  printf '%s\n' "${quick_config:-}" > "$SESSION_DIR/quick-path"
+  printf '%s\n' "${QR_OUTPUT:-}" > "$SESSION_DIR/qr-path"
+  printf '%s\n' "${QR_BIN:-}" > "$SESSION_DIR/qr-bin"
+  printf '%s\n' "${CLOUDFLARED_EXE:-}" > "$SESSION_DIR/tunnel-bin"
+  printf '%s\n' "${LOCAL_URL:-}" > "$SESSION_DIR/local-url"
+}
+# 业务启动前由独立Shell先登记自身，消除主Shell在fork与登记之间消失的窗口。
+run_session_child() {
+  lc_context || return 1
+  SESSION_DIR="$1"
+  local child_role="$2" wrapper_pid wrapper_identity
+  case "$SESSION_DIR" in "$LC_STATE"/sessions/session.*) ;; *) return 1;; esac
+  case "$child_role" in server|tunnel) ;; *) return 1;; esac
+  [ -d "$SESSION_DIR" ] && [ ! -L "$SESSION_DIR" ] && [ ! -L "$LC_STATE/sessions" ] || return 1
+  SESSION_WORKER_PID=''
+  trap 'stop_service_worker; exit 130' INT TERM HUP
+  wrapper_pid="$(cat "$SESSION_DIR/wrapper.pid")"
+  wrapper_identity="$(cat "$SESSION_DIR/wrapper.identity")"
+  [ -n "$wrapper_identity" ] && [ "$(lc_identity "$wrapper_pid" || true)" = "$wrapper_identity" ] || return 1
+  [ ! -f "$SESSION_DIR/stopping" ] && [ ! -f "$SESSION_DIR/closed" ] || return 1
+  record_session_process "$child_role" "$$" || return 1
+  [ "$(lc_identity "$wrapper_pid" || true)" = "$wrapper_identity" ] && [ ! -f "$SESSION_DIR/stopping" ] && [ ! -f "$SESSION_DIR/closed" ] || return 1
+  if [ "$child_role" = server ]; then
+    "$SERVER_ROOT/.runtime/bin/server" &
+  else
+    CLOUDFLARED_EXE="$(cat "$SESSION_DIR/tunnel-bin")"
+    quick_config="$(cat "$SESSION_DIR/quick-path")"
+    LOCAL_URL="$(cat "$SESSION_DIR/local-url")"
+    start_isolated_quick_child &
+  fi
+  SESSION_WORKER_PID=$!
+  local worker_result=0
+  wait "$SESSION_WORKER_PID" || worker_result=$?
+  SESSION_WORKER_PID=''
+  return "$worker_result"
+}
+stop_service_worker() {
+  trap '' INT TERM HUP
+  local worker_pid="${SESSION_WORKER_PID:-$!}" attempt=0 worker_state
+  [ -n "$worker_pid" ] || return 0
+  kill -TERM "$worker_pid" 2>/dev/null || true
+  while kill -0 "$worker_pid" 2>/dev/null && [ "$attempt" -lt 15 ]; do
+    worker_state="$(ps -p "$worker_pid" -o stat= 2>/dev/null || true)"
+    case "$worker_state" in *Z*) break;; esac
+    sleep 0.2
+    attempt=$((attempt + 1))
+  done
+  if kill -0 "$worker_pid" 2>/dev/null; then kill -KILL "$worker_pid" 2>/dev/null || true; fi
+  wait "$worker_pid" 2>/dev/null || true
+  SESSION_WORKER_PID=''
+}
+wait_session_child() {
+  local child_role="$1" child_pid="$2" attempt=0
+  while [ "$(cat "$SESSION_DIR/$child_role.pid" 2>/dev/null)" != "$child_pid" ] && [ "$attempt" -lt 30 ]; do
+    kill -0 "$child_pid" 2>/dev/null || return 1
+    sleep 0.1
+    attempt=$((attempt + 1))
+  done
+  [ "$(cat "$SESSION_DIR/$child_role.pid" 2>/dev/null)" = "$child_pid" ] || return 1
+}
+finish_session_guard() {
+  [ -n "${SESSION_DIR:-}" ] || return 0
+  : > "$SESSION_DIR/closed"
+  if [ -n "${OWN_GUARD_PID:-}" ]; then
+    stop_session_process "$LC_STATE/processes" guard || true
+    wait "$OWN_GUARD_PID" 2>/dev/null || true
+    OWN_GUARD_PID=''
+  fi
+}
+start_session_guard() {
+  mkdir -p "$LC_STATE/sessions" || return 1
+  SESSION_DIR="$(mktemp -d "$LC_STATE/sessions/session.XXXXXX")" || return 1
+  record_session_process wrapper "$$" || return 1
+  local terminal_parent
+  terminal_parent="$(ps -p "$$" -o ppid= | tr -d ' ')"
+  printf '%s\n' "$terminal_parent" > "$SESSION_DIR/parent.pid"
+  lc_identity "$terminal_parent" > "$SESSION_DIR/parent.identity" || return 1
+  record_session_runtime
+  trap '' HUP
+  /bin/zsh "$SCRIPT_DIR/$(basename -- "$SCRIPT_ENTRY")" --session-guard "$SESSION_DIR" </dev/null >/dev/null 2>&1 &
+  OWN_GUARD_PID=$!
+  trap handle_deployment_interrupt HUP
+  local attempt=0
+  while [ ! -s "$SESSION_DIR/guard.identity" ] && [ "$attempt" -lt 30 ]; do sleep 0.1; attempt=$((attempt + 1)); done
+  [ -s "$SESSION_DIR/guard.identity" ] || { printf '%s\n' '会话守护未就绪，未启动业务。' >&2; return 1; }
+  cp "$SESSION_DIR/guard.pid" "$LC_STATE/processes/guard.pid"
+  cp "$SESSION_DIR/guard.identity" "$LC_STATE/processes/guard.identity"
+}
+# 仅内部子进程入口；脱离终端后仍可回收被SIGKILL的部署Shell所留子进程。
+run_session_guard() {
+  lc_context || return 1
+  SESSION_DIR="$1"
+  case "$SESSION_DIR" in "$LC_STATE"/sessions/session.*) ;; *) return 1;; esac
+  [ -d "$SESSION_DIR" ] && [ ! -L "$SESSION_DIR" ] && [ ! -L "$LC_STATE/sessions" ] || return 1
+  trap '' HUP INT
+  trap 'exit 0' TERM
+  local wrapper_pid wrapper_identity parent_pid parent_identity now
+  wrapper_pid="$(cat "$SESSION_DIR/wrapper.pid")"
+  wrapper_identity="$(cat "$SESSION_DIR/wrapper.identity")"
+  parent_pid="$(cat "$SESSION_DIR/parent.pid")"
+  parent_identity="$(cat "$SESSION_DIR/parent.identity")"
+  case "$wrapper_pid:$parent_pid" in *[!0-9:]*|:*|*:) return 1;; esac
+  [ "$wrapper_pid" -gt 1 ] && [ -n "$wrapper_identity" ] || return 1
+  printf '%s\n' "$$" > "$SESSION_DIR/guard.pid"
+  lc_identity "$$" > "$SESSION_DIR/guard.identity"
+  while [ ! -f "$SESSION_DIR/closed" ]; do
+    now="$(lc_identity "$wrapper_pid" || true)"
+    if [ "$now" = "$wrapper_identity" ] && [ "$(lc_identity "$parent_pid" || true)" = "$parent_identity" ]; then sleep 1; continue; fi
+    if [ "$now" = "$wrapper_identity" ] && [ ! -f "$SESSION_DIR/stopping" ]; then kill -TERM "$wrapper_pid" 2>/dev/null || true; fi
+    stop_session_process "$SESSION_DIR" tunnel || return 1
+    stop_session_process "$SESSION_DIR" server || return 1
+    if [ "$(lc_identity "$wrapper_pid" || true)" = "$wrapper_identity" ]; then sleep 1; continue; fi
+    # 旧主进程确已结束，且仍持有原锁时，才封存它自己的运行资料。
+    [ "$(cat "$LC_LOCK/pid" 2>/dev/null)" = "$wrapper_pid" ] && [ "$(cat "$LC_LOCK/identity" 2>/dev/null)" = "$wrapper_identity" ] || return 0
+    LOG_FILE="$(cat "$SESSION_DIR/log-path")"
+    quick_config="$(cat "$SESSION_DIR/quick-path")"
+    QR_OUTPUT="$(cat "$SESSION_DIR/qr-path")"
+    local qr_binary
+    qr_binary="$(cat "$SESSION_DIR/qr-bin")"
+    case "$QR_OUTPUT:$qr_binary" in "$SERVER_ROOT"/.runtime/access-qr.*:"$SERVER_ROOT"/.runtime/bin/deployqr)
+      if [ -d "$QR_OUTPUT" ] && [ ! -L "$QR_OUTPUT" ] && [ -x "$qr_binary" ] && [ ! -L "$qr_binary" ]; then "$qr_binary" --expire --output-dir "$QR_OUTPUT" >> "$LOG_FILE" 2>&1 || return 1; fi;;
+    esac
+    # 主Shell已消失且原锁身份复核通过，首次部署尚未checkpoint也须封存失败现场。
+    LC_LOCK_HELD=1 lc_finalize_resources || return 1
+    [ "$(cat "$LC_LOCK/pid" 2>/dev/null)" = "$wrapper_pid" ] && [ "$(cat "$LC_LOCK/identity" 2>/dev/null)" = "$wrapper_identity" ] || return 1
+    rm -f "$LC_LOCK/pid" "$LC_LOCK/identity" && rmdir "$LC_LOCK" || return 1
+    return 0
+  done
+}
 # 根据已确认模式运行，服务器路线不建立公网入口。
 run_selected_mode() {
   if [ "$DEPLOY_MODE" = local ]; then run_local_with_tunnel; else run_server; fi
@@ -1094,18 +1892,33 @@ run_selected_mode() {
 
 # 编排自述、模式选择、环境准备与本目录部署。
 main() {
+  if [ "${1:-}" = --session-child ]; then
+    [ $# -eq 3 ] || return 2
+    prepare_display_context
+    run_session_child "$2" "$3"
+    return
+  fi
+  if [ "${1:-}" = --session-guard ]; then
+    [ $# -eq 2 ] || return 2
+    prepare_display_context
+    run_session_guard "$2"
+    return
+  fi
   show_script_intro_and_wait "$@" # 先说明影响范围并等待确认。
   check_platform # 拒绝不匹配的系统入口。
   check_source # 检查移植目录完整性。
-  initialize_deployment_lifecycle # 保存部署原点，拒绝其它系统或并发部署占用。
+  preselect_existing_mode || exit $? # 已有实例先只读选择；取消保留旧服务。
+  initialize_deployment_lifecycle # 串行接管同项目旧实例，再保存部署原点。
+  start_session_guard # 独立监测部署Shell与所属终端父进程。
   initialize_runtime # 确认后创建工程内日志和运行目录。
-  select_deployment_mode # fzf明确选择，取消不准备Go或业务配置。
+  if [ -z "$DEPLOY_MODE" ]; then select_deployment_mode; else log "部署模式｜$DEPLOY_MODE"; fi # 首次准备选择器，已有模式只记录结果。
   initialize_business_runtime # 模式选定后建立业务目录。
   ensure_go # 复用SDK或安装工程本地SDK。
   configure_server # 配置账户，复用时按当前模式检查密码。
   prepare_selected_mode # 本地模式复检工具并确认本次公网访问。
   build_server # 编译单份Go源码。
   checkpoint_deployment_lifecycle # 封存本次资源，供配对反部署校验恢复。
+  record_session_runtime # 守护保存本轮运行资料的独立路径。
   run_selected_mode # 只启动选定的后端或后端加临时隧道。
 }
 main "$@"

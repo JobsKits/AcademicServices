@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-11-05T19:53:30.787818+08:00",
+  "commerce_config_tests": {
+    "passed": 52,
+    "skipped": 0,
+    "log": "测试/部署/证据/本轮/2026.11.05 19-51-25-900271 商城配置/commerce-config.log"
+  },
+  "existing_readonly_deployment_tests": {
+    "passed": 18,
+    "skipped": 0,
+    "log": "测试/部署/证据/本轮/2026.11.05 19-52-07 商城配置补充/deployment-readonly.log"
+  },
+  "scope": "配置函数、PowerShell mock Main与语法/只读夹具；未运行真实部署、未发布公网、未停止实际服务。",
+  "deployment_entries": [
+    {
+      "path": "部署/MacOS/【MacOS】部署.command/【MacOS】部署.command",
+      "sha256": "22127ff8c2bbf99a40f78cdce251f9be44e59bbca4118d383e52e2c9e7133bbb",
+      "lifecycle_unchanged": true
+    },
+    {
+      "path": "部署/Windows/【Windows】部署.ps1/【Windows】部署.ps1",
+      "sha256": "0973b7309f9be173bea8f9c7e216ee6d81c452161b0c18bb4af4c8b0e66c2488",
+      "lifecycle_unchanged": true
+    },
+    {
+      "path": "部署/Ubuntu/【Linux】部署.sh/【Linux】部署.sh",
+      "sha256": "fffd80a35d8d6cab26f70a1c2aa97ccf46833128b0df46eee34ed130a72a5ee5",
+      "lifecycle_unchanged": true
+    },
+    {
+      "path": "部署/Debian/【Linux】部署.sh/【Linux】部署.sh",
+      "sha256": "3b8a5647eaef973d36864a891cc535da55845715ae6685c823cad1adbabb5821",
+      "lifecycle_unchanged": true
+    },
+    {
+      "path": "部署/RockyLinux/【Linux】部署.sh/【Linux】部署.sh",
+      "sha256": "3028ba7f97406cbfd9418e3b8a5f5f1f50bed6c1a6c725ecaf1c21915615b26a",
+      "lifecycle_unchanged": true
+    },
+    {
+      "path": "部署/AlibabaCloudLinux/【Linux】部署.sh/【Linux】部署.sh",
+      "sha256": "58165339c0e65cbcca289a232c4b02e816bdb538f374a5a60da98f62019a0eb2",
+      "lifecycle_unchanged": true
+    },
+    {
+      "path": "部署/Alpine/【Linux】部署.sh/【Linux】部署.sh",
+      "sha256": "8a62c342678f636a9e6eb0f126835421061b6fd409a162d12885c6a626573f15",
+      "lifecycle_unchanged": true
+    },
+    {
+      "path": "部署/FreeBSD/【FreeBSD】部署.sh/【FreeBSD】部署.sh",
+      "sha256": "0d907049cae95f32a9928280509f88a5920c34d57ede280def0c00adc1476add",
+      "lifecycle_unchanged": true
+    }
+  ],
+  "remaining": "八平台原生部署、真实公网验收未在本轮执行。"
+}

@@ -1,6 +1,328 @@
 ﻿# 脚本自述：在当前后端配置、准备本地Go、编译并启动，不修改全局PATH或防火墙。
 # 双击同级【Windows】部署.cmd包内的同名启动器进入；首次设置两组不同密码。-Check仅读取，不下载或写入。
 param([switch]$Check,[switch]$Plan)
+# Jobs enter-choice emphasis is display-only; input and business decisions stay with callers.
+# BEGIN JOBS_TERMINAL_STYLE_V1 - session-only colors; no profile or registry changes.
+function New-JobsTerminalStyleState {
+    if ($PSVersionTable.PSVersion.Major -lt 5) { return @{ JobsTerminalPlainFallback = $true; Before = @{} } }
+    if ([Environment]::OSVersion.Platform -ne [PlatformID]::Win32NT -or $Host.Name -ne 'ConsoleHost') { return $null }
+    if ([Console]::IsInputRedirected -or [Console]::IsOutputRedirected -or [Console]::IsErrorRedirected) { return $null }
+    if ((Test-Path Env:NO_COLOR) -or $env:TERM -ieq 'dumb' -or $env:PLAIN_OUTPUT -eq '1') { return $null }
+    foreach ($key in [Environment]::GetEnvironmentVariables().Keys) {
+        if ([string]$key -match '^(?i:SOURCE_?TREE)') { return $null }
+    }
+    if (-not ('Jobs.TerminalStyleV1.Native' -as [type])) {
+        try {
+        Add-Type -ErrorAction Stop -TypeDefinition @'
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Text.RegularExpressions;
+namespace Jobs.TerminalStyleV1 {
+    public static class Native {
+        [StructLayout(LayoutKind.Explicit, Size=20, CharSet=CharSet.Unicode)]
+        public struct InputRecord {
+            [FieldOffset(0)] public ushort Kind;
+            [FieldOffset(4)] public int Down;
+            [FieldOffset(8)] public ushort Repeat;
+            [FieldOffset(10)] public ushort Key;
+            [FieldOffset(12)] public ushort Scan;
+            [FieldOffset(14)] public char Character;
+            [FieldOffset(16)] public uint Modifiers;
+        }
+        [DllImport("kernel32.dll")] static extern IntPtr GetStdHandle(int n);
+        [DllImport("kernel32.dll")] static extern IntPtr GetConsoleWindow();
+        [DllImport("kernel32.dll")] static extern bool GetConsoleMode(IntPtr h, out uint mode);
+        [DllImport("kernel32.dll")] static extern bool SetConsoleMode(IntPtr h, uint mode);
+        [DllImport("kernel32.dll")] static extern uint WaitForSingleObject(IntPtr h, uint milliseconds);
+        [DllImport("kernel32.dll")] static extern bool GetNumberOfConsoleInputEvents(IntPtr h, out uint count);
+        [DllImport("kernel32.dll", CharSet=CharSet.Unicode, ExactSpelling=true)] static extern bool ReadConsoleInputW(IntPtr h, [Out] InputRecord[] records, uint count, out uint read);
+        [DllImport("kernel32.dll", CharSet=CharSet.Unicode, ExactSpelling=true)] static extern bool WriteConsoleInputW(IntPtr h, InputRecord[] records, uint count, out uint written);
+        const string OwnerName = "JOBS_TERMINAL_STYLE_WINDOWS_OWNER";
+        static readonly string[] Keys = { "10", "11", "4;0", "4;1", "4;2", "4;3", "4;4", "4;5", "4;6", "4;7", "4;8", "4;9", "4;10", "4;11", "4;12", "4;13", "4;14", "4;15" };
+        static readonly string[] Hex = { "000000", "ff5f56", "5fd787", "ffd75f", "5fafff", "d787ff", "5fd7ff", "eeeeee", "9e9e9e", "ff8787", "87ffaf", "ffff87", "87bfff", "ffafff", "afffff", "ffffff" };
+        static readonly Regex Reply = new Regex("\\x1b\\](?<key>10|11|4;[0-9]{1,2});(?<rgb>rgb:[0-9a-f]{1,4}/[0-9a-f]{1,4}/[0-9a-f]{1,4})(?:\\x07|\\x1b\\\\)", RegexOptions.IgnoreCase);
+        public sealed class State {
+            public IntPtr Input, Output;
+            public uint OutputMode;
+            public ConsoleColor Foreground, Background;
+            public Dictionary<string,string> Original, Applied;
+            public string Owner, PreviousOwner, Recovery;
+            public bool Active, ModeChanged, Fallback;
+            public Dictionary<string,string> EnvironmentBefore = new Dictionary<string,string>();
+        }
+        static string Escape(string key, string value) { return "\x1b]" + key + ";" + value + "\x07"; }
+        static string Rgb(string hex) { return "rgb:" + hex.Substring(0,2) + "/" + hex.Substring(2,2) + "/" + hex.Substring(4,2); }
+        static string Normal(string rgb) {
+            string[] parts = rgb.Substring(4).Split('/');
+            for (int n=0; n<3; n++) {
+                int maximum = (1 << (4 * parts[n].Length)) - 1;
+                int value = Convert.ToInt32(parts[n],16);
+                parts[n] = ((value * 65535L + maximum/2) / maximum).ToString("x4");
+            }
+            return String.Join("/",parts);
+        }
+        // Preserve unrelated key/window records instead of consuming user input during color queries.
+        static Dictionary<string,string> Query(State state) {
+            uint pending;
+            if (!GetNumberOfConsoleInputEvents(state.Input,out pending) || pending != 0) { return null; }
+            StringBuilder commands = new StringBuilder();
+            foreach (string key in Keys) { commands.Append(Escape(key,"?")); }
+            Console.Write(commands.ToString());
+            List<InputRecord> records = new List<InputRecord>();
+            List<int> characterIndices = new List<int>();
+            StringBuilder text = new StringBuilder();
+            Dictionary<string,string> result = new Dictionary<string,string>();
+            Stopwatch timer = Stopwatch.StartNew();
+            try {
+                while (timer.ElapsedMilliseconds < 600) {
+                    if (result.Count == Keys.Length && GetNumberOfConsoleInputEvents(state.Input,out pending) && pending == 0) { break; }
+                    if (WaitForSingleObject(state.Input,20) != 0) { continue; }
+                    InputRecord[] item = new InputRecord[1]; uint read;
+                    if (!ReadConsoleInputW(state.Input,item,1,out read) || read != 1) { break; }
+                    int index = -1;
+                    if (item[0].Kind == 1 && item[0].Character != '\0') {
+                        if (item[0].Down != 0) { index = text.Length; text.Append(item[0].Character); }
+                        else if (text.Length != 0 && text[text.Length-1] == item[0].Character) { index = text.Length-1; }
+                    }
+                    records.Add(item[0]); characterIndices.Add(index);
+                    foreach (Match match in Reply.Matches(text.ToString())) {
+                        string key = match.Groups["key"].Value;
+                        if (Array.IndexOf(Keys,key) >= 0) { result[key] = match.Groups["rgb"].Value; }
+                    }
+                }
+            } finally {
+                bool[] used = new bool[text.Length];
+                foreach (Match match in Reply.Matches(text.ToString())) {
+                    for (int n=match.Index; n<match.Index+match.Length; n++) { used[n] = true; }
+                }
+                List<InputRecord> replay = new List<InputRecord>();
+                for (int n=0; n<records.Count; n++) {
+                    int index = characterIndices[n];
+                    if (index < 0 || !used[index]) { replay.Add(records[n]); }
+                }
+                if (replay.Count != 0) {
+                    uint written;
+                    if (!WriteConsoleInputW(state.Input,replay.ToArray(),(uint)replay.Count,out written) || written != replay.Count) {
+                        Console.Error.WriteLine("[Jobs] Could not replay terminal input; color protection is unavailable.");
+                        result.Clear();
+                    }
+                }
+            }
+            return result.Count == Keys.Length ? result : null;
+        }
+        static void Plain(State state) {
+            foreach (string key in new string[] { "NO_COLOR", "PLAIN_OUTPUT", "FORCE_COLOR", "CLICOLOR", "ANSI_COLORS_DISABLED" }) {
+                state.EnvironmentBefore[key] = Environment.GetEnvironmentVariable(key);
+                Environment.SetEnvironmentVariable(key, key == "FORCE_COLOR" || key == "CLICOLOR" ? "0" : "1");
+            }
+            state.Fallback = true;
+        }
+        public static void Enter(State state) {
+            try {
+                state.Input = GetStdHandle(-10); state.Output = GetStdHandle(-11);
+                uint inputMode;
+                if (!GetConsoleMode(state.Input,out inputMode) || !GetConsoleMode(state.Output,out state.OutputMode)) { Plain(state); return; }
+                IntPtr window = GetConsoleWindow();
+                if (window == IntPtr.Zero) { Plain(state); return; }
+                string identity = window.ToInt64().ToString("x");
+                state.PreviousOwner = Environment.GetEnvironmentVariable(OwnerName);
+                if (!String.IsNullOrEmpty(state.PreviousOwner)) {
+                    string[] owner = state.PreviousOwner.Split(':');
+                    int pid; long started;
+                    if (owner.Length == 3 && owner[0] == identity && Int32.TryParse(owner[1],out pid) && Int64.TryParse(owner[2],out started)) {
+                        try { if (Process.GetProcessById(pid).StartTime.ToUniversalTime().Ticks == started) { return; } } catch {}
+                    }
+                }
+                state.Foreground = Console.ForegroundColor; state.Background = Console.BackgroundColor;
+                if ((state.OutputMode & 4) == 0) {
+                    if (!SetConsoleMode(state.Output,state.OutputMode | 4)) { Plain(state); return; }
+                    state.ModeChanged = true;
+                }
+                state.Original = Query(state);
+                if (state.Original == null) { Restore(state); Plain(state); return; }
+                state.Applied = new Dictionary<string,string>();
+                state.Applied["10"] = "rgb:ff/ff/ff"; state.Applied["11"] = "rgb:00/00/00";
+                for (int n=0; n<16; n++) { state.Applied["4;"+n] = Rgb(Hex[n]); }
+                StringBuilder restore = new StringBuilder();
+                foreach (string key in Keys) { restore.Append(Escape(key,state.Original[key])); }
+                string encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(restore.ToString()));
+                state.Recovery = Path.Combine(Path.GetTempPath(),"JobsTerminalStyle-"+Process.GetCurrentProcess().Id+"-"+Guid.NewGuid().ToString("N")+".ps1");
+                string manual = "# Restore only the session colors saved by this Jobs script.\r\n"+
+                    "if ([Console]::IsOutputRedirected) { throw 'Run in the original console.' }\r\n"+
+                    "Add-Type -Namespace Jobs -Name RecoveryConsole -MemberDefinition '[System.Runtime.InteropServices.DllImport(\"kernel32.dll\")] public static extern System.IntPtr GetStdHandle(int n); [System.Runtime.InteropServices.DllImport(\"kernel32.dll\")] public static extern bool GetConsoleMode(System.IntPtr h, out uint m); [System.Runtime.InteropServices.DllImport(\"kernel32.dll\")] public static extern bool SetConsoleMode(System.IntPtr h, uint m);'\r\n"+
+                    "$h = [Jobs.RecoveryConsole]::GetStdHandle(-11); [uint32]$m = 0\r\n"+
+                    "if (-not [Jobs.RecoveryConsole]::GetConsoleMode($h, [ref]$m)) { throw 'Run in the original console.' }\r\n"+
+                    "try {\r\nif (-not [Jobs.RecoveryConsole]::SetConsoleMode($h, ($m -bor 4))) { throw 'Cannot enable terminal recovery.' }\r\n"+
+                    "[Console]::Write([Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('"+encoded+"')))\r\n"+
+                    "[Console]::ForegroundColor = [ConsoleColor]"+((int)state.Foreground)+"\r\n"+
+                    "[Console]::BackgroundColor = [ConsoleColor]"+((int)state.Background)+"\r\n"+
+                    "[Console]::Write([string][char]27 + '[39;49m')\r\n"+
+                    "} finally { [void][Jobs.RecoveryConsole]::SetConsoleMode($h, $m) }\r\n";
+                File.WriteAllText(state.Recovery,manual,new UTF8Encoding(false));
+                state.Owner = identity+":"+Process.GetCurrentProcess().Id+":"+Process.GetCurrentProcess().StartTime.ToUniversalTime().Ticks;
+                Environment.SetEnvironmentVariable(OwnerName,state.Owner);
+                state.Active = true;
+                foreach (string key in Keys) { Console.Write(Escape(key,state.Applied[key])); }
+                Console.ForegroundColor = ConsoleColor.White; Console.BackgroundColor = ConsoleColor.Black;
+                Dictionary<string,string> check = Query(state);
+                foreach (string key in Keys) {
+                    if (check == null || Normal(check[key]) != Normal(state.Applied[key])) { Restore(state); Plain(state); return; }
+                }
+            } catch (Exception error) {
+                Restore(state); Plain(state);
+                Console.Error.WriteLine("[Jobs] Terminal style unavailable: " + error.Message);
+            }
+        }
+        public static void Restore(State state) {
+            if (state == null) { return; }
+            try {
+                if (state.Active) {
+                    Dictionary<string,string> current = Query(state);
+                    bool complete = current != null;
+                    if (current != null) {
+                        bool restoreForeground = Console.ForegroundColor == ConsoleColor.White && Normal(current["10"]) == Normal(state.Applied["10"]) && Normal(current["4;15"]) == Normal(state.Applied["4;15"]);
+                        bool restoreBackground = Console.BackgroundColor == ConsoleColor.Black && Normal(current["11"]) == Normal(state.Applied["11"]) && Normal(current["4;0"]) == Normal(state.Applied["4;0"]);
+                        foreach (string key in Keys) {
+                            if (Normal(current[key]) == Normal(state.Applied[key])) { Console.Write(Escape(key,state.Original[key])); }
+                            else if (Normal(current[key]) != Normal(state.Original[key])) {
+                                complete = false; Console.Error.WriteLine("[Jobs] Kept a concurrent color change: " + key);
+                            }
+                        }
+                        if (restoreForeground) { Console.ForegroundColor = state.Foreground; Console.Write("\x1b[39m"); }
+                        if (restoreBackground) { Console.BackgroundColor = state.Background; Console.Write("\x1b[49m"); }
+                    }
+                    if (complete) {
+                        Dictionary<string,string> check = Query(state);
+                        foreach (string key in Keys) { if (check == null || Normal(check[key]) != Normal(state.Original[key])) { complete = false; } }
+                    }
+                    if (complete) { File.Delete(state.Recovery); }
+                    else { Console.Error.WriteLine("[Jobs] Color restore needs review. Manual recovery: powershell -NoProfile -File \""+state.Recovery+"\""); }
+                }
+            } catch (Exception error) {
+                Console.Error.WriteLine("[Jobs] Color restore failed: "+error.Message+"; recovery: "+state.Recovery);
+            } finally {
+                if (state.Owner != null && Environment.GetEnvironmentVariable(OwnerName) == state.Owner) { Environment.SetEnvironmentVariable(OwnerName,state.PreviousOwner); }
+                state.Active = false;
+                uint currentMode;
+                if (state.ModeChanged && GetConsoleMode(state.Output,out currentMode) && currentMode == (state.OutputMode | 4)) { SetConsoleMode(state.Output,state.OutputMode); }
+                state.ModeChanged = false;
+                if (state.Fallback) {
+                    foreach (KeyValuePair<string,string> pair in state.EnvironmentBefore) {
+                        string applied = pair.Key == "FORCE_COLOR" || pair.Key == "CLICOLOR" ? "0" : "1";
+                        if (Environment.GetEnvironmentVariable(pair.Key) == applied) { Environment.SetEnvironmentVariable(pair.Key,pair.Value); }
+                    }
+                    state.Fallback = false;
+                }
+            }
+        }
+    }
+}
+'@
+        } catch {
+            [Console]::Error.WriteLine('[Jobs] Terminal style setup failed; using plain output: ' + $_.Exception.Message)
+            return @{ JobsTerminalPlainFallback = $true; Before = @{} }
+        }
+    }
+    return New-Object Jobs.TerminalStyleV1.Native+State
+}
+# Guard setup is optional; failure keeps business behavior and the user's original terminal settings.
+function Start-JobsTerminalStyle {
+    param($State)
+    if ($State -is [Collections.IDictionary] -and $State.Contains('JobsTerminalPlainFallback')) {
+        foreach ($key in @('NO_COLOR', 'PLAIN_OUTPUT', 'FORCE_COLOR', 'CLICOLOR', 'ANSI_COLORS_DISABLED')) {
+            $State.Before[$key] = [Environment]::GetEnvironmentVariable($key)
+            [Environment]::SetEnvironmentVariable($key, $(if (@('FORCE_COLOR', 'CLICOLOR') -contains $key) { '0' } else { '1' }))
+        }
+        return
+    }
+    if ($null -ne $State) { [Jobs.TerminalStyleV1.Native]::Enter($State) }
+}
+# A finally block also runs for script exit and Ctrl+C; direct .NET calls avoid stopped pipelines.
+function Stop-JobsTerminalStyle {
+    param($State)
+    if ($State -is [Collections.IDictionary] -and $State.Contains('JobsTerminalPlainFallback')) {
+        foreach ($key in $State.Before.Keys) {
+            $applied = if (@('FORCE_COLOR', 'CLICOLOR') -contains $key) { '0' } else { '1' }
+            if ([Environment]::GetEnvironmentVariable($key) -ceq $applied) { [Environment]::SetEnvironmentVariable($key, $State.Before[$key]) }
+        }
+        return
+    }
+    if ($null -ne $State) { [Jobs.TerminalStyleV1.Native]::Restore($State) }
+}
+# END JOBS_TERMINAL_STYLE_V1
+
+$__jobsTerminalStyleState = $null
+try {
+    if ($MyInvocation.InvocationName -ne '.') {
+        $__jobsTerminalStyleState = New-JobsTerminalStyleState
+        Start-JobsTerminalStyle $__jobsTerminalStyleState
+    }
+# BEGIN JOBS_TERMINAL_STYLE_ORIGINAL_BODY
+function Test-JobsEnterChoiceColor {
+    if ((Test-Path Env:NO_COLOR) -or $env:TERM -ieq 'dumb' -or $env:PLAIN_OUTPUT -eq '1') { return $false }
+    $consoleType = [Console]
+    if ($null -eq $consoleType.GetProperty('IsInputRedirected') -or $null -eq $consoleType.GetProperty('IsOutputRedirected')) { return $false }
+    return ($Host.Name -ceq 'ConsoleHost' -and -not [Console]::IsInputRedirected -and -not [Console]::IsOutputRedirected)
+}
+# Older hosts keep native colors without sending unsupported bold escape sequences.
+function Test-JobsEnterChoiceBold {
+    $property = $Host.UI.PSObject.Properties['SupportsVirtualTerminal']
+    return ($null -ne $property -and [bool]$property.Value)
+}
+# Separate ordinary question text from Enter and arbitrary-input options without changing words.
+function Get-JobsEnterChoiceParts {
+    param([string]$Text)
+    $red = '(?:(?:\u8f93\u5165)?(?:\u4efb\u610f(?:\u975e\u7a7a)?(?:\u5b57\u7b26|\u5185\u5bb9|\u6587\u5b57|\u8f93\u5165)?|\u975e\u7a7a(?:\u8f93\u5165|\u5b57\u7b26|\u5185\u5bb9)?|(?:\u5176\u5b83|\u5176\u4ed6)(?:\u975e\u7a7a)?(?:\u8f93\u5165|\u5185\u5bb9|\u5b57\u7b26)?))|(?:any\s+(?:(?:other|non[- ]empty)\s+)?(?:input|text|characters?)|non[- ]empty\s+input)'
+    $green = '(?:(?:\u76f4\u63a5|\u53ea\u9700|\u4ec5(?:\u9700)?|\u6309(?:\u4e0b)?|\u7a7a)?\s*\u56de\u8f66|(?:press\s+)?\bEnter\b(?!\s+(?:YES|REPAIR|CLEAN|CONTINUE)\b))'
+    $pattern = '(?is)(?<red>(?:' + $red + ')[^;\uFF1B\r\n]*?(?=[;\uFF1B\r\n]|\z))|(?<green>(?:' + $green + ')[^;\uFF1B\r\n]*?(?=(?:' + $red + ')|[;\uFF1B\r\n]|\z))'
+    $offset = 0
+    foreach ($match in [regex]::Matches($Text, $pattern)) {
+        if ($match.Index -gt $offset) { [pscustomobject]@{ Text = $Text.Substring($offset, $match.Index - $offset); Color = '' } }
+        $prefix = [regex]::Split($Text.Substring(0, $match.Index), '[;\uFF1B\r\n]')[-1]
+        $typed = $prefix -match '(?i)(?:\u8f93\u5165|\u952e\u5165|type|enter)\s*(?:\u5927\u5199\s*)?(?:YES|REPAIR|CLEAN|CONTINUE)\b|\u7cbe\u786e\u8f93\u5165|\u8f93\u5165[^;\uFF1B\r\n]*[\u540e\u518d]\s*$'
+        $color = if ($match.Groups['red'].Success) { 'Red' } elseif ($typed) { '' } else { 'Green' }
+        [pscustomobject]@{ Text = $match.Value; Color = $color }
+        $offset = $match.Index + $match.Length
+    }
+    if ($offset -lt $Text.Length) { [pscustomobject]@{ Text = $Text.Substring($offset); Color = '' } }
+}
+# Native host text remains plain in information streams and logs; bold control is console-only.
+function Write-JobsEnterChoiceText {
+    [CmdletBinding()]
+    param([Parameter(Position=0)][AllowNull()][object]$Object, [switch]$NoNewline, [ConsoleColor]$ForegroundColor, [ConsoleColor]$BackgroundColor, [object]$Separator = ' ')
+    $text = if ($Object -is [array]) { $Object -join [string]$Separator } else { [string]$Object }
+    if (-not (Test-JobsEnterChoiceColor)) {
+        Write-Host $Object -NoNewline:$NoNewline -Separator $Separator
+        return
+    }
+    $normal = @{}
+    if ($PSBoundParameters.ContainsKey('ForegroundColor')) { $normal.ForegroundColor = $ForegroundColor }
+    if ($PSBoundParameters.ContainsKey('BackgroundColor')) { $normal.BackgroundColor = $BackgroundColor }
+    foreach ($part in @(Get-JobsEnterChoiceParts $text)) {
+        if (-not $part.Color) { Write-Host $part.Text -NoNewline @normal; continue }
+        $bold = Test-JobsEnterChoiceBold
+        if ($bold) { [Console]::Write(([string][char]27) + '[1m') }
+        try { Write-Host $part.Text -ForegroundColor $part.Color -NoNewline }
+        finally { if ($bold) { [Console]::Write(([string][char]27) + '[0m') } }
+    }
+    if (-not $NoNewline) { Write-Host }
+}
+# Delegate the original reader, including secure input and EOF behavior, after prompt display.
+function Read-JobsEnterChoiceHost {
+    [CmdletBinding()]
+    param([Parameter(Position=0)][string]$Prompt, [switch]$AsSecureString, [switch]$MaskInput)
+    if ($AsSecureString -or $MaskInput -or -not (Test-JobsEnterChoiceColor) -or @((Get-JobsEnterChoiceParts $Prompt) | Where-Object { $_.Color }).Count -eq 0) {
+        return (Read-Host @PSBoundParameters)
+    }
+    Write-JobsEnterChoiceText ($Prompt + ': ') -NoNewline
+    return (Read-Host)
+}
+
+
 $ErrorActionPreference = 'Stop'
 $CodeRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../代码'))
 $DeployRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
@@ -475,8 +797,9 @@ function Invoke-OriginUndo([string]$Root,[ValidateSet('backup','clear')][string]
 
 function Show-Intro {
     Write-Host "知序服务 | Windows 部署" -ForegroundColor Red
-    Write-Host '1、自述回车后fzf选择本地部署＋内网穿透或服务器部署，Esc取消。' -ForegroundColor Blue
+    Write-JobsEnterChoiceText '1、自述回车后fzf选择本地部署＋内网穿透或服务器部署，Esc取消。' -ForegroundColor Blue
     Write-Host '缺少fzf/Go/cloudflared时按锁清单自动准备工程内工具并验SHA256；本地模式另确认公网。' -ForegroundColor Blue
+    Write-Host '本地模式为Demo：模拟支付，登录页公开本次真实测试账号密码；服务器模式关闭Demo、不公开凭据。'
     Write-Host '2、记录部署原点，再写 .tools、.runtime、data；反部署仅按清单处理，不改全局PATH、系统服务或防火墙。'
     Write-Host '3、编译成功后在当前窗口运行；Ctrl+C停止，业务数据保留。'
     Write-Host '4、Go模块默认goproxy.cn，失败回退官方；GOPROXY可覆盖，仅当前进程生效。'
@@ -484,7 +807,7 @@ function Show-Intro {
     Write-Host "日志：$LogFile"
     if ($Check -or $Plan) { return }
     if ([Console]::IsInputRedirected) { throw '请在交互终端运行。' }
-    if ((Read-Host '按回车继续；任意字符取消').Length -ne 0) { throw '已取消。' }
+    if ((Read-JobsEnterChoiceHost '按回车继续；任意字符取消').Length -ne 0) { throw '已取消。' }
 }
 # 检查源码与Windows平台。
 function Test-Source {
@@ -545,12 +868,23 @@ function Ensure-Go {
 }
 # 读取隐藏密码，只在进程内短暂转换。
 function Read-Password([string]$Prompt) {
-    $secure = Read-Host $Prompt -AsSecureString
+    $secure = Read-JobsEnterChoiceHost $Prompt -AsSecureString
     $ptr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($secure)
     try { $plain = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($ptr) }
     finally { [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ptr) }
     if ($plain.Length -lt 12) { throw '密码至少12个字符。' }
     return $plain
+}
+# 只选择已有商城构建包；独立后端分发保留随包页面，不覆盖任何静态目录。
+function Select-StaticRoots {
+    $env:ADMIN_STATIC_DIR = Join-Path $ServerRoot 'admin-web'
+    $env:CLIENT_STATIC_DIR = Join-Path $ServerRoot 'client-web'
+    $client = Join-Path $CodeRoot '前端/移动端/Flutter/Dist/ShopClient'
+    $admin = Join-Path $CodeRoot '前端/后台管理端/Flutter/Dist/ShopAdmin'
+    if (Test-Path -LiteralPath (Join-Path $client 'index.html') -PathType Leaf) { $env:CLIENT_STATIC_DIR = $client }
+    if (Test-Path -LiteralPath (Join-Path $admin 'index.html') -PathType Leaf) { $env:ADMIN_STATIC_DIR = $admin }
+    Write-Host "用户端静态目录 | $env:CLIENT_STATIC_DIR"
+    Write-Host "管理端静态目录 | $env:ADMIN_STATIC_DIR"
 }
 # 初次配置与只读加载，禁止执行配置文本。
 function Configure-Server {
@@ -563,7 +897,7 @@ function Configure-Server {
         $admin = Read-Password '管理员admin密码（至少12字符）'
         $customer = Read-Password '客户customer密码（至少12字符）'
         if ($admin -eq $customer) { throw '两组密码必须不同。' }
-        $secureDb = Read-Host 'PostgreSQL连接串（回车使用单实例本地文件存储）' -AsSecureString
+        $secureDb = Read-JobsEnterChoiceHost 'PostgreSQL连接串（回车使用单实例本地文件存储）' -AsSecureString
         $ptr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureDb)
         try { $database = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($ptr) }
         finally { [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ptr) }
@@ -586,8 +920,7 @@ function Configure-Server {
         [Environment]::SetEnvironmentVariable($pair[0],$pair[1],'Process')
     }
     $env:DATA_DIR = Join-Path $ServerRoot 'data'
-    $env:ADMIN_STATIC_DIR = Join-Path $ServerRoot 'admin-web'
-    $env:CLIENT_STATIC_DIR = Join-Path $ServerRoot 'client-web'
+    Select-StaticRoots
     if (-not $env:GOPROXY) { $env:GOPROXY = 'https://goproxy.cn|https://proxy.golang.org|direct' }
     $env:GOTELEMETRY = 'off'
     $env:GOMODCACHE = Join-Path $ServerRoot '.tools/gomodcache'
@@ -767,9 +1100,9 @@ function Select-DeploymentMode {
 }
 # 计划与检查仅读取路径和平台，不创建日志或联网。
 function Show-Plan {
-    Write-Host '计划：自述回车 -> 工程内fzf -> 两模式选择 -> Go/密码配置/编译。'
-    Write-Host '本地：production + loopback + 同源，后端健康后建立Cloudflare Quick随机HTTPS；公网前另确认。'
-    Write-Host '服务器：保留原配置，仅运行后端；不建立隧道。'
+    Write-JobsEnterChoiceText '计划：自述回车 -> 工程内fzf -> 两模式选择 -> Go/密码配置/编译。'
+    Write-Host '本地：DEMO_MODE=1、PAYMENT_MODE=mock，登录页公开测试账号密码；production + loopback + 同源，后端健康后建立Cloudflare Quick随机HTTPS；公网前另确认。'
+    Write-Host '服务器：DEMO_MODE=0、不公开凭据；保留原配置，仅运行后端；不建立隧道。'
     Write-Host '健康工具复用，缺少时按部署/deploy-tools.lock.tsv下载固定官方资产并验SHA256，不改全局PATH。'
     Write-Host 'Windows ARM64没有锁定的cloudflared原生成品；现有原生工具或cpolar备选须单独核验。'
     Write-Host 'Quick免费、无SLA、200在途、无SSE、大陆可达性需实测。此计划未下载、编译、写配置或发布。'
@@ -782,19 +1115,23 @@ function Write-TerminalLifetimeNotice {
     try { Write-Host $message }
     finally { if ($color) { [Console]::Write(([char]27).ToString() + '[0m') } }
 }
-# 公网路线只覆盖本次进程环境，不覆盖已有文件。
+# 两模式显式设置Demo开关；本地模拟支付，只覆盖本次进程环境，不覆盖已有文件。
 function Prepare-SelectedMode {
+    $env:DEMO_MODE = '0'
     if ($DeployMode -ne 'local') { return }
+    $env:DEMO_MODE = '1'
+    $env:PAYMENT_MODE = 'mock'
     $script:CloudflaredExe = Ensure-LocalTool 'cloudflared'
     $portText = ($env:LISTEN_ADDR -split ':')[-1]
     $portNumber = 0
     if (-not [int]::TryParse($portText,[ref]$portNumber) -or $portNumber -lt 1 -or $portNumber -gt 65535) { throw '本地监听端口必须为1至65535。' }
     $env:APP_ENV = 'production'; $env:LISTEN_ADDR = "127.0.0.1:$portNumber"; $env:CORS_ORIGINS = ''
     $script:LocalUrl = "http://$env:LISTEN_ADDR"
+    Write-Host '当前为Demo：登录页公开管理员和客户测试账号密码，可复制；支付为模拟成功。仅使用专用演示账户和合成数据。'
     Write-Host '本次将创建可公网访问的临时HTTPS入口；必须使用非默认账户密码和合成测试数据。' -ForegroundColor Yellow
     Write-Host '不改系统代理、防火墙、电源、自启。Ctrl+C撤回本次入口，保留数据；网址重建会变化。'
     Write-TerminalLifetimeNotice
-    if ((Read-Host '确认发布本次临时入口，直接回车继续；其它输入取消').Length -ne 0) { throw '已取消公网发布。' }
+    if ((Read-JobsEnterChoiceHost '确认发布本次临时入口，直接回车继续；其它输入取消').Length -ne 0) { throw '已取消公网发布。' }
 }
 # Windows CreateProcess参数引用，兼容中文、空格、反斜杠及双引号。
 function ConvertTo-NativeArgument([string]$Value) {
@@ -890,7 +1227,7 @@ function Main {
     if ($Check -and $Plan) { throw 'Check和Plan不能同时使用。' }
     if ($Check) { Write-Host '检查通过；未编译、安装或启动。'; return }
     if ($Plan) { Show-Plan; return }
-    $environmentKeys = @('APP_ENV','LISTEN_ADDR','ADMIN_PASSWORD','DEMO_CUSTOMER_PASSWORD','DATABASE_URL','CORS_ORIGINS','GOPROXY','DATA_DIR','ADMIN_STATIC_DIR','CLIENT_STATIC_DIR','GOTELEMETRY','GOMODCACHE','GOCACHE','CGO_ENABLED','GOTOOLCHAIN','PUBLIC_BASE_URL')
+    $environmentKeys = @('APP_ENV','LISTEN_ADDR','ADMIN_PASSWORD','DEMO_CUSTOMER_PASSWORD','DATABASE_URL','CORS_ORIGINS','GOPROXY','DATA_DIR','ADMIN_STATIC_DIR','CLIENT_STATIC_DIR','GOTELEMETRY','GOMODCACHE','GOCACHE','CGO_ENABLED','GOTOOLCHAIN','PUBLIC_BASE_URL','DEMO_MODE','PAYMENT_MODE')
     $savedEnvironment = @{}
     foreach ($key in $environmentKeys) { $savedEnvironment[$key] = [Environment]::GetEnvironmentVariable($key,'Process') }
     $script:OriginLock = Enter-OriginLock $ServerRoot
@@ -922,3 +1259,8 @@ function Main {
     }
 }
 try { Main } catch { Write-Host $_.Exception.Message -ForegroundColor Red; exit 1 }
+
+# END JOBS_TERMINAL_STYLE_ORIGINAL_BODY
+} finally {
+    Stop-JobsTerminalStyle $__jobsTerminalStyleState
+}

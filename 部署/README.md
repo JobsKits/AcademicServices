@@ -69,6 +69,12 @@ MacOS 与 Windows 快捷文件保留参数及退出码。Windows 快捷 CMD 直�
 
 存储边界：文件模式与 [**PostgreSQL**](https://www.postgresql.org/) 模式均把全部业务历史和附件聚合到同一状态，读写时还会复制、序列化整份状态；数据增长会增加内存和磁盘开销。除现有状态外，至少另留一次原子写临时副本与一份备份的空间，并监测剩余内存、磁盘和写入耗时；切换数据库不能消除聚合存储瓶颈。当前尚无下限硬件压测、生产容量或并发验收，正式运营配置须在存储方案完善后按真实数据量与负载验证。
 
+## 当前商城页面与Demo模式
+
+本地部署＋内网穿透固定使用 `DEMO_MODE=1`、`PAYMENT_MODE=mock`。登录页会展示并允许复制当前配置的管理员、客户实际测试账号密码，支付按模拟成功处理；请为此模式使用专用演示账户与合成数据。服务器部署显式设 `DEMO_MODE=0`，覆盖继承的Demo开关，接口不返回密码；支付沿用显式进程配置，未设置时由后端默认mock。这两个开关不写入 `.runtime/config.env`，终端日志不打印密码；Windows退出时还原调用进程原有环境。
+
+入口按各自 `index.html` 是否存在，分别优先选用 `代码/前端/移动端/Flutter/Dist/ShopClient` 与 `代码/前端/后台管理端/Flutter/Dist/ShopAdmin`。完整工程请保留这些已构建目录；独立后端分发未携带对应构建包时，分别回退到 `代码/后端/后端代码/client-web`、`admin-web` 随包页面。启动日志显示最终目录，不自动构建Flutter、不复制或覆盖静态目录及运行数据。路径从脚本自身位置解析，改名、中文空格和工程外启动不影响选择。
+
 ## 二、<span id="section-2">第一次运行与配置</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 首次自述回车继续；其它字符取消。没有可交互输入会停止，不把EOF当确认。
@@ -106,7 +112,7 @@ powershell.exe -NoProfile -File .\Windows\【Windows】部署.ps1\【Windows】�
 ## 四、<span id="section-4">数据、迁移和常驻</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 - 文件模式的资料、附件、审计、幂等收据与待发送通知在 `data/state.json` 的同一原子快照中。单进程锁拒绝多个文件实例共享目录。
-- [**PostgreSQL**](https://www.postgresql.org/)选项使用数据库内 `academic_runtime_state` JSONB事务聚合；脚本不会安装或创建数据库账户，填写连接串前应备好独立数据库。原29表关系DDL仅参考，当前业务未逐表写入。
+- [**PostgreSQL**](https://www.postgresql.org/)选项使用数据库内 `academic_runtime_state` JSONB事务聚合；脚本不会安装或创建数据库账户，填写连接串前应备好独立数据库。当前数据库结构与商城聚合模型见[数据库设计](../需求/数据库设计/数据库设计.md)；运行时按聚合状态事务保存商品、轮播、订单及幂等收据。
 - 两种存储没有自动互转。修改 `DATABASE_URL` 是切换数据源，不能当作数据迁移。需要先导出/转换/对账并完成恢复测试。
 - 备份前正常停止服务。保存整个data目录与有效配置；不要只备份程序。还原前保留旧数据副本，确认密码与数据库目标匹配。
 - 当前入口以前台运行便于新手发现错误，关闭窗口就会停止。需要服务器重启后自动运行时，由运维将 `.runtime/bin/server` 接入 systemd、launchd 或Windows任务计划，使用同一工作目录和环境；未在脚本内静默创建系统常驻项。

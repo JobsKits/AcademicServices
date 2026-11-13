@@ -16,4 +16,4 @@ zhixu = "zhixu.app:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-zhixu = ["Assets/*"]
+zhixu = ["Assets/*", "Assets/Banners/*", "Assets/Fonts/*"]

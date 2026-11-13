@@ -1,0 +1,51 @@
+{
+  "date": "2026-11-06",
+  "scope": "源码、实际Web静态包与隔离回环服务；未重启用户既有部署",
+  "web": {
+    "client": {
+      "files": 48,
+      "main.dart.js": "8fe5fc84fa9e83e8e6bdc7e34d6052b5d58a8f25c4f16fcfd666109b003af2c2",
+      "fallback_equal": true,
+      "isolated_http_equal": true
+    },
+    "admin": {
+      "files": 44,
+      "main.dart.js": "6563d0c7f812eb2e1e638a4e5727b91497f73e19faebbbe8b2bea43171de899c",
+      "fallback_equal": true,
+      "isolated_http_equal": true
+    }
+  },
+  "checks": {
+    "flutter_full": 105,
+    "flutter_auth_chrome": 15,
+    "mini": 89,
+    "desktop": 74,
+    "li_web": 20,
+    "li_flutter": 31,
+    "go": "race/vet/HTTP及新增认证回归通过"
+  },
+  "limits": [
+    "真实SMTP送达未配置验证",
+    "微信真机未验",
+    "Windows原生包未编译",
+    "既有后端需正常重启后加载新认证代码"
+  ],
+  "latest_feedback": [
+    "游客设置无登录入口",
+    "游客点我的或个人页深链先登录，取消回首页",
+    "Web启用鼠标拖动，拖动后可恢复自动轮播",
+    "桌面读取不再禁用整页，登录文字对比及拖动修复由桌面证据记录"
+  ],
+  "desktop_runtime": {
+    "dist": "代码/前端/PC端/Python/Dist/2026.11.06 18-19-24",
+    "frozen_native_events": "测试/前端/PC端/Python/证据/账户体验/桌面反馈原生事件.json",
+    "checks": [
+      "actual_timer_4.5s",
+      "native_mouse_press_move_release",
+      "light_dark_button_contrast",
+      "guest_my_login_guard",
+      "settings_no_login"
+    ],
+    "dmg_sha256": "04ed32483aad3ce47f88cb6cd8903f9e158f51e8a2e60c514123c20a47c2bd69"
+  }
+}

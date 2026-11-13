@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
 )
 from .repository import ApiError, Repository, SERVICES, STATUS, UnknownWrite, api_url
 from .settings import Settings
+from .shop_widgets import SettingsButton
 
 
 class Result(QObject):
@@ -145,7 +146,7 @@ class MainWindow(QMainWindow):
         nav.setContentsMargins(24, 10, 24, 6)
         nav.addWidget(button("服务首页", lambda: self.pages.setCurrentIndex(0)))
         nav.addWidget(button("我的需求与订单", lambda: self.pages.setCurrentIndex(1)))
-        nav.addWidget(button("连接设置", lambda: self.pages.setCurrentIndex(2)))
+        nav.addWidget(SettingsButton("连接设置", lambda: self.pages.setCurrentIndex(2)))
         nav.addStretch()
         self.reload_button = button("重新加载", self.refresh)
         nav.addWidget(self.reload_button)
@@ -553,6 +554,7 @@ class MainWindow(QMainWindow):
 def main():
     parser = argparse.ArgumentParser(description="知序学术服务桌面客户端")
     parser.add_argument("--screenshot", type=Path, help="保存首屏截图后退出（验证用）")
+    parser.add_argument("--verify-interactions", type=Path, help=argparse.SUPPRESS)
     args = parser.parse_args()
     app = QApplication(sys.argv[:1])
     app.setApplicationName("Zhixu")
@@ -561,6 +563,62 @@ def main():
     from .shop import ShopWindow
     window = ShopWindow()
     window.show()
+    if args.verify_interactions:
+        # 验证模式只在显式参数下加载 QtTest，正常启动不依赖它。
+        def verify_interactions():
+            import json
+            from PySide6.QtTest import QTest
+            from PySide6.QtCore import QPoint
+            from PySide6.QtWidgets import QTabWidget
+            from .shop_widgets import BannerCarousel
+            output = args.verify_interactions
+            output.parent.mkdir(parents=True, exist_ok=True)
+            result = {"frozen": bool(getattr(sys, "frozen", False)), "entry": sys.executable, "event_source": "native Qt QTest mouse press/move/release; no direct slide advancement"}
+            try:
+                while window.reading:
+                    QTest.qWait(50)
+                window.timer.stop()
+                window.initial_refresh.stop()
+                window.raise_()
+                window.activateWindow()
+                QTest.qWait(200)
+                carousel = window.area.findChildren(BannerCarousel)[0]
+                start = carousel.index
+                result["timer_active"] = carousel.timer.isActive()
+                QTest.qWait(carousel.timer.interval() + 250)
+                result["automatic_change"] = carousel.index != start
+                before_drag = carousel.index
+                QTest.mousePress(carousel.picture, Qt.MouseButton.LeftButton, pos=QPoint(500, 100))
+                QTest.mouseMove(carousel.picture, QPoint(400, 101), 40)
+                QTest.mouseMove(carousel.picture, QPoint(300, 101), 40)
+                QTest.mouseRelease(carousel.picture, Qt.MouseButton.LeftButton, pos=QPoint(250, 101))
+                result["mouse_drag_change"] = carousel.index == (before_drag + 1) % len(carousel.banners)
+                result["guest_controls_enabled"] = window.account_button.isEnabled() and window.area.isEnabled()
+                for theme in ("light", "dark"):
+                    window.settings.save(theme=theme)
+                    window.apply_theme()
+                    QTest.qWait(60)
+                    window.grab().save(str(output.parent / f"frozen-{theme}.png"))
+                    result[f"{theme}_primary_text"] = window.account_button.palette().buttonText().color().name()
+                    result[f"{theme}_contrast"] = result[f"{theme}_primary_text"] == window.colors["on"]
+                def cancel_gate():
+                    dialog = app.activeModalWidget()
+                    result["private_auth_dialog"] = bool(dialog and dialog.findChildren(QTabWidget))
+                    if dialog:
+                        dialog.reject()
+                QTimer.singleShot(100, cancel_gate)
+                window.show_page("profile")
+                result["private_cancel_stays_home"] = window.page == "products"
+                window.show_page("settings")
+                result["guest_settings_no_login"] = not any(b.text() in (window.t("login"), window.t("switchAccount")) for b in window.area.findChildren(QPushButton))
+                required = ("timer_active", "automatic_change", "mouse_drag_change", "guest_controls_enabled", "light_contrast", "dark_contrast", "private_auth_dialog", "private_cancel_stays_home", "guest_settings_no_login")
+                result["passed"] = all(result.get(key) for key in required)
+            except Exception as error:
+                result.update(passed=False, error=str(error))
+            output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            window.close()
+            app.exit(0 if result["passed"] else 1)
+        QTimer.singleShot(250, verify_interactions)
     if args.screenshot:
         def capture():
             args.screenshot.parent.mkdir(parents=True, exist_ok=True)

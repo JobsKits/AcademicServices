@@ -1,0 +1,14 @@
+[
+  {
+    "target": "/Users/jobs/Documents/Github/学术服务平台/代码/前端/移动端/Flutter/Dist/ShopClient",
+    "backup": "/Users/jobs/Documents/Github/学术服务平台/代码/前端/移动端/Flutter/Dist/ShopClient.before-ui-20261112-015200",
+    "oldMainSha256": "8fe5fc84fa9e83e8e6bdc7e34d6052b5d58a8f25c4f16fcfd666109b003af2c2",
+    "mainSha256": "86c6acce6a41f686be25fcd84452bf2bf8c84bb6ca67ae6910f2326e5063b1db"
+  },
+  {
+    "target": "/Users/jobs/Documents/Github/学术服务平台/代码/前端/后台管理端/Flutter/Dist/ShopAdmin",
+    "backup": "/Users/jobs/Documents/Github/学术服务平台/代码/前端/后台管理端/Flutter/Dist/ShopAdmin.before-ui-20261112-015200",
+    "oldMainSha256": "6563d0c7f812eb2e1e638a4e5727b91497f73e19faebbbe8b2bea43171de899c",
+    "mainSha256": "5fb0b731c480a5dc07ea0e3ad0b7a625662f8c1faff6505884a1d20698ff060b"
+  }
+]

@@ -1,0 +1,7 @@
+00:00 +0: loading /Users/jobs/Documents/Github/学术服务平台/测试/前端/移动端/Flutter/shop_test.dart
+00:00 +0: carousel automatically advances and respects reduced motion
+00:00 +1: carousel single card is static and invalid links are not actionable
+00:00 +2: carousel advances forward through wrap and drag waits for explicit resume
+00:00 +3: carousel pauses for focus and hover and supports keyboard arrows
+00:00 +4: carousel timer stops offscreen and in background and restarts once
+00:00 +5: All tests passed!

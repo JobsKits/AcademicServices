@@ -1,0 +1,13 @@
+{
+  "deepLinkAndRefresh": true,
+  "browserBackAndForward": true,
+  "nativeNewTab": true,
+  "demoCopyAndTip": true,
+  "profileShortcuts": true,
+  "editSaved": true,
+  "acceptedLocked": true,
+  "rejectedDraftRetained": true,
+  "realRecordsRetainedOnOutage": true,
+  "explicitCarouselClosure": true,
+  "errors": []
+}

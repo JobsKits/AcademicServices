@@ -1,23 +1,26 @@
 {
-  "version": "1.1.0",
+  "version": "1.3.0",
   "base_path": "/api/v1",
   "rules": [
     "Bearer session token",
-    "Idempotency-Key required for mutations except login",
+    "Idempotency-Key required for business mutations; auth/login, auth/email-code, auth/register, auth/reset-password and auth/profile are exempt",
     "expected_version required for case actions",
     "money is integer CNY fen",
     "timestamps RFC3339 UTC",
     "401/403/409/422 never become demo successes",
     "network/5xx fallback to isolated local demo; unknown real writes retain original key and reconcile by reload; never replay demo writes",
-    "Success is final 2xx; redirects are not success. File size limit 8 MiB. Production supports fixed admin/customer only in current MVP.",
+    "Success is final 2xx; redirects are not success. File size limit 8 MiB. Production supports email-verified customer registration and fixed seed admin/customer identities.",
     "Shop products and orders use current schema 2; shop writes require stable Idempotency-Key and optimistic expected_version for edits/actions.",
-    "PAYMENT_MODE defaults to mock; real rejects pay until a verified gateway is implemented. No client-success assertion marks a real order paid."
+    "PAYMENT_MODE defaults to mock; real rejects pay until a verified gateway is implemented. No client-success assertion marks a real order paid.",
+    "DEMO_MODE is explicit; formal /shop-config never returns demo_credentials. Demo forces mock.",
+    "Order requirements remain editable by their buyer until merchant acceptance; start or direct delivery locks editing atomically.",
+    "Formal admin UI requires a valid admin login; explicit Demo auto-signs in as admin/1234. Offline data fallback never grants formal admin access."
   ],
   "login": {
     "method": "POST",
     "path": "/auth/login",
     "body": {
-      "account": "customer",
+      "account": "bound email or username",
       "password": "configured by environment"
     },
     "response": {
@@ -25,7 +28,10 @@
       "user": {
         "id": "customer",
         "name": "客户",
-        "role": "customer"
+        "role": "customer",
+        "avatar_url": "data:image/png;base64,...",
+        "username": "customer",
+        "email": "verified@example.test"
       }
     }
   },
@@ -65,7 +71,8 @@
       "user": {
         "id": "customer",
         "name": "客户",
-        "role": "customer"
+        "role": "customer",
+        "avatar_url": ""
       },
       "services": [],
       "cases": []
@@ -484,7 +491,12 @@
       "delivery_text": "string",
       "payment": null,
       "review": null,
-      "events": []
+      "events": [],
+      "requirements": "string; buyer request, <=10000 chars",
+      "contact": "string; <=200 chars",
+      "delivery_requirements": "string; <=2000 chars",
+      "accepted_at": "RFC3339 UTC or empty; merchant acceptance",
+      "editable": "derived bool: unaccepted pending_payment or pending_completion/pending"
     },
     "payment_shape": {
       "id": "UUID",
@@ -557,7 +569,10 @@
         "auth": "customer",
         "body": {
           "product_id": "Product.id",
-          "product_version": 1
+          "product_version": 1,
+          "requirements": "optional string",
+          "contact": "optional string",
+          "delivery_requirements": "optional string"
         },
         "response": {
           "order": "ShopOrder"
@@ -588,11 +603,14 @@
         "path": "/shop-orders/{id}/actions",
         "auth": "action-dependent role and order owner",
         "body": {
-          "action": "pay|start|deliver|accept|review|cancel",
+          "action": "pay|start|deliver|accept|review|cancel|edit",
           "expected_version": 1,
           "channel": "alipay|wechat; pay only",
           "text": "delivery/review text",
-          "rating": "1..5 for review"
+          "rating": "1..5 for review",
+          "requirements": "edit: complete string",
+          "contact": "edit: complete string",
+          "delivery_requirements": "edit: complete string"
         },
         "response": {
           "order": "ShopOrder"
@@ -605,13 +623,14 @@
         "response": {
           "operation": {
             "status": "succeeded",
-            "resource_type": "product|order",
+            "resource_type": "product|order|banner",
             "resource_id": "UUID",
             "action": "string",
             "created_at": "RFC3339 UTC"
           },
           "order": "latest ShopOrder when resource_type=order",
-          "product": "latest Product when resource_type=product"
+          "product": "latest Product when resource_type=product",
+          "banner": "latest Banner when resource_type=banner"
         },
         "note": "404 is no committed receipt, not proof an in-flight request failed."
       }
@@ -629,7 +648,8 @@
       "start": {
         "role": "admin",
         "from": "pending_completion/pending",
-        "to": "pending_completion/in_progress"
+        "to": "pending_completion/in_progress",
+        "note": "Merchant acceptance: records accepted_at and locks buyer editing"
       },
       "deliver": {
         "role": "admin",
@@ -637,7 +657,8 @@
         "to": "pending_completion/delivered",
         "fields": [
           "text"
-        ]
+        ],
+        "note": "Direct delivery also records merchant acceptance if start was not used"
       },
       "accept": {
         "role": "customer",
@@ -657,8 +678,179 @@
         "role": "customer",
         "from": "pending_payment",
         "to": "cancelled"
+      },
+      "edit": {
+        "role": "customer owner",
+        "from": "unaccepted pending_payment or pending_completion/pending",
+        "fields": [
+          "requirements",
+          "contact",
+          "delivery_requirements"
+        ],
+        "note": "Replaces all three requirement fields; immutable product, price, quantity and payment"
       }
     },
     "consistency": "All shop writes atomically persist mutation, audit and receipt; replay receipt before version validation; same key different request returns 409; purchase checks current product version, active and in_stock; existing pending order pays its immutable snapshot."
+  },
+  "shop_config": {
+    "method": "GET",
+    "path": "/shop-config",
+    "auth": "public",
+    "response": {
+      "demo_mode": "boolean from explicit DEMO_MODE=1; default false",
+      "payment_mode": "mock forced in demo; otherwise configured mode",
+      "demo_credentials": "only present in explicit demo: [{role,account,password}] with actual process credentials"
+    },
+    "privacy": "Cache-Control: no-store. No credentials field in formal deployment, development environment alone does not enable disclosure. Credentials are not business state or audit data."
+  },
+  "banner": {
+    "shape": {
+      "id": "string",
+      "title": "1..120 chars",
+      "image": "HTTPS, packaged path or PNG/JPEG/WebP data URL",
+      "target_url": "empty or absolute HTTP(S) URL; no userinfo/control characters",
+      "active": "boolean",
+      "sort_order": "integer 0..1000000",
+      "version": "positive integer",
+      "created_at": "RFC3339 UTC",
+      "updated_at": "RFC3339 UTC"
+    },
+    "input": {
+      "title": "string",
+      "image": "string",
+      "target_url": "string",
+      "active": true,
+      "sort_order": 0,
+      "expected_version": "required for PUT"
+    },
+    "limits": {
+      "json_body_bytes": 3145728,
+      "decoded_upload_bytes": 2097152,
+      "types": [
+        "image/png",
+        "image/jpeg",
+        "image/webp"
+      ]
+    },
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/banners",
+        "auth": "public",
+        "response": {
+          "banners": [
+            "Banner"
+          ]
+        },
+        "note": "Initial database contains three editable seed banners (stable seed-graduation/seed-journal/seed-editing IDs, version 1, empty target_url). Startup initializes only an empty banner map; existing nonempty/disabled configuration is retained. Active rows sort by sort_order then id. A configured map with all rows disabled returns success with banners: [] and the client hides the carousel. Only a completely unconfigured map uses packaged static fallback."
+      },
+      {
+        "method": "GET",
+        "path": "/admin/banners",
+        "auth": "admin",
+        "response": {
+          "banners": [
+            "configured Banner only"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/admin/banners",
+        "auth": "admin",
+        "body": "Banner input",
+        "response": {
+          "banner": "Banner"
+        },
+        "status": 201
+      },
+      {
+        "method": "PUT",
+        "path": "/admin/banners/{id}",
+        "auth": "admin",
+        "body": "complete Banner input + expected_version",
+        "response": {
+          "banner": "Banner"
+        }
+      }
+    ],
+    "write_rules": "Stable Idempotency-Key; version conflicts 409; mutation + audit + receipt atomically persisted. Unpublish via active=false. /shop-operations/{key} returns banner for resource_type=banner."
+  },
+  "email_code": {
+    "method": "POST",
+    "path": "/auth/email-code",
+    "body": {
+      "email": "verified@example.test",
+      "purpose": "register | reset_password"
+    },
+    "response": {
+      "ok": true,
+      "delivery": "email | demo",
+      "expires_in": 600,
+      "retry_after": 60
+    },
+    "rules": [
+      "A six-digit code is valid for 10 minutes, at most 5 failed checks, with a 60 second resend cooldown and per-IP rate limit.",
+      "Only explicit Demo without SMTP returns demo_code and delivery=demo. Formal SMTP failure is 503 and never becomes a successful email send.",
+      "SMTP requires STARTTLS or implicit TLS; codes and SMTP secrets are never logged."
+    ]
+  },
+  "register": {
+    "method": "POST",
+    "path": "/auth/register",
+    "body": {
+      "email": "verified@example.test",
+      "code": "six digits from email",
+      "username": "3–32 letters/numbers/_/-",
+      "password": "at least 8 characters, at most 512 bytes",
+      "confirm_password": "must match password"
+    },
+    "response": {
+      "ok": true,
+      "user": "public user"
+    },
+    "rules": [
+      "Email and username unique case-insensitively; one-time code consumed only after atomic account save.",
+      "Passwords use per-account salt and PBKDF2-SHA256; user record and avatar survive file/PG store restart.",
+      "Login after success uses the same email or username and password."
+    ]
+  },
+  "reset_password": {
+    "method": "POST",
+    "path": "/auth/reset-password",
+    "body": {
+      "email": "bound@example.test",
+      "code": "six digits for reset_password",
+      "password": "new password",
+      "confirm_password": "same new password"
+    },
+    "response": {
+      "ok": true,
+      "user": "public user"
+    },
+    "rules": [
+      "Requires reset-purpose code and existing bound email.",
+      "Revokes existing sessions and blocks in-flight old-password logins after reset."
+    ]
+  },
+  "profile": {
+    "methods": [
+      "GET",
+      "PUT"
+    ],
+    "path": "/auth/profile",
+    "auth": "Bearer session",
+    "body": {
+      "username": "3–32 letters/numbers/_/-",
+      "avatar": "optional PNG/JPEG/WebP data URL, max decoded 2 MiB; empty assigns a new random avatar"
+    },
+    "response": {
+      "user": "public user"
+    },
+    "rules": [
+      "Username changes apply to login immediately; reserved or occupied names cannot be taken.",
+      "Uploaded avatar becomes visible immediately without moderation. Default avatar is a locally generated random PNG.",
+      "No password hashes, salts or SMTP credentials in any public user response."
+    ]
   }
 }

@@ -1,0 +1,92 @@
+{
+  "sourceFiles": [
+    {
+      "path": "代码/前端/移动端/Flutter/lib/Shop/carousel.dart",
+      "sha256": "aa48c029e1dfa64fc8cb36b96f6e3506f770382333c166ae2e017ec90b0c12f3"
+    },
+    {
+      "path": "代码/前端/移动端/Flutter/lib/Shop/strings.dart",
+      "sha256": "6c83ad9b58451a147d713ce7278358cd5662304b3f471be6dedad427d8cfa99f"
+    },
+    {
+      "path": "代码/前端/移动端/Flutter/lib/Shop/app.dart",
+      "sha256": "c143a456f61ea54d42c65cebaa368abbb51705b9598d2a32e8edfec5529f93b0"
+    },
+    {
+      "path": "代码/前端/微信小程序/app.wxss",
+      "sha256": "47041dfae89ebcb1941ef76b3b43120d1a2d5f0b7bdcb5b2c4084b81e352ad35"
+    },
+    {
+      "path": "代码/前端/微信小程序/custom-tab-bar/index.wxss",
+      "sha256": "d9d4d4ef90628242620d78a20c3707f5681beeea08db9670b519397ea8c78739"
+    },
+    {
+      "path": "代码/前端/微信小程序/Utils/ui.js",
+      "sha256": "47d9c73c08bf9e010dc0b0232fd1ae58e7f99e5c0880e1a9695a4cec85877a04"
+    },
+    {
+      "path": "代码/前端/微信小程序/Pages/Product/index.wxml",
+      "sha256": "b0a8a91769f2170cf8eb2a6d51a978134734592989ca44c464e8d363044262da"
+    },
+    {
+      "path": "代码/前端/微信小程序/Pages/Profile/index.wxml",
+      "sha256": "a77d0ec5f70a0818fb5c25bc84b2659eb0b7c2e5530ba1d9ca64955852945f28"
+    },
+    {
+      "path": "代码/前端/微信小程序/Components/EmptyState/index.wxss",
+      "sha256": "a61f957004d49624ebafffeea04455e8b726d785f3374743d80b1abb7da45ab9"
+    }
+  ],
+  "testChange": "CSS位置断言允许语义不变的空白格式",
+  "flutterRegression": 65,
+  "miniProgramRegression": 89,
+  "dartAnalyze": "zero diagnostics",
+  "webBuilds": [
+    "ShopClient",
+    "ShopAdmin"
+  ],
+  "iOSBuild": "debug simulator success",
+  "nativeEvidence": {
+    "device": "iPhone18Pro",
+    "os": "iOS27.2",
+    "appearance": [
+      "system light",
+      "system dark"
+    ],
+    "dynamicType": "accessibility-large",
+    "temporaryDeviceRemoved": true
+  },
+  "webVisualEvidence": {
+    "widths": [
+      390,
+      1440
+    ],
+    "locales": [
+      "zh",
+      "de",
+      "bo"
+    ],
+    "admin": "isolated API fixture"
+  },
+  "contrastRatios": {
+    "light-text": 13.04,
+    "light-muted": 5.99,
+    "light-card-muted": 6.25,
+    "dark-text": 15.18,
+    "dark-muted": 9.67,
+    "dark-card-muted": 8.69,
+    "light-button": 6.35,
+    "dark-button": 8.52
+  },
+  "limitations": [
+    "Android未构建或真机验证",
+    "未安装微信开发者工具，小程序仅逻辑回归与WXML结构/样式静态检查",
+    "未做正式账号/SMTP/真实支付和公网验收"
+  ],
+  "primaryBuildsReplaced": true,
+  "backendFallbackDirectories": "parent completed: client-web/admin-web match rebuilt Dist byte-for-byte (48/44 files)",
+  "testChanges": [
+    "小程序轮播位置断言允许等价CSS空白",
+    "Flutter字形检查明确NotoSansCJK为主字体、藏文为后备，防止拉丁文误走衬线字体"
+  ]
+}
