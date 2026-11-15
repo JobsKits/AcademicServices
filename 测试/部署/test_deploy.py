@@ -782,12 +782,12 @@ class DeploymentTests(unittest.TestCase):
             self.assertNotEqual(r.returncode,0);self.assertFalse((p/'.runtime').exists())
     def fixture(self,body,*,answer='\n',fake_go=None):
         with tempfile.TemporaryDirectory(prefix='go-fixture-') as temp:
-            p=Path(temp);fake=p/'fake';fake.mkdir();log=p/'calls';log.write_text('')
+            p=Path(temp).resolve();(p/'project').mkdir();fake=p/'fake';fake.mkdir();log=p/'calls';log.write_text('')
             if fake_go:
                 f=fake/'go';f.write_text('#!/bin/sh\n'+fake_go);f.chmod(0o755)
             prefix=MAC_ENTRY.read_text().rsplit('main "$@"',1)[0]
-            script=p/'fixture.zsh';script.write_text(prefix+f'\nSERVER_ROOT="{p}"\nLOG_FILE="{log}"\n'+body+'\n')
-            env={**os.environ,'GO_BIN':str(fake/'go') if fake_go else '', 'PATH':str(fake)+':/usr/bin:/bin:/usr/sbin:/sbin'}
+            script=p/'fixture.zsh';script.write_text(prefix+f'\nSERVER_ROOT="{p / 'project'}"\nLOG_FILE="{log}"\nlc_context\nmkdir -p "$LC_STATE"\n'+body+'\n')
+            env={**os.environ,'HOME':str(p/'home'),'XDG_CACHE_HOME':str(p/'cache'),'GO_BIN':str(fake/'go') if fake_go else '', 'PATH':str(fake)+':/usr/bin:/bin:/usr/sbin:/sbin'}
             r=subprocess.run(['zsh',str(script)],input=answer,text=True,capture_output=True,env=env,cwd='/')
             return r,log.read_text()
     def test_06_healthy_go_reused_no_download(self):
@@ -867,7 +867,7 @@ class DeploymentTests(unittest.TestCase):
     def test_12_sdk_download_failure_stops(self):
         body='confirm_install() { return 0; }\nensure_transfer_tools() { return 0; }\ncurl() { return 22; }\nensure_go\nprintf unexpected'
         result,log=self.fixture(body)
-        self.assertNotEqual(result.returncode,0);self.assertIn('Go下载失败',log);self.assertNotIn('unexpected',result.stdout)
+        self.assertNotEqual(result.returncode,0);self.assertIn('依赖下载失败',log);self.assertNotIn('unexpected',result.stdout)
     def test_13_installed_sdk_recheck_failure_stops(self):
         body="""mkdir -p "$SERVER_ROOT/.tools"
 confirm_install() { return 0; }

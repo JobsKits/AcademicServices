@@ -98,6 +98,7 @@ def command_plan(group: str, options: argparse.Namespace, overlay: Path, evidenc
     if group == "deploy":
         return [
             ([sys.executable, str(TEST_ROOT / "部署/test_deploy.py")], ROOT, env),
+            ([sys.executable, str(TEST_ROOT / "部署/【测试】依赖更新.py/【测试】依赖更新.py")], ROOT, env),
             ([sys.executable, str(TEST_ROOT / "部署/【测试】商城部署配置.py/【测试】商城部署配置.py")], ROOT, env),
             ([sys.executable, str(TEST_ROOT / "部署/【测试】部署双模式.py/【测试】部署双模式.py")], ROOT, env),
             ([sys.executable, str(TEST_ROOT / "部署/【测试】反部署.py/【测试】反部署.py")], ROOT, env),

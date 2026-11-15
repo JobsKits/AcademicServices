@@ -59,5 +59,9 @@
       "sha256": "c507872ff21f8a7cd3c1c217b059c6f7271a4a9d8e692810ef9dd3e1f601197c",
       "size": 75113075
     }
-  ]
+  ],
+  "role": "bootstrap_only",
+  "runtime_version_policy": "official_latest_stable",
+  "business_update_policy": "report_only_then_regression",
+  "policy_checked_at": "2026-11-14"
 }

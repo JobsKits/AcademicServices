@@ -20,13 +20,15 @@
 <td>图形桌面快捷方式，直接调用上面的规范脚本。</td>
 </tr>
 <tr><td><a href="../【Linux】反部署.sh/【Linux】反部署.sh">【Linux】反部署.sh</a></td><td>反部署唯一入口，内嵌原点核验、备份和精确恢复函数。</td></tr><tr><td><a href="../双击反部署（快捷入口）.desktop">双击反部署（快捷入口）.desktop</a></td><td>独立反部署快捷入口。</td></tr><tr><td><a href="../【Linux】反部署.sh/【Linux】反部署.sh">反部署脚本内嵌生命周期</a></td><td>原点、互斥、进程核验、备份与精确恢复由本脚本内置；资源后改或身份不明时保留并停止。</td></tr></tbody></table>
+<p>当前依赖链：prepare_latest_dependencies、prepare_dependency_resolver、resolve_latest_dependency、ensure_latest_dependency、accept_latest_dependency；check_business_dependency_updates；build_locked_module；外置缓存子收据由 lc_cache_begin／lc_cache_seal／lc_cache_restore 管理。静态锁仅Bootstrap，模式确认后每次核查官方最新稳定Go／fzf，本地模式另查cloudflared；模块只读报告、独立回归后更新。<a href="../../公共组件/依赖版本/README.md">依赖解析与限时报告合同</a>、<a href="../README.md#latest-dependencies">平台缓存与失败边界</a>。</p>
 <h2>二、<span id="local-flow">本单元关系</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <pre class="mermaid">flowchart LR
     Wrapper[桌面快捷方式] --&gt; Script[本系统实施脚本]
     Script --&gt; Check[路径与平台检查]
     Script --&gt; Mode[模式选择]
-    Mode --&gt; Server[服务器模式]
-    Mode --&gt; Local[本地部署与穿透模式]
+    Mode --&gt; Latest[官方最新工具与只读业务检查]
+    Latest --&gt; Server[服务器模式]
+    Latest --&gt; Local[本地部署与穿透模式]
     Script --&gt; State[部署脚本内嵌原点记录]
     Undo[反部署入口] --&gt; Restore[反部署脚本内嵌恢复函数]
     State --&gt; Restore

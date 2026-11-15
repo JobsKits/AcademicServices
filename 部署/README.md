@@ -10,14 +10,14 @@
 
 同时复制根目录的 **代码/** 与 **部署/** 到目标机器，保留 `代码/后端/后端代码` 与 `部署/` 的相对层级，再运行对应系统入口。该目录包含单份 [**Go**](https://go.dev/) 源码、锁定依赖、独立部署脚本与已构建的Flutter页面。服务器不需要安装Flutter或Node。以下入口按系统分别独立实现，不依赖开发机其它项目。
 
-[地址二维码](./公共组件/地址二维码/README.md)集中在[公共组件](./公共组件/README.md)。各操作系统的部署与反部署脚本分别内嵌生命周期核心，原点、互斥、进程身份、备份和恢复均由当前脚本执行，不依赖外部生命周期函数库。平台入口保留在对应系统目录。
+[地址二维码](./公共组件/地址二维码/README.md)与[官方依赖版本解析／只读模块报告](./公共组件/依赖版本/README.md)集中在[公共组件](./公共组件/README.md)。各操作系统的部署与反部署脚本分别内嵌生命周期核心，原点、互斥、进程身份、备份和恢复均由当前脚本执行，不依赖外部生命周期函数库。平台入口保留在对应系统目录。
 
 ## 一、<span id="section-1">支持矩阵与入口</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
 | 平台 | 运行环境 | 本轮验证 |
 | --- | --- | --- |
 | MacOS Intel / Apple Silicon | zsh、系统curl/tar/shasum、本地Go | 本机ARM64迁移目录实际配置/编译/启动/停止；Intel待实机 |
-| Windows 10/11 / Server x64、ARM64 | 系统PowerShell、工程内Go | PowerShell语法与路径静态检查；原生运行待验 |
+| Windows 10/11 / Server x64、ARM64 | 系统PowerShell、本机已验证或项目外缓存Go | PowerShell语法与路径静态检查；原生运行待验 |
 | Ubuntu | bash；缺工具时apt-get | 语法/静态/夹具；目标机部署待验 |
 | Debian | bash；缺工具时apt-get | 同上 |
 | RockyLinux | bash；缺工具时dnf | 同上 |
@@ -51,7 +51,7 @@ MacOS 与 Windows 快捷文件保留参数及退出码。Windows 快捷 CMD 直�
 | 场景 | CPU | 可用内存 | 空闲 SSD 空间 | 适用范围 |
 | --- | --- | --- | --- | --- |
 | 仅运行预编译二进制 | 2 核 / vCPU，64 位 | 2 GiB | 10 GiB | 匹配目标系统与架构的 Go 程序＋已构建 Web，单实例文件演示；不在该机编译 |
-| **正常脚本部署最低预算** | **2 核 / vCPU，64 位** | **4 GiB** | **20 GiB** | 准备 Go 1.27.3、下载依赖、源码编译并运行；不包含 Flutter / 移动端 SDK 构建 |
+| **正常脚本部署最低预算** | **2 核 / vCPU，64 位** | **4 GiB** | **20 GiB** | 准备经官方元数据校验的最新稳定Go、下载依赖、源码编译并运行；不包含 Flutter / 移动端 SDK 构建 |
 | Go＋数据库＋HTTPS 反代同机的建议预算 | 4 核 / vCPU，64 位 | 8 GiB | 40 GiB | 仅供低负载验证规划；需另备数据库，不是已验收的正式运营配置 |
 
 “可用内存”指扣除操作系统与其它程序后留给本工程的余量；MacOS / Windows 图形机器整机至少 8 GiB 内存，并仍需满足脚本部署的 4 GiB 可用余量。SSD 数值是安装系统后留给工程、SDK、缓存和少量数据的空闲空间，不是整盘容量；业务附件、日志与备份增长需另外扩容。
@@ -65,7 +65,7 @@ MacOS 与 Windows 快捷文件保留参数及退出码。Windows 快捷 CMD 直�
 
 系统兼容条件依据 [Go 官方最低要求](https://go.dev/wiki/MinimumRequirements)及 [Go on FreeBSD 支持矩阵](https://go.dev/wiki/FreeBSD)（2026-11-02 核对）；项目脚本归档只覆盖 amd64 / arm64，不提供 32 位部署。官方工具链兼容不代表本项目已在所有系统、版本或上述下限硬件通过验收，实机状态仍以本章支持矩阵为准。
 
-网络：首次部署需能通过 HTTPS 443 访问 Go 下载站、模块源及系统软件源；完整 SDK、依赖和 Web 产物已就绪后的本机文件演示可离线。公网低负载演示可按至少 5 Mbps 可用上行作预算，附件流量增加时另行扩容，该数值不保证响应时延或并发量。对外统一开放反代 HTTPS 443，Go 默认 8080 与数据库端口仅供本机或受控内网，脚本不代开防火墙。
+网络：首次部署需能通过 HTTPS 443 访问 Go 下载站、模块源及系统软件源；已经启动的本机文件演示可继续离线；再次正常部署仍需联网核对官方最新版本。公网低负载演示可按至少 5 Mbps 可用上行作预算，附件流量增加时另行扩容，该数值不保证响应时延或并发量。对外统一开放反代 HTTPS 443，Go 默认 8080 与数据库端口仅供本机或受控内网，脚本不代开防火墙。
 
 存储边界：文件模式与 [**PostgreSQL**](https://www.postgresql.org/) 模式均把全部业务历史和附件聚合到同一状态，读写时还会复制、序列化整份状态；数据增长会增加内存和磁盘开销。除现有状态外，至少另留一次原子写临时副本与一份备份的空间，并监测剩余内存、磁盘和写入耗时；切换数据库不能消除聚合存储瓶颈。当前尚无下限硬件压测、生产容量或并发验收，正式运营配置须在存储方案完善后按真实数据量与负载验证。
 
@@ -79,7 +79,7 @@ MacOS 与 Windows 快捷文件保留参数及退出码。Windows 快捷 CMD 直�
 
 - 首次自述回车继续；其它字符取消。没有可交互输入会停止，不把EOF当确认。
 
-- 检查Go 1.27.3：显式 `GO_BIN`、PATH、本目录 `.tools/go1.27.3/bin/go` 依次检查。没有匹配健康版本时下载工程内SDK，校验[官方SHA256](https://go.dev/dl/)后解压。不会更新现有全局Go。
+- 先复用健康工具或静态锁完成Bootstrap；模式确认后每次查询Go官方stable及fzf官方latest，本地模式另查cloudflared。达到最新正式版本且健康才复用，否则把目标原生资产校验后放项目外版本缓存；显式旧工具路径不符合要求时停止，不覆盖全局安装。
 
 - 缺curl/tar/摘要工具时，Linux/FreeBSD使用本机已配置软件源安装必需包，需要管理员权限与交互确认；已有健康工具复用。MacOS缺系统工具时停止并给修复说明，不盲装包管理器。
 
@@ -87,7 +87,7 @@ MacOS 与 Windows 快捷文件保留参数及退出码。Windows 快捷 CMD 直�
 
 - 构建到临时二进制，成功后替换程序。前台启动、显示日志路径，按 `Ctrl+C` 停止。再次运行保留配置与数据，不清理业务目录。
 
-首次下载需HTTPS访问Go官方与模块源。依赖拉取默认采用goproxy.cn镜像，失败回退proxy.golang.org及direct；只影响脚本当前进程的GOPROXY，不修改系统网络代理或全局Go配置。可在启动前提供GOPROXY，或在配置文件中添加同名键。来源在构建前脱敏打印，go.sum固定依赖摘要。Go版本与各归档摘要在[工具链清单](./toolchains.json)；这是2026-10-30核对的最新稳定基线，日后版本更新需复核摘要并重跑回归，不在每次部署中无条件升级。
+首次下载需HTTPS访问Go官方与模块源。依赖拉取默认采用goproxy.cn镜像，失败回退proxy.golang.org及direct；只影响脚本当前进程的GOPROXY，不修改系统网络代理或全局Go配置。可在启动前提供GOPROXY，或在配置文件中添加同名键。来源在构建前脱敏打印，go.sum固定依赖摘要。[工具链清单](./toolchains.json)保留2026-10-30核对的Bootstrap记录和归档摘要，旧版本不是最终上限；运行态每次采用官方最新稳定SDK／工具，业务库仅报告、独立回归后更新，详见[依赖版本流程](#latest-dependencies)。
 
 ## 三、<span id="section-3">命令与只读检查</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
@@ -133,7 +133,7 @@ powershell.exe -NoProfile -File .\Windows\【Windows】部署.ps1\【Windows】�
 | FreeBSD | [双击反部署（快捷入口）.desktop](./FreeBSD/双击反部署（快捷入口）.desktop) | [FreeBSD说明](./FreeBSD/README.md#undeployment) |
 
 - 部署在首次写入前记录原点、原件及资源摘要；运行资料共用一个后端目录，因此各平台通过共用归属门禁阻止相互接管。MacOS、Linux、FreeBSD和Windows的部署／反部署脚本各自内嵌本平台生命周期函数，状态协议及原点兼容规则保持一致。随项目复制时必须一并保留整个 `部署/`。
-- 阅读内置自述并回车，再用 fzf 选择“数据库数据备份”（默认）或“数据库数据清零”；执行前默认取消，显式选择执行并空格复核后才进行写操作。Esc、空选、选择器异常均停止，反部署不为获取选择器自动联网安装工具。
+- 阅读内置自述并回车，再用 fzf 选择“数据库数据备份”（默认）或“数据库数据清零”；执行前的危险菜单默认取消。显式选择执行后，MacOS直接回车复核授权，任何非空输入（包括空格）或EOF均取消；其它系统保留空格复核。Esc、空选、选择器异常均停止，反部署不为获取选择器自动联网安装工具。
 - 默认备份覆盖文件模式的完整 `data/` 和有效账户配置；附件字节包含在 `state.json` 内，不能只备份程序。备份保存在清理范围外，逐项校验并复核源快照后才处理本项目源数据。备份包含私有业务和凭据，应按私有数据保管，不提交至仓库。
 - 只停止记录中身份匹配的本次进程，只恢复本次覆盖且后态仍匹配的资源；原有、共享、归属不明或后续改动的资源保留并列明未完成项。旧部署没有原点清单时停止，不根据目录名推测归属。重复反部署使用检查点核对，不能把部分完成写成全部恢复。
 - 配置了外部 [**PostgreSQL**](https://www.postgresql.org/) 时，本入口停止并保留数据及恢复依据，不能以本地文件备份代替数据库备份或清零。手动注册的常驻服务、独立隧道、反向代理、DNS及证书仍由其管理入口撤回；共享系统软件包不会整片卸载。
@@ -141,15 +141,21 @@ powershell.exe -NoProfile -File .\Windows\【Windows】部署.ps1\【Windows】�
 
 ### 4.2、<span id="lifecycle-protocol">内嵌生命周期与恢复协议</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 
+MacOS、Linux 与 FreeBSD 入口再次部署时，先比较当前资源与上次封存的 `after.tsv`。普通 `.DS_Store` 文件的新增、修改或缺失可忽略；旧清单已登记的 `.runtime/bin/server`、`.runtime/bin/deployqr` 普通文件，以及 `.tools/gobuildcache` 内符合标准布局的编译缓存变化，先备份校验再继续构建。缓存仅接受根目录、两位十六进制子目录、`README`、`trim.txt` 及对应目录内的64位十六进制名称加 `-a`／`-d` 文件；缓存目录属性变化仍会阻止部署。配置、SDK、模块缓存、未知文件、同名目录和符号链接不在放行范围。
+
+变化的现存程序与缓存保存到 `../代码/后端/后端代码/.deployment-state/posix/redeploy-backups/redeploy.XXXXXX/files/`，每轮使用独立私有目录；同目录保留 `previous-after.tsv`、`current.tsv`、`changes.tsv`、`missing.tsv`，校验摘要、权限及源文件后才写入 `verified`。缺失缓存仅记录旧清单行，不伪造备份；最初的 `before.tsv`、`originals/` 和历史备份保持不变。备份失败或源文件在备份时变化即停止，不能将未验证目录当作完整恢复包。
+
+可以直接重跑原[MacOS 双击部署快捷入口](./MacOS/【MacOS】双击部署（快捷入口）.command)，无需删除状态目录或强制覆盖清单。若仍提示“部署前检查未通过”，按提示核对 `after.tsv` 与 `redeploy-check.tsv`，处理未授权变化或备份失败；清单门禁拒绝时只释放本轮操作锁，不重写 `after.tsv`，不执行反部署或处理业务数据。检查通过后的正常封存和反部署恢复仍按完整清单执行。
+
 生命周期核心直接维护在各平台部署与反部署脚本中，接受两份脚本保留相同函数；没有运行时加载的独立生命周期库，也不通过生成器再输出脚本。脚本从自身位置解析项目及后端目录，保留 `代码/` 与 `部署/` 的相对结构；依赖系统 Shell、文件复制、文件状态及 SHA256 工具，不新增 Python 或 Node 运行依赖。各系统仍通过同一后端 `.deployment-state/owner` 与 `operation-lock` 互斥，不能覆盖另一系统的原点。
 
 MacOS、Linux 与 FreeBSD 的内嵌函数按以下阶段工作：
 
 - `lc_begin` 在用户确认后、首次写运行资源前调用，保存 `.runtime`、`.tools` 各文件的类型、摘要、权限和恢复副本，记录原有 data 及包装进程身份。中文、空格路径可用；换行、制表符、符号链接及特殊文件会阻断操作。
-- `lc_checkpoint` 在构建完成、服务启动前封存资源后态。`lc_record_process server|tunnel PID` 保存实际 PID、启动时间与命令行；身份不明、PID复用或进程无法退出时停止恢复。
+- `lc_checkpoint` 在构建完成、服务启动前复核编译缓存布局，再封存资源后态。`lc_record_process server|tunnel PID` 保存实际 PID、启动时间与命令行；身份不明、PID复用或进程无法退出时停止恢复。
 - `lc_finalize` 在退出清理子进程后更新仅本轮日志、Quick配置及明确登记的本轮二维码产物摘要，再释放操作锁；构建前失败也保留现场，不能把无关资源变化静默纳入后态。
 - `lc_note_external_resources` 在系统包安装前记录包管理器、请求包及原有安装状态，退出保存实际变化。共享系统包保留并返回“未完全恢复”，不宣称已完全还原环境。
-- 反部署脚本自己的 `lc_undeploy_main` 使用该入口解析的 `SERVER_ROOT`、`DEPLOY_ROOT` 和 `PLATFORM_ID`；`--check`／`--plan` 只读，正常执行依次展示自述、fzf默认备份菜单、默认取消的危险菜单及空格复核。选择器和交互失败均不删除。
+- 反部署脚本自己的 `lc_undeploy_main` 使用该入口解析的 `SERVER_ROOT`、`DEPLOY_ROOT` 和 `PLATFORM_ID`；`--check`／`--plan` 只读，正常执行依次展示自述、fzf默认备份菜单、默认取消的危险菜单及最终复核（MacOS直接回车，其它系统空格后回车）。选择器和交互失败均不删除。
 
 文件模式备份完整 `data/` 和恢复所需账户配置到后端代码目录同级的 `反部署备份/`，设置私有权限并逐项验摘要；附件已内嵌业务状态。源数据、配置或备份偏离确认快照时停止，保留源和原备份。任何移动或删除前写入 `data-pending`，分阶段重试沿用原快照；中断后的隔离源位于恢复包 `check-tree/data/`，不能当作无用文件手工清空，也不能在缺少可信恢复依据时重新备份后继续清零。
 
@@ -177,7 +183,7 @@ Windows的内嵌函数维持同一归属边界，并保留本平台的收据、A
 │       └── 后端代码/
 │           ├── cmd/ / internal/ / Migrations/ / go.mod
 │           ├── admin-web/ / client-web/  # 另行构建或随发布包携带
-│           └── .runtime/ / .tools/ / data/  # 当前机器的配置、工具与数据
+│           └── .runtime/ / .tools/ / data/  # 当前业务配置与数据；旧.tools只读候选，新增SDK转项目外缓存
 ├── 部署/
 │   ├── MacOS/ / Windows/ / Ubuntu/ / Debian/
 │   ├── RockyLinux/ / AlibabaCloudLinux/ / Alpine/ / FreeBSD/
@@ -209,7 +215,7 @@ Windows的内嵌函数维持同一归属边界，并保留本平台的收据、A
 | Alpine | `sh './Alpine/【Linux】部署.sh/【Linux】部署.sh'` | [musl、仓库候选与独立二进制边界](./Alpine/README.md#local-tunnel) |
 | FreeBSD | `sh './FreeBSD/【FreeBSD】部署.sh/【FreeBSD】部署.sh'` | [FreeBSD amd64 cpolar、Ports cloudflared](./FreeBSD/README.md#local-tunnel) |
 
-正常运行顺序：阅读脚本自述并回车 → 准备健康的fzf → 在两项菜单中选“本地部署＋内网穿透”或“服务器部署”。选择器显示中文，内部只接受 `local` / `server` 两个ID；Esc、空结果、错误输出均停止，不能当作默认选项。取消选择时不会下载Go、改业务配置或启动后端。初始回车授权工程内工具准备，缺少时按 部署根目录的 `deploy-tools.lock.tsv` 的官方固定版本/架构/SHA256下载；已有健康工具优先复用，不升级系统安装，不要求预装Homebrew、Node或Python。
+正常运行顺序：阅读脚本自述并回车 → 准备健康的fzf → 在两项菜单中选“本地部署＋内网穿透”或“服务器部署”。选择器显示中文，内部只接受 `local` / `server` 两个ID；Esc、空结果、错误输出均停止，不能当作默认选项。取消选择时不会下载Go、改业务配置或启动后端。初始回车授权必要的引导工具准备；静态锁只用于Bootstrap。模式确认后正常部署每次查询官方最新稳定Go／fzf，本地模式另查cloudflared；达到该版本且健康的工具可复用，否则在项目外版本缓存校验后采用，不覆盖全局安装。
 
 “本地部署＋内网穿透”：首次设置两组密码，确认本次公网发布后编译；本次进程强制production、回环监听与同源策略，不覆盖已有配置文件。脚本先拒绝已占用端口，再启动本次后端，健康检查成功且该子进程仍存活才创建Cloudflare Quick免费随机HTTPS；终端显示实际 `/client/` 与 `/admin/` URL。无需Cloudflare账号、自有域名或先购买套餐。大陆网络可能无法连接，不能承诺一次即通；45秒无随机地址即停止并回收本次进程，查看日志或使用下述cpolar备选。可仅为当前进程设置 `TUNNEL_START_TIMEOUT` 为1至300秒，不代表延长服务商可用性保证。
 
@@ -217,7 +223,7 @@ Windows的内嵌函数维持同一归属边界，并保留本平台的收据、A
 
 自动Quick路线会在 `../代码/后端/后端代码/.runtime/logs/` 创建本次会话的 `{}` 空YAML，显式传给 `--config`，不读取或改写个人 `.cloudflared/config.yml`，也不复用已有命名Tunnel配置；实际cloudflared子进程局部移除继承的 `TUNNEL_*` 环境，防止已有名称/域名/Token设置改变本次Quick模式，父环境保留。fzf健康探针与实际菜单都局部清空默认命令/选项，随后恢复宿主环境。
 
-可用的现有工具可通过当前进程 `GO_BIN`、`FZF_BIN`、`CLOUDFLARED_BIN` 指向自己的健康原生可执行文件；脚本不持久化这些路径。不支持的平台/架构会停止而非下载错包。Windows ARM64当前没有锁定cloudflared原生成品；FreeBSD没有上游cloudflared成品、arm64也没有锁定fzf成品；先审阅本平台受信软件仓候选并验证工具，再使用本地模式。Alpine从锁定Linux独立二进制准备后仍先做执行健康检查，musl不兼容时停止，不自动混装edge或glibc。
+可通过当前进程 `GO_BIN`、`FZF_BIN`、`CLOUDFLARED_BIN` 指向已验证的原生工具；正常部署仍比较本次官方最新稳定版本，显式旧路径不合要求时停止而不擅自覆盖。平台是否有当前正式资产以本次官方元数据为准；缺包返回unsupported，不下载另一架构或拿旧锁冒充最新。仅已安装原生工具达到该正式版本且健康时可继续；否则按平台说明另行准备后重试。Alpine仍检查musl执行兼容，不混装edge或glibc。
 
 首次配置时使用 `127.0.0.1:8080`，数据库连接串留空即为单实例文件模式；管理员与客户各设置不同的非默认密码（MacOS 本地调试至少4字符；服务器及其它平台至少12字符）。再次启动会复用 `../代码/后端/后端代码/.runtime/config.env`，应先确认它的监听、账户与数据目标；不要为了重新输入密码删除现有数据或配置。默认文件模式不需要先安装 [**PostgreSQL**](https://www.postgresql.org/)。窗口保持运行，再开一个终端做健康检查。本地模式已经自动管理隧道；下面手动客户端段落用于替代路线与固定地址。
 
@@ -389,6 +395,16 @@ $quickConfig = Join-Path (Get-Location) ('quick-' + [guid]::NewGuid().ToString('
 - [Alpine 部署](Alpine/代码地图/README.md)
 - [FreeBSD 部署](FreeBSD/代码地图/README.md)
 
+
+## 九、<span id="latest-dependencies">运行态最新SDK／工具与业务锁分层</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
+
+静态 `deploy-tools.lock.tsv` 和 `toolchains.json` 保留Bootstrap归档基线；正常部署每次由[标准库Go组件](./公共组件/依赖版本/README.md)只读查询Go官方stable、fzf官方latest，本地模式再查cloudflared。下载、SHA256、原生版本与执行健康核验全部通过后才采用对应版本；缺目标资产不跨架构替代。显式指定的旧工具不被静默覆盖，`--check`／`--plan` 不联网、不构建解析器或写缓存。
+
+公共工具与检查副本位于项目外、按规范后端路径SHA隔离的命名空间：MacOS为 `~/Library/Caches/AcademicServices/deployment/project-<SHA>/`，Linux／FreeBSD为 `${XDG_CACHE_HOME:-$HOME/.cache}/AcademicServices/deployment/project-<SHA>/`，Windows为 `%LOCALAPPDATA%\AcademicServices\deployment\project-<SHA>\`；其下 `.tools/<tool>/<os-arch>/<version>` 保存工具，`.runtime` 保存解析器及临时mod／sum。旧源码 `.tools` 仅只读候选；外置缓存采用独立before／after、originals和归属子收据，反部署精确撤回有依据且未后改的本项目变更，原有、后改、活用和归属未知资源保留报告。
+
+后端和二维码业务模块只在当前模块路径范围内检查可用更新，单次30秒，使用完整临时mod／sum副本，不调用 `go get`／`tidy`。查询／超时退出3时明确检查未完成，再按已回归锁构建；路径、副本或源码不变性校验退出2时停止，取消继续传播。构建同样使用临时modfile、readonly及源mod／sum前后字节核对，不把部署变为业务库升级。Flutter、Python桌面、Pods、Gradle、Android／iOS／鸿蒙SDK不由后端部署安装或升级；只托管已有静态产物。
+
+官方元数据临时网络、限流和5xx错误按原生入口现有等待／取消机制重试获取；来源、结构、正式标签、摘要异常立即停止，不无限重试校验错误，也不把旧锁伪称最新。组件及SDK子树由本次原生入口监督回收，不重复执行业务部署。新流程的隔离测试与各系统原生部署验收分别记录。
 
 <a id="🔚" href="#前言" style="font-size:17px; color:green; font-weight:bold;">我是有底线的➤点我回到首页</a>
 **扫码访问：** 地址生成后仍逐行显示完整 URL，并分别生成用户端、管理端的本地二维码。支持颜色且足够宽的终端直接显示黑白码；窄终端、非 TTY、`NO_COLOR` 或 Windows 纯文本环境，打开日志列出的 `.runtime/access-qr.*/index.html`（Windows 为 `access-qr-编号`）扫码，可保存 SVG/PNG。二维码不经过在线服务；隧道地址变化会重新生成，退出时页面标记失效。服务器可通过环境变量或 `.runtime/config.env` 的 `PUBLIC_BASE_URL=https://实际域名` 指定不含账户、查询参数或片段的基地址；未配置时仅显示明确标为“仅本机”的回环入口，手机无法访问。二维码辅助失败只告警，原 URL 与健康服务保留；产物由既有反部署清单管理。详见[二维码输出、固定依赖与使用边界](./公共组件/地址二维码/README.md)。

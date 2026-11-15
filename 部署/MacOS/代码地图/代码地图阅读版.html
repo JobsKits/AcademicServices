@@ -21,13 +21,15 @@
 <td>MacOS 唯一部署实现，供快捷入口及命令行调用。</td>
 </tr>
 </tbody></table>
+<p>当前依赖链：prepare_latest_dependencies、prepare_dependency_resolver、resolve_latest_dependency、ensure_latest_dependency、accept_latest_dependency；check_business_dependency_updates；build_locked_module；外置缓存子收据由 lc_cache_begin／lc_cache_seal／lc_cache_restore 管理。静态锁仅Bootstrap，模式确认后每次核查官方最新稳定Go／fzf，本地模式另查cloudflared；模块只读报告、独立回归后更新。<a href="../../公共组件/依赖版本/README.md">依赖解析与限时报告合同</a>、<a href="../README.md#latest-dependencies">平台缓存与失败边界</a>。</p>
 <h2>二、<span id="local-flow">本单元关系</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <pre class="mermaid">flowchart LR
     Shortcut[平台目录快捷入口] --&gt; Script[包内唯一部署实现]
     Script --&gt; Check[路径与平台检查]
     Script --&gt; Mode[模式选择]
-    Mode --&gt; Server[服务器模式]
-    Mode --&gt; Local[本地部署与穿透模式]
+    Mode --&gt; Latest[官方最新工具与只读业务检查]
+    Latest --&gt; Server[服务器模式]
+    Latest --&gt; Local[本地部署与穿透模式]
     Script --&gt; State[原点与后态清单]
     UndoShortcut[反部署快捷入口] --&gt; Undo[包内反部署入口]
     Undo --&gt; Lifecycle[反部署脚本内嵌恢复函数]

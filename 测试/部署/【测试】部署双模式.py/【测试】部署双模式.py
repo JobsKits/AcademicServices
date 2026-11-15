@@ -43,7 +43,7 @@ class ModeTests(unittest.TestCase):
         self.write_tool('fzf', """
 import json, os, sys
 if os.environ.get('FZF_DEFAULT_OPTS') or os.environ.get('FZF_DEFAULT_OPTS_FILE') or os.environ.get('FZF_DEFAULT_COMMAND'): sys.exit(91)
-if '--version' in sys.argv: print('0.74.5 fixture'); sys.exit(0)
+if '--version' in sys.argv: print('0.75.0 fixture'); sys.exit(0)
 if '--help' in sys.argv: print('--height --accept-nth'); sys.exit(0)
 sys.stdin.read()
 with open(os.environ['CALLS'], 'a') as f: f.write('fzf:' + json.dumps([os.environ.get('FZF_DEFAULT_OPTS'), os.environ.get('FZF_DEFAULT_OPTS_FILE')]) + '\\n')
@@ -52,9 +52,10 @@ sys.exit(int(os.environ.get('FZF_EXIT', '0')))
 """)
         self.write_tool('go', """
 import os, shutil, sys
-if sys.argv[1:] == ['version']: print('go version go1.27.3 darwin/arm64'); sys.exit(0)
+if sys.argv[1:] == ['version']: print('go version go1.27.4 darwin/arm64'); sys.exit(0)
 with open(os.environ['CALLS'], 'a') as f: f.write('build\\n')
-if os.path.basename(os.getcwd()) == '地址二维码':
+if os.path.basename(os.getcwd()) == '依赖版本': source = os.environ['RESOLVER_TEMPLATE']
+elif os.path.basename(os.getcwd()) == '地址二维码':
     if os.environ.get('QR_BUILD_FAIL') == '1': sys.exit(29)
     source = os.environ['QR_TEMPLATE']
 else: source = os.environ['SERVER_TEMPLATE']
@@ -62,7 +63,7 @@ shutil.copy2(source, sys.argv[sys.argv.index('-o') + 1])
 """)
         self.write_tool('cloudflared', """
 import os, signal, sys, time
-if '--version' in sys.argv: print('cloudflared fixture'); sys.exit(0)
+if '--version' in sys.argv: print('cloudflared version 2026.11.0 fixture'); sys.exit(0)
 if '--help' in sys.argv: print('--url --config --no-autoupdate'); sys.exit(0)
 assert '--config' in sys.argv
 assert not any(key.startswith('TUNNEL_') for key in os.environ)
@@ -101,9 +102,26 @@ else:
     (out / '01.svg').write_text('fixture-svg')
     print('本地二维码页面（浏览器打开）：' + str(out / 'index.html'), flush=True)
 """)
+        self.write_tool('resolver-template', """
+import os, re, sys
+args=sys.argv[1:]
+if '--module-report' in args: print('fixture.invalid/dependency\\tv1.0.0\\tv1.0.1'); sys.exit(0)
+if '--compare' in args:
+    def version(value):
+        value=value.removeprefix('go').removeprefix('v')
+        if not re.fullmatch(r'[0-9]+\\.[0-9]+(?:\\.[0-9]+)?', value): sys.exit(2)
+        parts=tuple(map(int,value.split('.'))); return parts+(0,)*(3-len(parts))
+    result=version(args[args.index('--compare')+1])>=version(args[args.index('--at-least')+1])
+    print('1' if result else '0'); sys.exit(0 if result else 1)
+name=args[args.index('--tool')+1]
+if name!='go' and '--minimum-go' in args: sys.exit(2)
+os_name=args[args.index('--os')+1]; arch=args[args.index('--arch')+1]
+version={'go':'1.27.4','fzf':'0.75.0','cloudflared':'2026.11.0'}[name]
+print('\\t'.join([name,os_name,arch,version,'fixture','a'*64,'https://go.dev/dl/fixture','binary']))
+""")
         self.env = {**os.environ, 'GO_BIN': str(self.tools / 'go'), 'FZF_BIN': str(self.tools / 'fzf'),
                     'CLOUDFLARED_BIN': str(self.tools / 'cloudflared'), 'CALLS': str(self.calls),
-                    'SERVER_TEMPLATE': str(self.tools / 'server-template'), 'QR_TEMPLATE': str(self.tools / 'qr-template'), 'TERM': 'xterm',
+                    'SERVER_TEMPLATE': str(self.tools / 'server-template'), 'QR_TEMPLATE': str(self.tools / 'qr-template'), 'RESOLVER_TEMPLATE': str(self.tools / 'resolver-template'), 'HOME': str(Path(self.temp.name).resolve() / 'home'), 'XDG_CACHE_HOME': str(Path(self.temp.name).resolve() / 'cache'), 'TERM': 'xterm',
                     'FZF_DEFAULT_OPTS': '--filter=server --bind=start:execute(touch invalid)',
                     'FZF_DEFAULT_OPTS_FILE': '/not/a/real/file', 'TUNNEL_START_TIMEOUT': '15', 'TUNNEL_NAME': 'must-not-reach-cloudflared',
                     'TUNNEL_HOSTNAME': 'fixture.invalid', 'TUNNEL_TOKEN': 'synthetic-test-value', 'TUNNEL_CONFIG': '/not/a/user/file'}

@@ -80,7 +80,7 @@ foreach ($name in @('Select-StaticRoots','Configure-Server','Prepare-SelectedMod
 function Ensure-LocalTool { 'fixture-cloudflared-never-executed' }
 function Write-TerminalLifetimeNotice {}
 function Read-Host { '' }
-$CodeRoot=$Code; $ServerRoot=$Server; $DeployMode=$Mode
+$CodeRoot=$Code; $ServerRoot=$Server; $DeployMode=$Mode; $DependencyCacheRoot=Join-Path ([IO.Path]::GetDirectoryName($Code)) 'fixture-cache'
 Configure-Server
 Prepare-SelectedMode
 @{demo=$env:DEMO_MODE; payment=$env:PAYMENT_MODE; client=$env:CLIENT_STATIC_DIR; admin=$env:ADMIN_STATIC_DIR;
@@ -102,7 +102,7 @@ log() { printf '%s\\n' "$1"; }
 fail() { printf '%s\\n' "$1" >&2; exit 91; }
 ensure_local_tool() { :; }
 log_terminal_lifetime_notice() { :; }
-CODE_ROOT="$1"; SERVER_ROOT="$2"; DEPLOY_MODE="$3"
+CODE_ROOT="$1"; SERVER_ROOT="$2"; DEPLOY_MODE="$3"; DEPENDENCY_CACHE_ROOT="$CODE_ROOT/../fixture-cache"
 configure_server
 prepare_selected_mode
 printf '\\n'

@@ -687,8 +687,114 @@ lc_finish_external_resources() {
   lc_system_inventory "$(cat "$LC_STATE/system-manager")" > "$LC_STATE/system-after.txt" || return 1
   comm -13 "$LC_STATE/system-before.txt" "$LC_STATE/system-after.txt" > "$LC_STATE/system-changed.txt"
 }
+# 复核旧清单时仅忽略 Finder 的普通元数据文件，仍严格核对其它资源。
+lc_redeploy_matches() {
+  LC_ALL=C awk -F '\t' '
+    NF==4 && $1=="F" && $4 ~ /(^|\/)\.DS_Store$/ { next }
+    FILENAME==ARGV[1] { expected[++count]=$0; next }
+    { if ($0!=expected[++current]) different=1 }
+    END { exit(different || current!=count) }
+  ' "$1" "$2"
+}
+# 只接纳已登记程序和标准 Go 构建缓存的变化，未知对象继续阻断。
+lc_generated_manifest_changes() {
+  : > "$3" && : > "$4" || return 1
+  LC_ALL=C awk -F '\t' -v changes="$3" -v missing="$4" -v check_only="${5:-0}" '
+    function cache_row(row, fields, parts, count, name) {
+      split(row,fields,"\t")
+      count=split(fields[4],parts,"/")
+      if (fields[1]=="D")
+        return count==2 || (count==3 && parts[3] ~ /^[0-9a-f][0-9a-f]$/)
+      if (fields[1]!="F") return 0
+      if (count==3) return parts[3]=="README" || parts[3]=="trim.txt"
+      if (count!=4 || parts[3] !~ /^[0-9a-f][0-9a-f]$/) return 0
+      name=parts[4]
+      return length(name)==66 && substr(name,1,64) ~ /^[0-9a-f]+$/ &&
+        substr(name,65) ~ /^-[ad]$/ && substr(name,1,2)==parts[3]
+    }
+    function generated(path, row, fields) {
+      if (row=="") return 1
+      split(row,fields,"\t")
+      if (path==".runtime/bin/server" || path==".runtime/bin/deployqr")
+        return fields[1]=="F" && substr(previous[path],1,2)=="F\t"
+      if (path==".tools/gobuildcache" || index(path,".tools/gobuildcache/")==1)
+        return cache_row(row)
+      return 0
+    }
+    function difference(path, fields) {
+      if (previous[path]==current[path]) return
+      if (!generated(path,previous[path]) || !generated(path,current[path])) {
+        if (++invalid<=10) print "保留未授权变化：" path > "/dev/stderr"
+        return
+      }
+      if (previous[path]!="" && current[path]!="" && substr(previous[path],1,2)=="D\t") {
+        invalid++; print "保留目录属性变化：" path > "/dev/stderr"; return
+      }
+      if (current[path]!="") print current[path] >> changes
+      else print previous[path] >> missing
+    }
+    NF==4 && $1=="F" && $4 ~ /(^|\/)\.DS_Store$/ { next }
+    {
+      if (NF!=4) { invalid++; next }
+      if (($4==".tools/gobuildcache" || index($4,".tools/gobuildcache/")==1) && !cache_row($0)) {
+        invalid++; print "保留非标准构建缓存对象：" $4 > "/dev/stderr"
+      }
+      if (FILENAME==ARGV[1]) previous[$4]=$0
+      else current[$4]=$0
+    }
+    END {
+      if (check_only==1) exit(invalid!=0)
+      for (path in previous) difference(path)
+      for (path in current) if (!(path in previous)) difference(path)
+      exit(invalid!=0)
+    }
+  ' "$1" "$2"
+}
+# 重建前校验并保留变化生成物，不覆盖最初原点或任何历史备份。
+lc_redeploy_generated_resources() {
+  local lc_archive lc_kind lc_digest lc_perm lc_rel lc_parent
+  lc_generated_manifest_changes "$LC_STATE/after.tsv" "$LC_STATE/redeploy-check.tsv" \
+    "$LC_STATE/redeploy-changes.tsv" "$LC_STATE/redeploy-missing.tsv" || return 1
+  [ -s "$LC_STATE/redeploy-changes.tsv" ] || [ -s "$LC_STATE/redeploy-missing.tsv" ] || return 0
+  [ ! -L "$LC_STATE/redeploy-backups" ] || { lc_message '生成物备份目录为链接，未继续部署。'; return 1; }
+  mkdir -p "$LC_STATE/redeploy-backups" || return 1
+  lc_archive="$(mktemp -d "$LC_STATE/redeploy-backups/redeploy.XXXXXX")" || return 1
+  cp -p "$LC_STATE/after.tsv" "$lc_archive/previous-after.tsv" && \
+    cp -p "$LC_STATE/redeploy-check.tsv" "$lc_archive/current.tsv" && \
+    cp -p "$LC_STATE/redeploy-changes.tsv" "$lc_archive/changes.tsv" && \
+    cp -p "$LC_STATE/redeploy-missing.tsv" "$lc_archive/missing.tsv" || return 1
+  mkdir "$lc_archive/files" || return 1
+  while IFS="$LC_TAB" read -r lc_kind lc_digest lc_perm lc_rel; do
+    lc_safe_relative "$lc_rel" || return 1
+    lc_parent="$lc_rel"
+    while :; do
+      [ ! -L "$SERVER_ROOT/$lc_parent" ] || return 1
+      case "$lc_parent" in */*) lc_parent="${lc_parent%/*}";; *) break;; esac
+    done
+    if [ "$lc_kind" = D ]; then
+      [ -d "$SERVER_ROOT/$lc_rel" ] && [ "$(lc_mode "$SERVER_ROOT/$lc_rel")" = "$lc_perm" ] || return 1
+      mkdir -p "$lc_archive/files/$lc_rel" || return 1
+    else
+      [ -f "$SERVER_ROOT/$lc_rel" ] || return 1
+      mkdir -p "$(dirname -- "$lc_archive/files/$lc_rel")" || return 1
+      cp -p "$SERVER_ROOT/$lc_rel" "$lc_archive/files/$lc_rel" || return 1
+      [ "$(lc_hash "$lc_archive/files/$lc_rel")" = "$lc_digest" ] && \
+        [ "$(lc_mode "$lc_archive/files/$lc_rel")" = "$lc_perm" ] && \
+        [ "$(lc_hash "$SERVER_ROOT/$lc_rel")" = "$lc_digest" ] && \
+        [ "$(lc_mode "$SERVER_ROOT/$lc_rel")" = "$lc_perm" ] || return 1
+    fi
+  done < "$lc_archive/changes.tsv"
+  while IFS="$LC_TAB" read -r lc_kind lc_digest lc_perm lc_rel; do
+    [ ! -e "$SERVER_ROOT/$lc_rel" ] && [ ! -L "$SERVER_ROOT/$lc_rel" ] || return 1
+  done < "$lc_archive/missing.tsv"
+  cmp -s "$LC_STATE/after.tsv" "$lc_archive/previous-after.tsv" && \
+    cmp -s "$LC_STATE/redeploy-check.tsv" "$lc_archive/current.tsv" || return 1
+  printf 'verified\n' > "$lc_archive/verified" || return 1
+  lc_message "已校验并保留变化的程序与构建缓存：$lc_archive；原始配置与恢复原点不变。"
+}
 # 在首次资源写入前保存原点并拒绝覆盖不可信旧现场。
 lc_begin() {
+  LC_BEGIN_REJECTED=1
   lc_context && lc_acquire_lock || return 1
   umask 077
   mkdir -p "$LC_STATE" || return 1
@@ -698,6 +804,8 @@ lc_begin() {
   if [ ! -f "$LC_STATE/before.tsv" ]; then
     [ ! -e "$LC_ROOT/owner" ] || { lc_error '归属已登记但原始清单缺失。'; return 1; }
     lc_manifest "$SERVER_ROOT" "$LC_STATE/before.tsv.next" '.runtime .tools' || return 1
+    lc_generated_manifest_changes "$LC_STATE/before.tsv.next" /dev/null /dev/null /dev/null 1 || return 1
+    LC_BEGIN_REJECTED=0
     mv "$LC_STATE/before.tsv.next" "$LC_STATE/before.tsv" || return 1
     lc_copy_originals || return 1
     [ ! -d "$SERVER_ROOT/data" ] || printf 'data\n' > "$LC_STATE/preexisting-data"
@@ -706,16 +814,21 @@ lc_begin() {
   elif [ -f "$LC_STATE/after.tsv" ]; then
     # 旧清单不得把两次部署之间的外部变化认作本次新建。
     lc_manifest "$SERVER_ROOT" "$LC_STATE/redeploy-check.tsv" '.runtime .tools' || return 1
-    cmp -s "$LC_STATE/redeploy-check.tsv" "$LC_STATE/after.tsv" || { lc_error '资源已偏离上次清单，先检查反部署差异。'; return 1; }
+    if ! lc_redeploy_matches "$LC_STATE/after.tsv" "$LC_STATE/redeploy-check.tsv" && ! lc_redeploy_generated_resources; then
+      lc_message "部署前检查未通过：受管资源与上次部署清单不一致；请核对 $LC_STATE/after.tsv 与 $LC_STATE/redeploy-check.tsv。"
+      return 1
+    fi
   else
     lc_error '上一轮部署未封口，保留资源并请使用反部署检查。'; return 1
   fi
-  lc_record_process wrapper "$$"
+  lc_record_process wrapper "$$" || return 1
+  LC_BEGIN_REJECTED=0
 }
 # 在运行服务前封口配置、程序与工具的实际后态。
 lc_checkpoint() {
   [ "${LC_LOCK_HELD:-0}" = 1 ] || return 1
   lc_manifest "$SERVER_ROOT" "$LC_STATE/after.tsv.next" '.runtime .tools' || return 1
+  lc_generated_manifest_changes "$LC_STATE/after.tsv.next" /dev/null /dev/null /dev/null 1 || return 1
   mv "$LC_STATE/after.tsv.next" "$LC_STATE/after.tsv" || return 1
   printf 'ready\n' > "$LC_STATE/status"
 }
@@ -724,7 +837,9 @@ lc_finalize() {
   [ "${ZSH_SUBSHELL:-0}" = 0 ] || return 0
   [ "${BASHPID:-$$}" = "${LC_LOCK_SHELL_PID:-${BASHPID:-$$}}" ] || return 0
   [ "${LC_LOCK_HELD:-0}" = 1 ] || return 0
+  [ "${LC_BEGIN_REJECTED:-0}" != 1 ] || { lc_release_lock; return $?; }
   local lc_final_code=0
+  lc_cache_seal || lc_final_code=1
   lc_finish_external_resources || lc_final_code=1
   lc_finalize_resources || lc_final_code=1
   lc_release_lock || lc_final_code=1
@@ -732,6 +847,7 @@ lc_finalize() {
 }
 # 封存与解锁分开，记录失败仍须释放本进程的操作锁。
 lc_finalize_resources() {
+  [ "${LC_BEGIN_REJECTED:-0}" != 1 ] || return 0
   if [ ! -f "$LC_STATE/after.tsv" ] && [ -f "$LC_STATE/before.tsv" ] && [ -f "$LC_ROOT/owner" ]; then
     lc_checkpoint || return 1
   fi
@@ -745,7 +861,7 @@ lc_finalize_resources() {
     lc_manifest "$SERVER_ROOT" "$LC_STATE/finalize.tsv" runtime-selected \
       "$lc_log_rel" "$lc_log_rel.server.log" "$lc_log_rel.tunnel.log" \
       "$lc_quick_rel" "$lc_qr_rel" || return 1
-    awk -F '\t' -v log_path="$lc_log_rel" -v quick="$lc_quick_rel" -v qr="$lc_qr_rel" 'function owned() { return $4==log_path || $4==log_path ".server.log" || $4==log_path ".tunnel.log" || (quick!="" && $4==quick) || (qr!="" && ($4==qr || index($4,qr "/")==1)) } NR==FNR { if (owned()) next; print; next } owned() {print}' "$LC_STATE/after.tsv" "$LC_STATE/finalize.tsv" | LC_ALL=C sort > "$LC_STATE/after.tsv.next" || return 1
+    awk -F '\t' -v log_path="$lc_log_rel" -v quick="$lc_quick_rel" -v qr="$lc_qr_rel" 'function owned() { return $4==log_path || $4==log_path ".server.log" || $4==log_path ".tunnel.log" || (quick!="" && $4==quick) || (qr!="" && ($4==qr || index($4,qr "/")==1)) } FILENAME==ARGV[1] { if (owned()) next; print; next } owned() {print}' "$LC_STATE/after.tsv" "$LC_STATE/finalize.tsv" | LC_ALL=C sort > "$LC_STATE/after.tsv.next" || return 1
     mv "$LC_STATE/after.tsv.next" "$LC_STATE/after.tsv" || return 1
   fi
   return 0
@@ -781,6 +897,7 @@ lc_pick() {
 }
 # 复用本系统已有健康选择器，反部署不下载工具。
 lc_find_fzf() {
+  if [ -n "${ZSH_VERSION:-}" ]; then setopt local_options no_nomatch; fi
   LC_FZF="${FZF_BIN:-}"
   if [ -z "$LC_FZF" ]; then LC_FZF="$(command -v fzf 2>/dev/null || true)"; fi
   if [ -z "$LC_FZF" ]; then
@@ -788,6 +905,18 @@ lc_find_fzf() {
       [ -x "$lc_candidate" ] || continue
       [ -z "$LC_FZF" ] || { lc_error '找到多份fzf，请用FZF_BIN指定本系统健康工具。'; return 1; }
       LC_FZF="$lc_candidate"
+    done
+  fi
+  if [ -z "$LC_FZF" ] && [ -f "$LC_STATE/cache-origin/root" ] && [ -f "$LC_STATE/cache-origin/after.tsv" ]; then
+    lc_cache_root || return 1
+    [ "$(cat "$LC_STATE/cache-origin/root")" = "$LC_CACHE_ROOT" ] || return 1
+    local lc_relative lc_expected
+    for lc_candidate in "$LC_CACHE_ROOT"/.tools/fzf/*/*/fzf; do
+      [ -f "$lc_candidate" ] && [ -x "$lc_candidate" ] && [ ! -L "$lc_candidate" ] || continue
+      lc_relative="${lc_candidate#"$LC_CACHE_ROOT"/}"
+      lc_expected="$(awk -F "$LC_TAB" -v path="$lc_relative" '$1=="F" && $4==path {print $2}' "$LC_STATE/cache-origin/after.tsv")"
+      [ -n "$lc_expected" ] && [ "$(lc_hash "$lc_candidate")" = "$lc_expected" ] || continue
+      if FZF_DEFAULT_COMMAND= FZF_DEFAULT_OPTS= FZF_DEFAULT_OPTS_FILE= "$lc_candidate" --help 2>/dev/null | grep -- '--accept-nth' >/dev/null; then LC_FZF="$lc_candidate"; break; fi
     done
   fi
   [ -n "$LC_FZF" ] && [ -x "$LC_FZF" ] || { lc_error '缺少健康fzf；未安装工具或删除数据。'; return 1; }
@@ -956,7 +1085,7 @@ lc_show_intro() {
   [ "$lc_color" = 0 ] || printf '\033[1;31m'
   printf '知序服务｜%s 反部署\n' "${PLATFORM_ID:-Unix}"
   [ "$lc_color" = 0 ] || printf '\033[0;34m'
-  printf '%s\n' '1、按部署前后清单恢复程序、配置与工程内工具；外部数据库和系统共享依赖不自动删除。' '2、数据默认备份到后端目录外，校验后清源；清零不可恢复。Esc / Ctrl+C取消。' '3、危险确认前不写业务；确认后审计见后端 .deployment-state/posix/operations.log。' '4、恢复记录与状态见 .deployment-state/posix/，完整备份或隔离源位置见 data-pending。' '当前仅有语法与隔离验证，目标系统原生验收分别记录。'
+  printf '%s\n' '1、按部署前后清单恢复程序、配置及本项目专属缓存；外部数据库和系统共享依赖不自动删除。' '2、数据默认备份到后端目录外，校验后清源；清零不可恢复。Esc / Ctrl+C取消。' '3、危险确认前不写业务；确认后审计见后端 .deployment-state/posix/operations.log。' '4、恢复记录与状态见 .deployment-state/posix/，完整备份或隔离源位置见 data-pending。' '当前仅有语法与隔离验证，目标系统原生验收分别记录。'
   [ "$lc_color" = 0 ] || printf '\033[0m'
 }
 # 编排只读检查、双重确认、数据处理和资源恢复。
@@ -978,6 +1107,7 @@ lc_undeploy_main() {
   lc_choice="$(printf 'backup\t数据库数据备份（默认，校验后清源）\nclear\t数据库数据清零（不可恢复）\ncancel\t取消，不修改\n' | lc_pick '数据处理 > ')" || return 130
   case "$lc_choice" in backup|clear) ;; *) return 130;; esac
   lc_message "准确数据范围：$SERVER_ROOT/data；配置：$SERVER_ROOT/.runtime/config.env"
+  if [ -f "$LC_STATE/cache-origin/root" ]; then lc_message "外置专属依赖范围：$(cat "$LC_STATE/cache-origin/root")/.tools 与 .runtime；仅按子收据精确恢复。"; fi
   lc_message '仅回收清单归属资源，原有与共享环境保留。'
   lc_confirm="$(printf 'cancel\t取消（默认）\napply\t确认反部署并%s本项目源数据\n' "$(if [ "$lc_choice" = backup ]; then printf '备份后清理'; else printf '永久清零'; fi)" | lc_pick '危险操作确认 > ')" || return 130
   [ "$lc_confirm" = apply ] || return 130
@@ -993,9 +1123,72 @@ lc_undeploy_main() {
   trap 'lc_release_lock; exit 130' INT TERM HUP
   if [ ! -f "$LC_STATE/data-completed" ]; then lc_backup_and_clear_data "$lc_choice" || return 1; fi
   lc_restore_resources || return 1
+  lc_restore_cache || return 1
   printf 'completed\n' > "$LC_STATE/completed" || return 1
   lc_release_lock || return 1
   lc_message '反部署已完成；已恢复清单内变更，原有资源与恢复审计保留。'
+}
+# 外置缓存仍按本项目原点管理，原有/共享及后改对象不整片清除。
+lc_cache_root() {
+  local lc_cache_id lc_cache_base lc_cache_cursor
+  lc_cache_id="$(printf '%s' "$SERVER_ROOT" | lc_hash /dev/stdin)" || return 1
+  if [ "${PLATFORM_ID:-}" = MacOS ]; then lc_cache_base="$HOME/Library/Caches"; else lc_cache_base="${XDG_CACHE_HOME:-$HOME/.cache}"; fi
+  LC_CACHE_ROOT="$lc_cache_base/AcademicServices/deployment/project-$lc_cache_id"
+  case "$LC_CACHE_ROOT" in /*) ;; *) lc_error '外置缓存必须使用绝对路径。'; return 1;; esac
+  case "$LC_CACHE_ROOT" in *"$LC_TAB"*|*"$LC_NL"*) return 1;; esac
+  case "$LC_CACHE_ROOT/" in "$SERVER_ROOT/"*) lc_error '依赖缓存不能位于项目内。'; return 1;; esac
+  lc_cache_cursor="$LC_CACHE_ROOT"
+  while :; do
+    [ ! -L "$lc_cache_cursor" ] || { lc_error '缓存或祖先为链接，保留。'; return 1; }
+    [ "$lc_cache_cursor" != / ] || break
+    lc_cache_cursor="$(dirname -- "$lc_cache_cursor")"
+  done
+}
+# 独立子收据复用原生内容摘要/原件恢复，不扩大主项目允许的相对路径。
+lc_cache_register_session() {
+  [ -n "${SESSION_DIR:-}" ] || return 0
+  case "$SESSION_DIR" in "$LC_STATE"/sessions/session.*) ;; *) return 1;; esac
+  [ -d "$SESSION_DIR" ] && [ ! -L "$SESSION_DIR" ] || return 1
+  printf '%s\n' "$LC_CACHE_ROOT" > "$SESSION_DIR/cache-root"
+}
+lc_cache_begin() {
+  if [ "${LC_CACHE_ACTIVE:-0}" = 1 ]; then lc_cache_register_session; return $?; fi
+  lc_cache_root || return 1
+  local lc_cache_state="$LC_STATE/cache-origin"
+  if [ -f "$lc_cache_state/root" ]; then
+    [ "$(cat "$lc_cache_state/root")" = "$LC_CACHE_ROOT" ] || { lc_error '缓存归属路径已改变，保留原件。'; return 1; }
+    if [ -f "$lc_cache_state/after.tsv" ]; then
+      lc_manifest "$LC_CACHE_ROOT" "$lc_cache_state/current.tsv" '.runtime .tools' || return 1
+      lc_redeploy_matches "$lc_cache_state/after.tsv" "$lc_cache_state/current.tsv" || { lc_error '项目外缓存出现后续变化，保留现场。'; return 1; }
+    else lc_error '上一轮外置缓存未封口，先检查恢复清单。'; return 1; fi
+  else
+    [ ! -L "$lc_cache_state" ] || return 1
+    mkdir -p "$lc_cache_state" || return 1
+    printf '%s\n' "$LC_CACHE_ROOT" > "$lc_cache_state/root" || return 1
+    lc_manifest "$LC_CACHE_ROOT" "$lc_cache_state/before.tsv" '.runtime .tools' || return 1
+    (SERVER_ROOT="$LC_CACHE_ROOT"; LC_STATE="$lc_cache_state"; lc_copy_originals) || return 1
+  fi
+  LC_CACHE_ACTIVE=1
+  lc_cache_register_session
+}
+# 仅当前已核验会话封存外置缓存；失败路径亦保留本轮部分获取的恢复依据。
+lc_cache_seal() {
+  [ "${LC_CACHE_ACTIVE:-0}" = 1 ] || return 0
+  lc_cache_root || return 1
+  lc_manifest "$LC_CACHE_ROOT" "$LC_STATE/cache-origin/after.tsv.next" '.runtime .tools' || return 1
+  mv "$LC_STATE/cache-origin/after.tsv.next" "$LC_STATE/cache-origin/after.tsv" || return 1
+}
+# 停止本轮服务后再复核占用和摘要；未知使用者/后改缓存只能保留并报告。
+lc_restore_cache() {
+  local lc_cache_state="$LC_STATE/cache-origin" lc_cache_processes
+  [ -f "$lc_cache_state/root" ] || return 0
+  lc_cache_root || return 1
+  [ "$(cat "$lc_cache_state/root")" = "$LC_CACHE_ROOT" ] || { lc_error '外置缓存所属项目路径已变化，未删除原缓存。'; return 1; }
+  [ -f "$lc_cache_state/before.tsv" ] && [ -f "$lc_cache_state/after.tsv" ] || { lc_error '外置缓存恢复证据不完整，保留。'; return 1; }
+  lc_cache_processes="$(ps ax -o command= 2>/dev/null)" || { lc_error '无法检查外置缓存使用者，保留。'; return 1; }
+  if printf '%s\n' "$lc_cache_processes" | awk -v root="$LC_CACHE_ROOT/" 'index($0,root){found=1} END{exit !found}'; then lc_error '外置缓存仍有进程使用，保留原件。'; return 1; fi
+  (SERVER_ROOT="$LC_CACHE_ROOT"; LC_STATE="$lc_cache_state"; lc_restore_resources) || return 1
+  rmdir "$LC_CACHE_ROOT" 2>/dev/null || true
 }
 # END JOBS DEPLOYMENT LIFECYCLE
 # 按入口位置解析源码，不依赖终端工作目录。
@@ -1012,7 +1205,7 @@ show_script_intro_and_wait() {
   if [ -t 1 ] && [ "${TERM:-dumb}" != dumb ] && [ -z "${NO_COLOR:-}" ]; then printf '\033[1;31m'; fi
   printf '\n知序服务｜Ubuntu 部署\n'
   if [ -t 1 ] && [ "${TERM:-dumb}" != dumb ] && [ -z "${NO_COLOR:-}" ]; then printf '\033[0;34m'; fi
-  jobs_prompt_output printf '%s\n' '1、配置本工程账户和监听地址，必要时下载官方Go SDK并校验SHA256。' '2、回车后用fzf选择本地部署＋内网穿透或服务器部署；Esc取消。' '本地模式为Demo：模拟支付并在登录页公开本次真实测试账号密码；会创建公网临时HTTPS。服务器模式关闭Demo、不启动隧道。' '缺少fzf/cloudflared时按锁清单自动准备工程内工具并显示来源；不改全局PATH、系统服务或防火墙。' '3、后端 .deployment-state 保存原点清单与恢复副本；.tools、.runtime、data 保存本工程资源。' '4、Go模块默认使用goproxy.cn镜像，失败回退官方源；可用GOPROXY覆盖，仅当前进程生效。'
+  jobs_prompt_output printf '%s\n' '1、配置本工程账户和监听地址，必要时下载官方Go SDK并校验SHA256。' '2、回车后用fzf选择本地部署＋内网穿透或服务器部署；Esc取消。' '本地模式为Demo：模拟支付并在登录页公开本次真实测试账号密码；会创建公网临时HTTPS。服务器模式关闭Demo、不启动隧道。' '静态锁仅Bootstrap；选模式后查询官方最新Go/fzf，本地模式另查cloudflared，验证后采用项目外版本缓存；不改全局PATH、系统服务或防火墙。' '3、后端 .deployment-state 保存原点清单与恢复副本；.tools、.runtime、data 保存本工程资源。' '4、Go模块默认使用goproxy.cn镜像，失败回退官方源；可用GOPROXY覆盖，仅当前进程生效。'
   printf '源码：%s\n日志：%s\n' "$SERVER_ROOT" "$LOG_FILE"
   if [ -t 1 ] && [ "${TERM:-dumb}" != dumb ] && [ -z "${NO_COLOR:-}" ]; then printf '\033[0m'; fi
   if [ "${1:-}" = --check ] && [ $# -eq 1 ]; then
@@ -1092,11 +1285,9 @@ ensure_transfer_tools() {
   else fail '需要root或sudo安装基础工具。'; fi
   command -v curl >/dev/null 2>&1 && curl --version >/dev/null 2>&1 && command -v tar >/dev/null 2>&1 || fail '工具安装后复检失败。' 
 }
-# 只接受本交付核验过的SDK版本，不更新全局安装。
+# Bootstrap仅要求可运行标准库查询器；最终SDK另行核对官方最新稳定版本。
 accept_go() {
-  [ -n "$1" ] && [ -x "$1" ] || return 1
-  [ "$("$1" version 2>/dev/null | awk '{print $3}')" = "$GO_VERSION" ] || return 1
-  GO_EXE="$1"
+  bootstrap_go_healthy "$1"
 }
 # 根据架构选择官方归档及固定摘要。
 select_archive() {
@@ -1122,26 +1313,33 @@ verify_archive() {
   fi
   [ "$actual_hash" = "$GO_SHA" ] || fail 'SDK摘要不匹配，未解压。请检查网络与来源。'
 }
-# 缺SDK时下载到工程本地；已有健康SDK直接复用。
+# 缺SDK时引导到项目外专属缓存；已有健康SDK只读复用。
 ensure_go() {
   if accept_go "${GO_BIN:-}"; then return; fi
   candidate_go="$(command -v go 2>/dev/null || true)"
   if accept_go "$candidate_go"; then return; fi
-  if [ -n "$candidate_go" ]; then log "现有Go未通过锁定版本 $GO_VERSION 健康检查；保留系统安装，改用工程内SDK。"; fi
-  if accept_go "$SERVER_ROOT/.tools/$GO_VERSION/bin/go"; then return; fi
+  if [ -n "$candidate_go" ]; then log "现有Go未通过Bootstrap最低版本与健康检查；保留系统安装，改用项目外引导SDK。"; fi
+  if accept_go "$SERVER_ROOT/.tools/$GO_VERSION/bin/go"; then return; fi # 只读复用旧工程SDK，不迁移或删除。
   select_archive
-  log "准备模式所需 $GO_VERSION：来源 https://go.dev/dl/$GO_ARCHIVE；目标 $SERVER_ROOT/.tools/$GO_VERSION；不更改系统Go。"
   ensure_transfer_tools
-  archive_path="$SERVER_ROOT/.tools/$GO_ARCHIVE"
+  dependency_cache_context
+  lc_cache_begin || fail '无法登记Bootstrap SDK原点。'
+  mkdir -p "$DEPENDENCY_CACHE_ROOT/.tools/go/$TARGET_OS-$GO_ARCH"
+  if accept_go "$DEPENDENCY_CACHE_ROOT/.tools/go/$TARGET_OS-$GO_ARCH/${GO_VERSION#go}/bin/go"; then return; fi
+  select_archive
+  log "准备Bootstrap $GO_VERSION（最终版本另查官方最新）：来源 https://go.dev/dl/$GO_ARCHIVE；目标 $DEPENDENCY_CACHE_ROOT/.tools/go/$TARGET_OS-$GO_ARCH/${GO_VERSION#go}；不更改系统Go。"
+  ensure_transfer_tools
+  archive_path="$DEPENDENCY_CACHE_ROOT/.tools/$GO_ARCHIVE"
   log "来源｜Go SDK｜https://go.dev/dl/$GO_ARCHIVE → $archive_path"
-  curl --fail --location --proto '=https' --tlsv1.2 --retry 2 --connect-timeout 15 --max-time 1200 "https://go.dev/dl/$GO_ARCHIVE" -o "$archive_path" >> "$LOG_FILE" 2>&1 || fail 'Go下载失败。'
+  download_dependency "https://go.dev/dl/$GO_ARCHIVE" "$archive_path"
   verify_archive "$archive_path"
-  staging_dir="$(mktemp -d "$SERVER_ROOT/.tools/sdk-stage.XXXXXX")" || fail '无法建立临时目录。'
+  staging_dir="$(mktemp -d "$DEPENDENCY_CACHE_ROOT/.tools/sdk-stage.XXXXXX")" || fail '无法建立临时目录。'
   tar -xzf "$archive_path" -C "$staging_dir" >> "$LOG_FILE" 2>&1 || fail 'SDK解压失败。'
-  if [ -e "$SERVER_ROOT/.tools/$GO_VERSION" ]; then fail '本地SDK目录存在但不健康，保留原目录；移走后重试。'; fi
-  mv "$staging_dir/go" "$SERVER_ROOT/.tools/$GO_VERSION"
+  if [ -e "$DEPENDENCY_CACHE_ROOT/.tools/go/$TARGET_OS-$GO_ARCH/${GO_VERSION#go}" ]; then fail 'Bootstrap SDK目录存在但不健康，保留原目录；检查后重试。'; fi
+  mv "$staging_dir/go" "$DEPENDENCY_CACHE_ROOT/.tools/go/$TARGET_OS-$GO_ARCH/${GO_VERSION#go}"
   rmdir "$staging_dir"
-  accept_go "$SERVER_ROOT/.tools/$GO_VERSION/bin/go" || fail 'Go安装后健康检查失败。'
+  accept_go "$DEPENDENCY_CACHE_ROOT/.tools/go/$TARGET_OS-$GO_ARCH/${GO_VERSION#go}/bin/go" || fail 'Go安装后健康检查失败。'
+  lc_cache_seal || fail 'Bootstrap SDK恢复清单封存失败。'
 }
 # 隐藏输入密码，并限制换行以保证配置文件格式。
 read_password() {
@@ -1200,8 +1398,8 @@ configure_server() {
   select_static_roots
   export GOPROXY="${GOPROXY:-https://goproxy.cn|https://proxy.golang.org|direct}"
   export GOTELEMETRY=off
-  export GOMODCACHE="$SERVER_ROOT/.tools/gomodcache"
-  export GOCACHE="$SERVER_ROOT/.tools/gobuildcache"
+  export GOMODCACHE="$DEPENDENCY_CACHE_ROOT/.tools/gomodcache"
+  export GOCACHE="$DEPENDENCY_CACHE_ROOT/.tools/gobuildcache"
   export GOTOOLCHAIN=local
   export CGO_ENABLED=0
 }
@@ -1212,7 +1410,7 @@ build_server() {
   module_source="$(printf '%s' "$GOPROXY" | sed -E 's#(https?://)[^/@]*@#\1***@#g; s#\?[^|, ]*#?...#g')"
   log "来源｜Go依赖｜$module_source｜版本按go.mod/go.sum锁定｜缓存 $GOMODCACHE"
   log "构建｜$("$GO_EXE" version)｜$SERVER_ROOT"
-  "$GO_EXE" build -trimpath -o "$SERVER_ROOT/.runtime/bin/server.next" ./cmd/server >> "$LOG_FILE" 2>&1 || fail '编译失败，原程序与数据已保留。'
+  build_locked_module "$SERVER_ROOT" "$SERVER_ROOT/.runtime/bin/server.next" ./cmd/server >> "$LOG_FILE" 2>&1 || fail '编译失败，原程序与数据已保留。'
   mv "$SERVER_ROOT/.runtime/bin/server.next" "$SERVER_ROOT/.runtime/bin/server"
   log '编译通过。'
   qr_helper="$DEPLOY_ROOT/公共组件/地址二维码/集成.sh/集成.sh"
@@ -1272,8 +1470,12 @@ verify_tool_download() {
   fi
   [ "$tool_actual_sha" = "$2" ] || fail '工具下载SHA256不匹配，未解压或执行。'
 }
-# 复用健康工具；缺失时按锁清单下载到工程内并复检。
+# Bootstrap阶段复用健康选择器；静态锁仅用于准备菜单，最终采用前再查询官方最新。
 ensure_local_tool() {
+  if [ "${DEPENDENCY_LATEST_READY:-0}" = 1 ]; then
+    if [ "$1" = fzf ]; then accept_local_tool fzf "$FZF_EXE"; else accept_local_tool cloudflared "$CLOUDFLARED_EXE"; fi
+    return $?
+  fi
   requested_tool="$1"
   if [ "$requested_tool" = fzf ]; then tool_override="${FZF_BIN:-}"; else tool_override="${CLOUDFLARED_BIN:-}"; fi
   if accept_local_tool "$requested_tool" "$tool_override"; then return; fi
@@ -1300,12 +1502,19 @@ ensure_local_tool() {
   IFS="$(printf '\t')" read -r TOOL_VERSION TOOL_ARCHIVE TOOL_SHA TOOL_URL TOOL_KIND <<EOF
 $tool_record
 EOF
+  ensure_transfer_tools
+  dependency_cache_context
+  lc_cache_begin || fail '无法登记Bootstrap工具原点。'
+  tool_target="$DEPENDENCY_CACHE_ROOT/.tools/$requested_tool/$TOOL_OS-$TOOL_ARCH/$TOOL_VERSION"
+  dependency_plain_path "$tool_target" || fail 'Bootstrap缓存路径为链接。'
+  if accept_local_tool "$requested_tool" "$tool_target/$requested_tool"; then return; fi
+  mkdir -p "$DEPENDENCY_CACHE_ROOT/.tools" "$(dirname -- "$tool_target")"
   case "$TOOL_URL" in https://github.com/junegunn/fzf/releases/download/*|https://github.com/cloudflare/cloudflared/releases/download/*) ;; *) fail '工具来源不在锁定官方发布域。' ;; esac
   ensure_transfer_tools
   log "来源｜$requested_tool $TOOL_VERSION｜$TOOL_URL → $tool_target"
-  log "缺少健康 $requested_tool，按已确认自述自动准备并校验工程内原生工具，不修改全局PATH。"
-  tool_stage="$(mktemp -d "$SERVER_ROOT/.tools/tool-stage.XXXXXX")" || fail '无法建立工具临时目录。'
-  curl --fail --location --proto '=https' --tlsv1.2 --retry 2 --connect-timeout 15 --max-time 300 "$TOOL_URL" -o "$tool_stage/$TOOL_ARCHIVE" >> "$LOG_FILE" 2>&1 || fail '工具下载失败；请查看来源和网络，未继续部署。'
+  log "缺少健康 $requested_tool，按已确认自述自动准备并校验项目外缓存中的引导工具，不修改全局PATH。"
+  tool_stage="$(mktemp -d "$DEPENDENCY_CACHE_ROOT/.tools/tool-stage.XXXXXX")" || fail '无法建立工具临时目录。'
+  download_dependency "$TOOL_URL" "$tool_stage/$TOOL_ARCHIVE"
   verify_tool_download "$tool_stage/$TOOL_ARCHIVE" "$TOOL_SHA"
   case "$TOOL_KIND" in
     tar.gz) tar -xzf "$tool_stage/$TOOL_ARCHIVE" -C "$tool_stage" >> "$LOG_FILE" 2>&1 || fail '工具解压失败。' ;;
@@ -1319,6 +1528,7 @@ EOF
   mkdir "$tool_target"
   mv "$tool_stage/$requested_tool" "$tool_target/$requested_tool"
   accept_local_tool "$requested_tool" "$tool_target/$requested_tool" || fail '工具发布后复检失败。'
+  lc_cache_seal || fail 'Bootstrap工具恢复清单封存失败。'
 }
 # 使用根层fzf选择部署方式，取消或异常不进入业务。
 select_deployment_mode() {
@@ -1347,8 +1557,8 @@ show_plan() {
   jobs_prompt_output printf '%s\n' '计划：自述回车 → 健康fzf/缺失时本地下载 → 模式选择 → Go/配置/编译。'
   printf '%s\n' '本地模式（DEMO_MODE=1、PAYMENT_MODE=mock，登录页公开测试账号密码）：强制本次进程production、loopback和同源；健康后建立免费随机HTTPS；Ctrl+C回收本次两个子进程。'
   printf '%s\n' '服务器模式（DEMO_MODE=0，不公开凭据）：保留原配置，只运行后端，不启动隧道、不开放防火墙。'
-  printf '%s\n' '工具清单：部署/deploy-tools.lock.tsv；fzf0.74.5、cloudflared2026.10.7；原生组合缺失时停止并说明，不运行错架构。'
-  printf '%s\n' '公网：Cloudflare Quick仅测试、无SLA、URL变动/200在途/不支持SSE；本计划未联网、下载、写配置或启动。'
+  printf '%s\n' '静态锁部署/deploy-tools.lock.tsv仅作Bootstrap；正常选模式后查官方最新稳定Go/fzf，本地模式另查cloudflared。已有工具须版本达标且健康，下载验摘要后采用项目外版本缓存。'
+  printf '%s\n' '业务依赖只报告当前模块路径可用更新，独立回归后另行更新；构建使用模块外临时锁副本和-mod=readonly，不升级客户端SDK。Cloudflare Quick仅测试、无SLA、URL变动/200在途/不支持SSE；本计划未联网、查询最新、编译、下载、写配置或启动。'
 }
 # 模式确认后建立业务目录，取消选择时不触发。
 initialize_business_runtime() {
@@ -1381,6 +1591,7 @@ prepare_selected_mode() {
 }
 # 只停止本次直接启动的进程，绝不按名字或端口杀其它服务。
 cleanup_owned_processes() {
+  stop_dependency_children
   trap - INT TERM HUP
   for owned_pid in "${OWN_TUNNEL_PID:-}" "${OWN_SERVER_PID:-}"; do
     [ -n "$owned_pid" ] || continue
@@ -1499,6 +1710,212 @@ seal_deployment_lifecycle() {
 }
 
 # 编排自述、模式选择、环境准备与本目录部署。
+# 机器缓存按项目路径独立归属；同一原点负责精确恢复，不接管共享工具。
+dependency_cache_context() {
+  lc_cache_root || fail '无法核验外置缓存路径。'
+  DEPENDENCY_CACHE_ROOT="$LC_CACHE_ROOT"
+  dependency_plain_path "$DEPENDENCY_CACHE_ROOT" || fail '依赖缓存路径或祖先为链接，未继续。'
+  case "$DEPENDENCY_CACHE_ROOT/" in "$SERVER_ROOT/"*) fail '依赖缓存必须位于工程外。';; esac
+}
+# 目录本身及祖先都不能由链接改变真实写入范围。
+dependency_plain_path() {
+  local dependency_path="$1"
+  while :; do
+    [ ! -L "$dependency_path" ] || return 1
+    [ "$dependency_path" != / ] || return 0
+    dependency_path="$(dirname -- "$dependency_path")"
+  done
+}
+# Bootstrap比较只需标准Go版本；最终比较统一使用官方元数据工具。
+bootstrap_go_healthy() {
+  [ -n "$1" ] && [ -x "$1" ] || return 1
+  local dependency_version
+  dependency_version="$("$1" version 2>/dev/null | awk '{print $3}')" || return 1
+  printf '%s\n' "$dependency_version" | awk 'BEGIN{FS="."} /^go[0-9]+\.[0-9]+\.[0-9]+$/ {sub(/^go/,"",$1);exit !($1>1 || ($1==1 && $2>=24))} !/^go[0-9]+\.[0-9]+\.[0-9]+$/ {exit 1}' || return 1
+  GO_EXE="$1"
+}
+# 在父Shell登记实际子进程，取消时只回收本轮子树，避免命令替换隐藏PID。
+run_dependency_child() {
+  local dependency_output="$1" dependency_code
+  shift
+  "$@" > "$dependency_output" 2>> "$LOG_FILE" &
+  DEPENDENCY_CHILD_PID=$!
+  if wait "$DEPENDENCY_CHILD_PID"; then dependency_code=0; else dependency_code=$?; fi
+  DEPENDENCY_CHILD_PID=''
+  return "$dependency_code"
+}
+# 子树按当前父子关系逐层停止；PID不再属于本Shell时不发送信号。
+stop_dependency_pid() {
+  local dependency_pid="$1" dependency_parent="$2" dependency_actual dependency_child
+  dependency_actual="$(ps -p "$dependency_pid" -o ppid= 2>/dev/null | tr -d ' ')"
+  [ "$dependency_actual" = "$dependency_parent" ] || return 0
+  for dependency_child in $(ps ax -o pid= -o ppid= | awk -v parent="$dependency_pid" '$2==parent {print $1}'); do
+    stop_dependency_pid "$dependency_child" "$dependency_pid"
+  done
+  kill -TERM "$dependency_pid" 2>/dev/null || true
+  kill -KILL "$dependency_pid" 2>/dev/null || true
+}
+# 与既有服务清理并列，只处理本次获取/检查子进程。
+stop_dependency_children() {
+  if [ -n "${DEPENDENCY_CHILD_PID:-}" ]; then
+    stop_dependency_pid "$DEPENDENCY_CHILD_PID" "${BASHPID:-$$}"
+    wait "$DEPENDENCY_CHILD_PID" 2>/dev/null || true
+    DEPENDENCY_CHILD_PID=''
+  fi
+}
+# 单次传输有界，临时网络失败持续退避；固定资源错误与摘要失败不重试。
+download_dependency() {
+  local dependency_url="$1" dependency_archive="$2" dependency_http dependency_code dependency_delay=1
+  while :; do
+    if run_dependency_child "$dependency_archive.http" curl --fail --location --proto '=https' --tlsv1.2 --connect-timeout 15 --max-time 1200 --continue-at - --write-out '%{http_code}' "$dependency_url" -o "$dependency_archive"; then return 0; else dependency_code=$?; fi
+    dependency_http="$(cat "$dependency_archive.http")"
+    case "$dependency_code:$dependency_http" in
+      6:*|7:*|18:*|28:*|35:*|52:*|56:*|22:429|22:5??) log "依赖传输暂未完成（$dependency_code / $dependency_http），${dependency_delay}秒后重试；Ctrl+C取消。";;
+      *) fail "依赖下载失败（$dependency_code / $dependency_http）；原件和本轮下载保留，未继续。";;
+    esac
+    run_dependency_child "$LOG_FILE.dependency-wait" sleep "$dependency_delay" || exit 130
+    [ "$dependency_delay" -ge 20 ] || dependency_delay=$((dependency_delay + 1))
+  done
+}
+# 官方查询器本身只用标准库，编译与临时模块副本均不改源码锁。
+prepare_dependency_resolver() {
+  ensure_transfer_tools
+  dependency_cache_context
+  lc_cache_begin || fail '外置依赖原点无法核验，未继续。'
+  local dependency_source="$DEPLOY_ROOT/公共组件/依赖版本" dependency_stage
+  [ -f "$dependency_source/main.go" ] && [ -f "$dependency_source/go.mod" ] || fail '缺少官方依赖版本查询器源码。'
+  mkdir -p "$DEPENDENCY_CACHE_ROOT/.runtime" || fail '无法准备外置查询目录。'
+  dependency_stage="$(mktemp -d "$DEPENDENCY_CACHE_ROOT/.runtime/dependency-check.XXXXXX")" || fail '无法建立依赖查询目录。'
+  DEPENDENCY_RUN_DIR="$dependency_stage"
+  cp "$dependency_source/go.mod" "$dependency_stage/resolver.mod" || fail '无法复制查询器模块锁。'
+  (cd "$dependency_source" && GOTOOLCHAIN=local GOWORK=off "$GO_EXE" build -mod=readonly -modfile="$dependency_stage/resolver.mod" -trimpath -o "$dependency_stage/resolver" .) >> "$LOG_FILE" 2>&1 &
+  DEPENDENCY_CHILD_PID=$!
+  if wait "$DEPENDENCY_CHILD_PID"; then DEPENDENCY_CHILD_PID=''; else DEPENDENCY_CHILD_PID=''; fail '依赖查询器构建失败；未修改源模块锁。'; fi
+  DEPENDENCY_RESOLVER="$dependency_stage/resolver"
+}
+# 每次都取得官方最新稳定元数据；只有网络类75允许自动重试。
+resolve_latest_dependency() {
+  local dependency_name="$1" dependency_code dependency_delay=1 dependency_minimum
+  dependency_minimum="$(awk '$1=="go" {print $2;exit}' "$SERVER_ROOT/go.mod")"
+  set -- --tool "$dependency_name" --os "$TARGET_OS" --arch "$GO_ARCH" --locked-manifest "$DEPLOY_ROOT/deploy-tools.lock.tsv"
+  if [ "$dependency_name" = go ]; then set -- "$@" --minimum-go "$dependency_minimum"; fi
+  while :; do
+    if run_dependency_child "$DEPENDENCY_RUN_DIR/latest.tsv" "$DEPENDENCY_RESOLVER" "$@"; then DEPENDENCY_ROW="$(cat "$DEPENDENCY_RUN_DIR/latest.tsv")"; break; else dependency_code=$?; fi
+    [ "$dependency_code" = 75 ] || fail "官方 $dependency_name 版本或校验元数据无效；未采用旧锁冒充最新。"
+    log "官方 $dependency_name 元数据暂不可达，${dependency_delay}秒后重试；Ctrl+C取消。"
+    run_dependency_child "$LOG_FILE.dependency-wait" sleep "$dependency_delay" || exit 130
+    [ "$dependency_delay" -ge 20 ] || dependency_delay=$((dependency_delay + 1))
+  done
+  printf '%s\n' "$DEPENDENCY_ROW" | awk -F '\t' 'NF!=8 || NR!=1 {bad=1} END{exit (bad || NR!=1)}' || fail '官方查询结果不是单条八列记录。'
+}
+# 功能健康与版本均合格后才采纳，显式路径过旧时不偷偷替换。
+accept_latest_dependency() {
+  local dependency_name="$1" dependency_candidate="$2" dependency_latest="$3" dependency_current dependency_comparison
+  [ -n "$dependency_candidate" ] || return 1
+  if [ "$dependency_name" = go ]; then
+    bootstrap_go_healthy "$dependency_candidate" || return 1
+    dependency_current="$("$dependency_candidate" version | awk '{print $3}')"
+  else
+    if [ -L "$dependency_candidate" ]; then
+      local dependency_link
+      dependency_link="$(readlink "$dependency_candidate")"
+      case "$dependency_link" in /*) dependency_candidate="$dependency_link";; *) dependency_candidate="$(dirname -- "$dependency_candidate")/$dependency_link";; esac
+    fi
+    accept_local_tool "$dependency_name" "$dependency_candidate" || return 1
+    dependency_current="$(FZF_DEFAULT_COMMAND= FZF_DEFAULT_OPTS= FZF_DEFAULT_OPTS_FILE= "$dependency_candidate" --version 2>/dev/null | awk '{for(i=1;i<=NF;i++)if($i ~ /^[v]?[0-9]+\.[0-9]+(\.[0-9]+)?$/){print $i;exit}}')"
+  fi
+  log "依赖检查｜$dependency_name｜当前 $dependency_current｜官方目标 $dependency_latest｜$dependency_candidate"
+  if dependency_comparison="$("$DEPENDENCY_RESOLVER" --compare "$dependency_current" --at-least "$dependency_latest" 2>> "$LOG_FILE")"; then :; else return 1; fi
+  [ "$dependency_comparison" = 1 ] || return 1
+  case "$dependency_name" in go) GO_EXE="$dependency_candidate";; fzf) FZF_EXE="$dependency_candidate";; cloudflared) CLOUDFLARED_EXE="$dependency_candidate";; esac
+  log "采用版本｜$dependency_name $dependency_current（满足官方最新稳定基线 $dependency_latest）"
+}
+# 下载、校验与健康检查都在独立版本目录完成，验证前不改变选定工具。
+ensure_latest_dependency() {
+  local dependency_name="$1" dependency_tool dependency_os dependency_arch dependency_version dependency_filename dependency_sha dependency_url dependency_kind dependency_override dependency_found dependency_target dependency_stage dependency_candidate
+  resolve_latest_dependency "$dependency_name"
+  IFS="$(printf '\t')" read -r dependency_tool dependency_os dependency_arch dependency_version dependency_filename dependency_sha dependency_url dependency_kind <<EOF
+$DEPENDENCY_ROW
+EOF
+  [ "$dependency_tool:$dependency_os:$dependency_arch" = "$dependency_name:$TARGET_OS:$GO_ARCH" ] || fail '官方查询结果与目标平台不匹配。'
+  case "$dependency_name" in go) dependency_override="${GO_BIN:-}";; fzf) dependency_override="${FZF_BIN:-}";; cloudflared) dependency_override="${CLOUDFLARED_BIN:-}";; esac
+  if [ -n "$dependency_override" ]; then
+    accept_latest_dependency "$dependency_name" "$dependency_override" "$dependency_version" || fail "显式 $dependency_name 路径不健康或版本过旧；保留该文件，请更新显式配置或取消该配置后重试。"
+    return
+  fi
+  [ "$dependency_kind" != unsupported ] || fail "官方最新 $dependency_name $dependency_version 没有 $TARGET_OS/$GO_ARCH 资产；仅允许显式已验证原生工具，不下载其它架构。"
+  dependency_found="$(command -v "$dependency_name" 2>/dev/null || true)"
+  if accept_latest_dependency "$dependency_name" "$dependency_found" "$dependency_version"; then return; fi
+  dependency_target="$DEPENDENCY_CACHE_ROOT/.tools/$dependency_name/$TARGET_OS-$GO_ARCH/$dependency_version"
+  if [ "$dependency_name" = go ]; then dependency_candidate="$dependency_target/bin/go"; else dependency_candidate="$dependency_target/$dependency_name"; fi
+  dependency_plain_path "$dependency_target" || fail '版本缓存为链接，未继续。'
+  if accept_latest_dependency "$dependency_name" "$dependency_candidate" "$dependency_version"; then return; fi
+  [ ! -e "$dependency_target" ] || fail '该版本缓存存在但不健康；原件保留，未覆盖。'
+  case "$dependency_filename" in ''|*/*|*..*) fail '官方资产文件名无效。';; esac
+  case "$dependency_url" in https://go.dev/dl/*|https://github.com/junegunn/fzf/releases/download/*|https://github.com/cloudflare/cloudflared/releases/download/*) ;; *) fail '依赖来源不在官方允许范围。';; esac
+  ensure_transfer_tools
+  mkdir -p "$DEPENDENCY_CACHE_ROOT/.tools" || fail '无法准备专属依赖缓存。'
+  dependency_stage="$(mktemp -d "$DEPENDENCY_CACHE_ROOT/.tools/stage.XXXXXX")" || fail '无法建立依赖暂存目录。'
+  log "来源｜$dependency_name $dependency_version｜$dependency_url → $dependency_target｜验证后切换"
+  download_dependency "$dependency_url" "$dependency_stage/$dependency_filename"
+  verify_tool_download "$dependency_stage/$dependency_filename" "$dependency_sha"
+  case "$dependency_kind" in tar.gz) tar -xzf "$dependency_stage/$dependency_filename" -C "$dependency_stage" >> "$LOG_FILE" 2>&1 || fail '依赖归档解压失败。';; binary) cp "$dependency_stage/$dependency_filename" "$dependency_stage/$dependency_name";; *) fail '本平台不支持此归档格式。';; esac
+  if [ "$dependency_name" = go ]; then dependency_candidate="$dependency_stage/go/bin/go"; else dependency_candidate="$dependency_stage/$dependency_name"; chmod u+x "$dependency_candidate"; fi
+  accept_latest_dependency "$dependency_name" "$dependency_candidate" "$dependency_version" || fail '新依赖健康或版本检查失败，原工具保留。'
+  mkdir -p "$(dirname -- "$dependency_target")" || fail '无法建立版本缓存父目录。'
+  if [ "$dependency_name" = go ]; then mv "$dependency_stage/go" "$dependency_target" || fail 'SDK发布失败。'; else mkdir "$dependency_target" && mv "$dependency_candidate" "$dependency_target/$dependency_name" || fail '工具发布失败。'; fi
+  if [ "$dependency_name" = go ]; then dependency_candidate="$dependency_target/bin/go"; else dependency_candidate="$dependency_target/$dependency_name"; fi
+  accept_latest_dependency "$dependency_name" "$dependency_candidate" "$dependency_version" || fail '依赖发布后复检失败。'
+  lc_cache_seal || fail '依赖恢复清单封存失败。'
+}
+# 选择模式后才强制检查最新，服务器模式不获取隧道版本。
+prepare_latest_dependencies() {
+  select_archive
+  prepare_dependency_resolver
+  ensure_latest_dependency go
+  ensure_latest_dependency fzf
+  if [ "$DEPLOY_MODE" = local ]; then ensure_latest_dependency cloudflared; fi
+  DEPENDENCY_LATEST_READY=1
+}
+# 业务库只检查同模块路径的可用更新，更新需独立回归；失败不冒充已检查。
+check_business_dependency_updates() {
+  local dependency_source dependency_name dependency_copy dependency_report_code
+  for dependency_name in backend qr; do
+    if [ "$dependency_name" = backend ]; then dependency_source="$SERVER_ROOT"; else dependency_source="$DEPLOY_ROOT/公共组件/地址二维码"; fi
+    [ -f "$dependency_source/go.mod" ] || continue
+    dependency_copy="$DEPENDENCY_RUN_DIR/$dependency_name.mod"
+    cp "$dependency_source/go.mod" "$dependency_copy" || fail '无法复制业务模块锁。'
+    if [ -f "$dependency_source/go.sum" ]; then cp "$dependency_source/go.sum" "${dependency_copy%.mod}.sum" || fail '无法复制依赖摘要锁。'; fi
+    log "业务库检查｜$dependency_name｜仅报告现有模块路径更新；不执行go get/tidy，不检查换路径的新主版本。"
+    cp "$dependency_source/go.mod" "$dependency_copy.original" || fail '无法保存模块原锁。'
+    if [ -f "$dependency_source/go.sum" ]; then cp "$dependency_source/go.sum" "${dependency_copy%.mod}.sum.original" || fail '无法保存摘要原锁。'; fi
+    if run_dependency_child "$dependency_copy.report" "$DEPENDENCY_RESOLVER" --module-report --go-bin "$GO_EXE" --module-dir "$dependency_source" --modfile "$dependency_copy" --timeout-seconds 30; then
+      cat "$dependency_copy.report" | tee -a "$LOG_FILE"
+    else
+      dependency_report_code=$?
+      cat "$dependency_copy.report" >> "$LOG_FILE"
+      if [ "$dependency_report_code" -ge 128 ]; then exit "$dependency_report_code"; fi
+      [ "$dependency_report_code" = 3 ] || fail '业务依赖检查的路径/源码验证失败，停止构建。'
+      log '业务依赖更新检查未完成；继续按已回归锁构建，不声称业务库已最新。'
+    fi
+    cmp -s "$dependency_copy.original" "$dependency_source/go.mod" || fail '源模块锁发生漂移，未进入构建。'
+    if [ -f "$dependency_source/go.sum" ]; then cmp -s "${dependency_copy%.mod}.sum.original" "$dependency_source/go.sum" || fail '源摘要锁发生漂移，未进入构建。'; fi
+  done
+}
+# 构建也使用本轮modfile副本，前后核对源锁，禁止隐式改写业务依赖。
+build_locked_module() {
+  local dependency_source="$1" dependency_output="$2" dependency_package="$3" dependency_mod dependency_code=0
+  dependency_mod="$(mktemp -d "$DEPENDENCY_RUN_DIR/build.XXXXXX")/module.mod" || return 1
+  cp "$dependency_source/go.mod" "$dependency_mod" && cp "$dependency_source/go.mod" "$dependency_mod.original" || return 1
+  if [ -f "$dependency_source/go.sum" ]; then cp "$dependency_source/go.sum" "${dependency_mod%.mod}.sum" && cp "$dependency_source/go.sum" "${dependency_mod%.mod}.sum.original" || return 1; fi
+  (cd "$dependency_source" && GOTOOLCHAIN=local GOWORK=off "$GO_EXE" build -mod=readonly -modfile="$dependency_mod" -trimpath -o "$dependency_output" "$dependency_package") &
+  DEPENDENCY_CHILD_PID=$!
+  if wait "$DEPENDENCY_CHILD_PID"; then dependency_code=0; else dependency_code=$?; fi
+  DEPENDENCY_CHILD_PID=''
+  cmp -s "$dependency_source/go.mod" "$dependency_mod.original" || { log '源go.mod发生变化，未采用构建结果。'; return 1; }
+  if [ -f "$dependency_source/go.sum" ]; then cmp -s "$dependency_source/go.sum" "${dependency_mod%.mod}.sum.original" || { log '源go.sum发生变化，未采用构建结果。'; return 1; }; fi
+  return "$dependency_code"
+}
 main() {
   show_script_intro_and_wait "$@" # 先说明影响范围并等待确认。
   check_platform # 确认前不写本系统外资源。
@@ -1507,10 +1924,12 @@ main() {
   initialize_deployment_runtime # 确认后创建运行目录并接入中断清理。
   select_deployment_mode # fzf明确选择，取消不准备Go或业务配置。
   initialize_business_runtime # 模式选定后建立业务目录。
-  ensure_go # 复用SDK或安装工程本地SDK。
+  ensure_go # 仅Bootstrap：准备可运行官方元数据查询器的Go。
+  prepare_latest_dependencies # 查询官方最新稳定版，验证后采纳外置版本缓存。
   configure_server # 初次配置账户，其后保留已有配置。
   prepare_selected_mode # 本地模式复检工具并确认本次公网访问。
-  build_server # 编译单份Go源码。
+  check_business_dependency_updates # 只报告现有业务模块可用更新，独立回归后才更新。
+  build_server # 使用临时modfile与readonly构建，源锁保持原样。
   seal_deployment_lifecycle # 在启动服务前封存资源后态。
   run_selected_mode # 只启动选定的后端或后端加临时隧道。
 }

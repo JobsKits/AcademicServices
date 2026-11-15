@@ -2,7 +2,7 @@
 # 脚本自述：
 # - 按原点清单恢复本工程程序、配置和新增工具；默认先校验备份数据再清源。
 # - 仅处理归属明确且未后改的资源；旧部署、外部数据库和不明资源保留并报告。
-# - --check/--plan只读；正常运行先展示内置自述，经fzf及空格复核后才执行。
+# - --check/--plan只读；正常运行先展示内置自述，经fzf明确选择及回车复核后才执行。
 # >>> Jobs terminal style protection v1 >>>
 # 临时保护当前终端配色，业务进程自行管理原有退出清理。
 jobs_terminal_style_run() {
@@ -677,8 +677,114 @@ lc_finish_external_resources() {
   lc_system_inventory "$(cat "$LC_STATE/system-manager")" > "$LC_STATE/system-after.txt" || return 1
   comm -13 "$LC_STATE/system-before.txt" "$LC_STATE/system-after.txt" > "$LC_STATE/system-changed.txt"
 }
+# 复核旧清单时仅忽略 Finder 的普通元数据文件，仍严格核对其它资源。
+lc_redeploy_matches() {
+  LC_ALL=C awk -F '\t' '
+    NF==4 && $1=="F" && $4 ~ /(^|\/)\.DS_Store$/ { next }
+    FILENAME==ARGV[1] { expected[++count]=$0; next }
+    { if ($0!=expected[++current]) different=1 }
+    END { exit(different || current!=count) }
+  ' "$1" "$2"
+}
+# 只接纳已登记程序和标准 Go 构建缓存的变化，未知对象继续阻断。
+lc_generated_manifest_changes() {
+  : > "$3" && : > "$4" || return 1
+  LC_ALL=C awk -F '\t' -v changes="$3" -v missing="$4" -v check_only="${5:-0}" '
+    function cache_row(row, fields, parts, count, name) {
+      split(row,fields,"\t")
+      count=split(fields[4],parts,"/")
+      if (fields[1]=="D")
+        return count==2 || (count==3 && parts[3] ~ /^[0-9a-f][0-9a-f]$/)
+      if (fields[1]!="F") return 0
+      if (count==3) return parts[3]=="README" || parts[3]=="trim.txt"
+      if (count!=4 || parts[3] !~ /^[0-9a-f][0-9a-f]$/) return 0
+      name=parts[4]
+      return length(name)==66 && substr(name,1,64) ~ /^[0-9a-f]+$/ &&
+        substr(name,65) ~ /^-[ad]$/ && substr(name,1,2)==parts[3]
+    }
+    function generated(path, row, fields) {
+      if (row=="") return 1
+      split(row,fields,"\t")
+      if (path==".runtime/bin/server" || path==".runtime/bin/deployqr")
+        return fields[1]=="F" && substr(previous[path],1,2)=="F\t"
+      if (path==".tools/gobuildcache" || index(path,".tools/gobuildcache/")==1)
+        return cache_row(row)
+      return 0
+    }
+    function difference(path, fields) {
+      if (previous[path]==current[path]) return
+      if (!generated(path,previous[path]) || !generated(path,current[path])) {
+        if (++invalid<=10) print "保留未授权变化：" path > "/dev/stderr"
+        return
+      }
+      if (previous[path]!="" && current[path]!="" && substr(previous[path],1,2)=="D\t") {
+        invalid++; print "保留目录属性变化：" path > "/dev/stderr"; return
+      }
+      if (current[path]!="") print current[path] >> changes
+      else print previous[path] >> missing
+    }
+    NF==4 && $1=="F" && $4 ~ /(^|\/)\.DS_Store$/ { next }
+    {
+      if (NF!=4) { invalid++; next }
+      if (($4==".tools/gobuildcache" || index($4,".tools/gobuildcache/")==1) && !cache_row($0)) {
+        invalid++; print "保留非标准构建缓存对象：" $4 > "/dev/stderr"
+      }
+      if (FILENAME==ARGV[1]) previous[$4]=$0
+      else current[$4]=$0
+    }
+    END {
+      if (check_only==1) exit(invalid!=0)
+      for (path in previous) difference(path)
+      for (path in current) if (!(path in previous)) difference(path)
+      exit(invalid!=0)
+    }
+  ' "$1" "$2"
+}
+# 重建前校验并保留变化生成物，不覆盖最初原点或任何历史备份。
+lc_redeploy_generated_resources() {
+  local lc_archive lc_kind lc_digest lc_perm lc_rel lc_parent
+  lc_generated_manifest_changes "$LC_STATE/after.tsv" "$LC_STATE/redeploy-check.tsv" \
+    "$LC_STATE/redeploy-changes.tsv" "$LC_STATE/redeploy-missing.tsv" || return 1
+  [ -s "$LC_STATE/redeploy-changes.tsv" ] || [ -s "$LC_STATE/redeploy-missing.tsv" ] || return 0
+  [ ! -L "$LC_STATE/redeploy-backups" ] || { lc_message '生成物备份目录为链接，未继续部署。'; return 1; }
+  mkdir -p "$LC_STATE/redeploy-backups" || return 1
+  lc_archive="$(mktemp -d "$LC_STATE/redeploy-backups/redeploy.XXXXXX")" || return 1
+  cp -p "$LC_STATE/after.tsv" "$lc_archive/previous-after.tsv" && \
+    cp -p "$LC_STATE/redeploy-check.tsv" "$lc_archive/current.tsv" && \
+    cp -p "$LC_STATE/redeploy-changes.tsv" "$lc_archive/changes.tsv" && \
+    cp -p "$LC_STATE/redeploy-missing.tsv" "$lc_archive/missing.tsv" || return 1
+  mkdir "$lc_archive/files" || return 1
+  while IFS="$LC_TAB" read -r lc_kind lc_digest lc_perm lc_rel; do
+    lc_safe_relative "$lc_rel" || return 1
+    lc_parent="$lc_rel"
+    while :; do
+      [ ! -L "$SERVER_ROOT/$lc_parent" ] || return 1
+      case "$lc_parent" in */*) lc_parent="${lc_parent%/*}";; *) break;; esac
+    done
+    if [ "$lc_kind" = D ]; then
+      [ -d "$SERVER_ROOT/$lc_rel" ] && [ "$(lc_mode "$SERVER_ROOT/$lc_rel")" = "$lc_perm" ] || return 1
+      mkdir -p "$lc_archive/files/$lc_rel" || return 1
+    else
+      [ -f "$SERVER_ROOT/$lc_rel" ] || return 1
+      mkdir -p "$(dirname -- "$lc_archive/files/$lc_rel")" || return 1
+      cp -p "$SERVER_ROOT/$lc_rel" "$lc_archive/files/$lc_rel" || return 1
+      [ "$(lc_hash "$lc_archive/files/$lc_rel")" = "$lc_digest" ] && \
+        [ "$(lc_mode "$lc_archive/files/$lc_rel")" = "$lc_perm" ] && \
+        [ "$(lc_hash "$SERVER_ROOT/$lc_rel")" = "$lc_digest" ] && \
+        [ "$(lc_mode "$SERVER_ROOT/$lc_rel")" = "$lc_perm" ] || return 1
+    fi
+  done < "$lc_archive/changes.tsv"
+  while IFS="$LC_TAB" read -r lc_kind lc_digest lc_perm lc_rel; do
+    [ ! -e "$SERVER_ROOT/$lc_rel" ] && [ ! -L "$SERVER_ROOT/$lc_rel" ] || return 1
+  done < "$lc_archive/missing.tsv"
+  cmp -s "$LC_STATE/after.tsv" "$lc_archive/previous-after.tsv" && \
+    cmp -s "$LC_STATE/redeploy-check.tsv" "$lc_archive/current.tsv" || return 1
+  printf 'verified\n' > "$lc_archive/verified" || return 1
+  lc_message "已校验并保留变化的程序与构建缓存：$lc_archive；原始配置与恢复原点不变。"
+}
 # 在首次资源写入前保存原点并拒绝覆盖不可信旧现场。
 lc_begin() {
+  LC_BEGIN_REJECTED=1
   lc_context && lc_acquire_lock || return 1
   umask 077
   mkdir -p "$LC_STATE" || return 1
@@ -688,6 +794,8 @@ lc_begin() {
   if [ ! -f "$LC_STATE/before.tsv" ]; then
     [ ! -e "$LC_ROOT/owner" ] || { lc_error '归属已登记但原始清单缺失。'; return 1; }
     lc_manifest "$SERVER_ROOT" "$LC_STATE/before.tsv.next" '.runtime .tools' || return 1
+    lc_generated_manifest_changes "$LC_STATE/before.tsv.next" /dev/null /dev/null /dev/null 1 || return 1
+    LC_BEGIN_REJECTED=0
     mv "$LC_STATE/before.tsv.next" "$LC_STATE/before.tsv" || return 1
     lc_copy_originals || return 1
     [ ! -d "$SERVER_ROOT/data" ] || printf 'data\n' > "$LC_STATE/preexisting-data"
@@ -696,16 +804,21 @@ lc_begin() {
   elif [ -f "$LC_STATE/after.tsv" ]; then
     # 旧清单不得把两次部署之间的外部变化认作本次新建。
     lc_manifest "$SERVER_ROOT" "$LC_STATE/redeploy-check.tsv" '.runtime .tools' || return 1
-    cmp -s "$LC_STATE/redeploy-check.tsv" "$LC_STATE/after.tsv" || { lc_error '资源已偏离上次清单，先检查反部署差异。'; return 1; }
+    if ! lc_redeploy_matches "$LC_STATE/after.tsv" "$LC_STATE/redeploy-check.tsv" && ! lc_redeploy_generated_resources; then
+      lc_message "部署前检查未通过：受管资源与上次部署清单不一致；请核对 $LC_STATE/after.tsv 与 $LC_STATE/redeploy-check.tsv。"
+      return 1
+    fi
   else
     lc_error '上一轮部署未封口，保留资源并请使用反部署检查。'; return 1
   fi
-  lc_record_process wrapper "$$"
+  lc_record_process wrapper "$$" || return 1
+  LC_BEGIN_REJECTED=0
 }
 # 在运行服务前封口配置、程序与工具的实际后态。
 lc_checkpoint() {
   [ "${LC_LOCK_HELD:-0}" = 1 ] || return 1
   lc_manifest "$SERVER_ROOT" "$LC_STATE/after.tsv.next" '.runtime .tools' || return 1
+  lc_generated_manifest_changes "$LC_STATE/after.tsv.next" /dev/null /dev/null /dev/null 1 || return 1
   mv "$LC_STATE/after.tsv.next" "$LC_STATE/after.tsv" || return 1
   printf 'ready\n' > "$LC_STATE/status"
 }
@@ -714,7 +827,9 @@ lc_finalize() {
   [ "${ZSH_SUBSHELL:-0}" = 0 ] || return 0
   [ "${BASHPID:-$$}" = "${LC_LOCK_SHELL_PID:-${BASHPID:-$$}}" ] || return 0
   [ "${LC_LOCK_HELD:-0}" = 1 ] || return 0
+  [ "${LC_BEGIN_REJECTED:-0}" != 1 ] || { lc_release_lock; return $?; }
   local lc_final_code=0
+  lc_cache_seal || lc_final_code=1
   lc_finish_external_resources || lc_final_code=1
   lc_finalize_resources || lc_final_code=1
   lc_release_lock || lc_final_code=1
@@ -722,6 +837,7 @@ lc_finalize() {
 }
 # 封存与解锁分开，记录失败仍须释放本进程的操作锁。
 lc_finalize_resources() {
+  [ "${LC_BEGIN_REJECTED:-0}" != 1 ] || return 0
   if [ ! -f "$LC_STATE/after.tsv" ] && [ -f "$LC_STATE/before.tsv" ] && [ -f "$LC_ROOT/owner" ]; then
     lc_checkpoint || return 1
   fi
@@ -735,7 +851,7 @@ lc_finalize_resources() {
     lc_manifest "$SERVER_ROOT" "$LC_STATE/finalize.tsv" runtime-selected \
       "$lc_log_rel" "$lc_log_rel.server.log" "$lc_log_rel.tunnel.log" \
       "$lc_quick_rel" "$lc_qr_rel" || return 1
-    awk -F '\t' -v log_path="$lc_log_rel" -v quick="$lc_quick_rel" -v qr="$lc_qr_rel" 'function owned() { return $4==log_path || $4==log_path ".server.log" || $4==log_path ".tunnel.log" || (quick!="" && $4==quick) || (qr!="" && ($4==qr || index($4,qr "/")==1)) } NR==FNR { if (owned()) next; print; next } owned() {print}' "$LC_STATE/after.tsv" "$LC_STATE/finalize.tsv" | LC_ALL=C sort > "$LC_STATE/after.tsv.next" || return 1
+    awk -F '\t' -v log_path="$lc_log_rel" -v quick="$lc_quick_rel" -v qr="$lc_qr_rel" 'function owned() { return $4==log_path || $4==log_path ".server.log" || $4==log_path ".tunnel.log" || (quick!="" && $4==quick) || (qr!="" && ($4==qr || index($4,qr "/")==1)) } FILENAME==ARGV[1] { if (owned()) next; print; next } owned() {print}' "$LC_STATE/after.tsv" "$LC_STATE/finalize.tsv" | LC_ALL=C sort > "$LC_STATE/after.tsv.next" || return 1
     mv "$LC_STATE/after.tsv.next" "$LC_STATE/after.tsv" || return 1
   fi
   return 0
@@ -771,6 +887,7 @@ lc_pick() {
 }
 # 复用本系统已有健康选择器，反部署不下载工具。
 lc_find_fzf() {
+  if [ -n "${ZSH_VERSION:-}" ]; then setopt local_options no_nomatch; fi
   LC_FZF="${FZF_BIN:-}"
   if [ -z "$LC_FZF" ]; then LC_FZF="$(command -v fzf 2>/dev/null || true)"; fi
   if [ -z "$LC_FZF" ]; then
@@ -778,6 +895,18 @@ lc_find_fzf() {
       [ -x "$lc_candidate" ] || continue
       [ -z "$LC_FZF" ] || { lc_error '找到多份fzf，请用FZF_BIN指定本系统健康工具。'; return 1; }
       LC_FZF="$lc_candidate"
+    done
+  fi
+  if [ -z "$LC_FZF" ] && [ -f "$LC_STATE/cache-origin/root" ] && [ -f "$LC_STATE/cache-origin/after.tsv" ]; then
+    lc_cache_root || return 1
+    [ "$(cat "$LC_STATE/cache-origin/root")" = "$LC_CACHE_ROOT" ] || return 1
+    local lc_relative lc_expected
+    for lc_candidate in "$LC_CACHE_ROOT"/.tools/fzf/*/*/fzf; do
+      [ -f "$lc_candidate" ] && [ -x "$lc_candidate" ] && [ ! -L "$lc_candidate" ] || continue
+      lc_relative="${lc_candidate#"$LC_CACHE_ROOT"/}"
+      lc_expected="$(awk -F "$LC_TAB" -v path="$lc_relative" '$1=="F" && $4==path {print $2}' "$LC_STATE/cache-origin/after.tsv")"
+      [ -n "$lc_expected" ] && [ "$(lc_hash "$lc_candidate")" = "$lc_expected" ] || continue
+      if FZF_DEFAULT_COMMAND= FZF_DEFAULT_OPTS= FZF_DEFAULT_OPTS_FILE= "$lc_candidate" --help 2>/dev/null | grep -- '--accept-nth' >/dev/null; then LC_FZF="$lc_candidate"; break; fi
     done
   fi
   [ -n "$LC_FZF" ] && [ -x "$LC_FZF" ] || { lc_error '缺少健康fzf；未安装工具或删除数据。'; return 1; }
@@ -946,7 +1075,7 @@ lc_show_intro() {
   [ "$lc_color" = 0 ] || printf '\033[1;31m'
   printf '知序服务｜%s 反部署\n' "${PLATFORM_ID:-Unix}"
   [ "$lc_color" = 0 ] || printf '\033[0;34m'
-  printf '%s\n' '1、按部署前后清单恢复程序、配置与工程内工具；外部数据库和系统共享依赖不自动删除。' '2、数据默认备份到后端目录外，校验后清源；清零不可恢复。Esc / Ctrl+C取消。' '3、危险确认前不写业务；确认后审计见后端 .deployment-state/posix/operations.log。' '4、恢复记录与状态见 .deployment-state/posix/，完整备份或隔离源位置见 data-pending。' '当前仅有语法与隔离验证，目标系统原生验收分别记录。'
+  printf '%s\n' '1、按部署前后清单恢复程序、配置及本项目专属缓存；外部数据库和系统共享依赖不自动删除。' '2、数据默认备份到后端目录外，校验后清源；清零不可恢复。Esc / Ctrl+C取消。' '3、危险确认前不写业务；确认后审计见后端 .deployment-state/posix/operations.log。' '4、恢复记录与状态见 .deployment-state/posix/，完整备份或隔离源位置见 data-pending。' '当前仅有语法与隔离验证，目标系统原生验收分别记录。'
   [ "$lc_color" = 0 ] || printf '\033[0m'
 }
 # 编排只读检查、双重确认、数据处理和资源恢复。
@@ -968,12 +1097,13 @@ lc_undeploy_main() {
   lc_choice="$(printf 'backup\t数据库数据备份（默认，校验后清源）\nclear\t数据库数据清零（不可恢复）\ncancel\t取消，不修改\n' | lc_pick '数据处理 > ')" || return 130
   case "$lc_choice" in backup|clear) ;; *) return 130;; esac
   lc_message "准确数据范围：$SERVER_ROOT/data；配置：$SERVER_ROOT/.runtime/config.env"
+  if [ -f "$LC_STATE/cache-origin/root" ]; then lc_message "外置专属依赖范围：$(cat "$LC_STATE/cache-origin/root")/.tools 与 .runtime；仅按子收据精确恢复。"; fi
   lc_message '仅回收清单归属资源，原有与共享环境保留。'
   lc_confirm="$(printf 'cancel\t取消（默认）\napply\t确认反部署并%s本项目源数据\n' "$(if [ "$lc_choice" = backup ]; then printf '备份后清理'; else printf '永久清零'; fi)" | lc_pick '危险操作确认 > ')" || return 130
   [ "$lc_confirm" = apply ] || return 130
-  jobs_prompt_output printf '按一次空格后回车复核授权；其它输入取消：' >&2
-  IFS= read -r lc_space || return 130
-  [ "$lc_space" = ' ' ] || return 130
+  jobs_prompt_output printf '直接回车复核授权并执行；其它输入取消：' >&2
+  IFS= read -r lc_authorization || return 130
+  [ -z "$lc_authorization" ] || return 130
   lc_stop_recorded || return 1
   lc_acquire_lock || return 1
   LC_AUDIT_ACTIVE=1
@@ -983,9 +1113,72 @@ lc_undeploy_main() {
   trap 'lc_release_lock; exit 130' INT TERM HUP
   if [ ! -f "$LC_STATE/data-completed" ]; then lc_backup_and_clear_data "$lc_choice" || return 1; fi
   lc_restore_resources || return 1
+  lc_restore_cache || return 1
   printf 'completed\n' > "$LC_STATE/completed" || return 1
   lc_release_lock || return 1
   lc_message '反部署已完成；已恢复清单内变更，原有资源与恢复审计保留。'
+}
+# 外置缓存仍按本项目原点管理，原有/共享及后改对象不整片清除。
+lc_cache_root() {
+  local lc_cache_id lc_cache_base lc_cache_cursor
+  lc_cache_id="$(printf '%s' "$SERVER_ROOT" | lc_hash /dev/stdin)" || return 1
+  if [ "${PLATFORM_ID:-}" = MacOS ]; then lc_cache_base="$HOME/Library/Caches"; else lc_cache_base="${XDG_CACHE_HOME:-$HOME/.cache}"; fi
+  LC_CACHE_ROOT="$lc_cache_base/AcademicServices/deployment/project-$lc_cache_id"
+  case "$LC_CACHE_ROOT" in /*) ;; *) lc_error '外置缓存必须使用绝对路径。'; return 1;; esac
+  case "$LC_CACHE_ROOT" in *"$LC_TAB"*|*"$LC_NL"*) return 1;; esac
+  case "$LC_CACHE_ROOT/" in "$SERVER_ROOT/"*) lc_error '依赖缓存不能位于项目内。'; return 1;; esac
+  lc_cache_cursor="$LC_CACHE_ROOT"
+  while :; do
+    [ ! -L "$lc_cache_cursor" ] || { lc_error '缓存或祖先为链接，保留。'; return 1; }
+    [ "$lc_cache_cursor" != / ] || break
+    lc_cache_cursor="$(dirname -- "$lc_cache_cursor")"
+  done
+}
+# 独立子收据复用原生内容摘要/原件恢复，不扩大主项目允许的相对路径。
+lc_cache_register_session() {
+  [ -n "${SESSION_DIR:-}" ] || return 0
+  case "$SESSION_DIR" in "$LC_STATE"/sessions/session.*) ;; *) return 1;; esac
+  [ -d "$SESSION_DIR" ] && [ ! -L "$SESSION_DIR" ] || return 1
+  printf '%s\n' "$LC_CACHE_ROOT" > "$SESSION_DIR/cache-root"
+}
+lc_cache_begin() {
+  if [ "${LC_CACHE_ACTIVE:-0}" = 1 ]; then lc_cache_register_session; return $?; fi
+  lc_cache_root || return 1
+  local lc_cache_state="$LC_STATE/cache-origin"
+  if [ -f "$lc_cache_state/root" ]; then
+    [ "$(cat "$lc_cache_state/root")" = "$LC_CACHE_ROOT" ] || { lc_error '缓存归属路径已改变，保留原件。'; return 1; }
+    if [ -f "$lc_cache_state/after.tsv" ]; then
+      lc_manifest "$LC_CACHE_ROOT" "$lc_cache_state/current.tsv" '.runtime .tools' || return 1
+      lc_redeploy_matches "$lc_cache_state/after.tsv" "$lc_cache_state/current.tsv" || { lc_error '项目外缓存出现后续变化，保留现场。'; return 1; }
+    else lc_error '上一轮外置缓存未封口，先检查恢复清单。'; return 1; fi
+  else
+    [ ! -L "$lc_cache_state" ] || return 1
+    mkdir -p "$lc_cache_state" || return 1
+    printf '%s\n' "$LC_CACHE_ROOT" > "$lc_cache_state/root" || return 1
+    lc_manifest "$LC_CACHE_ROOT" "$lc_cache_state/before.tsv" '.runtime .tools' || return 1
+    (SERVER_ROOT="$LC_CACHE_ROOT"; LC_STATE="$lc_cache_state"; lc_copy_originals) || return 1
+  fi
+  LC_CACHE_ACTIVE=1
+  lc_cache_register_session
+}
+# 仅当前已核验会话封存外置缓存；失败路径亦保留本轮部分获取的恢复依据。
+lc_cache_seal() {
+  [ "${LC_CACHE_ACTIVE:-0}" = 1 ] || return 0
+  lc_cache_root || return 1
+  lc_manifest "$LC_CACHE_ROOT" "$LC_STATE/cache-origin/after.tsv.next" '.runtime .tools' || return 1
+  mv "$LC_STATE/cache-origin/after.tsv.next" "$LC_STATE/cache-origin/after.tsv" || return 1
+}
+# 停止本轮服务后再复核占用和摘要；未知使用者/后改缓存只能保留并报告。
+lc_restore_cache() {
+  local lc_cache_state="$LC_STATE/cache-origin" lc_cache_processes
+  [ -f "$lc_cache_state/root" ] || return 0
+  lc_cache_root || return 1
+  [ "$(cat "$lc_cache_state/root")" = "$LC_CACHE_ROOT" ] || { lc_error '外置缓存所属项目路径已变化，未删除原缓存。'; return 1; }
+  [ -f "$lc_cache_state/before.tsv" ] && [ -f "$lc_cache_state/after.tsv" ] || { lc_error '外置缓存恢复证据不完整，保留。'; return 1; }
+  lc_cache_processes="$(ps ax -o command= 2>/dev/null)" || { lc_error '无法检查外置缓存使用者，保留。'; return 1; }
+  if printf '%s\n' "$lc_cache_processes" | awk -v root="$LC_CACHE_ROOT/" 'index($0,root){found=1} END{exit !found}'; then lc_error '外置缓存仍有进程使用，保留原件。'; return 1; fi
+  (SERVER_ROOT="$LC_CACHE_ROOT"; LC_STATE="$lc_cache_state"; lc_restore_resources) || return 1
+  rmdir "$LC_CACHE_ROOT" 2>/dev/null || true
 }
 # END JOBS DEPLOYMENT LIFECYCLE
 # 按反部署脚本自身位置定位完整交付目录。

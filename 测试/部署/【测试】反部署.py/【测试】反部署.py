@@ -43,8 +43,27 @@ def embedded_lifecycle(entry):
     begin, end = lines.index(BEGIN_LIFECYCLE), lines.index(END_LIFECYCLE)
     if begin >= end:
         raise ValueError(f"生命周期内嵌标记顺序错误：{entry}")
-    block = "\n".join(lines[begin + 1:end]) + "\n"
-    for function in ("lc_context", "lc_begin", "lc_checkpoint", "lc_finalize", "lc_undeploy_main"):
+    block_lines = lines[begin + 1:end]
+    # 部分平台把展示保护插入生命周期标记内；隔离测试仅加载原生生命周期函数。
+    for first, last in (("# >>> Jobs terminal style protection v1 >>>",
+                         "# <<< Jobs terminal style protection v1 <<<"),
+                        ("# JOBS_INPUT_CHOICE_STYLE_BEGIN", "# JOBS_INPUT_CHOICE_STYLE_END")):
+        if first not in block_lines and last not in block_lines:
+            continue
+        if block_lines.count(first) != 1 or block_lines.count(last) != 1:
+            raise ValueError(f"展示保护标记缺失或重复：{entry}")
+        first_index, last_index = block_lines.index(first), block_lines.index(last)
+        if first_index >= last_index:
+            raise ValueError(f"展示保护标记顺序错误：{entry}")
+        block_lines = block_lines[:first_index] + block_lines[last_index + 1:]
+    function_start = block_lines.index("lc_message() {")
+    comments = [line for line in block_lines[:function_start] if line.strip()]
+    if any(not line.startswith('#') for line in comments):
+        raise ValueError(f"生命周期函数前混入未识别的执行逻辑：{entry}")
+    block = "\n".join(comments + block_lines[function_start:]) + "\n"
+    if sum(line.startswith('lc_') and '() {' in line for line in block.splitlines()) < 28:
+        raise ValueError(f"生命周期函数数量不足：{entry}")
+    for function in ("lc_context", "lc_begin", "lc_checkpoint", "lc_finalize", "lc_redeploy_matches", "lc_undeploy_main"):
         if f"\n{function}() {{" not in "\n" + block:
             raise ValueError(f"内嵌块缺少{function}：{entry}")
     if '\nmain "$@"' in block or "\nmain() {" in block:
@@ -84,7 +103,7 @@ class UndeploymentTests(unittest.TestCase):
 
     def run_shell(self, body, *, shell="sh", check=False, changes=None):
         script = self.work / ("fixture-" + shell + ".sh")
-        script.write_text('set -eu\n. "$LIFECYCLE_HELPER"\n' + body + "\n", encoding="utf-8")
+        script.write_text('set -eu\njobs_prompt_output() { "$@"; }\n. "$LIFECYCLE_HELPER"\n' + body + "\n", encoding="utf-8")
         result = subprocess.run([shell, str(script)], cwd="/", env={**self.env, **(changes or {})},
                                 text=True, capture_output=True, timeout=30)
         if check:
@@ -135,11 +154,11 @@ sys.exit(int(os.environ['SELECTOR_EXIT']))
         return {'FZF_BIN': str(selection), 'SELECTOR_COUNTER': str(self.tools / 'counter'),
                 'SELECTOR_CHOICES': '|'.join(choices), 'SELECTOR_EXIT': str(exit_code)}
 
-    def run_terminal(self, body, *, answers='\n \n', changes=None):
+    def run_terminal(self, body, *, answers='\n\n', changes=None, shell='sh'):
         script = self.work / 'terminal-fixture.sh'
-        script.write_text('set -eu\n. "$LIFECYCLE_HELPER"\n' + body + '\n', encoding='utf-8')
+        script.write_text('set -eu\njobs_prompt_output() { "$@"; }\n. "$LIFECYCLE_HELPER"\n' + body + '\n', encoding='utf-8')
         master, slave = pty.openpty()
-        process = subprocess.Popen(['sh', str(script)], cwd='/', env={**self.env, **(changes or {})},
+        process = subprocess.Popen([shell, str(script)], cwd='/', env={**self.env, **(changes or {})},
                                    stdin=slave, stdout=slave, stderr=slave)
         os.close(slave)
         output = bytearray()
@@ -172,12 +191,23 @@ sys.exit(int(os.environ['SELECTOR_EXIT']))
     def test_01_all_platforms_embed_equivalent_portable_functions(self):
         self.assertTrue(self.helper.is_file())
         expected = self.helper.read_text()
+        mac_confirmation = """  jobs_prompt_output printf '直接回车复核授权并执行；其它输入取消：' >&2
+  IFS= read -r lc_authorization || return 130
+  [ -z "$lc_authorization" ] || return 130"""
+        other_confirmation = """  jobs_prompt_output printf '按一次空格后回车复核授权；其它输入取消：' >&2
+  IFS= read -r lc_space || return 130
+  [ "$lc_space" = ' ' ] || return 130"""
+        self.assertEqual(expected.count(mac_confirmation), 1)
         self.assertFalse((self.deploy / "公共组件/部署生命周期.sh").exists())
         for platform in PLATFORMS:
             for undeploy in (False, True):
                 with self.subTest(platform=platform, undeploy=undeploy):
                     entry = platform_entry(self.deploy, platform, undeploy=undeploy)
-                    self.assertEqual(embedded_lifecycle(entry), expected)
+                    block = embedded_lifecycle(entry)
+                    if platform != 'MacOS':
+                        self.assertEqual(block.count(other_confirmation), 1)
+                        block = block.replace(other_confirmation, mac_confirmation)
+                    self.assertEqual(block, expected)
                     self.assertNotIn('公共组件/部署生命周期.sh', entry.read_text())
         for shell in ("sh", "bash", "zsh"):
             if not shutil.which(shell):
@@ -330,17 +360,24 @@ lc_finalize''')
                 self.assertEqual(self.inventory(), before)
                 self.assertFalse(self.backups.exists())
 
-    def test_14_clear_requires_explicit_choice_and_space_before_any_source_write(self):
+    def test_14_mac_clear_requires_explicit_choice_and_enter_before_any_source_write(self):
         self.baseline()
         self.create_deployment()
         before = self.inventory()
-        code, output = self.run_terminal('lc_undeploy_main', answers='\n\n',
-                                        changes=self.selector(['clear', 'apply']))
-        self.assertNotEqual(code, 0, output)
-        self.assertEqual(self.inventory(), before)
+        shells = ['sh'] + (['zsh'] if shutil.which('zsh') else [])
+        for shell in shells:
+            for answers in ('\n \n', '\nCLEAR\n', '\n\x04'):
+                with self.subTest(shell=shell, answers=repr(answers)):
+                    (self.tools / 'counter').unlink(missing_ok=True)
+                    code, output = self.run_terminal('lc_undeploy_main', answers=answers,
+                                                    changes=self.selector(['clear', 'apply']), shell=shell)
+                    self.assertEqual(code, 130, output)
+                    self.assertIn('直接回车复核授权并执行；其它输入取消', output)
+                    self.assertEqual(self.inventory(), before)
+                    self.assertFalse(self.backups.exists())
         (self.tools / 'counter').unlink(missing_ok=True)
         code, output = self.run_terminal('lc_undeploy_main',
-                                        changes=self.selector(['clear', 'apply']))
+                                        changes=self.selector(['clear', 'apply']), shell=shells[-1])
         self.assertEqual(code, 0, output)
         self.assertFalse((self.server / 'data').exists())
         self.assertEqual((self.server / '.runtime/bin/server').read_text(), 'original-program\n')
@@ -449,7 +486,7 @@ lc_backup_and_clear_data backup''')
         code, output = self.run_terminal('lc_undeploy_main', changes={
             **self.selector(['backup', 'apply']),
             'SERVER_ROOT': str(mode.root.resolve()), 'DEPLOY_ROOT': str(mode.deploy_root.resolve()),
-            'LIFECYCLE_HELPER': str(mode_helper)})
+            'LIFECYCLE_HELPER': str(mode_helper), 'HOME': mode.env['HOME'], 'XDG_CACHE_HOME': mode.env['XDG_CACHE_HOME']})
         self.assertEqual(code, 0, output)
         self.assertEqual((mode.root / '.runtime/config.env').read_bytes(), config_before)
         self.assertFalse((mode.root / '.runtime/bin/server').exists())
@@ -644,6 +681,463 @@ lc_finalize''', shell=shell, changes=changes, check=True)
         self.assertFalse((self.server / '.runtime/logs/deploy-fixture.log').exists())
         self.assertFalse((self.server / '.runtime/logs/deploy-fixture.log.server.log').exists())
         self.assertFalse((self.server / '.runtime/logs/deploy-fixture.log.tunnel.log').exists())
+
+    def test_27_redeploy_ignores_finder_metadata_without_resealing_old_manifests(self):
+        """Finder新增、改写及移除元数据不应阻止重新部署或覆盖恢复依据。"""
+        self.baseline()
+        changed = self.server / '.tools/.DS_Store'
+        removed = self.server / '.runtime/.DS_Store'
+        changed.write_bytes(b'previous-finder-layout')
+        removed.write_bytes(b'previous-runtime-layout')
+        self.create_deployment()
+        state = self.server / '.deployment-state/posix'
+        manifests = {name: (state / name).read_bytes() for name in ('before.tsv', 'after.tsv')}
+        changed.write_bytes(b'new-finder-layout')
+        removed.unlink()
+        for name in ('.tools/shared/.DS_Store', '.runtime/logs/.DS_Store'):
+            (self.server / name).write_bytes(b'finder-created-after-deployment')
+        contents = {str(path.relative_to(self.server)): path.read_bytes()
+                    for name in ('.runtime', '.tools', 'data')
+                    for path in (self.server / name).rglob('*') if path.is_file()}
+        for shell in ('sh', 'bash', 'zsh'):
+            if not shutil.which(shell):
+                continue
+            with self.subTest(shell=shell):
+                self.run_shell('trap \'lc_release_lock\' EXIT\nlc_begin\nlc_release_lock',
+                               shell=shell, check=True)
+                self.assertEqual({name: (state / name).read_bytes() for name in manifests}, manifests)
+                self.assertEqual({str(path.relative_to(self.server)): path.read_bytes()
+                                  for name in ('.runtime', '.tools', 'data')
+                                  for path in (self.server / name).rglob('*') if path.is_file()}, contents)
+                self.assertFalse((state.parent / 'operation-lock').exists())
+
+    def test_28_redeploy_still_rejects_real_changes_and_unsafe_metadata_names(self):
+        """配置、SDK、未知程序和伪元数据仍拒绝，不把外部资源重新认领。"""
+        self.baseline()
+        self.create_deployment()
+        state = self.server / '.deployment-state/posix'
+        manifests = {name: (state / name).read_bytes() for name in ('before.tsv', 'after.tsv')}
+        outside = self.work / 'outside-finder-target'
+        outside.write_bytes(b'outside-original')
+        cases = (
+            ('sdk', '.tools/shared/other-project', 'file'),
+            ('config', '.runtime/config.env', 'file'),
+            ('program', '.runtime/bin/unknown-program', 'file'),
+            ('unknown', '.runtime/unowned', 'file'),
+            ('similar-name', '.tools/shared/.DS_Store.backup', 'file'),
+            ('directory', '.tools/shared/.DS_Store', 'directory'),
+            ('symlink', '.tools/shared/.DS_Store', 'symlink'),
+        )
+        for shell in ('sh', 'bash', 'zsh'):
+            if not shutil.which(shell):
+                continue
+            for case, name, kind in cases:
+                with self.subTest(shell=shell, case=case):
+                    target = self.server / name
+                    original = target.read_bytes() if target.is_file() else None
+                    if kind == 'directory':
+                        target.mkdir()
+                    elif kind == 'symlink':
+                        target.symlink_to(outside)
+                    else:
+                        target.write_bytes(b'new-or-externally-modified-content')
+                    try:
+                        result = self.run_shell('''if lc_begin; then
+  lc_release_lock
+else
+  fixture_code=$?
+  lc_release_lock
+  exit "$fixture_code"
+fi''', shell=shell)
+                        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+                        if kind != 'symlink':
+                            self.assertIn('部署前检查未通过', result.stdout + result.stderr)
+                            self.assertNotIn('反部署未完成', result.stdout + result.stderr)
+                        self.assertEqual({name: (state / name).read_bytes() for name in manifests}, manifests)
+                        if kind == 'directory':
+                            self.assertTrue(target.is_dir())
+                        elif kind == 'symlink':
+                            self.assertTrue(target.is_symlink())
+                            self.assertEqual(target.readlink(), outside)
+                        else:
+                            self.assertEqual(target.read_bytes(), b'new-or-externally-modified-content')
+                        self.assertEqual(outside.read_bytes(), b'outside-original')
+                        self.assertFalse((state.parent / 'operation-lock').exists())
+                    finally:
+                        if original is not None:
+                            target.write_bytes(original)
+                        elif kind == 'directory':
+                            target.rmdir()
+                        else:
+                            target.unlink()
+
+    def test_29_redeploy_comparison_handles_empty_and_metadata_only_manifests(self):
+        """空清单不吞掉下一份清单，非普通文件及非四列记录不能按元数据跳过。"""
+        expected = self.work / 'expected.tsv'
+        actual = self.work / 'actual.tsv'
+        metadata = 'F\t' + 'a' * 64 + '\t644\t.tools/.DS_Store\n'
+        program = 'F\t' + 'b' * 64 + '\t600\t.runtime/bin/server\n'
+        directory = 'D\t-\t755\t.tools/.DS_Store\n'
+        cases = (
+            ('', '', True),
+            ('', metadata, True),
+            (metadata, '', True),
+            (metadata, metadata.replace('a' * 64, 'c' * 64), True),
+            ('', program, False),
+            (program, '', False),
+            (metadata, program, False),
+            (program, metadata, False),
+            ('', directory, False),
+            ('', metadata.rstrip('\n') + '\textra\n', False),
+        )
+        for shell in ('sh', 'bash', 'zsh'):
+            if not shutil.which(shell):
+                continue
+            for index, (before, after, matches) in enumerate(cases):
+                with self.subTest(shell=shell, case=index):
+                    expected.write_text(before, encoding='utf-8')
+                    actual.write_text(after, encoding='utf-8')
+                    result = self.run_shell('lc_redeploy_matches "$FIXTURE_EXPECTED" "$FIXTURE_ACTUAL"',
+                                            shell=shell, changes={'FIXTURE_EXPECTED': str(expected),
+                                                                  'FIXTURE_ACTUAL': str(actual)})
+                    self.assertEqual(result.returncode == 0, matches, result.stdout + result.stderr)
+                    self.assertEqual(expected.read_text(encoding='utf-8'), before)
+                    self.assertEqual(actual.read_text(encoding='utf-8'), after)
+
+    def test_30_redeploy_preserves_regenerated_programs_and_go_cache_before_accepting(self):
+        """已知生成物变动先留校验副本，原点与上一轮封口都不能被改写。"""
+        self.baseline()
+        cache = self.server / '.tools/gobuildcache'
+        (cache / 'ab').mkdir(parents=True)
+        changed = cache / 'ab' / ('ab' + '1' * 62 + '-a')
+        removed = cache / 'ab' / ('ab' + '2' * 62 + '-d')
+        changed.write_bytes(b'old-cache-index')
+        removed.write_bytes(b'old-cache-data')
+        (cache / 'README').write_bytes(b'old-cache-description')
+        (cache / 'trim.txt').write_bytes(b'old-trim-time')
+        (self.server / '.runtime/bin/deployqr').write_bytes(b'previous-registered-qr')
+        self.create_deployment()
+        state = self.server / '.deployment-state/posix'
+        manifests = {name: ((state / name).read_bytes(), (state / name).stat().st_mtime_ns)
+                     for name in ('before.tsv', 'after.tsv')}
+        originals = {str(path.relative_to(state / 'originals')): path.read_bytes()
+                     for path in (state / 'originals').rglob('*') if path.is_file()}
+        changed.write_bytes(b'new-cache-index')
+        changed.chmod(0o600)
+        removed.unlink()
+        (cache / 'README').write_bytes(b'current-cache-description')
+        (cache / 'trim.txt').write_bytes(b'current-trim-time')
+        (cache / 'cd').mkdir()
+        (cache / 'cd' / ('cd' + '3' * 62 + '-d')).write_bytes(b'new-cache-data')
+        (self.server / '.runtime/bin/server').write_bytes(b'rebuilt-server')
+        (self.server / '.runtime/bin/deployqr').write_bytes(b'rebuilt-qr')
+        (cache / '.DS_Store').write_bytes(b'finder-layout')
+        contents = {str(path.relative_to(self.server)): path.read_bytes()
+                    for name in ('.runtime', '.tools', 'data')
+                    for path in (self.server / name).rglob('*') if path.is_file()}
+        for shell in ('sh', 'bash', 'zsh'):
+            if not shutil.which(shell):
+                continue
+            with self.subTest(shell=shell):
+                previous = set((state / 'redeploy-backups').glob('redeploy.*'))
+                self.run_shell("trap 'lc_release_lock' EXIT\nlc_begin\nlc_release_lock",
+                               shell=shell, check=True)
+                created = set((state / 'redeploy-backups').glob('redeploy.*')) - previous
+                self.assertEqual(len(created), 1)
+                backup = created.pop()
+                self.assertEqual(backup.stat().st_mode & 0o777, 0o700)
+                self.assertTrue((backup / 'verified').is_file())
+                self.assertEqual((backup / 'previous-after.tsv').read_bytes(), manifests['after.tsv'][0])
+                current = {row.split('\t', 3)[3]: row.split('\t', 3)
+                           for row in (backup / 'current.tsv').read_text().splitlines()}
+                changes = {row.split('\t', 3)[3]: row.split('\t', 3)
+                           for row in (backup / 'changes.tsv').read_text().splitlines()}
+                missing = {row.split('\t', 3)[3]
+                           for row in (backup / 'missing.tsv').read_text().splitlines()}
+                self.assertIn(str(removed.relative_to(self.server)), missing)
+                self.assertIn('.runtime/bin/server', changes)
+                self.assertIn('.runtime/bin/deployqr', changes)
+                self.assertIn('.tools/gobuildcache/cd', changes)
+                for name, row in changes.items():
+                    self.assertEqual(row, current[name])
+                    if row[0] == 'F':
+                        snapshot = backup / 'files' / name
+                        self.assertTrue(snapshot.is_file(), name)
+                        self.assertEqual(snapshot.read_bytes(), contents[name], name)
+                        self.assertEqual(hashlib.sha256(snapshot.read_bytes()).hexdigest(), row[1], name)
+                        self.assertEqual(format(snapshot.stat().st_mode & 0o7777, 'o'), row[2], name)
+                self.assertEqual({name: ((state / name).read_bytes(), (state / name).stat().st_mtime_ns)
+                                  for name in manifests}, manifests)
+                self.assertEqual({str(path.relative_to(state / 'originals')): path.read_bytes()
+                                  for path in (state / 'originals').rglob('*') if path.is_file()}, originals)
+                self.assertEqual({str(path.relative_to(self.server)): path.read_bytes()
+                                  for name in ('.runtime', '.tools', 'data')
+                                  for path in (self.server / name).rglob('*') if path.is_file()}, contents)
+                self.assertFalse((state.parent / 'operation-lock').exists())
+
+    def test_31_redeploy_rejects_fake_cache_paths_and_generated_file_types(self):
+        """缓存名单只接受指定结构和类型，不能凭目录前缀绕过资源保护。"""
+        self.baseline()
+        cache = self.server / '.tools/gobuildcache'
+        (cache / 'ab').mkdir(parents=True)
+        self.create_deployment()
+        state = self.server / '.deployment-state/posix'
+        manifests = {name: (state / name).read_bytes() for name in ('before.tsv', 'after.tsv')}
+        (self.server / '.runtime/bin/server').write_bytes(b'valid-regenerated-output')
+        outside = self.work / 'outside-generated-target'
+        outside.write_bytes(b'outside-original')
+        cases = (
+            ('.runtime/bin/deployqr', 'file'),
+            ('.tools/gobuildcache/unknown', 'file'),
+            ('.tools/gobuildcache/ab/not-a-go-key-a', 'file'),
+            ('.tools/gobuildcache/ab/' + 'cd' + '0' * 62 + '-a', 'file'),
+            ('.tools/gobuildcache/ab/' + 'ab' + '0' * 62 + '-x', 'file'),
+            ('.tools/gobuildcache/zz', 'directory'),
+            ('.tools/gobuildcache/ab/nested', 'directory'),
+            ('.tools/gobuildcache/ab/' + 'ab' + '4' * 62 + '-d', 'directory'),
+            ('.tools/gobuildcache/ab/' + 'ab' + '5' * 62 + '-a', 'symlink'),
+            ('.runtime/bin/server', 'directory'),
+            ('.runtime/bin/server', 'symlink'),
+        )
+        for shell in ('sh', 'bash', 'zsh'):
+            if not shutil.which(shell):
+                continue
+            for name, kind in cases:
+                with self.subTest(shell=shell, name=name, kind=kind):
+                    target = self.server / name
+                    original = target.read_bytes() if target.is_file() else None
+                    original_mode = target.stat().st_mode & 0o7777 if original is not None else None
+                    if original is not None:
+                        target.unlink()
+                    if kind == 'directory':
+                        target.mkdir()
+                    elif kind == 'symlink':
+                        target.symlink_to(outside)
+                    else:
+                        target.write_bytes(b'not-trusted-generated-content')
+                    try:
+                        result = self.run_shell('''if lc_begin; then
+  lc_release_lock
+else
+  fixture_code=$?
+  lc_release_lock
+  exit "$fixture_code"
+fi''', shell=shell)
+                        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+                        self.assertFalse(list((state / 'redeploy-backups').glob('redeploy.*')))
+                        self.assertEqual({name: (state / name).read_bytes() for name in manifests}, manifests)
+                        self.assertEqual(outside.read_bytes(), b'outside-original')
+                        if kind == 'directory':
+                            self.assertTrue(target.is_dir())
+                        elif kind == 'symlink':
+                            self.assertTrue(target.is_symlink())
+                        else:
+                            self.assertEqual(target.read_bytes(), b'not-trusted-generated-content')
+                        self.assertFalse((state.parent / 'operation-lock').exists())
+                    finally:
+                        if kind == 'directory':
+                            target.rmdir()
+                        else:
+                            target.unlink()
+                        if original is not None:
+                            target.write_bytes(original)
+                            target.chmod(original_mode)
+
+    def test_32_redeploy_backup_failure_keeps_source_and_old_manifests(self):
+        """副本写入失败或副本摘要不符时，生成物也不能未经保留就继续部署。"""
+        self.baseline()
+        self.create_deployment()
+        state = self.server / '.deployment-state/posix'
+        manifests = {name: (state / name).read_bytes() for name in ('before.tsv', 'after.tsv')}
+        server = self.server / '.runtime/bin/server'
+        server.write_bytes(b'rebuilt-but-not-yet-preserved')
+        bodies = (
+            '''cp() {
+  case "$*" in *redeploy-backups*) return 74;; esac
+  command cp "$@"
+}''',
+            '''cp() {
+  command cp "$@" || return
+  case "$*" in
+    *redeploy-backups*/files/*)
+      for fixture_destination do :; done
+      printf 'corrupt-copy\\n' > "$fixture_destination";;
+  esac
+}''',
+        )
+        for shell in ('sh', 'bash', 'zsh'):
+            if not shutil.which(shell):
+                continue
+            for index, body in enumerate(bodies):
+                with self.subTest(shell=shell, failure=index):
+                    result = self.run_shell(body + '''
+if lc_begin; then
+  lc_release_lock
+else
+  fixture_code=$?
+  lc_release_lock
+  exit "$fixture_code"
+fi''', shell=shell)
+                    self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+                    self.assertEqual(server.read_bytes(), b'rebuilt-but-not-yet-preserved')
+                    self.assertEqual({name: (state / name).read_bytes() for name in manifests}, manifests)
+                    self.assertFalse(list((state / 'redeploy-backups').glob('redeploy.*/verified')))
+                    self.assertFalse((state.parent / 'operation-lock').exists())
+
+    def test_35_redeploy_keeps_cache_directory_modes_strict(self):
+        """合法缓存目录的权限后改仍是外部变化，不随缓存文件一起放行。"""
+        self.baseline()
+        cache = self.server / '.tools/gobuildcache'
+        bucket = cache / 'ab'
+        bucket.mkdir(parents=True)
+        self.create_deployment()
+        state = self.server / '.deployment-state/posix'
+        after = (state / 'after.tsv').read_bytes()
+        (self.server / '.runtime/bin/server').write_bytes(b'known-generated-difference')
+        for target in (cache, bucket):
+            mode = target.stat().st_mode & 0o7777
+            target.chmod(0o700 if mode != 0o700 else 0o750)
+            try:
+                result = self.run_shell("trap 'lc_release_lock' EXIT\nlc_begin")
+                self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.assertEqual((state / 'after.tsv').read_bytes(), after)
+                self.assertFalse(list((state / 'redeploy-backups').glob('redeploy.*')))
+                self.assertFalse((state.parent / 'operation-lock').exists())
+            finally:
+                target.chmod(mode)
+
+    def test_36_checkpoint_does_not_adopt_unknown_cache_objects(self):
+        """运行中混入未知缓存文件时不能在新封口中把它认作本次生成物。"""
+        self.baseline()
+        (self.server / '.tools/gobuildcache/ab').mkdir(parents=True)
+        self.create_deployment()
+        state = self.server / '.deployment-state/posix'
+        after = (state / 'after.tsv').read_bytes()
+        unknown = self.server / '.tools/gobuildcache/ab/not-a-generated-object'
+        unknown.write_bytes(b'external-content')
+        result = self.run_shell("lc_context\nlc_acquire_lock\ntrap 'lc_release_lock' EXIT\nlc_checkpoint")
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual((state / 'after.tsv').read_bytes(), after)
+        self.assertEqual(unknown.read_bytes(), b'external-content')
+        self.assertFalse((state.parent / 'operation-lock').exists())
+
+    def test_37_first_deployment_rejects_unknown_cache_before_claiming_ownership(self):
+        """初次原点也排除非标准缓存，拒绝后修正夹具仍可正常登记与封口。"""
+        for shell in ('sh', 'bash', 'zsh'):
+            if not shutil.which(shell):
+                continue
+            with self.subTest(shell=shell):
+                server = self.work / ('new-cache-' + shell)
+                for directory in ('.runtime/bin', '.tools/gobuildcache/ab', 'data'):
+                    (server / directory).mkdir(parents=True)
+                for name, content in {
+                    '.runtime/bin/server': b'original-program',
+                    '.runtime/config.env': b'original-config',
+                    '.tools/gobuildcache/ab/' + 'ab' + '7' * 62 + '-a': b'known-cache-index',
+                    '.tools/gobuildcache/custom-note': b'unrelated-user-note',
+                    'data/state.json': b'{"fixture":"preserve-initial-data"}',
+                }.items():
+                    (server / name).write_bytes(content)
+                changes = {'SERVER_ROOT': str(server),
+                           'LOG_FILE': str(server / '.runtime/logs/new.log')}
+                original = {str(path.relative_to(server)): (path.read_bytes(), path.stat().st_mode & 0o7777)
+                            for name in ('.runtime', '.tools', 'data')
+                            for path in (server / name).rglob('*') if path.is_file()}
+                result = self.run_shell('''if lc_begin; then
+  lc_release_lock
+  exit 90
+else
+  fixture_code=$?
+  lc_finalize
+  exit "$fixture_code"
+fi''', shell=shell, changes=changes)
+                self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.assertNotEqual(result.returncode, 90, result.stdout + result.stderr)
+                state = server / '.deployment-state/posix'
+                for path in (state.parent / 'owner', state / 'before.tsv', state / 'after.tsv'):
+                    self.assertFalse(path.exists(), path)
+                self.assertFalse((state.parent / 'operation-lock').exists())
+                self.assertEqual({str(path.relative_to(server)): (path.read_bytes(), path.stat().st_mode & 0o7777)
+                                  for name in ('.runtime', '.tools', 'data')
+                                  for path in (server / name).rglob('*') if path.is_file()}, original)
+                (server / '.tools/gobuildcache/custom-note').unlink()
+                self.run_shell('lc_begin\nlc_checkpoint\nlc_finalize',
+                               shell=shell, changes=changes, check=True)
+                self.assertTrue((state.parent / 'owner').is_file())
+                self.assertTrue((state / 'before.tsv').is_file())
+                self.assertTrue((state / 'after.tsv').is_file())
+                self.assertEqual((server / 'data/state.json').read_bytes(), original['data/state.json'][0])
+                self.assertFalse((state.parent / 'operation-lock').exists())
+
+    def test_33_finalize_empty_after_manifest_records_current_log(self):
+        """空后态仍能封存第一条运行日志，第二输入不能被当成第一输入跳过。"""
+        for shell in ('sh', 'bash', 'zsh'):
+            if not shutil.which(shell):
+                continue
+            with self.subTest(shell=shell):
+                server = self.work / ('empty-after-' + shell)
+                server.mkdir()
+                changes = {'SERVER_ROOT': str(server),
+                           'LOG_FILE': str(server / '.runtime/logs/new.log')}
+                self.run_shell('''lc_begin
+lc_checkpoint
+mkdir -p "$SERVER_ROOT/.runtime/logs"
+printf 'first-log\\n' > "$LOG_FILE"
+lc_finalize''', shell=shell, changes=changes, check=True)
+                after = server / '.deployment-state/posix/after.tsv'
+                rows = [row.split('\t', 3) for row in after.read_text().splitlines()]
+                row = next(item for item in rows if item[3] == '.runtime/logs/new.log')
+                self.assertEqual(row[0], 'F')
+                self.assertEqual(row[1], hashlib.sha256(b'first-log\n').hexdigest())
+                self.assertFalse((server / '.deployment-state/operation-lock').exists())
+
+    def test_34_mac_rejected_preflight_does_not_reseal_previous_manifest(self):
+        """实际Mac退出钩子只解锁被拒绝的部署，不重写旧后态或收录本轮日志。"""
+        if sys.platform != 'darwin' or not shutil.which('zsh'):
+            self.skipTest('MacOS failure integration requires MacOS and zsh')
+        self.baseline()
+        self.create_deployment()
+        state = self.server / '.deployment-state/posix'
+        manifests = {name: ((state / name).read_bytes(), (state / name).stat().st_mtime_ns)
+                     for name in ('before.tsv', 'after.tsv')}
+        (self.server / '.runtime/config.env').write_bytes(b'external-config-change')
+        rejected_log = self.server / '.runtime/logs/rejected.log'
+        rejected_log.write_bytes(b'preexisting-unowned-log')
+        prefix = platform_entry(self.deploy, 'MacOS').read_text().rsplit('main "$@"', 1)[0]
+        script = self.work / 'rejected-preflight.zsh'
+        script.write_text(prefix + '''
+SERVER_ROOT="$FIXTURE_SERVER"
+DEPLOY_ROOT="$FIXTURE_DEPLOY"
+LOG_FILE="$FIXTURE_LOG"
+simulate_main() {
+  initialize_deployment_lifecycle
+  printf 'unexpected-success\\n'
+}
+simulate_main
+''', encoding='utf-8')
+        outside = self.work / 'outside-rejected-target'
+        outside.write_bytes(b'outside-preserved')
+        link = self.server / '.runtime/linked-unowned'
+        for failure in ('manifest-difference', 'manifest-symlink'):
+            with self.subTest(failure=failure):
+                if failure == 'manifest-symlink':
+                    link.symlink_to(outside)
+                try:
+                    result = subprocess.run(['zsh', str(script)], cwd='/', env={**self.env,
+                        'FIXTURE_SERVER': str(self.server), 'FIXTURE_DEPLOY': str(self.deploy),
+                        'FIXTURE_LOG': str(rejected_log)}, text=True, capture_output=True, timeout=20)
+                    self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+                    self.assertNotIn('unexpected-success', result.stdout + result.stderr)
+                    self.assertEqual({name: ((state / name).read_bytes(), (state / name).stat().st_mtime_ns)
+                                      for name in manifests}, manifests)
+                    self.assertEqual(rejected_log.read_bytes(), b'preexisting-unowned-log')
+                    self.assertEqual((self.server / '.runtime/config.env').read_bytes(), b'external-config-change')
+                    self.assertEqual(outside.read_bytes(), b'outside-preserved')
+                    self.assertFalse((state.parent / 'operation-lock').exists())
+                    self.assertFalse((state.parent / 'restart-lock').exists())
+                finally:
+                    if link.is_symlink():
+                        link.unlink()
 
     def test_22_mac_unwrapped_failure_finalizes_and_releases_lock(self):
         if sys.platform != 'darwin':

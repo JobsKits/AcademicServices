@@ -777,6 +777,7 @@ function Invoke-OriginUndo([string]$Root,[ValidateSet('backup','clear')][string]
         }
         Move-UndoData $Root $receipt $Policy
         Restore-OriginArtifacts $Root $receipt
+        Restore-DependencyCache $Root
         if ($receipt.dataExisted) { throw '本轮产物已逆向处理；部署前已存在的data已保留，属于部分恢复。原点继续保留供核对。' }
         if ((Get-InventoryDigest (Get-ArtifactInventory $Root) -IncludeAcl) -cne (Get-InventoryDigest $receipt.before -IncludeAcl)) { throw '仍有未知或变更产物，部分恢复；原点保留。' }
         $receipt.status = 'complete'
@@ -785,11 +786,36 @@ function Invoke-OriginUndo([string]$Root,[ValidateSet('backup','clear')][string]
         if ($receipt.undo.backup) { Write-Host ('数据备份：' + $receipt.undo.backup.path) }
     } finally { Exit-OriginLock $lock }
 }
+# 外置缓存位置由项目路径标识，保留原有工具与真正共享资源。
+function Get-DependencyCacheRoot([string]$Root) {
+    $sha = [Security.Cryptography.SHA256]::Create()
+    try { $id = ([BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($Root)))).Replace('-','').ToLowerInvariant() }
+    finally { $sha.Dispose() }
+    $base = $env:LOCALAPPDATA
+    if (-not $base) { $base = Join-Path ([Environment]::GetFolderPath('UserProfile')) '.cache' }
+    $cache = [IO.Path]::GetFullPath((Join-Path $base "AcademicServices/deployment/project-$id"))
+    Assert-PlainPath $cache
+    if ($cache.StartsWith($Root.TrimEnd('\','/') + [IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase)) { throw '依赖缓存必须位于项目外。' }
+    return $cache
+}
+# 缓存也有独立before/after和原件，普通共享或后改内容阻断恢复。
+function Restore-DependencyCache([string]$Root) {
+    $pointer = Join-Path (Get-OriginLocation $Root) 'dependency-cache-root.txt'
+    Assert-PlainPath $pointer
+    if (-not (Test-Path -LiteralPath $pointer)) { return }
+    $cache = Get-DependencyCacheRoot $Root
+    if ([IO.File]::ReadAllText($pointer).Trim() -cne $cache) { throw '外置缓存所属项目位置已变化，保留原件。' }
+    foreach ($process in @(Get-Process)) {
+        try { $path=$process.Path } catch { continue }
+        if ($path -and $path.StartsWith($cache.TrimEnd('\','/') + [IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase)) { throw '专属依赖缓存仍有进程使用，未清理。' }
+    }
+    Invoke-OriginUndo $cache 'clear'
+}
 # END JOBS DEPLOYMENT LIFECYCLE
 
 function Show-UndoIntroduction {
     Write-Host '知序服务 | Windows 反部署' -ForegroundColor Red
-    Write-Host '按部署原点核对 .runtime、.tools、data，默认备份至后端实现目录外的 UndeploymentBackups，再清理本次新建的数据。' -ForegroundColor Blue
+    Write-Host '按部署原点核对 .runtime、.tools、data 及登记的项目外专属缓存，默认备份至后端实现目录外的 UndeploymentBackups，再清理本次新建的数据。' -ForegroundColor Blue
     Write-Host '先关闭部署运行窗口。原有数据/共享或已改变资源保留，外部PostgreSQL没有原生备份能力时停止全部操作。'
     Write-Host 'fzf方向键/Tab选择；Esc取消。最后确认默认取消，选中执行后还须按空格复核。'
     Write-Host '取消不停止进程、不创建日志/备份或修改业务。原点及重试记录保留在 .deployment-state/windows。'
@@ -804,6 +830,21 @@ function Find-UndoSelector {
     $command = Get-Command fzf -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
     if ($command) { $candidates += $command.Source }
     $candidates += @(Get-ChildItem -LiteralPath (Join-Path $ServerRoot '.tools') -Filter 'fzf.exe' -Recurse -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName })
+    $pointer=Join-Path (Get-OriginLocation $ServerRoot) 'dependency-cache-root.txt'
+    if (Test-Path -LiteralPath $pointer) {
+        $cache=Get-DependencyCacheRoot $ServerRoot
+        Assert-PlainPath $pointer
+        if ([IO.File]::ReadAllText($pointer).Trim() -cne $cache) { throw '外置缓存路径归属不符，未运行缓存工具。' }
+        $cacheReceipt=Read-Origin $cache
+        if ($cacheReceipt) {
+            foreach ($row in @($cacheReceipt.after)) {
+                if ($row.path -notmatch '^\.tools/fzf/windows-(amd64|arm64)/[^/]+/fzf\.exe$') { continue }
+                $candidate=Join-Path $cache $row.path
+                Assert-PlainPath $candidate
+                if ((Test-Path -LiteralPath $candidate -PathType Leaf) -and (Get-FileHash -LiteralPath $candidate -Algorithm SHA256).Hash -ceq $row.hash) { $candidates += $candidate }
+            }
+        }
+    }
     foreach ($candidate in $candidates) {
         if (-not $candidate -or -not (Test-Path -LiteralPath $candidate -PathType Leaf)) { continue }
         Assert-PlainPath $candidate
@@ -856,6 +897,8 @@ function Main {
     if ($policy -eq 'cancel') { return }
     Write-Host ('准确数据范围：' + (Join-Path $ServerRoot 'data'))
     Write-Host ('程序/配置/依赖范围：' + (Join-Path $ServerRoot '.runtime') + '；' + (Join-Path $ServerRoot '.tools'))
+    $cachePointer=Join-Path (Get-OriginLocation $ServerRoot) 'dependency-cache-root.txt'
+    if (Test-Path -LiteralPath $cachePointer) { Write-Host ('外置专属依赖范围：' + [IO.File]::ReadAllText($cachePointer).Trim() + '；仅按子收据精确恢复。') }
     Write-Host ('原有data：' + $receipt.dataExisted + '；原有/共享/未知对象保留；原点文件不清除。')
     $confirm = Select-UndoOption $selector @('cancel|取消，保留当前状态','execute|确认按上述数据策略反部署') '危险操作：默认取消；请核对范围'
     if ($confirm -ne 'execute') { return }

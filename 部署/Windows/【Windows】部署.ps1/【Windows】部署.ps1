@@ -785,6 +785,7 @@ function Invoke-OriginUndo([string]$Root,[ValidateSet('backup','clear')][string]
         }
         Move-UndoData $Root $receipt $Policy
         Restore-OriginArtifacts $Root $receipt
+        Restore-DependencyCache $Root
         if ($receipt.dataExisted) { throw '本轮产物已逆向处理；部署前已存在的data已保留，属于部分恢复。原点继续保留供核对。' }
         if ((Get-InventoryDigest (Get-ArtifactInventory $Root) -IncludeAcl) -cne (Get-InventoryDigest $receipt.before -IncludeAcl)) { throw '仍有未知或变更产物，部分恢复；原点保留。' }
         $receipt.status = 'complete'
@@ -793,14 +794,39 @@ function Invoke-OriginUndo([string]$Root,[ValidateSet('backup','clear')][string]
         if ($receipt.undo.backup) { Write-Host ('数据备份：' + $receipt.undo.backup.path) }
     } finally { Exit-OriginLock $lock }
 }
+# 外置缓存位置由项目路径标识，保留原有工具与真正共享资源。
+function Get-DependencyCacheRoot([string]$Root) {
+    $sha = [Security.Cryptography.SHA256]::Create()
+    try { $id = ([BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($Root)))).Replace('-','').ToLowerInvariant() }
+    finally { $sha.Dispose() }
+    $base = $env:LOCALAPPDATA
+    if (-not $base) { $base = Join-Path ([Environment]::GetFolderPath('UserProfile')) '.cache' }
+    $cache = [IO.Path]::GetFullPath((Join-Path $base "AcademicServices/deployment/project-$id"))
+    Assert-PlainPath $cache
+    if ($cache.StartsWith($Root.TrimEnd('\','/') + [IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase)) { throw '依赖缓存必须位于项目外。' }
+    return $cache
+}
+# 缓存也有独立before/after和原件，普通共享或后改内容阻断恢复。
+function Restore-DependencyCache([string]$Root) {
+    $pointer = Join-Path (Get-OriginLocation $Root) 'dependency-cache-root.txt'
+    Assert-PlainPath $pointer
+    if (-not (Test-Path -LiteralPath $pointer)) { return }
+    $cache = Get-DependencyCacheRoot $Root
+    if ([IO.File]::ReadAllText($pointer).Trim() -cne $cache) { throw '外置缓存所属项目位置已变化，保留原件。' }
+    foreach ($process in @(Get-Process)) {
+        try { $path=$process.Path } catch { continue }
+        if ($path -and $path.StartsWith($cache.TrimEnd('\','/') + [IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase)) { throw '专属依赖缓存仍有进程使用，未清理。' }
+    }
+    Invoke-OriginUndo $cache 'clear'
+}
 # END JOBS DEPLOYMENT LIFECYCLE
 
 function Show-Intro {
     Write-Host "知序服务 | Windows 部署" -ForegroundColor Red
     Write-JobsEnterChoiceText '1、自述回车后fzf选择本地部署＋内网穿透或服务器部署，Esc取消。' -ForegroundColor Blue
-    Write-Host '缺少fzf/Go/cloudflared时按锁清单自动准备工程内工具并验SHA256；本地模式另确认公网。' -ForegroundColor Blue
+    Write-Host '静态锁仅Bootstrap；选模式后查官方最新稳定Go/fzf，本地另查cloudflared；摘要及健康通过后采用项目外版本缓存。' -ForegroundColor Blue
     Write-Host '本地模式为Demo：模拟支付，登录页公开本次真实测试账号密码；服务器模式关闭Demo、不公开凭据。'
-    Write-Host '2、记录部署原点，再写 .tools、.runtime、data；反部署仅按清单处理，不改全局PATH、系统服务或防火墙。'
+    Write-Host '2、记录部署原点，再写 .runtime、data 和项目外专属缓存；原.tools只读复用，专属新缓存按原点撤回，不改全局PATH、系统服务或防火墙。'
     Write-Host '3、编译成功后在当前窗口运行；Ctrl+C停止，业务数据保留。'
     Write-Host '4、Go模块默认goproxy.cn，失败回退官方；GOPROXY可覆盖，仅当前进程生效。'
     Write-Host "源码：$ServerRoot"
@@ -827,20 +853,20 @@ function Initialize-Runtime {
 }
 # 验证候选Go版本，已有健康环境直接复用。
 function Test-Go([string]$Candidate) {
-    if (-not $Candidate -or -not (Test-Path $Candidate)) { return $false }
-    try {
-        $version = & $Candidate version 2>$null
-        if ($LASTEXITCODE -eq 0 -and ($version -split ' ')[2] -eq $GoVersion) { $script:GoExe = $Candidate; return $true }
-    } catch { return $false }
-    return $false
+    return (Test-BootstrapGo $Candidate)
 }
 # 需要下载时明确显示来源和目标，安装在本地工程。
 function Ensure-Go {
+    Start-DependencyCache
+    $arch = Get-ToolArchitecture
+    New-Item -ItemType Directory -Force -Path (Join-Path $DependencyCacheRoot ".tools/go/windows-$arch") | Out-Null
     if (Test-Go $env:GO_BIN) { return }
     $discovered = Get-Command go -ErrorAction SilentlyContinue
     if ($discovered -and (Test-Go $discovered.Source)) { return }
-    if ($discovered) { Write-Host "现有Go未通过锁定版本 $GoVersion 健康检查；保留系统安装，改用工程内SDK。" }
-    $localGo = Join-Path $ServerRoot ".tools/$GoVersion/bin/go.exe"
+    if ($discovered) { Write-Host "现有Go未通过Bootstrap最低版本与健康检查；保留系统安装，改用项目外引导SDK。" }
+    $legacyGo = Join-Path $ServerRoot ".tools/$GoVersion/bin/go.exe"
+    if (Test-Go $legacyGo) { return } # 只读复用旧工程SDK，不迁移。
+    $localGo = Join-Path $DependencyCacheRoot ".tools/go/windows-$arch/$($GoVersion.Substring(2))/bin/go.exe"
     if (Test-Go $localGo) { return }
     $architecture = Get-ToolArchitecture
     switch ($architecture) {
@@ -849,18 +875,18 @@ function Ensure-Go {
         default { throw '仅支持64位x64和ARM64 Windows。' }
     }
     $uri = "https://go.dev/dl/$archive"
-    $destination = Join-Path $ServerRoot ".tools/$archive"
+    $destination = Join-Path $DependencyCacheRoot ".tools/$archive"
     Write-Host "来源 | Go SDK | $uri -> $destination" -ForegroundColor Cyan
     Write-Host '按已确认模式准备本地Go，不更改系统安装。'
     $previousTls = [Net.ServicePointManager]::SecurityProtocol
     try {
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        Invoke-WebRequest -Uri $uri -OutFile $destination -UseBasicParsing -TimeoutSec 1200
+        Receive-Dependency $uri $destination
     } finally { [Net.ServicePointManager]::SecurityProtocol = $previousTls }
     if ((Get-FileHash $destination -Algorithm SHA256).Hash.ToLowerInvariant() -ne $sha) { throw '下载摘要不匹配，未解压。' }
-    $target = Join-Path $ServerRoot ".tools/$GoVersion"
+    $target = Join-Path $DependencyCacheRoot ".tools/go/windows-$arch/$($GoVersion.Substring(2))"
     if (Test-Path $target) { throw 'SDK目录存在但不健康；保留原目录，移走后重试。' }
-    $stage = Join-Path $ServerRoot ('.tools/sdk-stage-' + [guid]::NewGuid().ToString('N'))
+    $stage = Join-Path $DependencyCacheRoot ('.tools/sdk-stage-' + [guid]::NewGuid().ToString('N'))
     Expand-Archive -LiteralPath $destination -DestinationPath $stage
     Move-Item -LiteralPath (Join-Path $stage 'go') -Destination $target
     Remove-Item -LiteralPath $stage
@@ -923,8 +949,8 @@ function Configure-Server {
     Select-StaticRoots
     if (-not $env:GOPROXY) { $env:GOPROXY = 'https://goproxy.cn|https://proxy.golang.org|direct' }
     $env:GOTELEMETRY = 'off'
-    $env:GOMODCACHE = Join-Path $ServerRoot '.tools/gomodcache'
-    $env:GOCACHE = Join-Path $ServerRoot '.tools/gobuildcache'
+    $env:GOMODCACHE = Join-Path $DependencyCacheRoot '.tools/gomodcache'
+    $env:GOCACHE = Join-Path $DependencyCacheRoot '.tools/gobuildcache'
     $env:CGO_ENABLED = '0'; $env:GOTOOLCHAIN = 'local'
 }
 # 编译到临时程序，成功后替换；业务数据不动。
@@ -933,7 +959,7 @@ function Build-Server {
     Write-Host "来源 | Go依赖 | $source | go.mod/go.sum固定版本 | 缓存 $env:GOMODCACHE"
     Push-Location $ServerRoot
     try {
-        & $GoExe build -trimpath -o (Join-Path $ServerRoot '.runtime/bin/server.next.exe') ./cmd/server
+        Build-LockedModule $ServerRoot (Join-Path $ServerRoot '.runtime/bin/server.next.exe') './cmd/server'
         if ($LASTEXITCODE -ne 0) { throw '编译失败，原程序与数据保留。' }
         Move-Item -Force -LiteralPath (Join-Path $ServerRoot '.runtime/bin/server.next.exe') -Destination (Join-Path $ServerRoot '.runtime/bin/server.exe')
     } finally { Pop-Location }
@@ -947,7 +973,7 @@ function Build-AccessQr {
     try {
         Push-Location (Join-Path $DeployRoot '公共组件/地址二维码')
         try {
-            & $GoExe build -mod=readonly -trimpath -o "$QrBinary.next.exe" .
+            Build-LockedModule (Join-Path $DeployRoot '公共组件/地址二维码') "$QrBinary.next.exe" '.'
             if ($LASTEXITCODE -ne 0) { throw '辅助工具编译失败。' }
         } finally { Pop-Location }
         Move-Item -LiteralPath "$QrBinary.next.exe" -Destination $QrBinary -Force
@@ -1030,8 +1056,11 @@ function Test-LocalTool([string]$Name,[string]$Candidate) {
 }
 # 只从锁清单下载匹配架构的官方归档，校验后才执行。
 function Ensure-LocalTool([string]$Name) {
+    if ($script:DependencyLatestReady) { if ($Name -eq 'fzf') { return $FzfExe } else { return $CloudflaredExe } }
+    Start-DependencyCache
     $override = if ($Name -eq 'fzf') { $env:FZF_BIN } else { $env:CLOUDFLARED_BIN }
     if (Test-LocalTool $Name $override) { return $override }
+    if ($record.kind -eq 'unsupported') { throw "官方最新 $Name $($record.version)没有windows/$($record.arch)资产；仅可指定已验证原生工具，不使用其它架构。" }
     $found = Get-Command $Name -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
     if ($found -and (Test-LocalTool $Name $found.Source)) { return $found.Source }
     $arch = Get-ToolArchitecture
@@ -1044,16 +1073,21 @@ function Ensure-LocalTool([string]$Name) {
     $records = @(Import-Csv -LiteralPath $lock -Delimiter "`t" | Where-Object { $_.tool -eq $Name -and $_.os -eq 'windows' -and $_.arch -eq $arch })
     if ($records.Count -ne 1) { throw "没有锁定的 $Name/windows/$arch 原生资产；未使用其它架构。请指定已验证原生 CLOUDFLARED_BIN/FZF_BIN，或改用平台README的cpolar备选。" }
     $record = $records[0]
+    $target = Join-Path $DependencyCacheRoot ('.tools/' + $Name + '/windows-' + $arch + '/' + $record.version)
+    $local = Join-Path $target "$Name.exe"
+    Assert-PlainPath $target
+    if (Test-LocalTool $Name $local) { return $local }
+    New-Item -ItemType Directory -Force -Path ([IO.Path]::GetDirectoryName($target)) | Out-Null
     if ($record.url -notmatch '^https://github\.com/(junegunn/fzf|cloudflare/cloudflared)/releases/download/') { throw '工具来源不在官方锁定发布域。' }
     Write-Host "来源 | $Name $($record.version) | $($record.url) -> $target" -ForegroundColor Cyan
-    Write-Host '按已确认自述准备工程内工具；不修改全局PATH或注册服务。'
-    $stage = Join-Path $ServerRoot ('.tools/tool-stage-' + [guid]::NewGuid().ToString('N'))
+    Write-Host '按已确认自述准备项目外缓存中的Bootstrap工具；不修改全局PATH或注册服务。'
+    $stage = Join-Path $DependencyCacheRoot ('.tools/tool-stage-' + [guid]::NewGuid().ToString('N'))
     New-Item -ItemType Directory -Path $stage | Out-Null
     $archive = Join-Path $stage $record.filename
     $previousTls = [Net.ServicePointManager]::SecurityProtocol
     try {
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        Invoke-WebRequest -Uri $record.url -OutFile $archive -UseBasicParsing -TimeoutSec 300
+        Receive-Dependency $record.url $archive
     } finally { [Net.ServicePointManager]::SecurityProtocol = $previousTls }
     if ((Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant() -ne $record.sha256) { throw '工具SHA256不匹配；未解压或执行。' }
     if ($record.kind -eq 'zip') { Expand-Archive -LiteralPath $archive -DestinationPath $stage }
@@ -1100,12 +1134,12 @@ function Select-DeploymentMode {
 }
 # 计划与检查仅读取路径和平台，不创建日志或联网。
 function Show-Plan {
-    Write-JobsEnterChoiceText '计划：自述回车 -> 工程内fzf -> 两模式选择 -> Go/密码配置/编译。'
+    Write-JobsEnterChoiceText '计划：自述回车 -> Bootstrap fzf -> 两模式选择 -> 官方最新稳定工具核验 -> 业务依赖更新报告 -> 密码配置/只读锁构建。'
     Write-Host '本地：DEMO_MODE=1、PAYMENT_MODE=mock，登录页公开测试账号密码；production + loopback + 同源，后端健康后建立Cloudflare Quick随机HTTPS；公网前另确认。'
     Write-Host '服务器：DEMO_MODE=0、不公开凭据；保留原配置，仅运行后端；不建立隧道。'
-    Write-Host '健康工具复用，缺少时按部署/deploy-tools.lock.tsv下载固定官方资产并验SHA256，不改全局PATH。'
-    Write-Host 'Windows ARM64没有锁定的cloudflared原生成品；现有原生工具或cpolar备选须单独核验。'
-    Write-Host 'Quick免费、无SLA、200在途、无SSE、大陆可达性需实测。此计划未下载、编译、写配置或发布。'
+    Write-Host '静态锁部署/deploy-tools.lock.tsv仅作Bootstrap；正常选模式后查官方最新Go/fzf，本地另查cloudflared。已有工具须健康且版本达标，显式旧路径停止；下载验摘要后采用项目外版本缓存。'
+    Write-Host '官方最新无对应原生资产时只接受显式指定且已验证的同平台新版本，否则停止，不混用架构。业务依赖只报告当前模块路径更新，独立回归后另行更新；客户端SDK不由后端部署升级。'
+    Write-Host 'Quick免费、无SLA、200在途、无SSE、大陆可达性需实测。此计划未联网查询最新、下载、编译、写配置或发布。'
 }
 # 控制台只写样式，Host输出正文，让Transcript仅记录纯文本。
 function Write-TerminalLifetimeNotice {
@@ -1221,6 +1255,181 @@ function Start-LocalTunnel {
 }
 
 # 编排自述、模式选择和工程内运行；取消时不触发业务配置。
+$script:DependencyCacheStarted = $false
+$script:DependencyLatestReady = $false
+$script:DependencyCacheRoot = ''
+$script:FzfExe = ''
+# 外置但项目专属的版本缓存沿用同一原点收据，反部署精确撤回新增资源。
+# 第一次写入前保存缓存原点；重复进入同一会话不重封原点。
+function Start-DependencyCache {
+    if ($script:DependencyCacheStarted) { return }
+    $script:DependencyCacheRoot = Get-DependencyCacheRoot $ServerRoot
+    $pointer = Join-Path (Get-OriginLocation $ServerRoot) 'dependency-cache-root.txt'
+    Assert-PlainPath $pointer
+    if ((Test-Path -LiteralPath $pointer) -and [IO.File]::ReadAllText($pointer).Trim() -cne $DependencyCacheRoot) { throw '依赖缓存所属项目路径改变，保留原件。' }
+    $prior = Read-Origin $DependencyCacheRoot
+    if ($prior -and $prior.status -eq 'complete') {
+        $archive = Join-Path $DependencyCacheRoot ('.audit/cache-origin-' + $prior.id)
+        Assert-PlainPath $archive
+        if (Test-Path -LiteralPath $archive) { throw '旧缓存审计归档已存在，保留现场。' }
+        New-Item -ItemType Directory -Force -Path ([IO.Path]::GetDirectoryName($archive)) | Out-Null
+        Move-Item -LiteralPath (Join-Path $DependencyCacheRoot '.deployment-state') -Destination $archive
+    }
+    $cacheLock = Enter-OriginLock $DependencyCacheRoot
+    try { Start-Origin $DependencyCacheRoot }
+    finally { Exit-OriginLock $cacheLock }
+    [IO.File]::WriteAllText($pointer,$DependencyCacheRoot,(New-Object Text.UTF8Encoding($false)))
+    $script:DependencyCacheStarted = $true
+}
+# 原生SDK只用于引导元数据查询，最终版本仍必须检查官方latest。
+function Test-BootstrapGo([string]$Candidate) {
+    if (-not $Candidate -or -not (Test-Path -LiteralPath $Candidate -PathType Leaf)) { return $false }
+    try { $value = & $Candidate version 2>$null; if ($LASTEXITCODE -ne 0 -or $value -notmatch '^go version go(\d+\.\d+\.\d+) ') { return $false }; if ([version]$Matches[1] -lt [version]'1.24.0') { return $false }; $script:GoExe=$Candidate; return $true }
+    catch { return $false }
+}
+# 单次请求有界，临时网络失败持续退避，不把404/校验错误视为网络重试。
+function Receive-Dependency([string]$Uri,[string]$Destination) {
+    $delay = 1
+    while ($true) {
+        try { Invoke-WebRequest -Uri $Uri -OutFile $Destination -UseBasicParsing -TimeoutSec 1200; return }
+        catch {
+            if ($_.Exception -is [System.Management.Automation.PipelineStoppedException]) { throw }
+            $status = 0
+            if ($_.Exception.Response) { $status = [int]$_.Exception.Response.StatusCode }
+            if ($status -ne 0 -and $status -ne 429 -and $status -lt 500) { throw }
+            Write-Host "依赖下载暂未完成（HTTP $status），$delay 秒后重试；Ctrl+C取消。"
+            Start-Sleep -Seconds $delay
+            $delay = [Math]::Min(20,$delay+1)
+        }
+    }
+}
+# 只构建标准库查询器，模块锁复制到本轮目录，check/plan不调用。
+function Prepare-DependencyResolver {
+    Start-DependencyCache
+    $script:DependencyRunDir = Join-Path $DependencyCacheRoot ('.runtime/dependency-check-' + [guid]::NewGuid().ToString('N'))
+    New-Item -ItemType Directory -Force -Path $DependencyRunDir | Out-Null
+    $source = Join-Path $DeployRoot '公共组件/依赖版本'
+    $script:DependencyResolver = Join-Path $DependencyRunDir 'resolver.exe'
+    $mod = Join-Path $DependencyRunDir 'resolver.mod'
+    Copy-Item -LiteralPath (Join-Path $source 'go.mod') -Destination $mod
+    $oldWork = $env:GOWORK; $oldChain = $env:GOTOOLCHAIN
+    try { $env:GOWORK='off'; $env:GOTOOLCHAIN='local'; Push-Location $source
+        try { & $GoExe build -mod=readonly "-modfile=$mod" -trimpath -o $DependencyResolver .; if ($LASTEXITCODE -ne 0) { throw '依赖查询器构建失败，未修改源模块锁。' } }
+        finally { Pop-Location }
+    } finally { $env:GOWORK=$oldWork; $env:GOTOOLCHAIN=$oldChain }
+}
+# 查询失败只有75属于可重试网络；其它错误必须停止，不静默回退旧锁。
+function Resolve-LatestDependency([string]$Name) {
+    $minimum = ((Get-Content -LiteralPath (Join-Path $ServerRoot 'go.mod') | Where-Object { $_ -match '^go ' }) -replace '^go\s+','').Trim()
+    $arch = Get-ToolArchitecture; $delay=1
+    while ($true) {
+        $arguments = @('--tool',$Name,'--os','windows','--arch',$arch,'--locked-manifest',(Join-Path $DeployRoot 'deploy-tools.lock.tsv'))
+        if ($Name -eq 'go') { $arguments += @('--minimum-go',$minimum) }
+        $row = & $DependencyResolver @arguments
+        $code = $LASTEXITCODE
+        if ($code -eq 0) { break }
+        if ($code -ne 75) { throw "官方 $Name 元数据或校验信息无效；未采用旧锁冒充最新。" }
+        Write-Host "官方 $Name 元数据暂不可达，$delay 秒后重试；Ctrl+C取消。"
+        Start-Sleep -Seconds $delay; $delay=[Math]::Min(20,$delay+1)
+    }
+    if (@($row).Count -ne 1) { throw '版本查询结果不是单条记录。' }
+    $fields = ([string]$row).Split("`t")
+    if ($fields.Count -ne 8 -or $fields[0] -cne $Name -or $fields[1] -cne 'windows' -or $fields[2] -cne $arch) { throw '版本查询结果与目标不匹配。' }
+    return [pscustomobject]@{tool=$fields[0];os=$fields[1];arch=$fields[2];version=$fields[3];filename=$fields[4];sha256=$fields[5];url=$fields[6];kind=$fields[7]}
+}
+# 显式路径不覆盖；所有候选都要功能健康且版本达到官方目标。
+function Test-LatestDependency([string]$Name,[string]$Candidate,[string]$Latest) {
+    if (-not $Candidate) { return $false }
+    if ($Name -eq 'go') {
+        if (-not (Test-BootstrapGo $Candidate)) { return $false }
+        $version = ((& $Candidate version) -split ' ')[2]
+    } else {
+        if (-not (Test-LocalTool $Name $Candidate)) { return $false }
+        $probeKeys=@('FZF_DEFAULT_OPTS','FZF_DEFAULT_OPTS_FILE','FZF_DEFAULT_COMMAND');$probe=@{}
+        foreach($key in $probeKeys){$probe[$key]=[Environment]::GetEnvironmentVariable($key,'Process');[Environment]::SetEnvironmentVariable($key,$null,'Process')}
+        try { $version = [regex]::Match(((& $Candidate --version) -join ' '),'(?<!\d)v?\d+\.\d+(?:\.\d+)?(?!\d)').Value }
+        finally { foreach($key in $probeKeys){[Environment]::SetEnvironmentVariable($key,$probe[$key],'Process')} }
+    }
+    Write-Host "依赖检查 | $Name | 当前 $version | 官方目标 $Latest | $Candidate"
+    $comparison = & $DependencyResolver --compare $version --at-least $Latest
+    if ($LASTEXITCODE -ne 0 -or $comparison -cne '1') { return $false }
+    Write-Host "采用版本 | $Name $version（满足官方最新稳定基线 $Latest）"
+    return $true
+}
+# 新版本在暂存目录校验通过后发布，不覆盖旧版本或显式工具。
+function Ensure-LatestDependency([string]$Name) {
+    $record = Resolve-LatestDependency $Name
+    $override = switch ($Name) { 'go' { $env:GO_BIN } 'fzf' { $env:FZF_BIN } 'cloudflared' { $env:CLOUDFLARED_BIN } }
+    if ($override) { if (-not (Test-LatestDependency $Name $override $record.version)) { throw "显式 $Name 路径不健康或过旧；请更新显式配置或取消该配置后重试，原文件保留。" }; return $override }
+    $found = Get-Command $Name -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($found -and (Test-LatestDependency $Name $found.Source $record.version)) { return $found.Source }
+    $target = Join-Path $DependencyCacheRoot ('.tools/' + $Name + '/windows-' + $record.arch + '/' + $record.version)
+    Assert-PlainPath $target
+    $relative = if ($Name -eq 'go') { 'bin/go.exe' } else { "$Name.exe" }
+    $candidate = Join-Path $target $relative
+    if (Test-LatestDependency $Name $candidate $record.version) { return $candidate }
+    if (Test-Path -LiteralPath $target) { throw '版本缓存不健康，已保留原件，未覆盖。' }
+    if ($record.filename -match '[/\\]' -or $record.filename.Contains('..') -or $record.url -notmatch '^https://(go\.dev/dl/|github\.com/(junegunn/fzf|cloudflare/cloudflared)/releases/download/)') { throw '依赖资产路径或来源无效。' }
+    $stage = Join-Path $DependencyCacheRoot ('.tools/stage-' + [guid]::NewGuid().ToString('N'))
+    New-Item -ItemType Directory -Path $stage | Out-Null
+    $archive = Join-Path $stage $record.filename
+    Write-Host "来源 | $Name $($record.version) | $($record.url) -> $target | 校验后切换"
+    Receive-Dependency $record.url $archive
+    if ((Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant() -cne $record.sha256) { throw '依赖摘要不匹配，原件保留且不执行。' }
+    if ($record.kind -eq 'zip') { Expand-Archive -LiteralPath $archive -DestinationPath $stage }
+    elseif ($record.kind -eq 'binary') { Copy-Item -LiteralPath $archive -Destination (Join-Path $stage "$Name.exe") }
+    else { throw 'Windows不支持此资产格式。' }
+    $candidate = if ($Name -eq 'go') { Join-Path $stage 'go/bin/go.exe' } else { Join-Path $stage "$Name.exe" }
+    if (-not (Test-LatestDependency $Name $candidate $record.version)) { throw '新依赖版本或健康检查失败，未切换。' }
+    New-Item -ItemType Directory -Force -Path ([IO.Path]::GetDirectoryName($target)) | Out-Null
+    if ($Name -eq 'go') { Move-Item -LiteralPath (Join-Path $stage 'go') -Destination $target }
+    else { New-Item -ItemType Directory -Path $target | Out-Null; Move-Item -LiteralPath $candidate -Destination (Join-Path $target "$Name.exe") }
+    $candidate = Join-Path $target $relative
+    if (-not (Test-LatestDependency $Name $candidate $record.version)) { throw '依赖发布后复检失败。' }
+    return $candidate
+}
+# 本地模式才查询隧道版本；最终选定工具均已检查官方最新稳定。
+function Prepare-LatestDependencies {
+    Prepare-DependencyResolver
+    $script:GoExe = Ensure-LatestDependency 'go'
+    $script:FzfExe = Ensure-LatestDependency 'fzf'
+    if ($DeployMode -eq 'local') { $script:CloudflaredExe = Ensure-LatestDependency 'cloudflared' }
+    $script:DependencyLatestReady = $true
+}
+# 构建使用临时锁副本，结束核对源锁字节；不执行go get/tidy。
+function Build-LockedModule([string]$Source,[string]$Output,[string]$Package) {
+    $mod = Join-Path $DependencyRunDir ('build-' + [guid]::NewGuid().ToString('N') + '.mod')
+    $sum = [IO.Path]::ChangeExtension($mod,'.sum')
+    $originalMod = [IO.File]::ReadAllBytes((Join-Path $Source 'go.mod'))
+    [IO.File]::WriteAllBytes($mod,$originalMod)
+    $sourceSum = Join-Path $Source 'go.sum'; $originalSum=$null
+    if (Test-Path -LiteralPath $sourceSum) { $originalSum=[IO.File]::ReadAllBytes($sourceSum); [IO.File]::WriteAllBytes($sum,$originalSum) }
+    $oldWork=$env:GOWORK; $oldChain=$env:GOTOOLCHAIN
+    try { $env:GOWORK='off'; $env:GOTOOLCHAIN='local'; Push-Location $Source
+        try { & $GoExe build -mod=readonly "-modfile=$mod" -trimpath -o $Output $Package; if ($LASTEXITCODE -ne 0) { throw '按锁构建失败，原程序保留。' } }
+        finally { Pop-Location }
+    } finally {
+        $env:GOWORK=$oldWork; $env:GOTOOLCHAIN=$oldChain
+        if ([Convert]::ToBase64String([IO.File]::ReadAllBytes((Join-Path $Source 'go.mod'))) -cne [Convert]::ToBase64String($originalMod)) { throw '源go.mod发生漂移，未采用构建结果。' }
+        if ($null -ne $originalSum -and [Convert]::ToBase64String([IO.File]::ReadAllBytes($sourceSum)) -cne [Convert]::ToBase64String($originalSum)) { throw '源go.sum发生漂移，未采用构建结果。' }
+    }
+}
+# 同模块路径的更新仅报告；检查超时/失败可继续按已回归锁构建。
+function Show-BusinessDependencyUpdates {
+    foreach ($source in @($ServerRoot,(Join-Path $DeployRoot '公共组件/地址二维码'))) {
+        if (-not (Test-Path -LiteralPath (Join-Path $source 'go.mod'))) { continue }
+        $mod=Join-Path $DependencyRunDir ('report-' + [guid]::NewGuid().ToString('N') + '.mod')
+        Copy-Item -LiteralPath (Join-Path $source 'go.mod') -Destination $mod
+        $sum=Join-Path $source 'go.sum'
+        if (Test-Path -LiteralPath $sum) { Copy-Item -LiteralPath $sum -Destination ([IO.Path]::ChangeExtension($mod,'.sum')) }
+        Write-Host "业务库检查 | $source | 仅报告同模块路径更新，独立回归后更新；不执行go get/tidy。"
+        & $DependencyResolver --module-report --go-bin $GoExe --module-dir $source --modfile $mod --timeout-seconds 30
+        $reportCode = $LASTEXITCODE
+        if ($reportCode -ge 128 -or $reportCode -lt 0) { throw (New-Object OperationCanceledException('业务更新检查已取消。')) }
+        if ($reportCode -eq 3) { Write-Host '业务更新检查未完成；继续按已回归锁构建，不声称业务库已最新。' }
+        elseif ($reportCode -ne 0) { throw '业务更新检查的路径/源码验证失败，停止构建。' }
+    }
+}
 function Main {
     Show-Intro # 先说明影响并等待确认。
     Test-Source # 检查平台和完整源码。
@@ -1238,17 +1447,19 @@ function Main {
         Initialize-Runtime # 确认后建立工具目录和日志。
         Select-DeploymentMode # fzf确认，取消不准备Go或业务配置。
         foreach ($part in @('.runtime/bin','data')) { New-Item -ItemType Directory -Force -Path (Join-Path $ServerRoot $part) | Out-Null }
-        Ensure-Go # 复用健康SDK或准备项目内固定版本。
+        Ensure-Go # Bootstrap：只准备标准库查询器所需Go。
+        Prepare-LatestDependencies # 官方最新稳定、摘要与健康校验后切换版本化缓存。
         Configure-Server # 初次密码配置，其后只读复用。
         Prepare-SelectedMode # 本地模式工具与公网发布确认。
-        Build-Server # 编译当前Go源码。
+        Show-BusinessDependencyUpdates # 只报告现有模块路径更新，独立回归后更新。
+        Build-Server # 临时modfile、readonly构建，源锁不变。
         Build-AccessQr # 构建离线二维码，失败保留URL。
         if ($DeployMode -eq 'local') { Start-LocalTunnel } else { Start-Server }
     } finally {
         Stop-OwnedProcesses
         Expire-AccessQr
         try { Stop-Transcript | Out-Null } catch { Write-Host '日志记录尚未启动或已结束。' }
-        try { if ($originStarted) { Complete-Origin $ServerRoot $env:DATABASE_URL } }
+        try { if ($script:DependencyCacheStarted) { Complete-Origin $DependencyCacheRoot '' }; if ($originStarted) { Complete-Origin $ServerRoot $env:DATABASE_URL } }
         finally {
             foreach ($key in $environmentKeys) {
                 if ($null -eq $savedEnvironment[$key]) { Remove-Item -LiteralPath "Env:$key" -ErrorAction SilentlyContinue }
@@ -1258,7 +1469,7 @@ function Main {
         }
     }
 }
-try { Main } catch { Write-Host $_.Exception.Message -ForegroundColor Red; exit 1 }
+try { Main } catch [OperationCanceledException] { Write-Host $_.Exception.Message; exit 130 } catch { Write-Host $_.Exception.Message -ForegroundColor Red; exit 1 }
 
 # END JOBS_TERMINAL_STYLE_ORIGINAL_BODY
 } finally {

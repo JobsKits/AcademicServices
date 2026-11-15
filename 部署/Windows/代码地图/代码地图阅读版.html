@@ -27,6 +27,7 @@
 <tr><td><a href="../【Windows】反部署.ps1/【Windows】反部署.ps1">【Windows】反部署.ps1</a></td><td>fzf 数据策略、危险确认与按原点反部署。</td></tr>
 <tr><td>生命周期核心（<a href="../【Windows】部署.ps1/【Windows】部署.ps1">部署入口</a>／<a href="../【Windows】反部署.ps1/【Windows】反部署.ps1">反部署入口</a>）</td><td>两份脚本各自内嵌归属、原点摘要、跨系统owner、互斥、备份与精确恢复函数。</td></tr>
 </tbody></table>
+<p>当前依赖链：Prepare-LatestDependencies、Resolve-LatestDependency、Ensure-LatestDependency；Show-BusinessDependencyUpdates；Build-LockedModule；缓存原点由 Start-Origin／Complete-Origin 分别封存。静态锁仅Bootstrap，模式确认后每次核查官方最新稳定Go／fzf，本地模式另查cloudflared；模块只读报告、独立回归后更新。<a href="../../公共组件/依赖版本/README.md">依赖解析与限时报告合同</a>、<a href="../README.md#latest-dependencies">平台缓存与失败边界</a>。</p>
 <h2>二、<span id="local-flow">本单元关系</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <pre class="mermaid">flowchart LR
     Shortcut[平台目录快捷 CMD] --&gt; Script[PowerShell 唯一部署实现]
@@ -36,8 +37,9 @@
     Undo --&gt; State
     Script --&gt; Check[路径与平台检查]
     Script --&gt; Mode[模式选择]
-    Mode --&gt; Server[服务器模式]
-    Mode --&gt; Local[本地部署与穿透模式]
+    Mode --&gt; Latest[官方最新工具与只读业务检查]
+    Latest --&gt; Server[服务器模式]
+    Latest --&gt; Local[本地部署与穿透模式]
 </pre>
 <h2>三、<span id="dependencies">共享源与外部依赖</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a></h2>
 <ul>

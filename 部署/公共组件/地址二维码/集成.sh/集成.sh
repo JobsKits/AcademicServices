@@ -6,7 +6,7 @@ qr_prepare() {
   QR_OUTPUT=''
   QR_BIN="$SERVER_ROOT/.runtime/bin/deployqr"
   log "来源｜二维码编码依赖｜github.com/skip2/go-qrcode｜固定 da1b6568686e + go.sum｜缓存 $GOMODCACHE"
-  if (cd "$DEPLOY_ROOT/公共组件/地址二维码" && "$GO_EXE" build -mod=readonly -trimpath -o "$QR_BIN.next" .) >> "$LOG_FILE" 2>&1 && mv "$QR_BIN.next" "$QR_BIN"; then
+  if build_locked_module "$DEPLOY_ROOT/公共组件/地址二维码" "$QR_BIN.next" . >> "$LOG_FILE" 2>&1 && mv "$QR_BIN.next" "$QR_BIN"; then
     QR_OUTPUT="$(mktemp -d "$SERVER_ROOT/.runtime/access-qr.XXXXXX")" || { log '警告：二维码目录未创建，继续显示URL。'; return 0; }
     QR_READY=1
   else
