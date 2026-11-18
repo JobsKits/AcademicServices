@@ -46,7 +46,7 @@ type Config struct {
 }
 
 func LoadConfig() (Config, error) {
-	c := Config{Environment: env("APP_ENV", "development"), Listen: env("LISTEN_ADDR", "127.0.0.1:8080"), DataDir: env("DATA_DIR", "./data"), DatabaseURL: os.Getenv("DATABASE_URL"), AdminStaticDir: env("ADMIN_STATIC_DIR", "./admin-web"), ClientStaticDir: env("CLIENT_STATIC_DIR", "./client-web"), AdminPassword: env("ADMIN_PASSWORD", "demo-admin-change-me"), CustomerPassword: env("DEMO_CUSTOMER_PASSWORD", "demo-customer")}
+	c := Config{Environment: env("APP_ENV", "development"), Listen: env("LISTEN_ADDR", "127.0.0.1:8080"), DataDir: env("DATA_DIR", "./data"), DatabaseURL: os.Getenv("DATABASE_URL"), AdminStaticDir: env("ADMIN_STATIC_DIR", "./admin-web"), ClientStaticDir: env("CLIENT_STATIC_DIR", defaultClientStaticDir()), AdminPassword: env("ADMIN_PASSWORD", "demo-admin-change-me"), CustomerPassword: env("DEMO_CUSTOMER_PASSWORD", "demo-customer")}
 	c.PaymentMode = env("PAYMENT_MODE", "mock")
 	switch env("DEMO_MODE", "0") {
 	case "0":
@@ -103,6 +103,32 @@ func env(k, d string) string {
 		return v
 	}
 	return d
+}
+
+// A relocated source tree or executable keeps the standard Web as its default.
+// Deployment still supplies its explicit static root through CLIENT_STATIC_DIR.
+func defaultClientStaticDir() string {
+	var starts []string
+	if executable, err := os.Executable(); err == nil {
+		starts = append(starts, filepath.Dir(executable))
+	}
+	if working, err := os.Getwd(); err == nil {
+		starts = append(starts, working)
+	}
+	for _, start := range starts {
+		for directory := start; ; directory = filepath.Dir(directory) {
+			for _, relative := range []string{"代码/前端/PC端/Web", "前端/PC端/Web"} {
+				candidate := filepath.Join(directory, filepath.FromSlash(relative))
+				if info, err := os.Stat(filepath.Join(candidate, "index.html")); err == nil && !info.IsDir() {
+					return candidate
+				}
+			}
+			if filepath.Dir(directory) == directory {
+				break
+			}
+		}
+	}
+	return "./client-web"
 }
 
 type credential struct {

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#435d4b">
+  <title>知序 · 学术课程与服务</title>
+  <link rel="icon" href="Assets/icon.png">
+  <link rel="stylesheet" href="shop.css">
+  <script type="module" src="shop.js"></script>
+</head>
+<body>
+  <header>
+    <a class="brand" href="#home"><img src="Assets/brand.svg" alt=""><strong>知序</strong></a>
+    <nav aria-label="主导航"><a href="#home" data-i="home"></a><a href="#orders" data-i="myOrders"></a><a href="#mine" data-i="mine"></a></nav>
+    <button id="account" data-i="login"></button>
+  </header>
+  <main id="main" tabindex="-1"></main>
+  <footer><span id="source" role="status"></span><button id="reload" data-i="reload"></button><button id="settings" data-i="settings"></button></footer>
+  <p id="notice" role="status" hidden></p>
+  <dialog id="modal"><form id="form"><div id="dialog-content"></div><p id="form-error" role="alert"></p><div class="dialog-actions"><button type="button" id="close" data-i="cancel"></button><button id="submit" class="primary" type="submit" data-i="save"></button></div></form></dialog>
+</body>
+</html>

@@ -14,7 +14,8 @@
 
 | 实施单元 | 地图入口 |
 | --- | --- |
-| PC端 · Python | [原稿与阅读版](../前端/PC端/Python/代码地图/README.md) |
+| PC端 · MacOS／Windows／Web | [各原生工程与Web源码、构建入口](../前端/PC端/README.md) |
+| PC端 · 原Python迁移参考 | [原稿与阅读版](../前端/PC端/Python/代码地图/README.md) |
 | 移动端 · Flutter / Dart | [原稿与阅读版](../前端/移动端/Flutter/代码地图/README.md) |
 | 移动端 · 鸿蒙 ArkTS / ArkWeb | [原稿与阅读版](../前端/移动端/鸿蒙/代码地图/README.md) |
 | 后台管理端 · Flutter / Dart | [原稿与阅读版](../前端/后台管理端/Flutter/代码地图/README.md) |

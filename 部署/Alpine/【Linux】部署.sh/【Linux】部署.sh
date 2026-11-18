@@ -1354,7 +1354,7 @@ read_password() {
 select_static_roots() {
   export ADMIN_STATIC_DIR="$SERVER_ROOT/admin-web"
   export CLIENT_STATIC_DIR="$SERVER_ROOT/client-web"
-  shop_client_root="$CODE_ROOT/前端/移动端/Flutter/Dist/ShopClient"
+  shop_client_root="$CODE_ROOT/前端/PC端/Web"
   shop_admin_root="$CODE_ROOT/前端/后台管理端/Flutter/Dist/ShopAdmin"
   if [ -f "$shop_client_root/index.html" ]; then export CLIENT_STATIC_DIR="$shop_client_root"; fi
   if [ -f "$shop_admin_root/index.html" ]; then export ADMIN_STATIC_DIR="$shop_admin_root"; fi

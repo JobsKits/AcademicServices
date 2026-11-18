@@ -94,9 +94,9 @@ func validState(s *State) error {
 		if id != account.User.ID || !validUsername(account.User.Username) || len(account.Salt) != 16 || len(account.Hash) != 32 || (account.User.Role != "admin" && account.User.Role != "customer") {
 			return errors.New("invalid account state; do not overwrite data")
 		}
-		if account.User.Email != "" {
-			email, err := normalizedEmail(account.User.Email)
-			if err != nil || email != account.User.Email {
+		if account.loginEmail() != "" {
+			email, err := normalizedEmail(account.loginEmail())
+			if err != nil || email != account.loginEmail() {
 				return errors.New("invalid account email; do not overwrite data")
 			}
 		}

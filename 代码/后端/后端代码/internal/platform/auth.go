@@ -30,7 +30,33 @@ type Account struct {
 	User User   `json:"user"`
 	Salt []byte `json:"salt"`
 	Hash []byte `json:"password_hash"`
+	// Contact edits must not change the verified login/recovery identity.
+	AuthEmail *string `json:"auth_email,omitempty"`
 }
+
+func (a Account) loginEmail() string {
+	if a.AuthEmail != nil {
+		return *a.AuthEmail
+	}
+	return a.User.Email
+}
+
+func validProfileAvatar(value string) error {
+	const maxBytes = 20 << 20
+	const prefix = "data:image/gif;base64,"
+	if strings.HasPrefix(value, prefix) {
+		if len(value) > base64.StdEncoding.EncodedLen(maxBytes)+len(prefix) {
+			return invalid("头像不能超过20MiB")
+		}
+		data, err := base64.StdEncoding.DecodeString(strings.TrimPrefix(value, prefix))
+		if err == nil && len(data) > 0 && len(data) <= maxBytes && http.DetectContentType(data) == "image/gif" {
+			return nil
+		}
+		return invalid("请选择有效的GIF头像")
+	}
+	return validShopImage(value, maxBytes, false)
+}
+
 type emailChallenge struct {
 	digest   [32]byte
 	sent     time.Time
@@ -91,7 +117,7 @@ func (a *API) findCredential(ctx context.Context, name string) (credential, bool
 			return nil
 		}
 		for _, c := range accounts {
-			if strings.EqualFold(c.User.Username, name) || c.User.Email != "" && strings.EqualFold(c.User.Email, name) {
+			if strings.EqualFold(c.User.Username, name) || c.loginEmail() != "" && strings.EqualFold(c.loginEmail(), name) {
 				found = credential{c.User, c.Salt, c.Hash}
 				ok = true
 				break
@@ -139,7 +165,7 @@ func newAccount(user User, password string) Account {
 	if err != nil {
 		panic(err)
 	}
-	return Account{user, salt, derived}
+	return Account{User: user, Salt: salt, Hash: derived}
 }
 func challengeDigest(email, purpose, code string) [32]byte {
 	return sha256.Sum256([]byte(email + "\x00" + purpose + "\x00" + code))
@@ -285,7 +311,7 @@ func (a *API) registerAccount(w http.ResponseWriter, r *http.Request, reset bool
 		all := a.allAccounts(s)
 		var existing *Account
 		for _, c := range all {
-			if c.User.Email == email {
+			if c.loginEmail() == email {
 				row := c
 				existing = &row
 			}
@@ -295,6 +321,7 @@ func (a *API) registerAccount(w http.ResponseWriter, r *http.Request, reset bool
 				return invalid("邮箱验证码无效或账户不可用")
 			}
 			saved = newAccount(existing.User, in.Password)
+			saved.AuthEmail = existing.AuthEmail
 		} else {
 			if existing != nil {
 				return &Problem{409, "account_exists", "邮箱已注册，请登录或找回密码"}
@@ -341,24 +368,30 @@ func (a *API) privateAuth(w http.ResponseWriter, r *http.Request, ctx context.Co
 		return false
 	}
 	var in struct {
-		Username string  `json:"username"`
+		Username *string `json:"username"`
 		Avatar   *string `json:"avatar"`
+		Email    *string `json:"email"`
+		Phone    *string `json:"phone"`
+		Mood     *string `json:"mood"`
 	}
-	if err := decodeLimit(w, r, &in, 3<<20); err != nil {
+	if err := decodeLimit(w, r, &in, 32<<20); err != nil {
 		fail(w, err)
 		return true
 	}
-	in.Username = strings.TrimSpace(in.Username)
-	if !validUsername(in.Username) {
+	if in.Username != nil {
+		name := strings.TrimSpace(*in.Username)
+		in.Username = &name
+	}
+	if in.Username != nil && !validUsername(*in.Username) {
 		fail(w, invalid("用户名须为3至32个字母、汉字、数字、下划线或短横线"))
 		return true
 	}
 	if in.Avatar != nil && *in.Avatar != "" {
 		if !strings.HasPrefix(*in.Avatar, "data:image/") {
-			fail(w, invalid("请上传PNG、JPEG或WebP头像"))
+			fail(w, invalid("请上传PNG、JPEG、GIF或WebP头像"))
 			return true
 		}
-		if err := validShopImage(*in.Avatar, 2<<20, false); err != nil {
+		if err := validProfileAvatar(*in.Avatar); err != nil {
 			fail(w, err)
 			return true
 		}
@@ -371,16 +404,31 @@ func (a *API) privateAuth(w http.ResponseWriter, r *http.Request, ctx context.Co
 		if !ok {
 			return missing()
 		}
-		if seed, reserved := a.credentials[strings.ToLower(in.Username)]; reserved && seed.user.ID != u.ID {
-			return &Problem{409, "username_taken", "用户名已被使用"}
-		}
-		for id, c := range all {
-			if id != u.ID && strings.EqualFold(c.User.Username, in.Username) {
+		if in.Username != nil {
+			if seed, reserved := a.credentials[strings.ToLower(*in.Username)]; reserved && seed.user.ID != u.ID {
 				return &Problem{409, "username_taken", "用户名已被使用"}
 			}
+			for id, c := range all {
+				if id != u.ID && strings.EqualFold(c.User.Username, *in.Username) {
+					return &Problem{409, "username_taken", "用户名已被使用"}
+				}
+			}
+			current.User.Username = *in.Username
+			current.User.Name = *in.Username
 		}
-		current.User.Username = in.Username
-		current.User.Name = in.Username
+		if in.Email != nil {
+			if current.AuthEmail == nil {
+				verified := current.User.Email
+				current.AuthEmail = &verified
+			}
+			current.User.Email = *in.Email
+		}
+		if in.Phone != nil {
+			current.User.Phone = *in.Phone
+		}
+		if in.Mood != nil {
+			current.User.Mood = *in.Mood
+		}
 		if in.Avatar != nil {
 			current.User.AvatarURL = *in.Avatar
 			if *in.Avatar == "" {

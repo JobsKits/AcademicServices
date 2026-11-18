@@ -17,6 +17,8 @@ type User struct {
 	AvatarURL string `json:"avatar_url"`
 	Username  string `json:"username"`
 	Email     string `json:"email,omitempty"`
+	Phone     string `json:"phone,omitempty"`
+	Mood      string `json:"mood,omitempty"`
 }
 type Service struct {
 	ID          string `json:"id"`

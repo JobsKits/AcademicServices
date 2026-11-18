@@ -8,6 +8,8 @@
 
 ## 🔥 <span id="前言">前言</span>
 
+当前默认桌面入口已改为[MacOS／Windows原生工程](../README.md)，本目录仅保留迁移参考；既有Python成品不再代表当前默认客户端。
+
 这是面向客户的 [**Python**](https://www.python.org) 桌面用户端，由 Jobs 维护，当前为可运行的首版工程。只提供毕业论文、普刊、编译三项服务，与 [**Go**](https://go.dev/) 后端共用同一套接口和业务数据；运营人员使用工程中的 [**Flutter**](https://flutter.dev/) 管理后台。
 
 ## 一、<span id="quick-start">打开与使用</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>

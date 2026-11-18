@@ -2,7 +2,12 @@
 package platform
 
 import (
+	"bytes"
 	"context"
+	"encoding/base64"
+	"image"
+	"image/color"
+	"image/gif"
 	"net/http/httptest"
 	"strings"
 	"testing"
@@ -201,4 +206,172 @@ func TestDemoProfileCannotPersistWeakAdminPasswordIntoFormal(t *testing.T) {
 		t.Fatal("Demo password leaked into formal credentials", status)
 	}
 	accountToken(t, formal, "my-admin", "formal-strong-password")
+}
+
+func TestProfilePartialEditsPreserveUIDAndVerifiedRecoveryAfterRestart(t *testing.T) {
+	dir := t.TempDir()
+	var store *FileStore
+	var server *httptest.Server
+	restart := func() {
+		t.Helper()
+		if server != nil {
+			server.Close()
+			server = nil
+		}
+		if store != nil {
+			store.Close()
+			store = nil
+		}
+		var err error
+		store, err = OpenFileStore(dir)
+		if err != nil {
+			t.Fatalf("reopen profile store: %v", err)
+		}
+		server = httptest.NewServer(NewAPI(NewEngine(store), Config{Environment: "test", DemoMode: true, CustomerPassword: "customer-secret"}))
+	}
+	t.Cleanup(func() {
+		if server != nil {
+			server.Close()
+		}
+		if store != nil {
+			store.Close()
+		}
+	})
+	restart()
+	verified := "verified-profile@example.test"
+	createEmailAccount(t, server, verified, "profile-owner")
+	token, original := accountToken(t, server, verified, "password-original")
+	uid := original["id"]
+	mood := "  慢慢来，每一步都算数。\n"
+	status, out := request(t, server, "PUT", "/api/v1/auth/profile", token, "", map[string]string{"mood": mood})
+	if status != 200 {
+		t.Fatal("partial mood requires no username", status, out)
+	}
+	user := out["user"].(map[string]any)
+	if user["id"] != uid || user["username"] != original["username"] || user["avatar_url"] != original["avatar_url"] || user["mood"] != mood {
+		t.Fatal("partial update lost unchanged fields", user)
+	}
+	for _, field := range []string{"id", "uid"} {
+		status, out = request(t, server, "PUT", "/api/v1/auth/profile", token, "", map[string]string{field: "client-controlled-id", "mood": "must-not-commit"})
+		if status != 422 {
+			t.Fatal("client supplied system UID was accepted", field, status, out)
+		}
+	}
+	// Contact fields are display data: preserve invalid text, whitespace and explicit clears.
+	for _, contact := range []struct{ email, phone string }{
+		{"  不是邮箱 / keep spaces\t", "  +86 任意号码  "},
+		{"", ""},
+		{"unverified-profile@example.test", "  010-ABCD / 123  "},
+	} {
+		status, out = request(t, server, "PUT", "/api/v1/auth/profile", token, "", map[string]string{"email": contact.email, "phone": contact.phone})
+		if status != 200 {
+			t.Fatal("unverified contact rejected", status, out)
+		}
+		user = out["user"].(map[string]any)
+		if email, _ := user["email"].(string); email != contact.email {
+			t.Fatalf("email changed: got %q want %q", email, contact.email)
+		}
+		if phone, _ := user["phone"].(string); phone != contact.phone {
+			t.Fatalf("phone changed: got %q want %q", phone, contact.phone)
+		}
+		restart()
+		token, user = accountToken(t, server, verified, "password-original")
+		if user["id"] != uid || user["mood"] != mood || user["username"] != original["username"] {
+			t.Fatal("profile identity changed after restart", user)
+		}
+		if email, _ := user["email"].(string); email != contact.email {
+			t.Fatal("email was not persisted verbatim", user)
+		}
+		if phone, _ := user["phone"].(string); phone != contact.phone {
+			t.Fatal("phone was not persisted verbatim", user)
+		}
+	}
+	unverified := "unverified-profile@example.test"
+	status, _ = request(t, server, "POST", "/api/v1/auth/login", "", "", map[string]string{"account": unverified, "password": "password-original"})
+	if status != 401 {
+		t.Fatal("unverified display email became login identity", status)
+	}
+	code := authCode(t, server, unverified, "reset_password")
+	status, out = request(t, server, "POST", "/api/v1/auth/reset-password", "", "", map[string]string{"email": unverified, "code": code, "password": "password-stolen", "confirm_password": "password-stolen"})
+	if status != 422 {
+		t.Fatal("unverified display email acquired recovery rights", status, out)
+	}
+	code = authCode(t, server, verified, "reset_password")
+	status, out = request(t, server, "POST", "/api/v1/auth/reset-password", "", "", map[string]string{"email": verified, "code": code, "password": "password-replaced", "confirm_password": "password-replaced"})
+	if status != 200 {
+		t.Fatal("original verified email lost recovery rights", status, out)
+	}
+	status, _ = request(t, server, "GET", "/api/v1/auth/profile", token, "", nil)
+	if status != 401 {
+		t.Fatal("password reset retained prior session", status)
+	}
+	restart()
+	_, user = accountToken(t, server, verified, "password-replaced")
+	if user["id"] != uid || user["email"] != unverified || user["mood"] != mood {
+		t.Fatal("reset or restart changed display data or UID", user)
+	}
+	status, _ = request(t, server, "POST", "/api/v1/auth/login", "", "", map[string]string{"account": unverified, "password": "password-replaced"})
+	if status != 401 {
+		t.Fatal("reset promoted display email into login identity", status)
+	}
+	code = authCode(t, server, unverified, "reset_password")
+	status, _ = request(t, server, "POST", "/api/v1/auth/reset-password", "", "", map[string]string{"email": unverified, "code": code, "password": "password-stolen", "confirm_password": "password-stolen"})
+	if status != 422 {
+		t.Fatal("reset promoted display email into recovery identity", status)
+	}
+}
+
+func TestProfileAnimatedGIFPersistsAndRejectsMismatchedMIME(t *testing.T) {
+	dir := t.TempDir()
+	store, err := OpenFileStore(dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	server := httptest.NewServer(NewAPI(NewEngine(store), Config{Environment: "test", DemoMode: true, CustomerPassword: "customer-secret"}))
+	createEmailAccount(t, server, "gif-avatar@example.test", "gif-avatar-owner")
+	token, original := accountToken(t, server, "gif-avatar@example.test", "password-original")
+	palette := color.Palette{color.White, color.Black}
+	first := image.NewPaletted(image.Rect(0, 0, 2, 2), palette)
+	second := image.NewPaletted(image.Rect(0, 0, 2, 2), palette)
+	second.SetColorIndex(0, 0, 1)
+	var encoded bytes.Buffer
+	if err = gif.EncodeAll(&encoded, &gif.GIF{Image: []*image.Paletted{first, second}, Delay: []int{10, 10}, LoopCount: 0}); err != nil {
+		t.Fatal(err)
+	}
+	avatar := "data:image/gif;base64," + base64.StdEncoding.EncodeToString(encoded.Bytes())
+	status, out := request(t, server, "PUT", "/api/v1/auth/profile", token, "", map[string]string{"avatar": avatar})
+	if status != 200 || out["user"].(map[string]any)["avatar_url"] != avatar {
+		t.Fatal("animated GIF not preserved", status, out)
+	}
+	for _, invalidAvatar := range []string{
+		strings.Replace(avatar, "image/gif", "image/png", 1),
+		strings.Replace(original["avatar_url"].(string), "image/png", "image/gif", 1),
+		"data:image/gif;base64,not-base64!",
+	} {
+		status, out = request(t, server, "PUT", "/api/v1/auth/profile", token, "", map[string]string{"avatar": invalidAvatar})
+		if status != 422 {
+			t.Fatal("mismatched or invalid image accepted", status, out)
+		}
+	}
+	server.Close()
+	store.Close()
+	store, err = OpenFileStore(dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(store.Close)
+	server = httptest.NewServer(NewAPI(NewEngine(store), Config{Environment: "test", DemoMode: true, CustomerPassword: "customer-secret"}))
+	t.Cleanup(server.Close)
+	_, user := accountToken(t, server, "gif-avatar@example.test", "password-original")
+	if user["avatar_url"] != avatar {
+		t.Fatal("GIF changed after persistence or rejected update")
+	}
+	data, err := base64.StdEncoding.DecodeString(strings.TrimPrefix(user["avatar_url"].(string), "data:image/gif;base64,"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	animation, err := gif.DecodeAll(bytes.NewReader(data))
+	if err != nil || len(animation.Image) != 2 || animation.Delay[0] != 10 || animation.Delay[1] != 10 {
+		t.Fatal("avatar animation frames or timing were lost", animation, err)
+	}
 }

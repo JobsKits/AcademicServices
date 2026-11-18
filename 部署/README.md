@@ -73,7 +73,7 @@ MacOS 与 Windows 快捷文件保留参数及退出码。Windows 快捷 CMD 直�
 
 本地部署＋内网穿透固定使用 `DEMO_MODE=1`、`PAYMENT_MODE=mock`。登录页会展示并允许复制当前配置的管理员、客户实际测试账号密码，支付按模拟成功处理；请为此模式使用专用演示账户与合成数据。服务器部署显式设 `DEMO_MODE=0`，覆盖继承的Demo开关，接口不返回密码；支付沿用显式进程配置，未设置时由后端默认mock。这两个开关不写入 `.runtime/config.env`，终端日志不打印密码；Windows退出时还原调用进程原有环境。
 
-入口按各自 `index.html` 是否存在，分别优先选用 `代码/前端/移动端/Flutter/Dist/ShopClient` 与 `代码/前端/后台管理端/Flutter/Dist/ShopAdmin`。完整工程请保留这些已构建目录；独立后端分发未携带对应构建包时，分别回退到 `代码/后端/后端代码/client-web`、`admin-web` 随包页面。启动日志显示最终目录，不自动构建Flutter、不复制或覆盖静态目录及运行数据。路径从脚本自身位置解析，改名、中文空格和工程外启动不影响选择。
+入口按各自 `index.html` 是否存在，分别优先选用 `代码/前端/PC端/Web` 的标准响应式买方商城与 `代码/前端/后台管理端/Flutter/Dist/ShopAdmin`。买方网页已随源码交付，支持手机竖屏，无需Flutter构建；管理后台仍需保留已构建目录。独立后端分发未携带对应目录时，分别回退到 `代码/后端/后端代码/client-web`、`admin-web` 随包页面。启动日志显示最终目录，不自动构建Flutter、不复制或覆盖静态目录及运行数据。路径从脚本自身位置解析，改名、中文空格和工程外启动不影响选择。
 
 ## 二、<span id="section-2">第一次运行与配置</span> <a href="#前言" style="font-size:17px; color:green;"><b>🔼</b></a> <a href="#🔚" style="font-size:17px; color:green;"><b>🔽</b></a>
 

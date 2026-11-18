@@ -22,7 +22,9 @@
 | [工程说明](./代码/README.md) | 各端当前功能、运行构建命令、依赖、模块图与源码规模 |
 | [开始使用](./代码/使用指南/开始使用.html)／[使用说明](./代码/使用指南/使用说明.md) | 普通操作者的启动、登录、业务操作和停止步骤 |
 
-桌面采用 [**Python**](https://www.python.org)／[**PySide6**](https://doc.qt.io/qtforpython/)，移动与管理端采用 [**Flutter**](https://flutter.dev/)，后端采用 [**Go**](https://go.dev/)。这些技术方向已经用户确认，软件项目从零到一 Skill 的原生默认规则不替换它们。微信原生小程序已确认纳入本期独立前端交付，入口为[微信小程序工程](./代码/前端/微信小程序/README.md)；开发者工具、真机业务、体验版、提审和发布仍须分别验证。鸿蒙宿主和其它端设备验收范围见主评审。
+桌面采用 [**MacOS**](https://www.apple.com/macos/) [**SwiftUI**](https://developer.apple.com/documentation/swiftui) 与 [**Windows Forms**](https://learn.microsoft.com/dotnet/desktop/winforms/) 两套独立原生工程；Web 使用标准 HTML／CSS／JavaScript 并适配手机竖屏。移动与管理端继续采用 [**Flutter**](https://flutter.dev/)，后端采用 [**Go**](https://go.dev/)。原 Python 桌面源码保留为迁移参考，默认入口见[PC端](./代码/前端/PC端/README.md)；源码、原生构建及实机边界见[资产盘点](./项目相关报告/桌面与Web资产盘点.md)。微信原生小程序已确认纳入本期独立前端交付，入口为[微信小程序工程](./代码/前端/微信小程序/README.md)；开发者工具、真机业务、体验版、提审和发布仍须分别验证。鸿蒙宿主和其它端设备验收范围见主评审。
+
+原生PC个人中心提供预埋／本地静态与GIF头像、心情、系统只读UID和原样邮箱／手机号，以及共用订单入口；仅演示环境显示演示标识。首页轮播与联动分类卡片、左对齐设置及数据区居中订单空态已更新，当前构建与各端实测查[资产盘点](./项目相关报告/桌面与Web资产盘点.md)。
 
 当前支付为支付宝／微信渠道模拟收银台，点击确认记录mock付款成功，不会实际扣款。商户资料及Key到齐后接真实渠道。各端API优先、异常回退本地演示，接口恢复后自动显示真数据；每个商品及订单列表提供空态与重新加载。
 
@@ -33,7 +35,7 @@
 ├── README.md
 ├── 代码/
 │   ├── 前端/
-│   │   ├── PC端/Python/         # Windows、MacOS 桌面程序
+│   │   ├── PC端/                # MacOS、Windows 原生桌面与响应式 Web；Python迁移参考
 │   │   ├── 移动端/
 │   │   │   ├── Flutter/        # 跨平台用户端与共享业务包
 │   │   │   └── 鸿蒙/           # 现有 ArkTS 在线宿主

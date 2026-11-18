@@ -48,3 +48,7 @@ DerivedData/
 # Rebuildable application packages and deployed Flutter Web copies
 /代码/后端/后端代码/admin-web/
 /代码/后端/后端代码/client-web/
+
+# Native Windows compiler intermediates
+/代码/前端/PC端/Windows/bin/
+/代码/前端/PC端/Windows/obj/

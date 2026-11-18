@@ -905,7 +905,7 @@ function Read-Password([string]$Prompt) {
 function Select-StaticRoots {
     $env:ADMIN_STATIC_DIR = Join-Path $ServerRoot 'admin-web'
     $env:CLIENT_STATIC_DIR = Join-Path $ServerRoot 'client-web'
-    $client = Join-Path $CodeRoot '前端/移动端/Flutter/Dist/ShopClient'
+    $client = Join-Path $CodeRoot '前端/PC端/Web'
     $admin = Join-Path $CodeRoot '前端/后台管理端/Flutter/Dist/ShopAdmin'
     if (Test-Path -LiteralPath (Join-Path $client 'index.html') -PathType Leaf) { $env:CLIENT_STATIC_DIR = $client }
     if (Test-Path -LiteralPath (Join-Path $admin 'index.html') -PathType Leaf) { $env:ADMIN_STATIC_DIR = $admin }
